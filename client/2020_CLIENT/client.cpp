@@ -445,7 +445,7 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if (event.type == sf::Event::KeyPressed) {
-				int p_type = -1;
+				int p_type = -1; 
 				switch (event.key.code) {
 				case sf::Keyboard::Left:
 					send_move_packet(MV_LEFT);

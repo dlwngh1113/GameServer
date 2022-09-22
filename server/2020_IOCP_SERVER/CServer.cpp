@@ -275,8 +275,11 @@ void CServer::disconnect_client(int id)
 
 void CServer::wake_up_npc(int id)
 {
-	characters[id]->GetInfo()->isUse = true;
-	CTimer::GetInstance()->add_timer(id, OP_RANDOM_MOVE, std::chrono::system_clock::now() + std::chrono::seconds(1));
+	if (!characters[id]->GetInfo()->isUse)
+	{
+		characters[id]->GetInfo()->isUse = true;
+		CTimer::GetInstance()->add_timer(id, OP_RANDOM_MOVE, std::chrono::system_clock::now() + std::chrono::seconds(1));
+	}
 }
 
 bool CServer::is_near(int p1, int p2)
