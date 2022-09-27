@@ -1,9 +1,5 @@
 #pragma once
-#include"CClient.h"
-#include"CMonster.h"
-#include"CTimer.h"
-#include"CDBConnector.h"
-#include"CMap.h"
+#include"framework.h"
 
 class CServer
 {
@@ -13,18 +9,12 @@ class CServer
 	OVER_EX g_accept_over;
 
 	std::mutex id_lock;
-
-	CDBConnector* dbConnector;
-	CMap* map;
 public:
-	static concurrency::concurrent_unordered_map<int, CCharacter*> characters;
 	CServer();
 	virtual ~CServer();
 
 	void run();
-	void initialize_NPC();
 	void worker_thread();
-	void random_move_npc(int id);
 	void add_new_client(SOCKET ns);
 	void disconnect_client(int id);
 
@@ -36,8 +26,6 @@ public:
 
 	void process_recv(int id, DWORD io_size);
 	void process_packet(int id);
-	void process_login(cs_packet_login* p, int id);
-	void process_move(int id, char dir);
 	void process_attack(int id);
 
 	static int API_get_x(lua_State* L);
