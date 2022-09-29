@@ -99,20 +99,21 @@ void CServer::worker_thread()
 void CServer::add_new_client(SOCKET ns)
 {
 	int i;
-	id_lock.lock();
+	m_userLock.lock();
 	for (i = 0; i < MAX_USER; ++i)
 	{
-		if (0 == characters.count(i)) break;
+		if (0 == m_users.count(i)) break;
 		else
 		{
-			if (!characters[i]->GetInfo()->isUse)
+			//m_useres[i]啊 立加吝老版快 秦力
+			if (!m_users[i]->GetInfo()->isUse)
 			{
 				delete characters[i];
 				break;
 			}
 		}
 	}
-	id_lock.unlock();
+	m_userLock.unlock();
 	if (MAX_USER == i) {
 		std::cout << "Max user limit exceeded.\n";
 		closesocket(ns);
