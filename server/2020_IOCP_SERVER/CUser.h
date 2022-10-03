@@ -10,7 +10,10 @@ enum class UserState {
 class CUser
 {
 	UserState m_userState;
+	SOCKET m_sock;
+	OVER_EX m_recv_over;
 public:
 	UserState GetUserState() const;
+	void InitIO();
 };
 

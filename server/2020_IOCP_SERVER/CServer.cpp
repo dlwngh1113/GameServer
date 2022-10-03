@@ -98,36 +98,32 @@ void CServer::worker_thread()
 
 void CServer::add_new_client(SOCKET ns)
 {
-	int i;
-	m_userLock.lock();
-	for (i = 0; i < MAX_USER; ++i)
-	{
-		if (0 == m_users.count(i)) break;
-		else
-		{
-			//m_useres[i]가 접속중일경우 해제
-			if (!(m_users[i]->GetUserState() == UserState::LOGINBEGIN))
-			{
-				delete m_users[i];
-				break;
-			}
-		}
-	}
-	m_userLock.unlock();
-	if (MAX_USER == i) {
+	if (MAX_USER <= m_users.size()) {
 		std::cout << "Max user limit exceeded.\n";
 		closesocket(ns);
 	}
 	else {
-		//std::cout << "New Client [" << i << "] Accepted" << std::endl;
-		CClient* client = new CClient(i, "", 
-			rand() % WORLD_WIDTH, 
-			rand() % WORLD_HEIGHT, ns);
-		client->GetInfo()->atk = client->GetInfo()->level * 10;
-		characters[i] = client;
-		CreateIoCompletionPort(reinterpret_cast<HANDLE>(ns), h_iocp, i, 0);
-		client->StartRecv();
-		CTimer::GetInstance()->add_timer(i, OP_HEAL, std::chrono::system_clock::now() + std::chrono::seconds(5));
+		int cnt;
+		m_userLock.lock();
+		for (cnt = 0; cnt < MAX_USER; ++cnt)
+		{
+			if (0 == m_users.count(cnt)) break;
+			else
+			{
+				//m_useres[i]가 접속중일경우 해제
+				if (!(m_users[cnt]->GetUserState() == UserState::LOGINBEGIN))
+				{
+					std::cout << "이미 로그인중이거나 로그인 한 사용자입니다.\n";
+					return;
+				}
+			}
+		}
+		m_userLock.unlock();
+		std::cout << "New Client [" << cnt << "] Accepted" << std::endl;
+		CUser* client = new CUser();
+		m_users[cnt] = client;
+		CreateIoCompletionPort(reinterpret_cast<HANDLE>(ns), h_iocp, cnt, 0);
+		client->InitIO();
 	}
 
 	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
@@ -139,8 +135,8 @@ void CServer::add_new_client(SOCKET ns)
 
 void CServer::disconnect_client(int id)
 {
-	auto client = reinterpret_cast<CClient*>(characters[id]);
-	for (auto i = characters.begin(); i != characters.end(); ++i)
+	auto client = reinterpret_cast<CUser*>(m_users[id]);
+	for (auto i = m_users.begin(); i != m_users.end(); ++i)
 	{
 		if (i->first < MAX_USER)
 		{
