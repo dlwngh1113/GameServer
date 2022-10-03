@@ -11,4 +11,3 @@ public:
 	TCHAR*& data();
 	static Guid NewGuid();
 };
-

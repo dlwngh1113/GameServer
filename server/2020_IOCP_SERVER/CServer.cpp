@@ -106,9 +106,9 @@ void CServer::add_new_client(SOCKET ns)
 		else
 		{
 			//m_useres[i]啊 立加吝老版快 秦力
-			if (!m_users[i]->GetInfo()->isUse)
+			if (!(m_users[i]->GetUserState() == UserState::LOGINBEGIN))
 			{
-				delete characters[i];
+				delete m_users[i];
 				break;
 			}
 		}
