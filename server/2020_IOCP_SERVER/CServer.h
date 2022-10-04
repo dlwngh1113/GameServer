@@ -16,6 +16,7 @@ public:
 
 	void run();
 	void worker_thread();
-	void add_new_client(SOCKET ns);
+	void CheckUserValidation(SOCKET ns);
+	void AddNewClient(int idx);
 	void disconnect_client(int id);
 };

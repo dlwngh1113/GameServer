@@ -9,11 +9,12 @@ void CUser::InitIO()
 {
 	DWORD flags = 0;
 	int ret;
-	this->GetInfo()->c_lock.lock();
-	ret = WSARecv(this->m_sock, &this->m_recv_over.wsa_buf, 1, NULL,
-		&flags, &this->m_recv_over.wsa_over, NULL);
-	this->GetInfo()->c_lock.unlock();
-	if (SOCKET_ERROR == ret) {
+	m_ioLock.lock();
+	ret = WSARecv(m_sock, &m_recv_over.wsa_buf, 1, NULL, &flags, &m_recv_over.wsa_over, NULL);
+	m_ioLock.unlock();
+	
+	if (SOCKET_ERROR == ret) 
+	{
 		int err_no = WSAGetLastError();
 		if (ERROR_IO_PENDING != err_no)
 			std::cout << "WSARecv: " << err_no << std::endl;

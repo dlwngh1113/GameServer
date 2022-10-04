@@ -79,7 +79,7 @@ void CServer::worker_thread()
 		OVER_EX* over_ex = reinterpret_cast<OVER_EX*>(lpover);
 		switch (over_ex->op_mode) {
 		case OP_MODE_ACCEPT:
-			add_new_client(static_cast<SOCKET>(over_ex->wsa_buf.len));
+			AddNewClient(static_cast<SOCKET>(over_ex->wsa_buf.len));
 			break;
 		case OP_MODE_RECV:
 			if (0 == io_size)
@@ -96,35 +96,42 @@ void CServer::worker_thread()
 	}
 }
 
-void CServer::add_new_client(SOCKET ns)
+void CServer::CheckUserValidation(SOCKET ns)
 {
-	if (MAX_USER <= m_users.size()) {
+	if (MAX_USER <= m_users.size())
+	{
 		std::cout << "Max user limit exceeded.\n";
 		closesocket(ns);
 	}
-	else {
+	else 
+	{
 		int cnt;
 		m_userLock.lock();
 		for (cnt = 0; cnt < MAX_USER; ++cnt)
 		{
-			if (0 == m_users.count(cnt)) break;
+			if (0 == m_users.count(cnt)) 
+				break;
 			else
 			{
 				//m_useres[i]가 접속중일경우 해제
 				if (!(m_users[cnt]->GetUserState() == UserState::LOGINBEGIN))
 				{
 					std::cout << "이미 로그인중이거나 로그인 한 사용자입니다.\n";
+					m_userLock.unlock();
 					return;
 				}
 			}
 		}
 		m_userLock.unlock();
-		std::cout << "New Client [" << cnt << "] Accepted" << std::endl;
-		CUser* client = new CUser();
-		m_users[cnt] = client;
-		CreateIoCompletionPort(reinterpret_cast<HANDLE>(ns), h_iocp, cnt, 0);
-		client->InitIO();
 	}
+}
+
+void CServer::AddNewClient(int cnt)
+{
+	CUser* client = new CUser();
+	m_users[cnt] = client;
+	CreateIoCompletionPort(reinterpret_cast<HANDLE>(ns), h_iocp, cnt, 0);
+	client->InitIO();
 
 	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	g_accept_over.op_mode = OP_MODE_ACCEPT;
