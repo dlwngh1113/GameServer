@@ -79,7 +79,9 @@ void CServer::worker_thread()
 		OVER_EX* over_ex = reinterpret_cast<OVER_EX*>(lpover);
 		switch (over_ex->op_mode) {
 		case OP_MODE_ACCEPT:
-			AddNewClient(static_cast<SOCKET>(over_ex->wsa_buf.len));
+			SOCKET ns = static_cast<SOCKET>(over_ex->wsa_buf.len);
+			if (IsValidUser(ns))
+				AddNewClient(ns);
 			break;
 		case OP_MODE_RECV:
 			if (0 == io_size)
@@ -96,29 +98,33 @@ void CServer::worker_thread()
 	}
 }
 
-void CServer::CheckUserValidation(SOCKET ns)
+bool CServer::IsValidUser(SOCKET ns)
 {
 	if (MAX_USER <= m_users.size())
 	{
-		std::cout << "Max user limit exceeded.\n";
+		std::cout << "Max user limit exceeded." << std::endl;
 		closesocket(ns);
+		return false;
 	}
-	else 
+	else
 	{
 		int cnt;
 		m_userLock.lock();
-		for (cnt = 0; cnt < MAX_USER; ++cnt)
+		for (cnt = 0; cnt < INT_MAX; ++cnt)
 		{
-			if (0 == m_users.count(cnt)) 
-				break;
+			if (0 == m_users.count(cnt))
+			{
+				m_userLock.unlock();
+				return true;
+			}
 			else
 			{
 				//m_useres[i]가 접속중일경우 해제
-				if (!(m_users[cnt]->GetUserState() == UserState::LOGINBEGIN))
+				if (m_users[cnt]->GetUserState() != UserState::LOGINBEGIN)
 				{
 					std::cout << "이미 로그인중이거나 로그인 한 사용자입니다.\n";
 					m_userLock.unlock();
-					return;
+					return false;
 				}
 			}
 		}
