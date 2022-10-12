@@ -30,6 +30,12 @@
     <ClCompile Include="Guid.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ClientPeer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseServer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -54,6 +60,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Guid.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPeer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseServer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

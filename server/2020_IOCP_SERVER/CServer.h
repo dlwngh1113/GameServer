@@ -1,5 +1,6 @@
 #pragma once
 #include"CUser.h"
+#include"BaseServer.h"
 
 class CServer
 {
@@ -17,6 +18,6 @@ public:
 	void run();
 	void worker_thread();
 	bool IsValidUser(SOCKET ns);
-	void AddNewClient(int idx);
+	void AddNewUser(int idx);
 	void disconnect_client(int id);
 };

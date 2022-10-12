@@ -81,7 +81,7 @@ void CServer::worker_thread()
 		case OP_MODE_ACCEPT:
 			SOCKET ns = static_cast<SOCKET>(over_ex->wsa_buf.len);
 			if (IsValidUser(ns))
-				AddNewClient(ns);
+				AddNewUser(ns);
 			break;
 		case OP_MODE_RECV:
 			if (0 == io_size)
@@ -104,7 +104,6 @@ bool CServer::IsValidUser(SOCKET ns)
 	{
 		std::cout << "Max user limit exceeded." << std::endl;
 		closesocket(ns);
-		return false;
 	}
 	else
 	{
@@ -124,15 +123,16 @@ bool CServer::IsValidUser(SOCKET ns)
 				{
 					std::cout << "이미 로그인중이거나 로그인 한 사용자입니다.\n";
 					m_userLock.unlock();
-					return false;
+					break;
 				}
 			}
 		}
 		m_userLock.unlock();
 	}
+	return false;
 }
 
-void CServer::AddNewClient(int cnt)
+void CServer::AddNewUser(int cnt)
 {
 	CUser* client = new CUser();
 	m_users[cnt] = client;
