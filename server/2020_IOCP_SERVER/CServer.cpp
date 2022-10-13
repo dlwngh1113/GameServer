@@ -1,5 +1,13 @@
 #include "CServer.h"
 
+void CServer::Run()
+{
+}
+
+void CServer::Release()
+{
+}
+
 CServer::CServer()
 {
 }
@@ -79,16 +87,18 @@ void CServer::worker_thread()
 		OVER_EX* over_ex = reinterpret_cast<OVER_EX*>(lpover);
 		switch (over_ex->op_mode) {
 		case OP_MODE_ACCEPT:
+		{
 			SOCKET ns = static_cast<SOCKET>(over_ex->wsa_buf.len);
 			if (IsValidUser(ns))
 				AddNewUser(ns);
+		}
 			break;
 		case OP_MODE_RECV:
 			if (0 == io_size)
 				disconnect_client(key);
 			else {
 				//std::cout << "Packet from Client [" << key << "] - ioSize: " << io_size << "\"\n";
-				process_recv(key, io_size);
+				//process_recv(key, io_size);
 			}
 			break;
 		case OP_MODE_SEND:
@@ -136,7 +146,7 @@ void CServer::AddNewUser(int cnt)
 {
 	CUser* client = new CUser();
 	m_users[cnt] = client;
-	CreateIoCompletionPort(reinterpret_cast<HANDLE>(ns), h_iocp, cnt, 0);
+	//CreateIoCompletionPort(reinterpret_cast<HANDLE>(ns), h_iocp, cnt, 0);
 	client->InitIO();
 
 	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
@@ -148,23 +158,23 @@ void CServer::AddNewUser(int cnt)
 
 void CServer::disconnect_client(int id)
 {
-	auto client = reinterpret_cast<CUser*>(m_users[id]);
-	for (auto i = m_users.begin(); i != m_users.end(); ++i)
-	{
-		if (i->first < MAX_USER)
-		{
-			if (i->first != id)
-			{
-				if (0 != i->second->GetViewlist().count(id))
-				{
-					i->second->GetViewlist().erase(id);
-					reinterpret_cast<CClient*>(i->second)->ErasePlayer(id);
-				}
-			}
-		}
-	}
+	//auto client = reinterpret_cast<CUser*>(m_users[id]);
+	//for (auto i = m_users.begin(); i != m_users.end(); ++i)
+	//{
+	//	if (i->first < MAX_USER)
+	//	{
+	//		if (i->first != id)
+	//		{
+	//			if (0 != i->second->GetViewlist().count(id))
+	//			{
+	//				i->second->GetViewlist().erase(id);
+	//				reinterpret_cast<CClient*>(i->second)->ErasePlayer(id);
+	//			}
+	//		}
+	//	}
+	//}
 
-	client->GetInfo()->c_lock.lock();
-	client->Release();
-	client->GetInfo()->c_lock.unlock();
+	//client->GetInfo()->c_lock.lock();
+	//client->Release();
+	//client->GetInfo()->c_lock.unlock();
 }

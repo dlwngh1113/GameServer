@@ -2,7 +2,7 @@
 #include"CUser.h"
 #include"BaseServer.h"
 
-class CServer
+class CServer : public BaseServer
 {
 	HANDLE		h_iocp;
 
@@ -11,6 +11,9 @@ class CServer
 
 	std::mutex m_userLock;
 	std::unordered_map<int, CUser*> m_users;
+protected:
+	void Run() override;
+	void Release() override;
 public:
 	CServer();
 	virtual ~CServer();
