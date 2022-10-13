@@ -8,6 +8,10 @@ void CServer::Release()
 {
 }
 
+void CServer::Process()
+{
+}
+
 CServer::CServer()
 {
 }

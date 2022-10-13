@@ -12,8 +12,7 @@ class CServer : public BaseServer
 	std::mutex m_userLock;
 	std::unordered_map<int, CUser*> m_users;
 protected:
-	void Run() override;
-	void Release() override;
+	void Process() override;
 public:
 	CServer();
 	virtual ~CServer();
@@ -23,4 +22,7 @@ public:
 	bool IsValidUser(SOCKET ns);
 	void AddNewUser(int idx);
 	void disconnect_client(int id);
+
+	void Run() override;
+	void Release() override;
 };

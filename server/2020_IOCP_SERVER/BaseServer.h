@@ -3,12 +3,20 @@
 
 class BaseServer
 {
+	HANDLE h_iocp;
+	SOCKET m_listenSocket;
+	OVER_EX m_acceptOver;
+
 	std::list<ClientPeer*> m_clientPeers;
 protected:
-	virtual void Run() = 0;
-	virtual void Release() = 0;
+	virtual void Process() = 0;
+	virtual void Release();
+
+	void OnAccept();
 public:
 	BaseServer();
 	virtual ~BaseServer();
+
+	virtual void Run();
 };
 
