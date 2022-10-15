@@ -7,5 +7,7 @@ class ClientPeer
 public:
 	ClientPeer();
 	virtual ~ClientPeer();
+
+	void Init(SOCKET ns);
 };
 

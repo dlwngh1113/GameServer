@@ -7,12 +7,20 @@ class BaseServer
 	SOCKET m_listenSocket;
 	OVER_EX m_acceptOver;
 
-	std::list<ClientPeer*> m_clientPeers;
+	std::mutex clientLock;
+	std::unordered_map<SOCKET, ClientPeer*> m_clientPeers;
+private:
+	void InitIOCP();
+	void Listen();
+	void AddNewClient(SOCKET socket);
+	void DisconnectClient(SOCKET socket);
+
 protected:
-	virtual void Process() = 0;
+	virtual void Process();
 	virtual void Release();
 
 	void OnAccept();
+
 public:
 	BaseServer();
 	virtual ~BaseServer();

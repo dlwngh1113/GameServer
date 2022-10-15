@@ -2,7 +2,11 @@
 
 BaseServer::BaseServer()
 {
+	WSADATA WSAData;
+	WSAStartup(MAKEWORD(2, 0), &WSAData);
 
+	InitIOCP();
+	Listen();
 }
 
 BaseServer::~BaseServer()
@@ -12,14 +16,22 @@ BaseServer::~BaseServer()
 
 void BaseServer::Run()
 {
-	std::wcout.imbue(std::locale("korean"));
+	std::vector<std::thread> worker_threads;
+	for (int i = 0; i < MAX_THREAD_COUNT; ++i)
+		worker_threads.emplace_back([&]() { Process(); });
+	for (auto& th : worker_threads)
+		th.join();
+}
 
-	WSADATA WSAData;
-	WSAStartup(MAKEWORD(2, 0), &WSAData);
+void BaseServer::InitIOCP()
+{
 	h_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, 0);
 	m_listenSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(m_listenSocket), h_iocp, KEY_SERVER, 0);
+}
 
+void BaseServer::Listen()
+{
 	SOCKADDR_IN serverAddr;
 	memset(&serverAddr, 0, sizeof(SOCKADDR_IN));
 	serverAddr.sin_family = AF_INET;
@@ -28,17 +40,64 @@ void BaseServer::Run()
 	::bind(m_listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
 	::listen(m_listenSocket, 5);
 
-	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
-	m_acceptOver.op_mode = OP_MODE_ACCEPT;
-	m_acceptOver.wsa_buf.len = static_cast<int>(cSocket);
-	ZeroMemory(&m_acceptOver.wsa_over, sizeof(&m_acceptOver.wsa_over));
-	AcceptEx(m_listenSocket, cSocket, m_acceptOver.iocp_buf, 0, 32, 32, NULL, &m_acceptOver.wsa_over);
+	OnAccept();
+}
 
-	std::vector<std::thread> worker_threads;
-	for (int i = 0; i < MAX_THREAD_COUNT; ++i)
-		worker_threads.emplace_back([&]() { Process(); });
-	for (auto& th : worker_threads)
-		th.join();
+void BaseServer::AddNewClient(SOCKET socket)
+{
+	ClientPeer* peer = new ClientPeer;
+	peer->Init(socket);
+
+	clientLock.lock();
+	m_clientPeers[socket] = peer;
+	clientLock.unlock();
+}
+
+void BaseServer::DisconnectClient(SOCKET socket)
+{
+	clientLock.lock();
+	m_clientPeers[socket];
+	clientLock.unlock();
+}
+
+void BaseServer::Process()
+{
+	// 반복
+	//   - 이 쓰레드를 IOCP thread pool에 등록  => GQCS
+	//   - iocp가 처리를 맞긴 I/O완료 데이터를 꺼내기 => GQCS
+	//   - 꺼낸 I/O완료 데이터를 처리
+	while (true) {
+		DWORD ioSize;
+		int key;
+		ULONG_PTR iocpKey;
+		WSAOVERLAPPED* lpOver;
+		int ret =
+			GetQueuedCompletionStatus(h_iocp, &ioSize, &iocpKey, &lpOver, INFINITE);
+		key = static_cast<int>(iocpKey);
+		// cout << "Completion Detected" << endl;
+		if (FALSE == ret) {
+			//error_display("GQCS Error", WSAGetLastError());
+		}
+
+		OVER_EX* overEx = reinterpret_cast<OVER_EX*>(lpOver);
+		SOCKET ns = static_cast<SOCKET>(overEx->wsa_buf.len);
+		switch (overEx->op_mode) {
+		case OP_MODE_ACCEPT:
+			AddNewClient(ns);
+			break;
+		case OP_MODE_RECV:
+			if (0 == ioSize)
+				DisconnectClient(ns);
+			else {
+				std::cout << "Packet from Client [" << ns << "] - ioSize: " << ioSize << "\"\n";
+				process_recv(key, ioSize);
+			}
+			break;
+		case OP_MODE_SEND:
+			delete overEx;
+			break;
+		}
+	}
 }
 
 void BaseServer::Release()
