@@ -8,6 +8,7 @@ public:
 	ClientPeer();
 	virtual ~ClientPeer();
 
+	void OnDisconnect();
 	void Init(SOCKET ns);
 };
 

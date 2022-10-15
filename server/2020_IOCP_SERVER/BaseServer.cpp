@@ -55,9 +55,14 @@ void BaseServer::AddNewClient(SOCKET socket)
 
 void BaseServer::DisconnectClient(SOCKET socket)
 {
+	ClientPeer* toRemovePeer = m_clientPeers[socket];
+
 	clientLock.lock();
-	m_clientPeers[socket];
+	m_clientPeers.erase(socket);
 	clientLock.unlock();
+
+	toRemovePeer->OnDisconnect();
+	delete toRemovePeer;
 }
 
 void BaseServer::Process()
