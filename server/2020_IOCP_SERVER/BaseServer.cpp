@@ -5,7 +5,7 @@ BaseServer::BaseServer()
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 0), &WSAData);
 
-	InitIOCP();
+	Init();
 	Listen();
 }
 
@@ -23,7 +23,7 @@ void BaseServer::Run()
 		th.join();
 }
 
-void BaseServer::InitIOCP()
+void BaseServer::Init()
 {
 	h_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, 0);
 	m_listenSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
@@ -51,13 +51,14 @@ void BaseServer::AddNewClient(SOCKET socket)
 	clientLock.lock();
 	m_clientPeers[socket] = peer;
 	clientLock.unlock();
+
+	OnAccept();
 }
 
 void BaseServer::DisconnectClient(SOCKET socket)
 {
-	ClientPeer* toRemovePeer = m_clientPeers[socket];
-
 	clientLock.lock();
+	ClientPeer* toRemovePeer = m_clientPeers[socket];
 	m_clientPeers.erase(socket);
 	clientLock.unlock();
 
@@ -93,9 +94,10 @@ void BaseServer::Process()
 		case OP_MODE_RECV:
 			if (0 == ioSize)
 				DisconnectClient(ns);
-			else {
+			else
+			{
 				std::cout << "Packet from Client [" << ns << "] - ioSize: " << ioSize << "\"\n";
-				process_recv(key, ioSize);
+				ProcessPacket();
 			}
 			break;
 		case OP_MODE_SEND:

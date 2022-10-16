@@ -4,6 +4,7 @@
 class ClientPeer
 {
 	SOCKET m_socket;
+	OVER_EX m_recvOver;
 public:
 	ClientPeer();
 	virtual ~ClientPeer();

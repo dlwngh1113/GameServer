@@ -10,13 +10,15 @@ class BaseServer
 	std::mutex clientLock;
 	std::unordered_map<SOCKET, ClientPeer*> m_clientPeers;
 private:
-	void InitIOCP();
+	virtual void Init();
 	void Listen();
 	void AddNewClient(SOCKET socket);
 	void DisconnectClient(SOCKET socket);
 
 protected:
-	virtual void Process();
+	virtual void ProcessPacket() = 0;
+
+	void Process();
 	virtual void Release();
 
 	void OnAccept();
