@@ -46,6 +46,7 @@ void BaseServer::Listen()
 void BaseServer::AddNewClient(SOCKET socket)
 {
 	ClientPeer* peer = new ClientPeer;
+	CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket), h_iocp, static_cast<int>(socket), 0);
 	peer->Init(socket);
 
 	clientLock.lock();
