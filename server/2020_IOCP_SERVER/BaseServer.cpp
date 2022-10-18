@@ -46,7 +46,7 @@ void BaseServer::Listen()
 void BaseServer::AddNewClient(SOCKET socket)
 {
 	ClientPeer* peer = new ClientPeer;
-	CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket), h_iocp, static_cast<int>(socket), 0);
+	CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket), h_iocp, socket, 0);
 	peer->Init(socket);
 
 	clientLock.lock();
@@ -97,8 +97,8 @@ void BaseServer::Process()
 				DisconnectClient(ns);
 			else
 			{
-				std::cout << "Packet from Client [" << ns << "] - ioSize: " << ioSize << "\"\n";
-				ProcessPacket();
+				Logger::Info("Packet from Client [" + std::to_string(ns) + "] - ioSize: " + std::to_string(ioSize));
+				m_clientPeers[ns]->ProcessPacket();
 			}
 			break;
 		case OP_MODE_SEND:
