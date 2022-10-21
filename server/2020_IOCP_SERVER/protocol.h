@@ -12,7 +12,7 @@ constexpr int NUM_NPC = 10'000;
 constexpr int MAX_THREAD_COUNT = 6;
 
 constexpr int MAX_BUFFER = 4096;
-constexpr int MIN_BUFF_SIZE = 1024;
+constexpr int MIN_BUFFER = 1024;
 
 constexpr char OP_MODE_RECV = 0;
 constexpr char OP_MODE_SEND = 1;

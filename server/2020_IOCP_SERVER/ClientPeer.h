@@ -7,8 +7,8 @@ class ClientPeer
 	OVER_EX m_recvOver;
 	std::mutex m_lock;
 
-	unsigned char* m_pPacketStartPos;
-	unsigned char* m_pNextPacketRecvPos;
+	unsigned char* m_pRecvStartPos;
+	unsigned char* m_pNextRecvPos;
 public:
 	ClientPeer();
 	virtual ~ClientPeer();
@@ -16,5 +16,6 @@ public:
 	void OnDisconnect();
 	void Init(SOCKET ns);
 
-	virtual void ProcessPacket();
+	virtual void ProcessIO(DWORD ioSize);
+	virtual void ProcessPacket() = 0;
 };

@@ -7,8 +7,8 @@ ClientPeer::ClientPeer()
 	m_recvOver.wsa_buf.len = sizeof(m_recvOver.iocp_buf);
 	ZeroMemory(&m_recvOver, sizeof(m_recvOver));
 
-	m_pPacketStartPos = m_recvOver.iocp_buf;
-	m_pNextPacketRecvPos = m_recvOver.iocp_buf;
+	m_pRecvStartPos = m_recvOver.iocp_buf;
+	m_pNextRecvPos = m_recvOver.iocp_buf;
 }
 
 ClientPeer::~ClientPeer()
@@ -35,12 +35,38 @@ void ClientPeer::Init(SOCKET ns)
 	}
 }
 
-void ClientPeer::ProcessPacket()
+void ClientPeer::ProcessIO(DWORD ioSize)
 {
-	int nPacketSize = (int)m_pPacketStartPos;
-	m_pNextPacketRecvPos = m_pPacketStartPos + nPacketSize;
-	while (m_pPacketStartPos < m_pNextPacketRecvPos)
-	{
+	int nPacketSize = (int)m_pRecvStartPos[0];
+	unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
 
+	while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
+	{
+		ProcessPacket();
+
+		m_pRecvStartPos += nPacketSize;
+		if (m_pRecvStartPos < pNextRecvPos)
+			nPacketSize = m_pRecvStartPos[0];
+		else
+			break;
 	}
+
+	long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
+
+	if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
+	{
+		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
+		memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
+		m_pRecvStartPos = m_recvOver.iocp_buf;
+		pNextRecvPos = m_pRecvStartPos + lnLeftData;
+	}
+
+	DWORD recvFlag = 0;
+	m_pRecvStartPos = pNextRecvPos;
+	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
+	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
+
+	m_lock.lock();
+	WSARecv(m_socket, &m_recvOver.wsa_buf, 1, 0, &recvFlag, &m_recvOver.wsa_over, NULL);
+	m_lock.unlock();
 }
