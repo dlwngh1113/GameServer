@@ -22,13 +22,18 @@ void ClientPeer::OnDisconnect()
 void ClientPeer::Init(SOCKET ns)
 {
 	m_socket = ns;
+	StartRecv();
+}
 
+void ClientPeer::StartRecv()
+{
 	DWORD flags = 0;
 	int ret;
 	m_lock.lock();
 	ret = WSARecv(m_socket, &m_recvOver.wsa_buf, 1, NULL, &flags, &m_recvOver.wsa_over, NULL);
 	m_lock.unlock();
-	if (SOCKET_ERROR == ret) {
+	if (SOCKET_ERROR == ret) 
+	{
 		int err_no = WSAGetLastError();
 		if (ERROR_IO_PENDING != err_no)
 			Logger::Error("WSA Error - " + err_no);
@@ -61,12 +66,10 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 		pNextRecvPos = m_pRecvStartPos + lnLeftData;
 	}
 
-	DWORD recvFlag = 0;
+	// 데이터를 받을 버퍼 세팅
 	m_pRecvStartPos = pNextRecvPos;
 	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
 	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
-	m_lock.lock();
-	WSARecv(m_socket, &m_recvOver.wsa_buf, 1, 0, &recvFlag, &m_recvOver.wsa_over, NULL);
-	m_lock.unlock();
+	StartRecv();
 }
