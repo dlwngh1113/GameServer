@@ -8,7 +8,6 @@ class ClientPeer
 	std::mutex m_lock;
 
 	unsigned char* m_pRecvStartPos;
-	unsigned char* m_pNextRecvPos;
 
 protected:
 	void StartRecv();

@@ -8,7 +8,6 @@ ClientPeer::ClientPeer()
 	ZeroMemory(&m_recvOver, sizeof(m_recvOver));
 
 	m_pRecvStartPos = m_recvOver.iocp_buf;
-	m_pNextRecvPos = m_recvOver.iocp_buf;
 }
 
 ClientPeer::~ClientPeer()
