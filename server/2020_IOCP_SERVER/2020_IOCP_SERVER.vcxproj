@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasePacket.cpp" />
     <ClCompile Include="BaseServer.cpp" />
     <ClCompile Include="ClientPeer.cpp" />
     <ClCompile Include="CServer.cpp">
@@ -152,6 +153,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasePacket.h" />
     <ClInclude Include="BaseServer.h" />
     <ClInclude Include="ClientPeer.h" />
     <ClInclude Include="CServer.h">
