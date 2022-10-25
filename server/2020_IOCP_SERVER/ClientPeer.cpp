@@ -72,3 +72,8 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 
 	StartRecv();
 }
+
+void ClientPeer::ProcessPacket()
+{
+}
+

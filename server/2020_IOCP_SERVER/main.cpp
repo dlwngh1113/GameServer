@@ -3,5 +3,5 @@
 int main()
 {
 	CServer server;
-	server.run();
+	server.Run();
 }

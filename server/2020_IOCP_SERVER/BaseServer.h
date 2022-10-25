@@ -16,8 +16,6 @@ private:
 	void DisconnectClient(SOCKET socket);
 
 protected:
-	virtual void ProcessPacket() = 0;
-
 	void Process();
 	virtual void Release();
 

@@ -1,7 +1,8 @@
 #pragma once
 #include"Logger.h"
+#include"IPeer.h"
 
-class ClientPeer
+class ClientPeer : IPeer
 {
 	SOCKET m_socket;
 	OVER_EX m_recvOver;
@@ -19,5 +20,5 @@ public:
 	void Init(SOCKET ns);
 
 	virtual void ProcessIO(DWORD ioSize);
-	virtual void ProcessPacket() = 0;
+	virtual void ProcessPacket();
 };
