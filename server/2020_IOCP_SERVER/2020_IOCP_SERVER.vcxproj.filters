@@ -16,6 +16,21 @@
     <Filter Include="헤더 파일\lua">
       <UniqueIdentifier>{83efb508-dba7-4716-b9d7-14405138aa42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{8f1aadde-e3bf-445e-89e5-f2da8fa894ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Peer">
+      <UniqueIdentifier>{a6bbec3a-fcf6-4671-aaf1-e8e83751e144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Packet">
+      <UniqueIdentifier>{20bed9a5-6efd-43d8-9a0f-7c513e4229e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Server">
+      <UniqueIdentifier>{ebc97cb8-3d29-4562-838c-66f57404cb2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Util">
+      <UniqueIdentifier>{eae973cc-60ba-42f3-9124-492e0bb7aa6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -24,26 +39,23 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CUser.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientPeer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseServer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="BasePacket.cpp">
+    <ClCompile Include="User.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="IPeer.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Framework\Peer</Filter>
     </ClCompile>
-    <ClCompile Include="User.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="ClientPeer.cpp">
+      <Filter>Framework\Peer</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseServer.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="BasePacket.cpp">
+      <Filter>Framework\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Framework\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,26 +77,23 @@
     <ClInclude Include="CServer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CUser.h">
+    <ClInclude Include="User.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ClientPeer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseServer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BasePacket.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Framework\Peer</Filter>
     </ClInclude>
     <ClInclude Include="IPeer.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Framework\Peer</Filter>
     </ClInclude>
-    <ClInclude Include="User.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="BaseServer.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="BasePacket.h">
+      <Filter>Framework\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Framework\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

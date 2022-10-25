@@ -1,8 +1,7 @@
 #include "CServer.h"
 
-CServer::CServer()
+CServer::CServer() : BaseServer()
 {
-	User* r = new User;
 }
 
 CServer::~CServer()
@@ -11,4 +10,5 @@ CServer::~CServer()
 
 void CServer::Run()
 {
+	BaseServer::Run();
 }

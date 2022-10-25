@@ -20,5 +20,5 @@ public:
 	void Init(SOCKET ns);
 
 	virtual void ProcessIO(DWORD ioSize);
-	virtual void ProcessPacket();
+	virtual void ProcessPacket(unsigned char size, unsigned char type);
 };

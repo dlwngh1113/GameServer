@@ -2,6 +2,6 @@
 class IPeer
 {
 public:
-	virtual void ProcessPacket() = 0;
+	virtual void ProcessPacket(unsigned char size, unsigned char type) = 0;
 };
 
