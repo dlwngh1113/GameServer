@@ -4,5 +4,5 @@
 class User : protected ClientPeer
 {
 public:
-	void ProcessPacket() override;
+	void ProcessPacket(unsigned char size, unsigned char type) override;
 };

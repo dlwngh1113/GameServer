@@ -1,5 +1,6 @@
 #include "User.h"
 
-void User::ProcessPacket()
+void User::ProcessPacket(unsigned char size, unsigned char type)
 {
+
 }
