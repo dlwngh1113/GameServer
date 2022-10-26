@@ -46,7 +46,7 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 
 	while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
 	{
-		ProcessPacket(nPacketSize, m_pRecvStartPos[1]);
+		ProcessPacket(nPacketSize, m_pRecvStartPos);
 
 		m_pRecvStartPos += nPacketSize;
 		if (m_pRecvStartPos < pNextRecvPos)
@@ -73,7 +73,7 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 	StartRecv();
 }
 
-void ClientPeer::ProcessPacket(unsigned char size, unsigned char type)
+void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 {
 }
 

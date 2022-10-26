@@ -2,6 +2,7 @@
 class BasePacket
 {
 public:
-	char size;
-	char type;
+	unsigned char size;
+	unsigned char type;
+	unsigned char* data;
 };
