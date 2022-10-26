@@ -1,6 +1,18 @@
 #include "User.h"
 
-void User::ProcessPacket(unsigned char size, unsigned char* data)
+User::User() : ClientPeer()
 {
+}
 
+User::~User()
+{
+}
+
+void User::OnDisconnect()
+{
+}
+
+void User::ProcessPacket(BasePacket* packet)
+{
+	
 }

@@ -1,8 +1,12 @@
 #pragma once
 #include"ClientPeer.h"
 
-class User : protected ClientPeer
+class User : public ClientPeer
 {
 public:
-	void ProcessPacket(unsigned char size, unsigned char* data) override;
+	User();
+	virtual ~User();
+
+	void OnDisconnect() override;
+	void ProcessPacket(BasePacket* packet) override;
 };

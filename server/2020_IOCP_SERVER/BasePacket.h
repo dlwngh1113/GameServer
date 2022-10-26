@@ -1,8 +1,10 @@
 #pragma once
-class BasePacket
+#pragma pack(push, 1)
+
+struct BasePacket
 {
-public:
 	unsigned char size;
 	unsigned char type;
-	unsigned char* data;
 };
+
+#pragma pack(pop)

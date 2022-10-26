@@ -46,7 +46,8 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 
 	while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
 	{
-		ProcessPacket(nPacketSize, m_pRecvStartPos);
+		BasePacket* packet = reinterpret_cast<BasePacket*>(m_pRecvStartPos);
+		ProcessPacket(packet);
 
 		m_pRecvStartPos += nPacketSize;
 		if (m_pRecvStartPos < pNextRecvPos)
@@ -73,7 +74,6 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 	StartRecv();
 }
 
-void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
+void ClientPeer::ProcessPacket(BasePacket* packet)
 {
 }
-

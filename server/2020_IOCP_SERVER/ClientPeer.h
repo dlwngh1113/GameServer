@@ -10,15 +10,14 @@ class ClientPeer : IPeer
 
 	unsigned char* m_pRecvStartPos;
 
-protected:
 	void StartRecv();
 public:
 	ClientPeer();
 	virtual ~ClientPeer();
 
-	void OnDisconnect();
+	void ProcessIO(DWORD ioSize);
 	void Init(SOCKET ns);
 
-	virtual void ProcessIO(DWORD ioSize);
-	virtual void ProcessPacket(unsigned char size, unsigned char* data);
+	virtual void OnDisconnect();
+	virtual void ProcessPacket(BasePacket* packet);
 };
