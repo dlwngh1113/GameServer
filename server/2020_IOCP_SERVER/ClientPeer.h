@@ -19,5 +19,6 @@ public:
 	void Init(SOCKET ns);
 
 	virtual void OnDisconnect();
+	void ProcessPacket(unsigned char size, unsigned char* data) final;
 	virtual void ProcessPacket(BasePacket* packet);
 };
