@@ -146,6 +146,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="IRequestHandler.cpp" />
+    <ClCompile Include="IRequestHandlerFactory.cpp" />
     <ClCompile Include="IPeer.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp">
@@ -162,6 +164,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="IRequestHandler.h" />
+    <ClInclude Include="IRequestHandlerFactory.h" />
     <ClInclude Include="include\lauxlib.h" />
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />

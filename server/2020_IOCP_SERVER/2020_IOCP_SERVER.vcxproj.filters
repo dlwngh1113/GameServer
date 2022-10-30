@@ -57,6 +57,12 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
+    <ClCompile Include="IRequestHandlerFactory.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="IRequestHandler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -94,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IRequestHandlerFactory.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="IRequestHandler.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

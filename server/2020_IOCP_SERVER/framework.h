@@ -12,14 +12,10 @@ extern "C" {
 #include <thread>
 #include <vector>
 #include <mutex>
-#include <unordered_set>
 #include <unordered_map>
-#include <concurrent_unordered_map.h>
 #include <chrono>
-#include <queue>
 #include <string>
 #include <windows.h>  
-#include <stdio.h>  
 #include <sqlext.h>
 #include <fstream>
 #include<WinSock2.h>
