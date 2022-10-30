@@ -14,6 +14,7 @@ class ClientPeer : IPeer
 	void StartRecv();
 public:
 	ClientPeer();
+	ClientPeer(BaseRequestHandlerFactory* instance);
 	virtual ~ClientPeer();
 
 	void ProcessIO(DWORD ioSize);

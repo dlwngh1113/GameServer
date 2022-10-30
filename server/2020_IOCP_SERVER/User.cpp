@@ -1,6 +1,6 @@
 #include "User.h"
 
-User::User() : ClientPeer()
+User::User(BaseRequestHandlerFactory* instance) : ClientPeer(instance)
 {
 }
 

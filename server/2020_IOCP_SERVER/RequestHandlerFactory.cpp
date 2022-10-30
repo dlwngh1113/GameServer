@@ -8,7 +8,11 @@ RequestHandlerFactory::~RequestHandlerFactory()
 {
 }
 
-RequestHandlerFactory* RequestHandlerFactory::GetInstance() const
+void RequestHandlerFactory::Init()
+{
+}
+
+RequestHandlerFactory* RequestHandlerFactory::GetInstance()
 {
 	if (m_instance == nullptr)
 		m_instance = new RequestHandlerFactory();

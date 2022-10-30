@@ -8,5 +8,6 @@ public:
 	RequestHandlerFactory();
 	virtual ~RequestHandlerFactory();
 
-	RequestHandlerFactory* GetInstance() const;
+	void Init() override;
+	static RequestHandlerFactory* GetInstance();
 };

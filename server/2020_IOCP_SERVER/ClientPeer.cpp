@@ -2,12 +2,17 @@
 
 ClientPeer::ClientPeer()
 {
+}
+
+ClientPeer::ClientPeer(BaseRequestHandlerFactory* instance)
+{
 	m_recvOver.op_mode = OP_MODE_RECV;
 	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(m_recvOver.iocp_buf);
 	m_recvOver.wsa_buf.len = sizeof(m_recvOver.iocp_buf);
 	ZeroMemory(&m_recvOver, sizeof(m_recvOver));
 
 	m_pRecvStartPos = m_recvOver.iocp_buf;
+	m_requestHandlerFactory = instance;
 }
 
 ClientPeer::~ClientPeer()

@@ -14,4 +14,5 @@ public:
 	virtual ~BaseRequestHandlerFactory();
 
 	virtual void HandleCommand(BasePacket* arg);
+	virtual void Init() = 0;
 };

@@ -1,10 +1,11 @@
 #pragma once
 #include"ClientPeer.h"
+#include"RequestHandlerFactory.h"
 
 class User : public ClientPeer
 {
 public:
-	User();
+	User(BaseRequestHandlerFactory* instance);
 	virtual ~User();
 
 	void OnDisconnect() override;
