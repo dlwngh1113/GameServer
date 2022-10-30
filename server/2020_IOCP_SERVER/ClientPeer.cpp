@@ -80,5 +80,12 @@ void ClientPeer::ProcessPacket(BasePacket* packet)
 void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 {
 	BasePacket* packet = reinterpret_cast<BasePacket*>(data);
-	ProcessPacket(packet);
+	try 
+	{
+		m_requestHandlerFactory->HandleCommand(packet);
+	}
+	catch(std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
 }

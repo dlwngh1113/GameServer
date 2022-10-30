@@ -1,14 +1,15 @@
 #pragma once
-#include"Logger.h"
+#include"BaseRequestHandlerFactory.h"
 #include"IPeer.h"
 
 class ClientPeer : IPeer
 {
-	SOCKET m_socket;
+	SOCKET m_socket{ NULL };
 	OVER_EX m_recvOver;
 	std::mutex m_lock;
 
-	unsigned char* m_pRecvStartPos;
+	unsigned char* m_pRecvStartPos{ NULL };
+	BaseRequestHandlerFactory* m_requestHandlerFactory = nullptr;
 
 	void StartRecv();
 public:

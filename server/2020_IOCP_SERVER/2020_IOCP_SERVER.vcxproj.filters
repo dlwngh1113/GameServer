@@ -31,6 +31,12 @@
     <Filter Include="Framework\Util">
       <UniqueIdentifier>{eae973cc-60ba-42f3-9124-492e0bb7aa6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\RequestHandler">
+      <UniqueIdentifier>{99d36e55-ac47-47b2-b680-1ade2a7ac04a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\RequestHandler\Factory">
+      <UniqueIdentifier>{afa4b1ce-d91f-4894-8d98-11f6728ab8ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -57,10 +63,13 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
-    <ClCompile Include="IRequestHandlerFactory.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="IRequestHandler.cpp">
+      <Filter>Framework\RequestHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseRequestHandlerFactory.cpp">
+      <Filter>Framework\RequestHandler\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestHandlerFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,10 +110,13 @@
     <ClInclude Include="Logger.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
-    <ClInclude Include="IRequestHandlerFactory.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="IRequestHandler.h">
+      <Filter>Framework\RequestHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRequestHandlerFactory.h">
+      <Filter>Framework\RequestHandler\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestHandlerFactory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
