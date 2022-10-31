@@ -12,6 +12,10 @@ BaseRequestHandlerFactory::BaseRequestHandlerFactory()
 
 BaseRequestHandlerFactory::~BaseRequestHandlerFactory()
 {
+	for(auto& pair : m_requestHandlers)
+		delete pair.second;
+
+	m_requestHandlers.clear();
 }
 
 void BaseRequestHandlerFactory::HandleCommand(BasePacket* arg)

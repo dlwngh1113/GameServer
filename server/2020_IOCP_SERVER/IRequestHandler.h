@@ -3,7 +3,6 @@
 
 class IRequestHandler
 {
-protected:
 public:
 	virtual void HandleRequest(BasePacket* packet) = 0;
 };

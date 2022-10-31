@@ -41,7 +41,7 @@ void BaseServer::Listen()
 	::bind(m_listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
 	::listen(m_listenSocket, 5);
 
-	OnAccept();
+	BeginAcceptPeer();
 }
 
 void BaseServer::AddNewClient(SOCKET socket)
@@ -54,7 +54,8 @@ void BaseServer::AddNewClient(SOCKET socket)
 	m_clientPeers[socket] = peer;
 	clientLock.unlock();
 
-	OnAccept();
+	OnAccept(socket);
+	BeginAcceptPeer();
 }
 
 void BaseServer::DisconnectClient(SOCKET socket)
@@ -115,7 +116,7 @@ void BaseServer::Release()
 	::WSACleanup();
 }
 
-void BaseServer::OnAccept()
+void BaseServer::BeginAcceptPeer()
 {
 	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	m_acceptOver.op_mode = OP_MODE_ACCEPT;

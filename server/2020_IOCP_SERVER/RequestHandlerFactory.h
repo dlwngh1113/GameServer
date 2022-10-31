@@ -2,7 +2,7 @@
 #include"BaseRequestHandlerFactory.h"
 #include"LoginRequestHandler.h"
 
-class RequestHandlerFactory: protected BaseRequestHandlerFactory
+class RequestHandlerFactory: public BaseRequestHandlerFactory
 {
 	static RequestHandlerFactory* m_instance;
 public:

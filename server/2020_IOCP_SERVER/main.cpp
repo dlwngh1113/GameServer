@@ -4,5 +4,6 @@
 int main()
 {
 	CServer server;
+	server.Init();
 	server.Run();
 }
