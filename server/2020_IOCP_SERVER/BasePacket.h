@@ -1,5 +1,4 @@
 #pragma once
-#include"framework.h"
 #pragma pack(push, 1)
 
 struct BasePacket

@@ -116,6 +116,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +132,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,10 +154,12 @@
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
     <ClCompile Include="IPeer.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="RequestHandlerFactory.cpp" />
+    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +170,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="framework.h" />
     <ClInclude Include="IRequestHandler.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
     <ClInclude Include="include\lauxlib.h" />
@@ -172,8 +177,11 @@
     <ClInclude Include="include\lualib.h" />
     <ClInclude Include="IPeer.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="LoginRequestHandler.h" />
+    <ClInclude Include="Packets.h" />
     <ClInclude Include="protocol.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>

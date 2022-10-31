@@ -1,3 +1,4 @@
+#include"stdafx.h"
 #include "BaseRequestHandlerFactory.h"
 
 void BaseRequestHandlerFactory::AddHandler(unsigned char request, IRequestHandler* handler)
@@ -22,5 +23,5 @@ void BaseRequestHandlerFactory::HandleCommand(BasePacket* arg)
 	}
 
 	IRequestHandler* handler = m_requestHandlers[arg->type];
-	handler->HandleRequest();
+	handler->HandleRequest(arg);
 }

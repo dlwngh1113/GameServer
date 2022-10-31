@@ -72,6 +72,12 @@
     <ClCompile Include="RequestHandlerFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="LoginRequestHandler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -85,9 +91,6 @@
     </ClInclude>
     <ClInclude Include="include\lualib.h">
       <Filter>헤더 파일\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CServer.h">
       <Filter>헤더 파일</Filter>
@@ -117,6 +120,15 @@
       <Filter>Framework\RequestHandler\Factory</Filter>
     </ClInclude>
     <ClInclude Include="RequestHandlerFactory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRequestHandler.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packets.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

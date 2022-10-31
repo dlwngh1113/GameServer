@@ -1,5 +1,6 @@
 #pragma once
 #include"BaseRequestHandlerFactory.h"
+#include"LoginRequestHandler.h"
 
 class RequestHandlerFactory: protected BaseRequestHandlerFactory
 {

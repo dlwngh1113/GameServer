@@ -1,3 +1,4 @@
+#include"stdafx.h"
 #include "Logger.h"
 
 void Logger::Error(std::string message)
