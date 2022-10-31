@@ -20,7 +20,6 @@ void CServer::Run()
 
 void CServer::Init()
 {
-	BaseServer::Init();
 	RequestHandlerFactory::GetInstance()->Init();
 }
 

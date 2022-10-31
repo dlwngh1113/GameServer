@@ -77,21 +77,21 @@ void BaseServer::Process()
 	//   - 꺼낸 I/O완료 데이터를 처리
 	while (true) {
 		DWORD ioSize;
-		int key;
+		SOCKET ns;
 		ULONG_PTR iocpKey;
 		WSAOVERLAPPED* lpOver;
 		int ret =
 			GetQueuedCompletionStatus(h_iocp, &ioSize, &iocpKey, &lpOver, INFINITE);
-		key = static_cast<int>(iocpKey);
+		ns = static_cast<SOCKET>(iocpKey);
 		// cout << "Completion Detected" << endl;
 		if (FALSE == ret) {
 			//error_display("GQCS Error", WSAGetLastError());
 		}
 
 		OVER_EX* overEx = reinterpret_cast<OVER_EX*>(lpOver);
-		SOCKET ns = static_cast<SOCKET>(overEx->wsa_buf.len);
 		switch (overEx->op_mode) {
 		case OP_MODE_ACCEPT:
+			ns = static_cast<SOCKET>(overEx->wsa_buf.len);
 			AddNewClient(ns);
 			break;
 		case OP_MODE_RECV:
