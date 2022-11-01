@@ -2,12 +2,10 @@
 #include"ClientPeer.h"
 #include"RequestHandlerFactory.h"
 
-class User : public ClientPeer
+class User 
 {
+	ClientPeer* m_peer;
 public:
-	User(BaseRequestHandlerFactory* instance);
+	User(ClientPeer* peer);
 	virtual ~User();
-
-	void OnDisconnect() override;
-	void ProcessPacket(BasePacket* packet) override;
 };

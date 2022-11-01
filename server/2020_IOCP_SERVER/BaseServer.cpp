@@ -46,27 +46,36 @@ void BaseServer::Listen()
 
 void BaseServer::AddNewClient(SOCKET socket)
 {
-	ClientPeer* peer = new ClientPeer;
+	// iocp俊 家南阑 殿废
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket), h_iocp, socket, 0);
-	peer->Init(socket);
+
+	//按眉 积己 饶 包府
+	ClientPeer* peer = new ClientPeer(socket);
 
 	clientLock.lock();
 	m_clientPeers[socket] = peer;
 	clientLock.unlock();
 
-	OnAccept(socket);
+	OnAccept(socket, peer);
 	BeginAcceptPeer();
 }
 
 void BaseServer::DisconnectClient(SOCKET socket)
 {
-	clientLock.lock();
-	ClientPeer* toRemovePeer = m_clientPeers[socket];
-	m_clientPeers.erase(socket);
-	clientLock.unlock();
+	try
+	{
+		clientLock.lock();
+		ClientPeer* toRemovePeer = m_clientPeers[socket];
+		m_clientPeers.erase(socket);
+		clientLock.unlock();
 
-	toRemovePeer->OnDisconnect();
-	delete toRemovePeer;
+		toRemovePeer->OnDisconnect();
+		delete toRemovePeer;
+	}
+	catch (std::exception& ex)
+	{
+		Logger::Error(ex.what());
+	}
 }
 
 void BaseServer::Process()
@@ -112,7 +121,12 @@ void BaseServer::Process()
 
 void BaseServer::Release()
 {
+	for (auto& pair : m_clientPeers)
+		delete pair.second;
+	m_clientPeers.clear();
+
 	closesocket(m_listenSocket);
+
 	::WSACleanup();
 }
 

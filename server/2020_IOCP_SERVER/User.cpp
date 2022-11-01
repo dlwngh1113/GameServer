@@ -1,19 +1,12 @@
 #include"stdafx.h"
 #include "User.h"
 
-User::User(BaseRequestHandlerFactory* instance) : ClientPeer(instance)
+User::User(ClientPeer* peer)
 {
+	m_peer = peer;
+	m_peer->Init(RequestHandlerFactory::GetInstance());
 }
 
 User::~User()
 {
-}
-
-void User::OnDisconnect()
-{
-}
-
-void User::ProcessPacket(BasePacket* packet)
-{
-
 }

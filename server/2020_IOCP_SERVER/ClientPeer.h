@@ -13,14 +13,12 @@ class ClientPeer : IPeer
 
 	void StartRecv();
 public:
-	ClientPeer();
-	ClientPeer(BaseRequestHandlerFactory* instance);
+	ClientPeer(SOCKET socket);
 	virtual ~ClientPeer();
 
 	void ProcessIO(DWORD ioSize);
-	void Init(SOCKET ns);
+	void Init(BaseRequestHandlerFactory* instance);
 
 	virtual void OnDisconnect();
 	void ProcessPacket(unsigned char size, unsigned char* data) final;
-	virtual void ProcessPacket(BasePacket* packet);
 };

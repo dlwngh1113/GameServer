@@ -23,9 +23,9 @@ void CServer::Init()
 	RequestHandlerFactory::GetInstance()->Init();
 }
 
-void CServer::OnAccept(const SOCKET socket)
+void CServer::OnAccept(const SOCKET socket, ClientPeer*& peer)
 {
 	m_userLock.lock();
-	m_users[socket] = new User(RequestHandlerFactory::GetInstance());
+	m_users[socket] = new User(peer);
 	m_userLock.unlock();
 }

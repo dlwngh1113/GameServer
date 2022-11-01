@@ -1,7 +1,7 @@
 #include"stdafx.h"
 #include "ClientPeer.h"
 
-ClientPeer::ClientPeer()
+ClientPeer::ClientPeer(SOCKET socket) : m_socket{ socket }
 {
 	m_recvOver.op_mode = OP_MODE_RECV;
 	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(m_recvOver.iocp_buf);
@@ -9,30 +9,6 @@ ClientPeer::ClientPeer()
 	ZeroMemory(&m_recvOver.wsa_over, sizeof(m_recvOver.wsa_over));
 
 	m_pRecvStartPos = m_recvOver.iocp_buf;
-}
-
-ClientPeer::ClientPeer(BaseRequestHandlerFactory* instance)
-{
-	m_recvOver.op_mode = OP_MODE_RECV;
-	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(m_recvOver.iocp_buf);
-	m_recvOver.wsa_buf.len = sizeof(m_recvOver.iocp_buf);
-	ZeroMemory(&m_recvOver.wsa_over, sizeof(m_recvOver.wsa_over));
-
-	m_pRecvStartPos = m_recvOver.iocp_buf;
-	m_requestHandlerFactory = instance;
-}
-
-ClientPeer::~ClientPeer()
-{
-}
-
-void ClientPeer::OnDisconnect()
-{
-}
-
-void ClientPeer::Init(SOCKET ns)
-{
-	m_socket = ns;
 	StartRecv();
 }
 
@@ -43,12 +19,26 @@ void ClientPeer::StartRecv()
 	m_lock.lock();
 	ret = WSARecv(m_socket, &m_recvOver.wsa_buf, 1, NULL, &flags, &m_recvOver.wsa_over, NULL);
 	m_lock.unlock();
-	if (SOCKET_ERROR == ret) 
+	if (SOCKET_ERROR == ret)
 	{
 		int err_no = WSAGetLastError();
 		if (ERROR_IO_PENDING != err_no)
 			Logger::Error("WSA Error - " + err_no);
 	}
+}
+
+ClientPeer::~ClientPeer()
+{
+	closesocket(m_socket);
+}
+
+void ClientPeer::OnDisconnect()
+{
+}
+
+void ClientPeer::Init(BaseRequestHandlerFactory* instance)
+{
+	m_requestHandlerFactory = instance;
 }
 
 void ClientPeer::ProcessIO(DWORD ioSize)
@@ -83,10 +73,6 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
 	StartRecv();
-}
-
-void ClientPeer::ProcessPacket(BasePacket* packet)
-{
 }
 
 void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)

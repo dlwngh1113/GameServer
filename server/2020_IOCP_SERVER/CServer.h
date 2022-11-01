@@ -9,7 +9,7 @@ class CServer : public BaseServer
 
 protected:
 
-	void OnAccept(const SOCKET socket) override;
+	void OnAccept(const SOCKET socket, ClientPeer*& peer) override;
 
 public:
 	CServer();
