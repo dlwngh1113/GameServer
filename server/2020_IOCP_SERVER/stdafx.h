@@ -11,6 +11,7 @@ extern "C" {
 #include <MSWSock.h>
 #include <thread>
 #include <vector>
+#include <queue>
 #include <mutex>
 #include <unordered_map>
 #include <chrono>
@@ -18,8 +19,8 @@ extern "C" {
 #include <windows.h>  
 #include <sqlext.h>
 #include <fstream>
-#include<WinSock2.h>
-#include<ws2def.h>
+#include <WinSock2.h>
+#include <ws2def.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "MSWSock.lib")

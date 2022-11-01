@@ -37,6 +37,12 @@
     <Filter Include="Framework\RequestHandler\Factory">
       <UniqueIdentifier>{afa4b1ce-d91f-4894-8d98-11f6728ab8ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Util\Log">
+      <UniqueIdentifier>{2e7dfe01-8f01-45ea-b7e3-94ed68db3807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Util\Pool">
+      <UniqueIdentifier>{8cf90ca7-f331-4aa1-8586-f611886f9b93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -60,9 +66,6 @@
     <ClCompile Include="BasePacket.cpp">
       <Filter>Framework\Packet</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Framework\Util</Filter>
-    </ClCompile>
     <ClCompile Include="IRequestHandler.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
@@ -77,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Framework\Util\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Framework\Util\Pool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,9 +119,6 @@
     <ClInclude Include="BasePacket.h">
       <Filter>Framework\Packet</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Framework\Util</Filter>
-    </ClInclude>
     <ClInclude Include="IRequestHandler.h">
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
@@ -129,6 +135,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Framework\Util\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Framework\Util\Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="Statics.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

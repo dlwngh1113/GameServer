@@ -158,6 +158,7 @@
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="User.cpp" />
@@ -178,9 +179,11 @@
     <ClInclude Include="IPeer.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LoginRequestHandler.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Packets.h" />
     <ClInclude Include="protocol.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="Statics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
