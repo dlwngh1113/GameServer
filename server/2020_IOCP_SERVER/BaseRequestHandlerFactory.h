@@ -1,18 +1,18 @@
 #pragma once
-#include"IRequestHandler.h"
+#include"RequestHandler.h"
 #include"Logger.h"
 
 class BaseRequestHandlerFactory
 {
-	std::unordered_map<unsigned char, IRequestHandler*> m_requestHandlers;
+	std::unordered_map<unsigned char, RequestHandler*> m_requestHandlers;
 
 protected:
-	void AddHandler(unsigned char request, IRequestHandler* handler);
+	void AddHandler(unsigned char request, RequestHandler* handler);
 
 public:
 	BaseRequestHandlerFactory();
 	virtual ~BaseRequestHandlerFactory();
 
-	IRequestHandler* CreateHandlerInstance(unsigned char type);
+	RequestHandler* CreateHandlerInstance(unsigned char type);
 	virtual void Init() = 0;
 };

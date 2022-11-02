@@ -3,7 +3,7 @@
 
 void LoginRequestHandler::Init(ClientPeer* peer, BasePacket* packet)
 {
-	IRequestHandler::Init(peer, packet);
+	RequestHandler::Init(peer, packet);
 }
 
 void LoginRequestHandler::Handle()

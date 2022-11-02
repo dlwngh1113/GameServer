@@ -1,8 +1,8 @@
 #pragma once
 #include"Packets.h"
-#include "IRequestHandler.h"
+#include "RequestHandler.h"
 
-class LoginRequestHandler : public IRequestHandler
+class LoginRequestHandler : public RequestHandler
 {
 public:
 	void Handle() override;

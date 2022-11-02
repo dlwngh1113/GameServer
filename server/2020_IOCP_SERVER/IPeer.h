@@ -1,5 +1,4 @@
 #pragma once
-#include"BasePacket.h"
 class IPeer
 {
 public:

@@ -81,7 +81,7 @@ void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 	try
 	{
 		if (m_requestHandlerFactory == nullptr)
-			throw std::exception{ "RequestHandlerFactory is nullptr!\n" };
+			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
 
 		IRequestHandler* handler = m_requestHandlerFactory->CreateHandlerInstance(packet->type);
 		handler->Init(this, packet);
