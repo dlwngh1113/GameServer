@@ -80,10 +80,13 @@ void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 	BasePacket* packet = reinterpret_cast<BasePacket*>(data);
 	try 
 	{
-		m_requestHandlerFactory->HandleCommand(packet);
+		if (m_requestHandlerFactory == nullptr)
+			throw std::exception{ "RequestHandlerFactory is nullptr!\n" };
+
+		auto handler = m_requestHandlerFactory->CreateHandlerInstance(packet->type);
 	}
 	catch(std::exception& ex)
 	{
-		std::cout << ex.what() << std::endl;
+		Logger::Error(ex.what());
 	}
 }

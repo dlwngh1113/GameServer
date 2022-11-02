@@ -13,6 +13,6 @@ public:
 	BaseRequestHandlerFactory();
 	virtual ~BaseRequestHandlerFactory();
 
-	virtual void HandleCommand(BasePacket* arg);
+	IRequestHandler* CreateHandlerInstance(unsigned char type);
 	virtual void Init() = 0;
 };
