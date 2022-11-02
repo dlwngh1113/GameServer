@@ -5,5 +5,6 @@
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	void HandleRequest(BasePacket* packet) override;
+	void Handle() override;
+	void Init(ClientPeer* peer, BasePacket* packet) override;
 };

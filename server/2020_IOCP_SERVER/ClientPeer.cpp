@@ -78,12 +78,14 @@ void ClientPeer::ProcessIO(DWORD ioSize)
 void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 {
 	BasePacket* packet = reinterpret_cast<BasePacket*>(data);
-	try 
+	try
 	{
 		if (m_requestHandlerFactory == nullptr)
 			throw std::exception{ "RequestHandlerFactory is nullptr!\n" };
 
-		auto handler = m_requestHandlerFactory->CreateHandlerInstance(packet->type);
+		IRequestHandler* handler = m_requestHandlerFactory->CreateHandlerInstance(packet->type);
+		handler->Init(this, packet);
+		handler->Handle();
 	}
 	catch(std::exception& ex)
 	{
