@@ -1,5 +1,7 @@
 #pragma once
-#include"ClientPeer.h"
+#include"BasePacket.h"
+
+class ClientPeer;
 
 class IRequestHandler
 {

@@ -92,3 +92,27 @@ void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 		Logger::Error(ex.what());
 	}
 }
+
+void ClientPeer::SendPacket(unsigned char* data)
+{
+	try
+	{
+		//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
+		OVER_EX* overEx = g_OverExPool.PopObject();
+		overEx->op_mode = OP_MODE_SEND;
+		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
+		overEx->wsa_buf.len = data[0];
+
+		//패킷 데이터 버퍼에 복사
+		memcpy_s(overEx->iocp_buf, MAX_BUFFER, data, data[0]);
+
+		// Send
+		m_lock.lock();
+		WSASend(m_socket, &overEx->wsa_buf, 1, &overEx->wsa_buf.len, NULL, &overEx->wsa_over, NULL);
+		m_lock.unlock();
+	}
+	catch (std::exception& ex)
+	{
+		Logger::Error(ex.what());
+	}
+}

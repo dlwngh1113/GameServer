@@ -29,8 +29,10 @@ inline ObjectPool<T>::~ObjectPool()
 {
 	while (!m_pool.empty())
 	{
-		T& data = m_pool.pop();
-		delete data;
+		T* data = m_pool.front();
+			delete data;
+
+		m_pool.pop();
 	}
 }
 
@@ -46,14 +48,13 @@ template<class T>
 inline T* ObjectPool<T>::PopObject()
 {
 	T* data = nullptr;
-	try
-	{
-		data = m_pool.pop();
-	}
-	catch (std::exception& ex)
-	{
-		Logger::Error(ex.what());
-	}
+
+	if (m_pool.empty())
+		throw std::exception{ "오브젝트 풀이 비어있습니다." };
+
+	data = m_pool.front();
+	m_pool.pop();
+	ZeroMemory(data, sizeof(T));
 
 	return data;
 }

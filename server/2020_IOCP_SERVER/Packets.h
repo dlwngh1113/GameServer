@@ -3,9 +3,18 @@
 
 #pragma pack(push, 1)
 
-struct LoginPacket : BasePacket
+struct LoginRequest : BasePacket
 {
 	char  name[MAX_ID_LEN];
+};
+
+struct LoginResponse : BasePacket 
+{
+	int  id;
+	short x, y;
+	short hp;
+	short level;
+	int   exp;
 };
 
 #pragma pack(pop)

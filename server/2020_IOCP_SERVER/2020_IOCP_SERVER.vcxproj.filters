@@ -137,9 +137,6 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Framework\Util\Pool</Filter>
     </ClInclude>
-    <ClInclude Include="Statics.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="IRequestHandler.h">
       <Filter>Framework\RequestHandler\Handler</Filter>
     </ClInclude>

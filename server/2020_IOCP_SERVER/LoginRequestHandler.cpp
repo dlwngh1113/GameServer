@@ -8,6 +8,9 @@ void LoginRequestHandler::Init(ClientPeer* peer, BasePacket* packet)
 
 void LoginRequestHandler::Handle()
 {
-	LoginPacket* loginPacket = reinterpret_cast<LoginPacket*>(m_packet);
+	LoginRequest* loginPacket = reinterpret_cast<LoginRequest*>(m_packet);
 	std::cout << "Client name is " << loginPacket->name << std::endl;
+
+	LoginResponse* res = new LoginResponse();
+	res->id = m_peer->GetID();
 }
