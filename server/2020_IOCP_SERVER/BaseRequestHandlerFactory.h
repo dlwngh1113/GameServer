@@ -1,13 +1,13 @@
 #pragma once
-#include"RequestHandler.h"
+#include"IFactory.h"
 
-class BaseRequestHandlerFactory
+class RequestHandler;
+
+class BaseRequestHandlerFactory : IFactory
 {
-	std::unordered_map<unsigned char, RequestHandler*> m_requestHandlers;
-
+	std::unordered_map<unsigned char, RequestHandler*> m_handlers;
 protected:
-	void AddHandler(unsigned char request, RequestHandler* handler);
-
+	void AddHandler(unsigned char key, RequestHandler* handler);
 public:
 	BaseRequestHandlerFactory();
 	virtual ~BaseRequestHandlerFactory();

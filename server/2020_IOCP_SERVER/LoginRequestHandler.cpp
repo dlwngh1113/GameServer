@@ -1,6 +1,5 @@
 #include"stdafx.h"
 #include "LoginRequestHandler.h"
-#include"Packets.h"
 
 void LoginRequestHandler::Init(ClientPeer* peer, BasePacket* packet)
 {

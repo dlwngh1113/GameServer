@@ -1,7 +1,8 @@
 #pragma once
+#include"BasePacket.h"
 #include"Statics.h"
 #include"IPeer.h"
-#include"BaseRequestHandlerFactory.h"
+#include"IFactory.h"
 
 class ClientPeer : IPeer
 {
@@ -10,7 +11,7 @@ class ClientPeer : IPeer
 	std::mutex m_lock;
 
 	unsigned char* m_pRecvStartPos{ NULL };
-	BaseRequestHandlerFactory* m_requestHandlerFactory = nullptr;
+	IFactory* m_requestHandlerFactory = nullptr;
 
 	void StartRecv();
 public:
@@ -20,7 +21,7 @@ public:
 	int GetID() const { return static_cast<int>(m_socket); }
 
 	void ProcessIO(DWORD ioSize);
-	void Init(BaseRequestHandlerFactory* instance);
+	void Init(IFactory* instance);
 
 	virtual void OnDisconnect();
 	void ProcessPacket(unsigned char size, unsigned char* data) final;

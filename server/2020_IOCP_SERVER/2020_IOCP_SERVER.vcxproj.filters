@@ -93,6 +93,9 @@
     <ClCompile Include="Statics.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
+    <ClCompile Include="IFactory.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="Statics.h">
       <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IFactory.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

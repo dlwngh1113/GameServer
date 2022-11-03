@@ -1,6 +1,6 @@
 #include"stdafx.h"
-#include"BasePacket.h"
 #include "ClientPeer.h"
+#include"RequestHandler.h"
 #include"BaseRequestHandlerFactory.h"
 
 ClientPeer::ClientPeer(SOCKET socket) : m_socket{ socket }
@@ -38,7 +38,7 @@ void ClientPeer::OnDisconnect()
 {
 }
 
-void ClientPeer::Init(BaseRequestHandlerFactory* instance)
+void ClientPeer::Init(IFactory* instance)
 {
 	m_requestHandlerFactory = instance;
 }
@@ -85,7 +85,7 @@ void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 		if (m_requestHandlerFactory == nullptr)
 			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
 
-		RequestHandler* handler = m_requestHandlerFactory->CreateHandlerInstance(packet->type);
+		RequestHandler* handler = reinterpret_cast<BaseRequestHandlerFactory*>(m_requestHandlerFactory)->CreateHandlerInstance(packet->type);
 		handler->Init(this, packet);
 		handler->Handle();
 	}
