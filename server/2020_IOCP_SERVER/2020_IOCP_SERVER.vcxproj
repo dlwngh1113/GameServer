@@ -161,6 +161,7 @@
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
+    <ClCompile Include="Statics.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
@@ -185,6 +186,7 @@
     <ClInclude Include="protocol.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="Statics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

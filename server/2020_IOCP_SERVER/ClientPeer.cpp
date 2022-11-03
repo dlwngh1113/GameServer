@@ -1,5 +1,7 @@
 #include"stdafx.h"
+#include"BasePacket.h"
 #include "ClientPeer.h"
+#include"BaseRequestHandlerFactory.h"
 
 ClientPeer::ClientPeer(SOCKET socket) : m_socket{ socket }
 {
@@ -83,7 +85,7 @@ void ClientPeer::ProcessPacket(unsigned char size, unsigned char* data)
 		if (m_requestHandlerFactory == nullptr)
 			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
 
-		IRequestHandler* handler = m_requestHandlerFactory->CreateHandlerInstance(packet->type);
+		RequestHandler* handler = m_requestHandlerFactory->CreateHandlerInstance(packet->type);
 		handler->Init(this, packet);
 		handler->Handle();
 	}
@@ -98,7 +100,7 @@ void ClientPeer::SendPacket(unsigned char* data)
 	try
 	{
 		//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
-		OVER_EX* overEx = g_OverExPool.PopObject();
+		OVER_EX* overEx = Statics::overlappedPool.PopObject();
 		overEx->op_mode = OP_MODE_SEND;
 		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
 		overEx->wsa_buf.len = data[0];

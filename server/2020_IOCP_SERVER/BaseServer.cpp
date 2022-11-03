@@ -138,3 +138,7 @@ void BaseServer::BeginAcceptPeer()
 	ZeroMemory(&m_acceptOver.wsa_over, sizeof(&m_acceptOver.wsa_over));
 	AcceptEx(m_listenSocket, cSocket, m_acceptOver.iocp_buf, 0, 32, 32, NULL, &m_acceptOver.wsa_over);
 }
+
+void BaseServer::OnAccept(const SOCKET socket, ClientPeer*& peer)
+{
+}

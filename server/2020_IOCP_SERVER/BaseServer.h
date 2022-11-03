@@ -19,7 +19,7 @@ protected:
 	virtual void Release();
 
 	void BeginAcceptPeer();
-	virtual void OnAccept(const SOCKET socket, ClientPeer*& peer) = 0;
+	virtual void OnAccept(const SOCKET socket, ClientPeer*& peer);
 
 public:
 	BaseServer();

@@ -1,15 +1,18 @@
 #pragma once
 #include"BasePacket.h"
-#include"IRequestHandler.h"
-#include"ClientPeer.h"
 
-class RequestHandler : public IRequestHandler
+class ClientPeer;
+
+class RequestHandler
 {
 protected:
 	ClientPeer* m_peer;
 	BasePacket* m_packet;
 public:
-	virtual void Handle();
+	void Handle();
 	virtual void Init(ClientPeer* peer, BasePacket* packet);
+
+	virtual void HandleRequest() = 0;
+	virtual RequestHandler* Create() = 0;
 };
 

@@ -23,5 +23,10 @@ RequestHandler* BaseRequestHandlerFactory::CreateHandlerInstance(unsigned char t
 	if (m_requestHandlers.count(type) == 0)
 		throw std::exception{ "해당 요청을 처리할 수 있는 핸들러가 존재하지 않습니다.request = " + type };
 	
-	return m_requestHandlers[type];
+	RequestHandler* handler = m_requestHandlers[type]->Create();
+
+	if (handler == nullptr)
+		throw std::exception{ "핸들러가 없습니다." };
+
+	return handler;
 }
