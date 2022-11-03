@@ -3,7 +3,7 @@
 
 class RequestHandler;
 
-class BaseRequestHandlerFactory : IFactory
+class BaseRequestHandlerFactory : public IFactory
 {
 	std::unordered_map<unsigned char, RequestHandler*> m_handlers;
 protected:

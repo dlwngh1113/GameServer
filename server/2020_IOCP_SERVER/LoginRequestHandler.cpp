@@ -17,5 +17,5 @@ void LoginRequestHandler::HandleRequest()
 	std::cout << "Client name is " << loginPacket->name << std::endl;
 
 	LoginResponse* res = new LoginResponse();
-	//res->id = m_peer->GetID();
+	res->id = m_peer->GetID();
 }

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "RequestHandler.h"
-#include"ClientPeer.h"
 
 void RequestHandler::Handle()
 {

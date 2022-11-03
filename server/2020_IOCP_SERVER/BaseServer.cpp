@@ -62,20 +62,13 @@ void BaseServer::AddNewClient(SOCKET socket)
 
 void BaseServer::DisconnectClient(SOCKET socket)
 {
-	try
-	{
-		clientLock.lock();
-		ClientPeer* toRemovePeer = m_clientPeers[socket];
-		m_clientPeers.erase(socket);
-		clientLock.unlock();
+	clientLock.lock();
+	ClientPeer* toRemovePeer = m_clientPeers[socket];
+	m_clientPeers.erase(socket);
+	clientLock.unlock();
 
-		toRemovePeer->OnDisconnect();
-		delete toRemovePeer;
-	}
-	catch (std::exception& ex)
-	{
-		Logger::Error(ex.what());
-	}
+	toRemovePeer->OnDisconnect();
+	delete toRemovePeer;
 }
 
 void BaseServer::Process()

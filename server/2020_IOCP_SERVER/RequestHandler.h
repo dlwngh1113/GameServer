@@ -1,7 +1,6 @@
 #pragma once
 #include"BasePacket.h"
-
-class ClientPeer;
+#include"ClientPeer.h"
 
 class RequestHandler
 {
