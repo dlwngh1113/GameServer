@@ -4,7 +4,7 @@
 #include"IPeer.h"
 #include"IFactory.h"
 
-class ClientPeer : IPeer
+class ClientPeer : public IPeer
 {
 	SOCKET m_socket{ NULL };
 	OVER_EX m_recvOver;

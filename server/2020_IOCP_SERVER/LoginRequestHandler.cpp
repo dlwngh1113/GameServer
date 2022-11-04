@@ -17,7 +17,7 @@ void LoginRequestHandler::HandleRequest()
 	std::cout << "Client name is " << loginPacket->name << std::endl;
 
 	LoginResponse* res = new LoginResponse();
-	res->size = sizeof(*res);
+	res->size = sizeof(LoginResponse);
 	res->type = SC_PACKET_LOGIN_OK;
 	res->id = m_peer->GetID();
 	res->level = 0;

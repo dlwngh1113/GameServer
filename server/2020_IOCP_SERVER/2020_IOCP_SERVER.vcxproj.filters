@@ -43,15 +43,21 @@
     <Filter Include="Framework\RequestHandler\Handler">
       <UniqueIdentifier>{afa4b1ce-d91f-4894-8d98-11f6728ab8ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{2a4ac455-56ed-4fbe-bba8-bfcbb9d0e003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Request">
+      <UniqueIdentifier>{76a5e135-2f50-47bd-8838-5d2be2347c73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Request\Handlers">
+      <UniqueIdentifier>{a958b4da-2117-44e3-8a5d-ac6d15af7f3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="User.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="IPeer.cpp">
@@ -65,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="BasePacket.cpp">
       <Filter>Framework\Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginRequestHandler.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
@@ -84,17 +87,26 @@
     <ClCompile Include="BaseRequestHandlerFactory.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
-    <ClCompile Include="RequestHandler.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="RequestHandlerFactory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Statics.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
+    <ClCompile Include="RequestHandler.cpp">
+      <Filter>Framework\RequestHandler\Handler</Filter>
+    </ClCompile>
     <ClCompile Include="IFactory.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Framework\RequestHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRequestHandler.cpp">
+      <Filter>Client\Request\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestHandlerFactory.cpp">
+      <Filter>Client\Request</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveRequestHandler.cpp">
+      <Filter>Client\Request\Handlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +125,6 @@
     <ClInclude Include="CServer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="User.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ClientPeer.h">
       <Filter>Framework\Peer</Filter>
     </ClInclude>
@@ -127,9 +136,6 @@
     </ClInclude>
     <ClInclude Include="BasePacket.h">
       <Filter>Framework\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginRequestHandler.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Packets.h">
       <Filter>헤더 파일</Filter>
@@ -149,17 +155,26 @@
     <ClInclude Include="BaseRequestHandlerFactory.h">
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
-    <ClInclude Include="RequestHandler.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RequestHandlerFactory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Statics.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
+    <ClInclude Include="RequestHandler.h">
+      <Filter>Framework\RequestHandler\Handler</Filter>
+    </ClInclude>
     <ClInclude Include="IFactory.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Framework\RequestHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRequestHandler.h">
+      <Filter>Client\Request\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestHandlerFactory.h">
+      <Filter>Client\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveRequestHandler.h">
+      <Filter>Client\Request\Handlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

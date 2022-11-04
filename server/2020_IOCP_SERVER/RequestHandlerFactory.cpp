@@ -15,6 +15,7 @@ void RequestHandlerFactory::Init()
 {
 	Logger::Info("RequestHandlerFactory Init Started");
 	BaseRequestHandlerFactory::AddHandler(CS_LOGIN, new LoginRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(CS_MOVE, new MoveRequestHandler());
 	Logger::Info("RequestHandlerFactory Init Finished");
 }
 

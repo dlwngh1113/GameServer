@@ -2,6 +2,7 @@
 #include"Logger.h"
 #include"BaseRequestHandlerFactory.h"
 #include"LoginRequestHandler.h"
+#include"MoveRequestHandler.h"
 
 class RequestHandlerFactory: public BaseRequestHandlerFactory
 {

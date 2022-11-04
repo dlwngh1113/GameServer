@@ -3,7 +3,7 @@
 
 int main()
 {
-	CServer server;
-	server.Init();
-	server.Run();
+	CServer* server = CServer::GetInstance();
+	server->Init();
+	server->Run();
 }

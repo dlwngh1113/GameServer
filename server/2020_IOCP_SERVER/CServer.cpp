@@ -1,6 +1,8 @@
 #include"stdafx.h"
 #include "CServer.h"
 
+CServer* CServer::m_instance = nullptr;
+
 CServer::CServer() : BaseServer()
 {
 }
@@ -21,6 +23,11 @@ void CServer::Run()
 void CServer::Init()
 {
 	RequestHandlerFactory::GetInstance()->Init();
+}
+
+User* CServer::GetUser(SOCKET key)
+{
+	return m_users[key];
 }
 
 void CServer::OnAccept(const SOCKET socket, ClientPeer*& peer)

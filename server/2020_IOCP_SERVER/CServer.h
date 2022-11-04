@@ -7,6 +7,8 @@ class CServer : public BaseServer
 	std::mutex m_userLock;
 	std::unordered_map<SOCKET, User*> m_users;
 
+	static CServer* m_instance;
+
 protected:
 
 	void OnAccept(const SOCKET socket, ClientPeer*& peer) override;
@@ -17,4 +19,14 @@ public:
 
 	void Run() override;
 	void Init();
+
+	User* GetUser(SOCKET key);
+
+	static CServer* GetInstance()
+	{
+		if (m_instance == nullptr)
+			m_instance = new CServer;
+
+		return m_instance;
+	}
 };
