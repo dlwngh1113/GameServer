@@ -30,7 +30,7 @@ User* CServer::GetUser(SOCKET key)
 	return m_users[key];
 }
 
-void CServer::OnAccept(const SOCKET socket, ClientPeer*& peer)
+void CServer::OnAccept(const SOCKET socket, Peer*& peer)
 {
 	m_userLock.lock();
 	m_users[socket] = new User(peer);

@@ -10,7 +10,7 @@ void RequestHandler::HandleRequest()
 {
 }
 
-void RequestHandler::Init(ClientPeer* peer, BasePacket* packet)
+void RequestHandler::Init(Peer* peer, BasePacket* packet)
 {
 	m_peer = peer;
 	m_packet = packet;

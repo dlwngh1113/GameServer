@@ -81,9 +81,6 @@
     <ClCompile Include="ObjectPool.cpp">
       <Filter>Framework\Util\Pool</Filter>
     </ClCompile>
-    <ClCompile Include="IRequestHandler.cpp">
-      <Filter>Framework\RequestHandler\Handler</Filter>
-    </ClCompile>
     <ClCompile Include="BaseRequestHandlerFactory.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
@@ -151,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>Framework\Util\Pool</Filter>
-    </ClInclude>
-    <ClInclude Include="IRequestHandler.h">
-      <Filter>Framework\RequestHandler\Handler</Filter>
     </ClInclude>
     <ClInclude Include="BaseRequestHandlerFactory.h">
       <Filter>Framework\RequestHandler</Filter>

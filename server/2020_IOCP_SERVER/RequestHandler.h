@@ -1,15 +1,15 @@
 #pragma once
 #include"BasePacket.h"
-#include"ClientPeer.h"
+#include"Peer.h"
 
 class RequestHandler
 {
 protected:
-	ClientPeer* m_peer;
+	Peer* m_peer;
 	BasePacket* m_packet;
 public:
 	void Handle();
-	virtual void Init(ClientPeer* peer, BasePacket* packet);
+	virtual void Init(Peer* peer, BasePacket* packet);
 
 	virtual void HandleRequest() = 0;
 	virtual RequestHandler* Create() = 0;

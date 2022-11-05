@@ -1,10 +1,8 @@
 #include"stdafx.h"
 #include "User.h"
 
-User::User(ClientPeer* peer)
+User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
 {
-	m_peer = peer;
-	m_peer->Init(RequestHandlerFactory::GetInstance());
 }
 
 User::~User()

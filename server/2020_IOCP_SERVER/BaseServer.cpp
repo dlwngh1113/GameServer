@@ -50,12 +50,12 @@ void BaseServer::AddNewClient(SOCKET socket)
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket), h_iocp, socket, 0);
 
 	//按眉 积己 饶 包府
-	ClientPeer* peer = new ClientPeer(socket);
+	Peer* peer = new Peer(socket);
 
 	clientLock.lock();
-	m_clientPeers[socket] = peer;
+	m_peers[socket] = peer;
 	clientLock.unlock();
-
+	
 	OnAccept(socket, peer);
 	BeginAcceptPeer();
 }
@@ -63,8 +63,8 @@ void BaseServer::AddNewClient(SOCKET socket)
 void BaseServer::DisconnectClient(SOCKET socket)
 {
 	clientLock.lock();
-	ClientPeer* toRemovePeer = m_clientPeers[socket];
-	m_clientPeers.erase(socket);
+	Peer* toRemovePeer = m_peers[socket];
+	m_peers.erase(socket);
 	clientLock.unlock();
 
 	Logger::Info("Client id " + std::to_string(toRemovePeer->GetID()) + " successfully disconnected!");
@@ -87,7 +87,6 @@ void BaseServer::Process()
 		int ret =
 			GetQueuedCompletionStatus(h_iocp, &ioSize, &iocpKey, &lpOver, INFINITE);
 		ns = static_cast<SOCKET>(iocpKey);
-		// cout << "Completion Detected" << endl;
 		if (FALSE == ret) {
 			//error_display("GQCS Error", WSAGetLastError());
 		}
@@ -104,11 +103,11 @@ void BaseServer::Process()
 			else
 			{
 				Logger::Info("Packet from Client [" + std::to_string(ns) + "] - ioSize: " + std::to_string(ioSize));
-				m_clientPeers[ns]->ProcessIO(ioSize);
+				m_peers[ns]->ProcessIO(ioSize);
 			}
 			break;
 		case OP_MODE_SEND:
-			delete overEx;
+			Statics::overlappedPool.PushObject(overEx);
 			break;
 		}
 	}
@@ -116,9 +115,9 @@ void BaseServer::Process()
 
 void BaseServer::Release()
 {
-	for (auto& pair : m_clientPeers)
+	for (auto& pair : m_peers)
 		delete pair.second;
-	m_clientPeers.clear();
+	m_peers.clear();
 
 	closesocket(m_listenSocket);
 
@@ -132,8 +131,4 @@ void BaseServer::BeginAcceptPeer()
 	m_acceptOver.wsa_buf.len = static_cast<int>(cSocket);
 	ZeroMemory(&m_acceptOver.wsa_over, sizeof(&m_acceptOver.wsa_over));
 	AcceptEx(m_listenSocket, cSocket, m_acceptOver.iocp_buf, 0, 32, 32, NULL, &m_acceptOver.wsa_over);
-}
-
-void BaseServer::OnAccept(const SOCKET socket, ClientPeer*& peer)
-{
 }

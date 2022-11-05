@@ -10,8 +10,7 @@ class CServer : public BaseServer
 	static CServer* m_instance;
 
 protected:
-
-	void OnAccept(const SOCKET socket, ClientPeer*& peer) override;
+	void OnAccept(const SOCKET socket, Peer*& peer) override;
 
 public:
 	CServer();

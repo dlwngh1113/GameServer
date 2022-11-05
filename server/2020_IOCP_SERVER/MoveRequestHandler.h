@@ -5,7 +5,7 @@
 class MoveRequestHandler : public RequestHandler
 {
 public:
-	virtual void Init(ClientPeer* peer, BasePacket* packet) override;
+	virtual void Init(Peer* peer, BasePacket* packet) override;
 
 	virtual void HandleRequest()  override;
 	virtual RequestHandler* Create() override;

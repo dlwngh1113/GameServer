@@ -1,29 +1,13 @@
 #pragma once
-#include"BasePacket.h"
-#include"Statics.h"
-#include"IPeer.h"
-#include"IFactory.h"
+#include"Peer.h"
 
-class ClientPeer : public IPeer
+class ClientPeer
 {
-	SOCKET m_socket{ NULL };
-	OVER_EX m_recvOver;
-	std::mutex m_lock;
-
-	unsigned char* m_pRecvStartPos{ NULL };
-	IFactory* m_requestHandlerFactory = nullptr;
-
-	void StartRecv();
+protected:
+	Peer* m_peer;
 public:
-	ClientPeer(SOCKET socket);
+	ClientPeer(Peer* peer, IFactory* instance);
 	virtual ~ClientPeer();
 
-	int GetID() const { return static_cast<int>(m_socket); }
-
-	void ProcessIO(DWORD ioSize);
-	void Init(IFactory* instance);
-
-	virtual void OnDisconnect();
-	void ProcessPacket(unsigned char size, unsigned char* data) final;
-	void SendPacket(unsigned char* data) final;
+	int GetID() const { return m_peer->GetID(); }
 };

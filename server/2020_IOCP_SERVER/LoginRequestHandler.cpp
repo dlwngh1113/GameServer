@@ -2,7 +2,7 @@
 #include "LoginRequestHandler.h"
 #include"CServer.h"
 
-void LoginRequestHandler::Init(ClientPeer* peer, BasePacket* packet)
+void LoginRequestHandler::Init(Peer* peer, BasePacket* packet)
 {
 	RequestHandler::Init(peer, packet);
 }

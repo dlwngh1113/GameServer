@@ -1,5 +1,5 @@
 #pragma once
-#include"ClientPeer.h"
+#include"Peer.h"
 
 class BaseServer
 {
@@ -8,7 +8,7 @@ class BaseServer
 	OVER_EX m_acceptOver;
 
 	std::mutex clientLock;
-	std::unordered_map<SOCKET, ClientPeer*> m_clientPeers;
+	std::unordered_map<SOCKET, Peer*> m_peers;
 private:
 	void Listen();
 	void AddNewClient(SOCKET socket);
@@ -19,7 +19,7 @@ protected:
 	virtual void Release();
 
 	void BeginAcceptPeer();
-	virtual void OnAccept(const SOCKET socket, ClientPeer*& peer);
+	virtual void OnAccept(const SOCKET socket, Peer*& peer) = 0;
 
 public:
 	BaseServer();
@@ -28,4 +28,3 @@ public:
 	virtual void Init();
 	virtual void Run();
 };
-

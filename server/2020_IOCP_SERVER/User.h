@@ -2,12 +2,11 @@
 #include"ClientPeer.h"
 #include"RequestHandlerFactory.h"
 
-class User 
+class User : public ClientPeer
 {
-	ClientPeer* m_peer;
 public:
 	short x{ 0 }, y{ 0 };
 	int lastMoveTime{ 0 };
-	User(ClientPeer* peer);
+	User(Peer* peer);
 	virtual ~User();
 };

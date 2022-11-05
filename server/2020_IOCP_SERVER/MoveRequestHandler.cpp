@@ -2,7 +2,7 @@
 #include "MoveRequestHandler.h"
 #include"CServer.h"
 
-void MoveRequestHandler::Init(ClientPeer* peer, BasePacket* packet)
+void MoveRequestHandler::Init(Peer* peer, BasePacket* packet)
 {
 	RequestHandler::Init(peer, packet);
 }
