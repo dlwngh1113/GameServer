@@ -11,6 +11,9 @@ void MoveRequestHandler::HandleRequest()
 {
 	MoveRequest* packet = reinterpret_cast<MoveRequest*>(m_packet);
 	User* user = CServer::GetInstance()->GetUser(m_peer->GetID());
+	if (user->lastMoveTime + 1 < packet->move_time)
+		return;
+	user->lastMoveTime = packet->move_time;
 	switch (packet->direction)
 	{
 	case MV_UP:

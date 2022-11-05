@@ -1,5 +1,6 @@
 #include"stdafx.h"
 #include "LoginRequestHandler.h"
+#include"CServer.h"
 
 void LoginRequestHandler::Init(ClientPeer* peer, BasePacket* packet)
 {
@@ -14,8 +15,10 @@ RequestHandler* LoginRequestHandler::Create()
 void LoginRequestHandler::HandleRequest()
 {
 	LoginRequest* loginPacket = reinterpret_cast<LoginRequest*>(m_packet);
-	std::cout << "Client name is " << loginPacket->name << std::endl;
+	User* user = CServer::GetInstance()->GetUser(m_peer->GetID());
 
+	user->lastMoveTime = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now()
+		.time_since_epoch()).count();
 	LoginResponse* res = new LoginResponse();
 	res->size = sizeof(LoginResponse);
 	res->type = SC_PACKET_LOGIN_OK;

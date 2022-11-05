@@ -108,6 +108,9 @@
     <ClCompile Include="MoveRequestHandler.cpp">
       <Filter>Client\Request\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="Peer.cpp">
+      <Filter>Framework\Peer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="MoveRequestHandler.h">
       <Filter>Client\Request\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Peer.h">
+      <Filter>Framework\Peer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
