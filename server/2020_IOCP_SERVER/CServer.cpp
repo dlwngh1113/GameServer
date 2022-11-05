@@ -13,6 +13,9 @@ CServer::~CServer()
 		delete pair.second;
 
 	m_users.clear();
+
+	if (m_instance)
+		delete m_instance;
 }
 
 void CServer::Run()

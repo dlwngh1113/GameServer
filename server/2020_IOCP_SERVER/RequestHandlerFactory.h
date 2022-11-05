@@ -3,6 +3,7 @@
 #include"BaseRequestHandlerFactory.h"
 #include"LoginRequestHandler.h"
 #include"MoveRequestHandler.h"
+#include"TeleportRequestHandler.h"
 
 class RequestHandlerFactory: public BaseRequestHandlerFactory
 {

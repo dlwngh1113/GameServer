@@ -9,7 +9,7 @@ protected:
 	BasePacket* m_packet;
 public:
 	void Handle();
-	virtual void Init(Peer* peer, BasePacket* packet);
+	void Init(Peer* peer, BasePacket* packet);
 
 	virtual void HandleRequest() = 0;
 	virtual RequestHandler* Create() = 0;

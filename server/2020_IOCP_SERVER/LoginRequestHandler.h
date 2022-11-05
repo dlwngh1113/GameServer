@@ -5,8 +5,6 @@
 class LoginRequestHandler : public RequestHandler
 {
 public:
-	void Init(Peer* peer, BasePacket* packet) override;
-
 	void HandleRequest() override;
 	RequestHandler* Create() override;
 };

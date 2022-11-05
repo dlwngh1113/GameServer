@@ -84,7 +84,7 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 	{
 		if (m_requestHandlerFactory == nullptr)
 			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
-
+		
 		RequestHandler* handler = reinterpret_cast<BaseRequestHandlerFactory*>(m_requestHandlerFactory)->CreateHandlerInstance(packet->type);
 		handler->Init(this, packet);
 		handler->Handle();

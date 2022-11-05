@@ -30,4 +30,14 @@ struct MoveResponse : BasePacket
 	int move_time;
 };
 
+struct TeleportRequest : BasePacket
+{
+	short x, y;
+};
+
+struct TeleportResponse : BasePacket
+{
+
+};
+
 #pragma pack(pop)

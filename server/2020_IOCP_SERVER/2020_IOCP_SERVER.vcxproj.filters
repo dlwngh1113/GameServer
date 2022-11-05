@@ -108,6 +108,9 @@
     <ClCompile Include="Peer.cpp">
       <Filter>Framework\Peer</Filter>
     </ClCompile>
+    <ClCompile Include="TeleportRequestHandler.cpp">
+      <Filter>Client\Request\Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="Peer.h">
       <Filter>Framework\Peer</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportRequestHandler.h">
+      <Filter>Client\Request\Handlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

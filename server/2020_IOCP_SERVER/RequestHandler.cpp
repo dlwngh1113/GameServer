@@ -4,10 +4,7 @@
 void RequestHandler::Handle()
 {
 	HandleRequest();
-}
-
-void RequestHandler::HandleRequest()
-{
+	delete this;
 }
 
 void RequestHandler::Init(Peer* peer, BasePacket* packet)
