@@ -103,7 +103,9 @@ void BaseServer::Process()
 			else
 			{
 				Logger::Info("Packet from Client [" + std::to_string(ns) + "] - ioSize: " + std::to_string(ioSize));
+				clientLock.lock();
 				m_peers[ns]->ProcessIO(ioSize);
+				clientLock.unlock();
 			}
 			break;
 		case OP_MODE_SEND:

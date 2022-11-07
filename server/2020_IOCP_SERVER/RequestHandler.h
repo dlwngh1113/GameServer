@@ -14,4 +14,3 @@ public:
 	virtual void HandleRequest() = 0;
 	virtual RequestHandler* Create() = 0;
 };
-
