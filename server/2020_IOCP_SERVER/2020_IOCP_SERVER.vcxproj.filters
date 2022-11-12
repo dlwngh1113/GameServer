@@ -46,10 +46,10 @@
     <Filter Include="Client">
       <UniqueIdentifier>{2a4ac455-56ed-4fbe-bba8-bfcbb9d0e003}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client\Request">
+    <Filter Include="Client\RequestHandlers">
       <UniqueIdentifier>{76a5e135-2f50-47bd-8838-5d2be2347c73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client\Request\Handlers">
+    <Filter Include="Client\RequestHandlers\Handlers">
       <UniqueIdentifier>{a958b4da-2117-44e3-8a5d-ac6d15af7f3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -87,29 +87,32 @@
     <ClCompile Include="Statics.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
-    <ClCompile Include="RequestHandler.cpp">
+    <ClCompile Include="BaseRequestHandler.cpp">
       <Filter>Framework\RequestHandler\Handler</Filter>
     </ClCompile>
     <ClCompile Include="IFactory.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
     <ClCompile Include="LoginRequestHandler.cpp">
-      <Filter>Client\Request\Handlers</Filter>
+      <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClCompile>
     <ClCompile Include="RequestHandlerFactory.cpp">
-      <Filter>Client\Request</Filter>
+      <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
     <ClCompile Include="User.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="MoveRequestHandler.cpp">
-      <Filter>Client\Request\Handlers</Filter>
+      <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClCompile>
     <ClCompile Include="Peer.cpp">
       <Filter>Framework\Peer</Filter>
     </ClCompile>
     <ClCompile Include="TeleportRequestHandler.cpp">
-      <Filter>Client\Request\Handlers</Filter>
+      <Filter>Client\RequestHandlers\Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestHandler.cpp">
+      <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,29 +161,32 @@
     <ClInclude Include="Statics.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
-    <ClInclude Include="RequestHandler.h">
+    <ClInclude Include="BaseRequestHandler.h">
       <Filter>Framework\RequestHandler\Handler</Filter>
     </ClInclude>
     <ClInclude Include="IFactory.h">
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
     <ClInclude Include="LoginRequestHandler.h">
-      <Filter>Client\Request\Handlers</Filter>
+      <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="RequestHandlerFactory.h">
-      <Filter>Client\Request</Filter>
+      <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
     <ClInclude Include="User.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="MoveRequestHandler.h">
-      <Filter>Client\Request\Handlers</Filter>
+      <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="Peer.h">
       <Filter>Framework\Peer</Filter>
     </ClInclude>
     <ClInclude Include="TeleportRequestHandler.h">
-      <Filter>Client\Request\Handlers</Filter>
+      <Filter>Client\RequestHandlers\Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestHandler.h">
+      <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

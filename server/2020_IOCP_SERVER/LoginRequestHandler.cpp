@@ -2,7 +2,7 @@
 #include "LoginRequestHandler.h"
 #include"CServer.h"
 
-RequestHandler* LoginRequestHandler::Create()
+BaseRequestHandler* LoginRequestHandler::Create()
 {
 	return new LoginRequestHandler;
 }

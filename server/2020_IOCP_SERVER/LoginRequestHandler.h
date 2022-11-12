@@ -6,5 +6,5 @@ class LoginRequestHandler : public RequestHandler
 {
 public:
 	void HandleRequest() override;
-	RequestHandler* Create() override;
+	BaseRequestHandler* Create() override;
 };

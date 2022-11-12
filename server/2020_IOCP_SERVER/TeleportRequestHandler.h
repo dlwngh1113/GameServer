@@ -6,6 +6,5 @@ class TeleportRequestHandler : public RequestHandler
 {
 public:
 	virtual void HandleRequest();
-	virtual RequestHandler* Create();
+	virtual BaseRequestHandler* Create();
 };
-

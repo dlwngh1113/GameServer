@@ -17,7 +17,7 @@ void TeleportRequestHandler::HandleRequest()
 	m_peer->SendPacket(reinterpret_cast<unsigned char*>(&res));
 }
 
-RequestHandler* TeleportRequestHandler::Create()
+BaseRequestHandler* TeleportRequestHandler::Create()
 {
 	return new TeleportRequestHandler;
 }

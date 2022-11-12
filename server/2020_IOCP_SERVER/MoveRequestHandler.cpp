@@ -36,7 +36,7 @@ void MoveRequestHandler::HandleRequest()
 	m_peer->SendPacket(reinterpret_cast<unsigned char*>(&res));
 }
 
-RequestHandler* MoveRequestHandler::Create()
+BaseRequestHandler* MoveRequestHandler::Create()
 {
 	return new MoveRequestHandler;
 }

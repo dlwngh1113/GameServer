@@ -6,5 +6,5 @@ class MoveRequestHandler : public RequestHandler
 {
 public:
 	virtual void HandleRequest()  override;
-	virtual RequestHandler* Create() override;
+	virtual BaseRequestHandler* Create() override;
 };
