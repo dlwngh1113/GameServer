@@ -90,9 +90,6 @@
     <ClCompile Include="BaseRequestHandler.cpp">
       <Filter>Framework\RequestHandler\Handler</Filter>
     </ClCompile>
-    <ClCompile Include="IFactory.cpp">
-      <Filter>Framework\RequestHandler</Filter>
-    </ClCompile>
     <ClCompile Include="LoginRequestHandler.cpp">
       <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClCompile>

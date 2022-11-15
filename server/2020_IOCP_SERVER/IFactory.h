@@ -1,6 +1,9 @@
 #pragma once
+
+template <class TKey, class TValue>
 class IFactory
 {
+protected:
 public:
-	virtual void Init() = 0;
+	virtual TValue* CreateInstance(TKey key) = 0;
 };

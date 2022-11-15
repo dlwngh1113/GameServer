@@ -1,7 +1,7 @@
 #include"stdafx.h"
 #include"Peer.h"
 #include"BaseRequestHandler.h"
-#include"BaseRequestHandlerFactory.h"
+#include"IHandlerFactory.h"
 
 Peer::Peer(SOCKET socket) : m_socket{ socket }
 {
@@ -68,7 +68,7 @@ void Peer::ProcessIO(DWORD ioSize)
 	StartRecv();
 }
 
-void Peer::Init(IFactory* instance)
+void Peer::Init(IHandlerFactory* instance)
 {
 	m_requestHandlerFactory = instance;
 }
@@ -85,7 +85,7 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 		if (m_requestHandlerFactory == nullptr)
 			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
 		
-		BaseRequestHandler* handler = reinterpret_cast<BaseRequestHandlerFactory*>(m_requestHandlerFactory)->CreateHandlerInstance(packet->type);
+		BaseRequestHandler* handler = m_requestHandlerFactory->CreateInstance(packet->type);
 		handler->Init(this, packet);
 		handler->Handle();
 	}

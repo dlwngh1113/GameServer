@@ -1,7 +1,7 @@
 #include"stdafx.h"
 #include "ClientPeer.h"
 
-ClientPeer::ClientPeer(Peer* peer, IFactory* instance) : m_peer{peer}
+ClientPeer::ClientPeer(Peer* peer, IHandlerFactory* instance) : m_peer{peer}
 {
 	m_peer->Init(instance);
 }

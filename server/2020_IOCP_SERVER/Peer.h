@@ -2,7 +2,8 @@
 #include"IPeer.h"
 #include"BasePacket.h"
 #include"Statics.h"
-#include"IFactory.h"
+
+class IHandlerFactory;
 
 class Peer : IPeer
 {
@@ -11,7 +12,7 @@ class Peer : IPeer
 	std::mutex m_lock;
 
 	unsigned char* m_pRecvStartPos{ NULL };
-	IFactory* m_requestHandlerFactory = nullptr;
+	IHandlerFactory* m_requestHandlerFactory = nullptr;
 
 	void StartRecv();
 public:
@@ -21,7 +22,7 @@ public:
 	int GetID() const { return static_cast<int>(m_socket); }
 
 	void ProcessIO(DWORD ioSize);
-	void Init(IFactory* instance);
+	void Init(IHandlerFactory* instance);
 
 	virtual void OnDisconnect();
 	void ProcessPacket(unsigned char size, unsigned char* data) final;
