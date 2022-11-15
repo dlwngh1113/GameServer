@@ -152,6 +152,7 @@
     </ClCompile>
     <ClCompile Include="IFactory.cpp" />
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
+    <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="IPeer.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
@@ -179,6 +180,7 @@
     </ClInclude>
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
+    <ClInclude Include="IHandlerFactory.h" />
     <ClInclude Include="include\lauxlib.h" />
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />
