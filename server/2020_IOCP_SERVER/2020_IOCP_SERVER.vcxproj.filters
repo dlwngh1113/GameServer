@@ -102,9 +102,6 @@
     <ClCompile Include="TeleportRequestHandler.cpp">
       <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="RequestHandler.cpp">
-      <Filter>Client\RequestHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="IHandlerFactory.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>

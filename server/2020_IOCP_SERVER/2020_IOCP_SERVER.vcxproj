@@ -160,7 +160,6 @@
     <ClCompile Include="MoveRequestHandler.cpp" />
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseRequestHandler.cpp" />
-    <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Statics.cpp" />
     <ClCompile Include="stdafx.cpp" />

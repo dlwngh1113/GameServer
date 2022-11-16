@@ -4,6 +4,6 @@
 class RequestHandler : public BaseRequestHandler
 {
 public:
-	virtual void HandleRequest() override;
+	virtual void HandleRequest() = 0;
 	virtual BaseRequestHandler* Create() = 0;
 };
