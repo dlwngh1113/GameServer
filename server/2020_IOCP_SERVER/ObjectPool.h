@@ -52,8 +52,10 @@ inline T* ObjectPool<T>::PopObject()
 	if (m_pool.empty())
 		throw std::exception{ "오브젝트 풀이 비어있습니다." };
 
+	m_lock.lock();
 	data = m_pool.front();
 	m_pool.pop();
+	m_lock.unlock();
 	ZeroMemory(data, sizeof(T));
 
 	return data;

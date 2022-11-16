@@ -159,7 +159,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MoveRequestHandler.cpp" />
-    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseRequestHandler.cpp" />
     <ClCompile Include="RequestHandler.cpp" />

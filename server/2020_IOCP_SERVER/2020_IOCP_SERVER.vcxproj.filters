@@ -78,9 +78,6 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Framework\Util\Log</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectPool.cpp">
-      <Filter>Framework\Util\Pool</Filter>
-    </ClCompile>
     <ClCompile Include="BaseRequestHandlerFactory.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
