@@ -27,4 +27,5 @@ public:
 	virtual void OnDisconnect();
 	void ProcessPacket(unsigned char size, unsigned char* data) final;
 	void SendPacket(unsigned char* data) final;
+	void SendPacket(BasePacket* packet);
 };
