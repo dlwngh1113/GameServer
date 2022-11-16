@@ -152,7 +152,6 @@
     </ClCompile>
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
-    <ClCompile Include="IPeer.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="main.cpp">

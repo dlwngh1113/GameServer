@@ -88,6 +88,8 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 		BaseRequestHandler* handler = m_requestHandlerFactory->CreateInstance(packet->type);
 		handler->Init(this, packet);
 		handler->Handle();
+
+		delete handler;
 	}
 	catch (std::exception& ex)
 	{
