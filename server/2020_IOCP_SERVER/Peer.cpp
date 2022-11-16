@@ -123,24 +123,8 @@ void Peer::SendPacket(unsigned char* data)
 
 void Peer::SendPacket(BasePacket* packet)
 {
-	try
-	{
-		//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
-		OVER_EX* overEx = Statics::overlappedPool.PopObject();
-		overEx->op_mode = OP_MODE_SEND;
-		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
-		overEx->wsa_buf.len = packet->size;
+	unsigned char* data = reinterpret_cast<unsigned char*>(packet);
+	SendPacket(data);
 
-		//패킷 데이터 버퍼에 복사
-		memcpy_s(overEx->iocp_buf, MAX_BUFFER, packet, packet->size);
-
-		// Send
-		m_lock.lock();
-		WSASend(m_socket, &overEx->wsa_buf, 1, &overEx->wsa_buf.len, NULL, &overEx->wsa_over, NULL);
-		m_lock.unlock();
-	}
-	catch (std::exception& ex)
-	{
-		Logger::Error(ex.what());
-	}
+	delete packet;
 }
