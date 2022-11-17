@@ -24,7 +24,6 @@ public:
 	void ProcessIO(DWORD ioSize);
 	void Init(IHandlerFactory* instance);
 
-	virtual void OnDisconnect();
 	void ProcessPacket(unsigned char size, unsigned char* data) final;
 	void SendPacket(unsigned char* data) final;
 	void SendPacket(BasePacket* packet);

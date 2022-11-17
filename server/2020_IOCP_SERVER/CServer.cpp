@@ -39,3 +39,13 @@ void CServer::OnAccept(const SOCKET socket, Peer*& peer)
 	m_users[socket] = new User(peer);
 	m_userLock.unlock();
 }
+
+void CServer::OnDisconnected(SOCKET socket)
+{
+	m_userLock.lock();
+	User* toRemoveUser = m_users[socket];
+	m_users.erase(socket);
+	m_userLock.unlock();
+
+	delete toRemoveUser;
+}

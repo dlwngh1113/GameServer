@@ -73,10 +73,6 @@ void Peer::Init(IHandlerFactory* instance)
 	m_requestHandlerFactory = instance;
 }
 
-void Peer::OnDisconnect()
-{
-}
-
 void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 {
 	BasePacket* packet = reinterpret_cast<BasePacket*>(data);

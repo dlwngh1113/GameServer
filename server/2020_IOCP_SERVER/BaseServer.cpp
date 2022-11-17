@@ -69,7 +69,8 @@ void BaseServer::DisconnectClient(SOCKET socket)
 
 	Logger::Info("Client id " + std::to_string(toRemovePeer->GetID()) + " successfully disconnected!");
 
-	toRemovePeer->OnDisconnect();
+	OnDisconnected(socket);
+
 	delete toRemovePeer;
 }
 
