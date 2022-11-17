@@ -10,7 +10,6 @@ BaseRequestHandler* LoginRequestHandler::Create()
 void LoginRequestHandler::HandleRequest()
 {
 	LoginRequest* loginPacket = reinterpret_cast<LoginRequest*>(m_packet);
-	User* user = CServer::GetInstance()->GetUser(m_peer->GetID());
 
 	LoginResponse* res = new LoginResponse();
 	res->size = sizeof(LoginResponse);
