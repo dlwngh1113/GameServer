@@ -52,6 +52,9 @@
     <Filter Include="Client\RequestHandlers\Handlers">
       <UniqueIdentifier>{a958b4da-2117-44e3-8a5d-ac6d15af7f3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client\System">
+      <UniqueIdentifier>{d41f9fb9-1e9d-4e71-9056-ec5c2a115dc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -104,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="RequestHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnector.cpp">
+      <Filter>Client\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="IHandlerFactory.h">
       <Filter>Framework\RequestHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnector.h">
+      <Filter>Client\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
