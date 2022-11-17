@@ -66,9 +66,6 @@
     <ClCompile Include="BaseServer.cpp">
       <Filter>Framework\Server</Filter>
     </ClCompile>
-    <ClCompile Include="BasePacket.cpp">
-      <Filter>Framework\Packet</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -104,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="IHandlerFactory.cpp">
       <Filter>Framework\RequestHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestHandler.cpp">
+      <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
