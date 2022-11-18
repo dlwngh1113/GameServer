@@ -12,4 +12,6 @@ public:
 
 	void Init();
 	void Release();
+
+	void GetUserData();
 };
