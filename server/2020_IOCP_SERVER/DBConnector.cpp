@@ -44,7 +44,7 @@ void DBConnector::Release()
 
 void DBConnector::CheckError()
 {
-	SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, sizeof(m_sMessage), &m_nLenth);
+	SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, UCHAR_MAX, &m_nLenth);
 	Logger::Error((char*)m_sMessage);
 }
 
@@ -59,6 +59,16 @@ void DBConnector::ExecuteDirectSQL(SQLWCHAR* sStatement)
 	}
 	else
 		CheckError();
+}
+
+void DBConnector::AddParameter(int* val)
+{
+	SQLBindParameter(hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, sizeof(val), 0, val, 0, NULL);
+}
+
+void DBConnector::AddParameter(char* val)
+{
+	SQLBindParameter(hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, strlen(val), 0, val, 0, NULL);
 }
 
 //void DBConnector::GetUserData()

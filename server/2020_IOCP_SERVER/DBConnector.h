@@ -6,10 +6,11 @@ class DBConnector
 	SQLHENV henv;
 	SQLHDBC hdbc;
 	SQLHSTMT hstmt = 0;
+	int m_nParamIndex{ 0 };
 
 	SQLSMALLINT m_nLenth;
 	SQLINTEGER m_nRecord, m_nNative;
-	SQLWCHAR m_sState[7], m_sMessage[256];
+	SQLWCHAR m_sState[7], m_sMessage[UCHAR_MAX];
 
 private:
 	void Init();
@@ -20,4 +21,6 @@ public:
 	DBConnector();
 	virtual ~DBConnector();
 	void ExecuteDirectSQL(SQLWCHAR* sStatement);
+	void AddParameter(int* val);
+	void AddParameter(char* val);
 };
