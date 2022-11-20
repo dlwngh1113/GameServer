@@ -151,6 +151,7 @@
     </ClCompile>
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
     <ClCompile Include="DBConnector.cpp" />
+    <ClCompile Include="DBWorker.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
@@ -176,6 +177,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DBConnector.h" />
+    <ClInclude Include="DBWorker.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
     <ClInclude Include="IHandlerFactory.h" />

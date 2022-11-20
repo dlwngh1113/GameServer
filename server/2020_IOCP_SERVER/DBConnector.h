@@ -21,6 +21,7 @@ public:
 	DBConnector();
 	virtual ~DBConnector();
 	void ExecuteDirectSQL(SQLWCHAR* sStatement);
+	SQLWCHAR* ConvertToMultibyteQuery(const char* query);
 	void AddParameter(int* val);
 	void AddParameter(char* val);
 };

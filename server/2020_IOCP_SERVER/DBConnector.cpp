@@ -61,6 +61,13 @@ void DBConnector::ExecuteDirectSQL(SQLWCHAR* sStatement)
 		CheckError();
 }
 
+SQLWCHAR* DBConnector::ConvertToMultibyteQuery(const char* query)
+{
+	wchar_t tQuery[UCHAR_MAX] = { NULL };
+	MultiByteToWideChar(CP_ACP, 0, query, UCHAR_MAX, tQuery, UCHAR_MAX);
+	return (SQLWCHAR*)tQuery;
+}
+
 void DBConnector::AddParameter(int* val)
 {
 	SQLBindParameter(hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, sizeof(val), 0, val, 0, NULL);

@@ -111,6 +111,9 @@
     <ClCompile Include="DBConnector.cpp">
       <Filter>Client\System</Filter>
     </ClCompile>
+    <ClCompile Include="DBWorker.cpp">
+      <Filter>Client\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -189,6 +192,9 @@
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
     <ClInclude Include="DBConnector.h">
+      <Filter>Client\System</Filter>
+    </ClInclude>
+    <ClInclude Include="DBWorker.h">
       <Filter>Client\System</Filter>
     </ClInclude>
   </ItemGroup>
