@@ -13,16 +13,40 @@ DBConnector::~DBConnector()
 
 void DBConnector::Init()
 {
-	dbRetcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &henv);
-	dbRetcode = SQLSetEnvAttr(henv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER*)SQL_OV_ODBC3, 0);
-	dbRetcode = SQLAllocHandle(SQL_HANDLE_DBC, henv, &hdbc);
-	SQLSetConnectAttr(hdbc, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0);
-	dbRetcode = SQLConnect(hdbc, (SQLWCHAR*)L"g_server", SQL_NTS, (SQLWCHAR*)NULL, 0, NULL, 0);
+	SQLRETURN dbRetcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &henv);
+	if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
+	{
+		dbRetcode = SQLSetEnvAttr(henv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER*)SQL_OV_ODBC3, 0);
+		if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
+		{
+			dbRetcode = SQLAllocHandle(SQL_HANDLE_DBC, henv, &hdbc);
+			if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
+			{
+				Logger::Info("DB Allocate success");
+			}
+			else 
+			{
+				SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, sizeof(m_sMessage), &m_nLenth);
+				Logger::Error((char*)m_sMessage);
+			}
+		}
+		else
+		{
+			SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, sizeof(m_sMessage), &m_nLenth);
+			Logger::Error((char*)m_sMessage);
+		}
+	}
+	else
+	{
+		SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, sizeof(m_sMessage), &m_nLenth);
+		Logger::Error((char*)m_sMessage);
+	}
+
+	SQLConnect(hdbc, (SQLWCHAR*)L"g_server", SQL_NTS, (SQLWCHAR*)NULL, 0, NULL, 0);
 }
 
 void DBConnector::Release()
 {
-	SQLCancel(hstmt);
 	SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
 	SQLDisconnect(hdbc);
 	SQLFreeHandle(SQL_HANDLE_DBC, hdbc);
@@ -31,9 +55,9 @@ void DBConnector::Release()
 
 void DBConnector::GetUserData()
 {
-	dbRetcode = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
+	SQLRETURN dbRetcode = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
 	char getQuery[MAX_STR_LEN] = { NULL };
-	sprintf_s(getQuery, "EXEC get_userdata %s", p->name);
+	sprintf_s(getQuery, "EXEC GetUser %s", p->name);
 
 	int nChars = MultiByteToWideChar(CP_ACP, 0, getQuery, -1, NULL, 0);
 	wchar_t* pwcsName = new wchar_t[nChars];
