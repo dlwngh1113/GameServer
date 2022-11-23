@@ -9,11 +9,11 @@ void TeleportRequestHandler::HandleRequest()
 	m_user->x = packet->x;
 	m_user->y = packet->y;
 
-	TeleportResponse* res = new TeleportResponse();
-	res->size = sizeof(TeleportResponse);
-	res->type = SC_PACKET_MOVE;
+	TeleportResponse res;
+	res.size = sizeof(TeleportResponse);
+	res.type = SC_PACKET_MOVE;
 
-	m_peer->SendPacket(res);
+	m_peer->SendPacket(&res);
 }
 
 BaseRequestHandler* TeleportRequestHandler::Create()

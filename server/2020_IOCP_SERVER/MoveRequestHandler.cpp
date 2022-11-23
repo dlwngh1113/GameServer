@@ -24,15 +24,15 @@ void MoveRequestHandler::HandleRequest()
 		break;
 	}
 
-	MoveResponse* res = new MoveResponse();
-	res->size = sizeof(MoveResponse);
-	res->type = SC_PACKET_MOVE;
-	res->id = m_peer->GetID();
-	res->x = m_user->x;
-	res->y = m_user->y;
-	res->move_time = packet->move_time;
+	MoveResponse res;
+	res.size = sizeof(MoveResponse);
+	res.type = SC_PACKET_MOVE;
+	res.id = m_peer->GetID();
+	res.x = m_user->x;
+	res.y = m_user->y;
+	res.move_time = packet->move_time;
 
-	m_peer->SendPacket(res);
+	m_peer->SendPacket(&res);
 }
 
 BaseRequestHandler* MoveRequestHandler::Create()

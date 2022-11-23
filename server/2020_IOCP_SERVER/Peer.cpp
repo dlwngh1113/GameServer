@@ -121,6 +121,4 @@ void Peer::SendPacket(BasePacket* packet)
 {
 	unsigned char* data = reinterpret_cast<unsigned char*>(packet);
 	SendPacket(data);
-
-	delete packet;
 }
