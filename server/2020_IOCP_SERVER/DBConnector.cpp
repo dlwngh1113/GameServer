@@ -32,6 +32,7 @@ void DBConnector::Init()
 		CheckError();
 
 	SQLConnect(m_hdbc, (SQLWCHAR*)L"g_server", SQL_NTS, (SQLWCHAR*)NULL, 0, NULL, 0);
+	SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
 }
 
 void DBConnector::Release()
@@ -53,8 +54,8 @@ void DBConnector::ExecuteDirectSQL(SQLWCHAR* sStatement)
 	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
 	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
 	{
-		retCode = SQLExecDirect(m_hstmt, sStatement, sizeof(sStatement));
-		if (retCode != SQL_SUCCESS && retCode != SQL_SUCCESS_WITH_INFO)
+		retCode = SQLExecDirect(m_hstmt, sStatement, SQL_NTS);
+		if (retCode != SQL_SUCCESS)
 			CheckError();
 	}
 	else
@@ -63,10 +64,32 @@ void DBConnector::ExecuteDirectSQL(SQLWCHAR* sStatement)
 
 SQLWCHAR* DBConnector::ConvertToMultibyteQuery(const char* query)
 {
-	wchar_t tQuery[UCHAR_MAX] = { NULL };
-	MultiByteToWideChar(CP_ACP, 0, query, UCHAR_MAX, tQuery, UCHAR_MAX);
+	int nChars = MultiByteToWideChar(CP_ACP, 0, query, -1, NULL, 0);
+	wchar_t* tQuery = new wchar_t[nChars];
+	MultiByteToWideChar(CP_ACP, 0, query, -1, (LPWSTR)tQuery, nChars);
 	return (SQLWCHAR*)tQuery;
 }
+
+void DBConnector::PrepareStatement(SQLWCHAR* statement)
+{
+	SQLRETURN retCode = SQLPrepare(m_hstmt, statement, SQL_NTS);
+
+	if (retCode == SQL_SUCCESS)
+		Logger::Info("\nQuery Prepare Success\n");
+	else
+		CheckError();
+}
+
+void DBConnector::ExecutePreparedSQL()
+{
+	SQLRETURN retCode = SQLExecute(m_hstmt);
+
+	if (retCode == SQL_SUCCESS)
+		Logger::Info("\nQuery Prepare Success\n");
+	else
+		CheckError();
+}
+
 void DBConnector::AddParameter(int* val)
 {
 	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, sizeof(val), 0, val, 0, NULL);

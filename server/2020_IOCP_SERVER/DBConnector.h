@@ -23,8 +23,10 @@ public:
 
 	SQLHSTMT& GetStatement() { return m_hstmt; }
 
-	void ExecuteDirectSQL(SQLWCHAR* sStatement);
+	void ExecuteDirectSQL(SQLWCHAR* statement);
 	SQLWCHAR* ConvertToMultibyteQuery(const char* query);
+	void PrepareStatement(SQLWCHAR* statement);
+	void ExecutePreparedSQL();
 	void AddParameter(int* val);
 	void AddParameter(char* val);
 };
