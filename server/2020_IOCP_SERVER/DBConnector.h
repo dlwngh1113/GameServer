@@ -3,9 +3,9 @@
 
 class DBConnector
 {
-	SQLHENV henv;
-	SQLHDBC hdbc;
-	SQLHSTMT hstmt = 0;
+	SQLHENV m_henv;
+	SQLHDBC m_hdbc;
+	SQLHSTMT m_hstmt = 0;
 	int m_nParamIndex{ 0 };
 
 	SQLSMALLINT m_nLenth;
@@ -20,6 +20,9 @@ private:
 public:
 	DBConnector();
 	virtual ~DBConnector();
+
+	SQLHSTMT& GetStatement() { return m_hstmt; }
+
 	void ExecuteDirectSQL(SQLWCHAR* sStatement);
 	SQLWCHAR* ConvertToMultibyteQuery(const char* query);
 	void AddParameter(int* val);

@@ -13,13 +13,13 @@ DBConnector::~DBConnector()
 
 void DBConnector::Init()
 {
-	SQLRETURN dbRetcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &henv);
+	SQLRETURN dbRetcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_henv);
 	if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
 	{
-		dbRetcode = SQLSetEnvAttr(henv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER*)SQL_OV_ODBC3, 0);
+		dbRetcode = SQLSetEnvAttr(m_henv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER*)SQL_OV_ODBC3, 0);
 		if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
 		{
-			dbRetcode = SQLAllocHandle(SQL_HANDLE_DBC, henv, &hdbc);
+			dbRetcode = SQLAllocHandle(SQL_HANDLE_DBC, m_henv, &m_hdbc);
 			if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
 				Logger::Info("DB Allocate success");
 			else
@@ -31,29 +31,29 @@ void DBConnector::Init()
 	else
 		CheckError();
 
-	SQLConnect(hdbc, (SQLWCHAR*)L"g_server", SQL_NTS, (SQLWCHAR*)NULL, 0, NULL, 0);
+	SQLConnect(m_hdbc, (SQLWCHAR*)L"g_server", SQL_NTS, (SQLWCHAR*)NULL, 0, NULL, 0);
 }
 
 void DBConnector::Release()
 {
-	SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
-	SQLDisconnect(hdbc);
-	SQLFreeHandle(SQL_HANDLE_DBC, hdbc);
-	SQLFreeHandle(SQL_HANDLE_ENV, henv);
+	SQLFreeHandle(SQL_HANDLE_STMT, m_hstmt);
+	SQLDisconnect(m_hdbc);
+	SQLFreeHandle(SQL_HANDLE_DBC, m_hdbc);
+	SQLFreeHandle(SQL_HANDLE_ENV, m_henv);
 }
 
 void DBConnector::CheckError()
 {
-	SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, UCHAR_MAX, &m_nLenth);
+	SQLGetDiagRec(SQL_HANDLE_DBC, m_hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, UCHAR_MAX, &m_nLenth);
 	Logger::Error((char*)m_sMessage);
 }
 
 void DBConnector::ExecuteDirectSQL(SQLWCHAR* sStatement)
 {
-	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
+	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
 	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
 	{
-		retCode = SQLExecDirect(hstmt, sStatement, sizeof(sStatement));
+		retCode = SQLExecDirect(m_hstmt, sStatement, sizeof(sStatement));
 		if (retCode != SQL_SUCCESS && retCode != SQL_SUCCESS_WITH_INFO)
 			CheckError();
 	}
@@ -67,15 +67,14 @@ SQLWCHAR* DBConnector::ConvertToMultibyteQuery(const char* query)
 	MultiByteToWideChar(CP_ACP, 0, query, UCHAR_MAX, tQuery, UCHAR_MAX);
 	return (SQLWCHAR*)tQuery;
 }
-
 void DBConnector::AddParameter(int* val)
 {
-	SQLBindParameter(hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, sizeof(val), 0, val, 0, NULL);
+	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, sizeof(val), 0, val, 0, NULL);
 }
 
 void DBConnector::AddParameter(char* val)
 {
-	SQLBindParameter(hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, strlen(val), 0, val, 0, NULL);
+	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, strlen(val), 0, val, 0, NULL);
 }
 
 //void DBConnector::GetUserData()
