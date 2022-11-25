@@ -11,7 +11,7 @@ class CServer : public BaseServer
 
 protected:
 	void OnAccept(const SOCKET socket, Peer*& peer) override;
-	void OnDisconnected(SOCKET socket) override;
+	//void OnDisconnected(SOCKET socket) override;
 
 public:
 	CServer();

@@ -20,7 +20,7 @@ protected:
 
 	void BeginAcceptPeer();
 	virtual void OnAccept(const SOCKET socket, Peer*& peer) = 0;
-	virtual void OnDisconnected(SOCKET socket) = 0;
+	//virtual void OnDisconnected(SOCKET socket) = 0;
 
 public:
 	BaseServer();
