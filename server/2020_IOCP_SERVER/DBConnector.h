@@ -12,10 +12,13 @@ class DBConnector
 	SQLINTEGER m_nRecord, m_nNative;
 	SQLWCHAR m_sState[7], m_sMessage[UCHAR_MAX];
 
+	SQLWCHAR* m_query;
+
 private:
 	void Init();
 	void Release();
 	void CheckError();
+	void ConvertToMultibyteQuery(const char* query);
 
 public:
 	DBConnector();
@@ -23,10 +26,11 @@ public:
 
 	SQLHSTMT& GetStatement() { return m_hstmt; }
 
-	void ExecuteDirectSQL(SQLWCHAR* statement);
-	SQLWCHAR* ConvertToMultibyteQuery(const char* query);
-	void PrepareStatement(SQLWCHAR* statement);
+	void ExecuteDirectSQL();
+	void PrepareStatement();
 	void ExecutePreparedSQL();
+	void SetQueryString(const char* statement);
+
 	void AddParameter(int* val);
 	void AddParameter(char* val);
 };

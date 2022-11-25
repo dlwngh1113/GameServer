@@ -11,6 +11,14 @@ DBConnector::~DBConnector()
 	Release();
 }
 
+void DBConnector::ConvertToMultibyteQuery(const char* query)
+{
+	int nChars = MultiByteToWideChar(CP_ACP, 0, query, -1, NULL, 0);
+	wchar_t* tQuery = new wchar_t[nChars];
+	MultiByteToWideChar(CP_ACP, 0, query, -1, (LPWSTR)tQuery, nChars);
+	m_query = (SQLWCHAR*)tQuery;
+}
+
 void DBConnector::Init()
 {
 	SQLRETURN dbRetcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_henv);
@@ -41,6 +49,7 @@ void DBConnector::Release()
 	SQLDisconnect(m_hdbc);
 	SQLFreeHandle(SQL_HANDLE_DBC, m_hdbc);
 	SQLFreeHandle(SQL_HANDLE_ENV, m_henv);
+	delete[] m_query;
 }
 
 void DBConnector::CheckError()
@@ -49,12 +58,12 @@ void DBConnector::CheckError()
 	Logger::Error((char*)m_sMessage);
 }
 
-void DBConnector::ExecuteDirectSQL(SQLWCHAR* sStatement)
+void DBConnector::ExecuteDirectSQL()
 {
 	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
 	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
 	{
-		retCode = SQLExecDirect(m_hstmt, sStatement, SQL_NTS);
+		retCode = SQLExecDirect(m_hstmt, m_query, SQL_NTS);
 		if (retCode != SQL_SUCCESS)
 			CheckError();
 	}
@@ -62,17 +71,9 @@ void DBConnector::ExecuteDirectSQL(SQLWCHAR* sStatement)
 		CheckError();
 }
 
-SQLWCHAR* DBConnector::ConvertToMultibyteQuery(const char* query)
+void DBConnector::PrepareStatement()
 {
-	int nChars = MultiByteToWideChar(CP_ACP, 0, query, -1, NULL, 0);
-	wchar_t* tQuery = new wchar_t[nChars];
-	MultiByteToWideChar(CP_ACP, 0, query, -1, (LPWSTR)tQuery, nChars);
-	return (SQLWCHAR*)tQuery;
-}
-
-void DBConnector::PrepareStatement(SQLWCHAR* statement)
-{
-	SQLRETURN retCode = SQLPrepare(m_hstmt, statement, SQL_NTS);
+	SQLRETURN retCode = SQLPrepare(m_hstmt, m_query, SQL_NTS);
 
 	if (retCode == SQL_SUCCESS)
 		Logger::Info("\nQuery Prepare Success\n");
@@ -88,6 +89,11 @@ void DBConnector::ExecutePreparedSQL()
 		Logger::Info("\nQuery Prepare Success\n");
 	else
 		CheckError();
+}
+
+void DBConnector::SetQueryString(const char* query)
+{
+	ConvertToMultibyteQuery(query);
 }
 
 void DBConnector::AddParameter(int* val)
