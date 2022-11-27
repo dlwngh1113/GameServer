@@ -11,14 +11,6 @@ DBConnector::~DBConnector()
 	Release();
 }
 
-void DBConnector::ConvertToMultibyteQuery(const char* query)
-{
-	int nChars = MultiByteToWideChar(CP_ACP, 0, query, -1, NULL, 0);
-	wchar_t* tQuery = new wchar_t[nChars];
-	MultiByteToWideChar(CP_ACP, 0, query, -1, (LPWSTR)tQuery, nChars);
-	m_query = (SQLWCHAR*)tQuery;
-}
-
 void DBConnector::Init()
 {
 	SQLRETURN dbRetcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_henv);
@@ -59,46 +51,43 @@ void DBConnector::CheckError()
 
 void DBConnector::ExecuteDirectSQL()
 {
-	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
-	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
-	{
-		retCode = SQLExecDirect(m_hstmt, m_query, SQL_NTS);
-		if (retCode != SQL_SUCCESS)
-			CheckError();
-	}
-	else
+	SQLRETURN retCode = SQLExecDirect(m_hstmt, m_query, SQL_NTS);
+	if (retCode != SQL_SUCCESS)
 		CheckError();
 }
 
 void DBConnector::PrepareStatement()
 {
-	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
-	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
-	{
-		retCode = SQLPrepare(m_hstmt, m_query, SQL_NTS);
+	SQLRETURN retCode = SQLPrepare(m_hstmt, m_query, SQL_NTS);
 
-		if (retCode == SQL_SUCCESS)
-			Logger::Info("\nQuery Prepare Success\n");
-		else
-			CheckError();
-	}
+	if (retCode == SQL_SUCCESS)
+		Logger::Info("\nQuery Prepare Success\n");
 	else
 		CheckError();
 }
 
-void DBConnector::ExecutePreparedSQL()
+void DBConnector::ExecutePreparedStatement()
 {
 	SQLRETURN retCode = SQLExecute(m_hstmt);
 
 	if (retCode == SQL_SUCCESS)
-		Logger::Info("\nPrepared Query Successed\n");
+		Logger::Info("\nPrepared Query Execute Success\n");
 	else
 		CheckError();
 }
 
 void DBConnector::SetQueryString(const char* query)
 {
-	ConvertToMultibyteQuery(query);
+	int nChars = MultiByteToWideChar(CP_ACP, 0, query, -1, NULL, 0);
+	wchar_t* tQuery = new wchar_t[nChars];
+	MultiByteToWideChar(CP_ACP, 0, query, -1, (LPWSTR)tQuery, nChars);
+	m_query = (SQLWCHAR*)tQuery;
+
+	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
+	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
+		Logger::Info("Allocate Handle Success");
+	else
+		CheckError();
 }
 
 void DBConnector::AddParameter(int* val)

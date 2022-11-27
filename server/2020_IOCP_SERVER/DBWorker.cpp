@@ -6,10 +6,10 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 {
 	DBConnector dbc;
 	
-	dbc.SetQueryString("EXEC GetUser (?)");
+	dbc.SetQueryString("EXEC GetUser ?");
 	dbc.AddParameter(name);
 	dbc.PrepareStatement();
-	dbc.ExecutePreparedSQL();
+	dbc.ExecutePreparedStatement();
 
 	short level, hp, x, y;
 	int exp;

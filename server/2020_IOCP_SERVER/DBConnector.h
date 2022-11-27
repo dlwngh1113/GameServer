@@ -18,18 +18,17 @@ private:
 	void Init();
 	void Release();
 	void CheckError();
-	void ConvertToMultibyteQuery(const char* query);
 
 public:
 	DBConnector();
 	virtual ~DBConnector();
 
+	void SetQueryString(const char* statement);
 	SQLHSTMT& GetStatement() { return m_hstmt; }
 
 	void ExecuteDirectSQL();
 	void PrepareStatement();
-	void ExecutePreparedSQL();
-	void SetQueryString(const char* statement);
+	void ExecutePreparedStatement();
 
 	void AddParameter(int* val);
 	void AddParameter(char* val);
