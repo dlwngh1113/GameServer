@@ -21,6 +21,7 @@ private:
 
 public:
 	DBConnector();
+	DBConnector(const char* query);
 	virtual ~DBConnector();
 
 	void SetQueryString(const char* statement);

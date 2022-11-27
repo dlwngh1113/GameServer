@@ -4,9 +4,8 @@
 
 void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 {
-	DBConnector dbc;
+	DBConnector dbc{ "EXEC GetUser ?" };
 	
-	dbc.SetQueryString("EXEC GetUser ?");
 	dbc.AddParameter(name);
 	dbc.PrepareStatement();
 	dbc.ExecutePreparedStatement();
@@ -21,7 +20,10 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 	SQLBindCol(dbc.GetStatement(), 5, SQL_C_SHORT, &x, sizeof(x), &cX);
 	SQLBindCol(dbc.GetStatement(), 6, SQL_C_SHORT, &y, sizeof(y), &cY);
 
-	SQLFetch(dbc.GetStatement());
+	SQLRETURN retCode = SQLFetch(dbc.GetStatement());
 
-	user->SetInfo(name, level, exp, hp, x, y);
+	if (retCode == SQL_SUCCESS)
+		user->SetInfo(name, level, exp, hp, x, y);
+	else
+		Logger::Error("Wrong parameter passed!");
 }
