@@ -40,7 +40,6 @@ void DBConnector::Init()
 		CheckError();
 
 	SQLConnect(m_hdbc, (SQLWCHAR*)L"g_server", SQL_NTS, (SQLWCHAR*)NULL, 0, NULL, 0);
-	SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
 }
 
 void DBConnector::Release()
@@ -73,10 +72,16 @@ void DBConnector::ExecuteDirectSQL()
 
 void DBConnector::PrepareStatement()
 {
-	SQLRETURN retCode = SQLPrepare(m_hstmt, m_query, SQL_NTS);
+	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
+	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
+	{
+		retCode = SQLPrepare(m_hstmt, m_query, SQL_NTS);
 
-	if (retCode == SQL_SUCCESS)
-		Logger::Info("\nQuery Prepare Success\n");
+		if (retCode == SQL_SUCCESS)
+			Logger::Info("\nQuery Prepare Success\n");
+		else
+			CheckError();
+	}
 	else
 		CheckError();
 }
@@ -86,7 +91,7 @@ void DBConnector::ExecutePreparedSQL()
 	SQLRETURN retCode = SQLExecute(m_hstmt);
 
 	if (retCode == SQL_SUCCESS)
-		Logger::Info("\nQuery Prepare Success\n");
+		Logger::Info("\nPrepared Query Successed\n");
 	else
 		CheckError();
 }

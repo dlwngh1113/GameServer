@@ -21,5 +21,7 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 	SQLBindCol(dbc.GetStatement(), 5, SQL_C_SHORT, &x, sizeof(x), &cX);
 	SQLBindCol(dbc.GetStatement(), 6, SQL_C_SHORT, &y, sizeof(y), &cY);
 
+	SQLFetch(dbc.GetStatement());
+
 	user->SetInfo(name, level, exp, hp, x, y);
 }
