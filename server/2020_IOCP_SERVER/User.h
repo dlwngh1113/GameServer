@@ -4,14 +4,25 @@
 
 class User : public ClientPeer
 {
-public:
-	short level{ 0 }, hp{ 0 }, x{ 0 }, y{ 0 };
-	int exp{ 0 };
-	char name[MAX_ID_LEN];
+	short m_level{ 0 }, m_hp{ 0 }, m_x{ 0 }, m_y{ 0 };
+	int m_nExp{ 0 };
+	char m_sName[MAX_ID_LEN];
 
-	int lastMoveTime{ 0 };
+	int m_nLastMoveTime{ 0 };
+
+public:
 	User(Peer* peer);
 	virtual ~User();
 
+#pragma region Properties
+	short GetLevel() const { return m_level; }
+	short GetHp() const { return m_hp; }
+	short GetX() const { return m_x; }
+	short GetY() const { return m_y; }
+	short GetExp() const { return m_nExp; }
+#pragma endregion
+
 	void SetInfo(char* name, short level, int exp, short hp, short x, short y);
+	void Teleport(short x, short y);
+	void Move(short dx, short dy, int nMoveTime);
 };

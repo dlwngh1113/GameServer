@@ -81,7 +81,8 @@ void BaseServer::Process()
 	//   - 이 쓰레드를 IOCP thread pool에 등록  => GQCS
 	//   - iocp가 처리를 맞긴 I/O완료 데이터를 꺼내기 => GQCS
 	//   - 꺼낸 I/O완료 데이터를 처리
-	while (true) {
+	while (true)
+	{
 		DWORD ioSize;
 		SOCKET ns;
 		ULONG_PTR iocpKey;
@@ -120,7 +121,8 @@ void BaseServer::Process()
 void BaseServer::Release()
 {
 	for (auto& pair : m_peers)
-		delete pair.second;
+		if (pair.second)
+			delete pair.second;
 	m_peers.clear();
 
 	closesocket(m_listenSocket);

@@ -5,31 +5,32 @@
 void MoveRequestHandler::HandleRequest()
 {
 	MoveRequest* packet = reinterpret_cast<MoveRequest*>(m_packet);
-	if (m_user->lastMoveTime + 1 >= packet->move_time)
-		return;
-	m_user->lastMoveTime = packet->move_time;
+
+	short x{ 0 }, y{ 0 };
 	switch (packet->direction)
 	{
 	case MV_UP:
-		m_user->y--;
+		--y;
 		break;
 	case MV_DOWN:
-		m_user->y++;
+		++y;
 		break;
 	case MV_LEFT:
-		m_user->x--;
+		--x;
 		break;
 	case MV_RIGHT:
-		m_user->x++;
+		++x;
 		break;
 	}
+
+	m_user->Move(x, y, packet->move_time);
 
 	MoveResponse res;
 	res.size = sizeof(MoveResponse);
 	res.type = SC_PACKET_MOVE;
 	res.id = m_peer->GetID();
-	res.x = m_user->x;
-	res.y = m_user->y;
+	res.x = m_user->GetX();
+	res.y = m_user->GetY();
 	res.move_time = packet->move_time;
 
 	m_peer->SendPacket(&res);

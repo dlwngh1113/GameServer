@@ -18,10 +18,10 @@ void LoginRequestHandler::HandleRequest()
 	res.size = sizeof(LoginResponse);
 	res.type = SC_PACKET_LOGIN_OK;
 	res.id = m_peer->GetID();
-	res.level = m_user->level;
-	res.exp = m_user->exp;
-	res.hp = m_user->hp;
-	res.x = m_user->x;
-	res.y = m_user->y;
+	res.level = m_user->GetLevel();
+	res.exp = m_user->GetExp();
+	res.hp = m_user->GetHp();
+	res.x = m_user->GetX();
+	res.y = m_user->GetY();
 	m_peer->SendPacket(&res);
 }

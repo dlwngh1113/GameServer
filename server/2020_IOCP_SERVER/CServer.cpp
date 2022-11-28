@@ -30,7 +30,8 @@ User* CServer::GetUser(SOCKET key)
 void CServer::Release()
 {
 	for (auto& pair : m_users)
-		delete pair.second;
+		if (pair.second)
+			delete pair.second;
 
 	m_users.clear();
 

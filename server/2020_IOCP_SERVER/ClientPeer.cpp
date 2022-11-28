@@ -8,5 +8,6 @@ ClientPeer::ClientPeer(Peer* peer, IHandlerFactory* instance) : m_peer{peer}
 
 ClientPeer::~ClientPeer()
 {
-	delete m_peer;
+	if (m_peer)
+		delete m_peer;
 }
