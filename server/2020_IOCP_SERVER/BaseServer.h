@@ -16,11 +16,11 @@ private:
 
 protected:
 	void Process();
-	virtual void Release();
+	void Release();
 
 	void BeginAcceptPeer();
 	virtual void OnAccept(const SOCKET socket, Peer*& peer) = 0;
-	//virtual void OnDisconnected(SOCKET socket) = 0;
+	virtual void OnDisconnected(const SOCKET socket) = 0;
 
 public:
 	BaseServer();

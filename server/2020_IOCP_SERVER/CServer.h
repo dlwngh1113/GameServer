@@ -10,8 +10,10 @@ class CServer : public BaseServer
 	static CServer* m_instance;
 
 protected:
+	void Release();
+
 	void OnAccept(const SOCKET socket, Peer*& peer) override;
-	//void OnDisconnected(SOCKET socket) override;
+	void OnDisconnected(const SOCKET socket) override;
 
 public:
 	CServer();
