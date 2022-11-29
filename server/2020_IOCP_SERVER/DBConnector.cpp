@@ -95,9 +95,14 @@ void DBConnector::SetQueryString(const char* query)
 		CheckError();
 }
 
-void DBConnector::AddParameter(int* val)
+void DBConnector::AddParameter(int val)
 {
-	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, sizeof(val), 0, val, 0, NULL);
+	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &val, 0, NULL);
+}
+
+void DBConnector::AddParameter(short val)
+{
+	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &val, 0, NULL);
 }
 
 void DBConnector::AddParameter(char* val)

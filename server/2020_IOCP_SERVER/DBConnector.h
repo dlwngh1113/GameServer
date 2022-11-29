@@ -31,6 +31,7 @@ public:
 	void PrepareStatement();
 	void ExecutePreparedStatement();
 
-	void AddParameter(int* val);
+	void AddParameter(int val);
+	void AddParameter(short val);
 	void AddParameter(char* val);
 };

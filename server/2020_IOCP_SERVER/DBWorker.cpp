@@ -6,8 +6,8 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 {
 	DBConnector dbc{ "EXEC GetUser ?" };
 	
-	dbc.AddParameter(name);
 	dbc.PrepareStatement();
+	dbc.AddParameter(name);
 	dbc.ExecutePreparedStatement();
 
 	short level, hp, x, y;
@@ -26,4 +26,19 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 		user->SetInfo(name, level, exp, hp, x, y);
 	else
 		Logger::Error("Wrong parameter passed!");
+}
+
+void DBWorker::UpdateUser(User* user)
+{
+	// name, level, exp, hp, x, y
+	DBConnector dbc{ "EXEC UpdateUser ?, ?, ?, ?, ?, ?" };
+
+	dbc.PrepareStatement();
+	dbc.AddParameter(user->GetName());
+	dbc.AddParameter(user->GetLevel());
+	dbc.AddParameter((int)user->GetExp());
+	dbc.AddParameter(user->GetHp());
+	dbc.AddParameter(user->GetX());
+	dbc.AddParameter(user->GetY());
+	dbc.ExecutePreparedStatement();
 }

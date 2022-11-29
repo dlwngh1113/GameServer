@@ -55,6 +55,9 @@
     <Filter Include="Client\System">
       <UniqueIdentifier>{d41f9fb9-1e9d-4e71-9056-ec5c2a115dc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Util\DBUtil">
+      <UniqueIdentifier>{f08132ad-40e8-44a7-ac39-0374b5a7e817}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -108,11 +111,11 @@
     <ClCompile Include="RequestHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="DBConnector.cpp">
-      <Filter>Client\System</Filter>
-    </ClCompile>
     <ClCompile Include="DBWorker.cpp">
       <Filter>Client\System</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnector.cpp">
+      <Filter>Framework\Util\DBUtil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,11 +194,11 @@
     <ClInclude Include="IHandlerFactory.h">
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
-    <ClInclude Include="DBConnector.h">
-      <Filter>Client\System</Filter>
-    </ClInclude>
     <ClInclude Include="DBWorker.h">
       <Filter>Client\System</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnector.h">
+      <Filter>Framework\Util\DBUtil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

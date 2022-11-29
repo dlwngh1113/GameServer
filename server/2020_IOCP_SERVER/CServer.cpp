@@ -1,5 +1,6 @@
 #include"stdafx.h"
 #include "CServer.h"
+#include "DBWorker.h"
 
 CServer* CServer::m_instance = nullptr;
 
@@ -52,6 +53,8 @@ void CServer::OnDisconnected(const SOCKET socket)
 	User* toRemoveUser = m_users[socket];
 	m_users.erase(socket);
 	m_userLock.unlock();
+
+	DBWorker::UpdateUser(toRemoveUser);
 
 	if (toRemoveUser)
 		delete toRemoveUser;

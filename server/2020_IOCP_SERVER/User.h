@@ -15,6 +15,7 @@ public:
 	virtual ~User();
 
 #pragma region Properties
+	char* const GetName() { return m_sName; }
 	short GetLevel() const { return m_level; }
 	short GetHp() const { return m_hp; }
 	short GetX() const { return m_x; }
