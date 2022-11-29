@@ -39,7 +39,7 @@ void CServer::Release()
 		delete m_instance;
 }
 
-void CServer::OnAccept(const SOCKET socket, Peer*& peer)
+void CServer::OnAccept(const SOCKET socket, Peer* peer)
 {
 	m_userLock.lock();
 	m_users[socket] = new User(peer);

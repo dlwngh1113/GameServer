@@ -12,7 +12,7 @@ class CServer : public BaseServer
 protected:
 	void Release();
 
-	void OnAccept(const SOCKET socket, Peer*& peer) override;
+	void OnAccept(const SOCKET socket, Peer* peer) override;
 	void OnDisconnected(const SOCKET socket) override;
 
 public:

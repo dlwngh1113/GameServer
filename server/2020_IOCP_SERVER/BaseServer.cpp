@@ -8,11 +8,24 @@ BaseServer::BaseServer()
 
 	Init();
 	Listen();
+	BeginAcceptPeer();
 }
 
 BaseServer::~BaseServer()
 {
 	Release();
+}
+
+void BaseServer::Release()
+{
+	for (auto& pair : m_peers)
+		if (pair.second)
+			delete pair.second;
+	m_peers.clear();
+
+	closesocket(m_listenSocket);
+
+	::WSACleanup();
 }
 
 void BaseServer::Run()
@@ -40,8 +53,6 @@ void BaseServer::Listen()
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
 	::bind(m_listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
 	::listen(m_listenSocket, 5);
-
-	BeginAcceptPeer();
 }
 
 void BaseServer::AddNewClient(SOCKET socket)
@@ -63,16 +74,12 @@ void BaseServer::AddNewClient(SOCKET socket)
 void BaseServer::DisconnectClient(SOCKET socket)
 {
 	clientLock.lock();
-	Peer* toRemovePeer = m_peers[socket];
 	m_peers.erase(socket);
 	clientLock.unlock();
 
-	Logger::Info("Client id " + std::to_string(toRemovePeer->GetID()) + " successfully disconnected!");
+	Logger::Info("Client id " + std::to_string(socket) + " successfully disconnected!");
 
 	OnDisconnected(socket);
-
-	if (toRemovePeer)
-		delete toRemovePeer;
 }
 
 void BaseServer::Process()
@@ -87,15 +94,15 @@ void BaseServer::Process()
 		SOCKET ns;
 		ULONG_PTR iocpKey;
 		WSAOVERLAPPED* lpOver;
-		int ret =
-			GetQueuedCompletionStatus(h_iocp, &ioSize, &iocpKey, &lpOver, INFINITE);
+		int ret = GetQueuedCompletionStatus(h_iocp, &ioSize, &iocpKey, &lpOver, INFINITE);
 		ns = static_cast<SOCKET>(iocpKey);
 		if (FALSE == ret) {
 			//error_display("GQCS Error", WSAGetLastError());
 		}
 
 		OVER_EX* overEx = reinterpret_cast<OVER_EX*>(lpOver);
-		switch (overEx->op_mode) {
+		switch (overEx->op_mode)
+		{
 		case OP_MODE_ACCEPT:
 			ns = static_cast<SOCKET>(overEx->wsa_buf.len);
 			AddNewClient(ns);
@@ -105,7 +112,7 @@ void BaseServer::Process()
 				DisconnectClient(ns);
 			else
 			{
-				Logger::Info("Packet from Client [" + std::to_string(ns) + "] - ioSize: " + std::to_string(ioSize));
+				//Logger::Info("Packet from Client [" + std::to_string(ns) + "] - ioSize: " + std::to_string(ioSize));
 				clientLock.lock();
 				m_peers[ns]->ProcessIO(ioSize);
 				clientLock.unlock();
@@ -116,18 +123,6 @@ void BaseServer::Process()
 			break;
 		}
 	}
-}
-
-void BaseServer::Release()
-{
-	for (auto& pair : m_peers)
-		if (pair.second)
-			delete pair.second;
-	m_peers.clear();
-
-	closesocket(m_listenSocket);
-
-	::WSACleanup();
 }
 
 void BaseServer::BeginAcceptPeer()
