@@ -19,8 +19,8 @@ private:
 	void Release();
 	void CheckError();
 
-public:
 	DBConnector();
+public:
 	DBConnector(const char* query);
 	virtual ~DBConnector();
 

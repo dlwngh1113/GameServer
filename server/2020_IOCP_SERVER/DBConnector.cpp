@@ -66,7 +66,7 @@ void DBConnector::PrepareStatement()
 	SQLRETURN retCode = SQLPrepare(m_hstmt, m_query, SQL_NTS);
 
 	if (retCode == SQL_SUCCESS)
-		Logger::Info("\nQuery Prepare Success\n");
+		Logger::Info("Query Prepare Success");
 	else
 		CheckError();
 }
@@ -76,7 +76,7 @@ void DBConnector::ExecutePreparedStatement()
 	SQLRETURN retCode = SQLExecute(m_hstmt);
 
 	if (retCode == SQL_SUCCESS)
-		Logger::Info("\nPrepared Query Execute Success\n");
+		Logger::Info("Prepared Query Execute Success");
 	else
 		CheckError();
 }
