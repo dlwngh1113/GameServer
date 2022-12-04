@@ -13,4 +13,4 @@ public:
 
 	void AddUser(User* user);
 	void RemoveUser(User* user);
-};	
+};

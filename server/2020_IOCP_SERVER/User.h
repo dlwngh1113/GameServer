@@ -2,6 +2,8 @@
 #include"ClientPeer.h"
 #include"RequestHandlerFactory.h"
 
+class Sector;
+
 class User : public ClientPeer
 {
 	short m_level{ 0 }, m_hp{ 0 }, m_x{ 0 }, m_y{ 0 };
@@ -9,6 +11,8 @@ class User : public ClientPeer
 	char m_sName[MAX_ID_LEN];
 
 	int m_nLastMoveTime{ 0 };
+
+	Sector* m_sector;
 
 public:
 	User(Peer* peer);
@@ -21,6 +25,9 @@ public:
 	short GetX() const { return m_x; }
 	short GetY() const { return m_y; }
 	int GetExp() const { return m_nExp; }
+
+	Sector* GetSector() { return m_sector; }
+	Sector* const GetSector() const { return m_sector; }
 #pragma endregion
 
 	void SetInfo(char* name, short level, int exp, short hp, short x, short y);

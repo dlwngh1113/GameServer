@@ -161,6 +161,7 @@
     <ClCompile Include="MoveRequestHandler.cpp" />
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseRequestHandler.cpp" />
+    <ClCompile Include="Place.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Sector.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Packets.h" />
     <ClInclude Include="Peer.h" />
+    <ClInclude Include="Place.h" />
     <ClInclude Include="protocol.h" />
     <ClInclude Include="BaseRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />

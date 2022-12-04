@@ -123,6 +123,9 @@
     <ClCompile Include="Sector.cpp">
       <Filter>Client\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Place.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="Sector.h">
       <Filter>Client\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Place.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
