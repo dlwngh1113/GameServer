@@ -20,7 +20,7 @@ public:
 	short GetHp() const { return m_hp; }
 	short GetX() const { return m_x; }
 	short GetY() const { return m_y; }
-	short GetExp() const { return m_nExp; }
+	int GetExp() const { return m_nExp; }
 #pragma endregion
 
 	void SetInfo(char* name, short level, int exp, short hp, short x, short y);

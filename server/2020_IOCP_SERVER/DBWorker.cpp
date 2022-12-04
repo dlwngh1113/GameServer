@@ -26,7 +26,7 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 	{
 		user->SetInfo(name, level, exp, hp, x, y);
 
-		printf("%s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
+		printf("login %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
 	}
 	else
 		Logger::Error("Wrong parameter passed!");
@@ -41,11 +41,11 @@ void DBWorker::UpdateUser(User* user)
 
 	dbc.AddParameter(user->GetName());
 	dbc.AddParameter(user->GetLevel());
-	dbc.AddParameter((int)user->GetExp());
+	dbc.AddParameter(user->GetExp());
 	dbc.AddParameter(user->GetHp());
 	dbc.AddParameter(user->GetX());
 	dbc.AddParameter(user->GetY());
 
 	dbc.ExecutePreparedStatement();
-	printf("%s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
+	printf("logout %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
 }
