@@ -58,6 +58,9 @@
     <Filter Include="Framework\Util\DBUtil">
       <UniqueIdentifier>{f08132ad-40e8-44a7-ac39-0374b5a7e817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client\Model">
+      <UniqueIdentifier>{b27c524f-3e4e-427d-9e1f-5b953ac97c00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="DBConnector.cpp">
       <Filter>Framework\Util\DBUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="Sector.cpp">
+      <Filter>Client\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="DBConnector.h">
       <Filter>Framework\Util\DBUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Sector.h">
+      <Filter>Client\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

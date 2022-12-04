@@ -21,6 +21,7 @@ extern "C" {
 #include <fstream>
 #include <WinSock2.h>
 #include <ws2def.h>
+#include<unordered_set>
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "MSWSock.lib")

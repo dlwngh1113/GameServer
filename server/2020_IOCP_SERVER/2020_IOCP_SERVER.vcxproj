@@ -163,6 +163,7 @@
     <ClCompile Include="BaseRequestHandler.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
+    <ClCompile Include="Sector.cpp" />
     <ClCompile Include="Statics.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TeleportRequestHandler.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="BaseRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="Sector.h" />
     <ClInclude Include="Statics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TeleportRequestHandler.h" />
