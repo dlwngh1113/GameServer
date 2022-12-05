@@ -8,9 +8,11 @@ private:
 	std::unordered_set<User*> m_users;
 
 public:
-	Sector(int nX, int nY, int nWidth, int nHeight);
+	Sector();
 	virtual ~Sector();
 
 	void AddUser(User* user);
 	void RemoveUser(User* user);
+
+	void Init(int nX, int nY, int nWidth, int nHeight);
 };
