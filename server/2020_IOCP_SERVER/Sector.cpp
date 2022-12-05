@@ -12,13 +12,23 @@ Sector::~Sector()
 
 void Sector::AddUser(User* user)
 {
+	m_lock.lock();
 	m_users.insert(user);
+	user->ChangeSector(this);
+	m_lock.unlock();
 }
 
-void Sector::RemoveUser(User* user)
+Sector* Sector::RemoveUser(User* user)
 {
 	if (m_users.count(user) != 0)
+	{
+		m_lock.lock();
 		m_users.erase(user);
+		user->ChangeSector(nullptr);
+		m_lock.unlock();
+
+		return this;
+	}
 }
 
 void Sector::Init(int nX, int nY, int nWidth, int nHeight)
@@ -27,4 +37,9 @@ void Sector::Init(int nX, int nY, int nWidth, int nHeight)
 	m_nY = nY;
 	m_nWidth = nWidth;
 	m_nHeight = nHeight;
+}
+
+bool Sector::IsPointInSector(short x, short y)
+{
+	return (((m_nX < x) && (x <= m_nX + m_nWidth)) && ((m_nY < y) && (y <= m_nY + m_nHeight)));
 }

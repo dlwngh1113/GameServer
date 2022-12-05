@@ -10,6 +10,7 @@ class User : public ClientPeer
 	int m_nExp{ 0 };
 	char m_sName[MAX_ID_LEN];
 
+	std::mutex m_lock;
 	int m_nLastMoveTime{ 0 };
 
 	Sector* m_sector;
@@ -26,11 +27,12 @@ public:
 	short GetY() const { return m_y; }
 	int GetExp() const { return m_nExp; }
 
-	Sector* GetSector() { return m_sector; }
+	Sector*& GetSector() { return m_sector; }
 	Sector* const GetSector() const { return m_sector; }
 #pragma endregion
 
 	void SetInfo(char* name, short level, int exp, short hp, short x, short y);
 	void Teleport(short x, short y);
+	void ChangeSector(Sector* sector);
 	void Move(short dx, short dy, int nMoveTime);
 };

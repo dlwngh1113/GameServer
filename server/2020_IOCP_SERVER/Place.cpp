@@ -1,6 +1,21 @@
 #include "stdafx.h"
 #include "Place.h"
 
+Sector* Place::GetSectorByPoint(short x, short y)
+{
+	Sector* sector = nullptr;
+	for (int i = 0; i < m_nHeightSectorSize; ++i)
+	{
+		for (int j = 0; j < m_nWidthSectorSize; ++j)
+		{
+			if (m_sectors[i][j].IsPointInSector(x, y))
+				return &m_sectors[i][j];
+		}
+	}
+
+	return nullptr;
+}
+
 Place::Place()
 {
 }
@@ -32,4 +47,20 @@ Place::~Place()
 
 	if (m_sectors)
 		delete[] m_sectors;
+}
+
+void Place::Move(User* user, short x, short y)
+{
+	Sector* targetSector = GetSectorByPoint(x, y);
+	if (targetSector == nullptr)
+	{
+		Logger::Error("ÁÂÇ¥°¡  ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù. x = " + std::to_string(x) + ", y = " + std::to_string(y));
+		return;
+	}
+
+	if (user->GetSector() != targetSector)
+	{
+		user->GetSector()->RemoveUser(user);
+		targetSector->AddUser(user);
+	}
 }

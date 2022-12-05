@@ -25,6 +25,13 @@ void User::Teleport(short x, short y)
 	this->m_y = y;
 }
 
+void User::ChangeSector(Sector* sector)
+{
+	m_lock.lock();
+	m_sector = sector;
+	m_lock.unlock();
+}
+
 void User::Move(short dx, short dy, int nMoveTime)
 {
 	if (m_nLastMoveTime + 1 >= nMoveTime)
