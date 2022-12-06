@@ -15,7 +15,14 @@ void Sector::AddUser(User* user)
 	m_lock.lock();
 	m_users.insert(user);
 	user->ChangeSector(this);
+
 	m_lock.unlock();
+
+	//
+	// 이벤트 발송
+	//
+
+
 }
 
 Sector* Sector::RemoveUser(User* user)
@@ -26,6 +33,12 @@ Sector* Sector::RemoveUser(User* user)
 		m_users.erase(user);
 		user->ChangeSector(nullptr);
 		m_lock.unlock();
+
+		//
+		// 이벤트 발송
+		//
+
+
 
 		return this;
 	}
