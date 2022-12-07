@@ -3,6 +3,8 @@
 
 #pragma pack(push, 1)
 
+// 로그인
+
 struct LoginRequest : BasePacket
 {
 	char  name[MAX_ID_LEN];
@@ -16,6 +18,8 @@ struct LoginResponse : BasePacket
 	short level;
 	int   exp;
 };
+
+// 이동
 
 struct MoveRequest : BasePacket
 {
@@ -37,7 +41,18 @@ struct TeleportRequest : BasePacket
 
 struct TeleportResponse : BasePacket
 {
+};
 
+struct UserEnterEvent : BasePacket
+{
+	int  id;
+	char name[MAX_ID_LEN];
+	short x, y;
+};
+
+struct UserExitEvent : BasePacket
+{
+	int  id;
 };
 
 #pragma pack(pop)

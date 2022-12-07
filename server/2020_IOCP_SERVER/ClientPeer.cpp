@@ -11,3 +11,8 @@ ClientPeer::~ClientPeer()
 	if (m_peer)
 		delete m_peer;
 }
+
+void ClientPeer::SendPacket(BasePacket* packet)
+{
+	m_peer->SendPacket(packet);
+}

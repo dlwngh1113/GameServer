@@ -15,14 +15,18 @@ void Sector::AddUser(User* user)
 	m_lock.lock();
 	m_users.insert(user);
 	user->ChangeSector(this);
-
 	m_lock.unlock();
 
 	//
 	// 이벤트 발송
 	//
 
-
+	for (const auto& user : m_users)
+	{
+		UserEnterEvent ev;
+		ev.type = 
+		user->SendPacket()
+	}
 }
 
 Sector* Sector::RemoveUser(User* user)
