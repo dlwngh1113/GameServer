@@ -1,6 +1,35 @@
 #include "stdafx.h"
 #include "Sector.h"
 
+void Sector::SendUserEnter(User* targetUser)
+{
+	for (const auto& user : m_users)
+	{
+		UserEnterEvent ev;
+		ev.size = sizeof(ev);
+		ev.type = SC_PACKET_ENTER;
+		ev.id = targetUser->GetID();
+		strcpy_s(ev.name, targetUser->GetName());
+		ev.x = targetUser->GetX();
+		ev.y = targetUser->GetY();
+
+		user->SendPacket(&ev);
+	}
+}
+
+void Sector::SendUserExit(User* targetUser)
+{
+	for (const auto& user : m_users)
+	{
+		UserExitEvent ev;
+		ev.size = sizeof(ev);
+		ev.type = SC_PACKET_EXIT;
+		ev.id = targetUser->GetID();
+
+		user->SendPacket(&ev);
+	}
+}
+
 Sector::Sector()
 {
 }
@@ -21,12 +50,7 @@ void Sector::AddUser(User* user)
 	// 이벤트 발송
 	//
 
-	for (const auto& user : m_users)
-	{
-		UserEnterEvent ev;
-		ev.type = 
-		user->SendPacket()
-	}
+	SendUserEnter(user);
 }
 
 Sector* Sector::RemoveUser(User* user)
@@ -42,7 +66,7 @@ Sector* Sector::RemoveUser(User* user)
 		// 이벤트 발송
 		//
 
-
+		SendUserExit(user);
 
 		return this;
 	}

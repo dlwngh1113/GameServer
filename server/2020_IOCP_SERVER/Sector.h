@@ -8,6 +8,9 @@ private:
 	std::unordered_set<User*> m_users;
 	std::mutex m_lock;
 
+	void SendUserEnter(User* user);
+	void SendUserExit(User* targetUser);
+
 public:
 	Sector();
 	virtual ~Sector();
