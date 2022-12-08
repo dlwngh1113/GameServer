@@ -36,6 +36,9 @@ void CServer::Release()
 
 	m_users.clear();
 
+	if (m_place)
+		delete m_place;
+
 	if (m_instance)
 		delete m_instance;
 }
