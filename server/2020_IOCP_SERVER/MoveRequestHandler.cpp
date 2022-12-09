@@ -2,6 +2,11 @@
 #include "MoveRequestHandler.h"
 #include"CServer.h"
 
+BaseRequestHandler* MoveRequestHandler::Create()
+{
+	return new MoveRequestHandler;
+}
+
 void MoveRequestHandler::HandleRequest()
 {
 	MoveRequest* packet = reinterpret_cast<MoveRequest*>(m_packet);
@@ -34,9 +39,4 @@ void MoveRequestHandler::HandleRequest()
 	res.move_time = packet->move_time;
 
 	m_peer->SendPacket(&res);
-}
-
-BaseRequestHandler* MoveRequestHandler::Create()
-{
-	return new MoveRequestHandler;
 }

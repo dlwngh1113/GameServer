@@ -6,6 +6,7 @@ CServer* CServer::m_instance = nullptr;
 
 CServer::CServer() : BaseServer()
 {
+	m_place = new Place(WORLD_WIDTH, WORLD_HEIGHT, 8, 8);
 }
 
 CServer::~CServer()

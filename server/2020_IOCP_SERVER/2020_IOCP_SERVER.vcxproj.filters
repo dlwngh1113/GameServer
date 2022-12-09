@@ -124,7 +124,10 @@
       <Filter>Client\Model</Filter>
     </ClCompile>
     <ClCompile Include="Place.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Client\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="MetaDatas.cpp">
+      <Filter>Client</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,8 +215,14 @@
     <ClInclude Include="Sector.h">
       <Filter>Client\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Singletone.h">
+      <Filter>Framework\Util</Filter>
+    </ClInclude>
     <ClInclude Include="Place.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Client\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaDatas.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
