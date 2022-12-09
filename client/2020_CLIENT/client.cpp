@@ -221,7 +221,7 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case SC_PACKET_LEAVE:
+	case SC_PACKET_EXIT:
 	{
 		sc_packet_leave* my_packet = reinterpret_cast<sc_packet_leave*>(ptr);
 		int other_id = my_packet->id;

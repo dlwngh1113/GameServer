@@ -59,7 +59,6 @@ Sector* Sector::RemoveUser(User* user)
 	{
 		m_lock.lock();
 		m_users.erase(user);
-		user->ChangeSector(nullptr);
 		m_lock.unlock();
 
 		//
