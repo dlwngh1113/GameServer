@@ -6,7 +6,6 @@ CServer* CServer::m_instance = nullptr;
 
 CServer::CServer() : BaseServer()
 {
-	m_place = new Place(WORLD_WIDTH, WORLD_HEIGHT, 8, 8);
 }
 
 CServer::~CServer()
@@ -36,9 +35,6 @@ void CServer::Release()
 			delete pair.second;
 
 	m_users.clear();
-
-	if (m_place)
-		delete m_place;
 
 	if (m_instance)
 		delete m_instance;

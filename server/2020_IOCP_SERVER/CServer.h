@@ -8,7 +8,6 @@ class CServer : public BaseServer
 	std::unordered_map<SOCKET, User*> m_users;
 
 	static CServer* m_instance;
-	Place* m_place = nullptr;
 
 protected:
 	void Release();
