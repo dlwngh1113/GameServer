@@ -28,10 +28,9 @@ void User::CompleteLogin()
 
 void User::ChangeSector(Sector* sector)
 {
-	m_sector->AddUser(this);
-
 	m_lock.lock();
 	m_sector = sector;
+	m_sector->AddUser(this);
 	m_lock.unlock();
 }
 

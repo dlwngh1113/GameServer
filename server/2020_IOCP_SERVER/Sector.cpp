@@ -5,15 +5,18 @@ void Sector::SendUserEnter(User* targetUser)
 {
 	for (const auto& user : m_users)
 	{
-		UserEnterEvent ev;
-		ev.size = sizeof(ev);
-		ev.type = SC_PACKET_ENTER;
-		ev.id = targetUser->GetID();
-		strcpy_s(ev.name, targetUser->GetName());
-		ev.x = targetUser->GetX();
-		ev.y = targetUser->GetY();
+		if (targetUser != user)
+		{
+			UserEnterEvent ev;
+			ev.size = sizeof(ev);
+			ev.type = SC_PACKET_ENTER;
+			ev.id = targetUser->GetID();
+			strcpy_s(ev.name, targetUser->GetName());
+			ev.x = targetUser->GetX();
+			ev.y = targetUser->GetY();
 
-		user->SendPacket(&ev);
+			user->SendPacket(&ev);
+		}
 	}
 }
 
@@ -21,12 +24,15 @@ void Sector::SendUserExit(User* targetUser)
 {
 	for (const auto& user : m_users)
 	{
-		UserExitEvent ev;
-		ev.size = sizeof(ev);
-		ev.type = SC_PACKET_EXIT;
-		ev.id = targetUser->GetID();
+		if (user != targetUser)
+		{
+			UserExitEvent ev;
+			ev.size = sizeof(ev);
+			ev.type = SC_PACKET_EXIT;
+			ev.id = targetUser->GetID();
 
-		user->SendPacket(&ev);
+			user->SendPacket(&ev);
+		}
 	}
 }
 
@@ -43,7 +49,6 @@ void Sector::AddUser(User* user)
 {
 	m_lock.lock();
 	m_users.insert(user);
-	user->ChangeSector(this);
 	m_lock.unlock();
 
 	//
