@@ -1,6 +1,15 @@
 #include "stdafx.h"
 #include "Sector.h"
 
+Sector::Sector()
+{
+}
+
+Sector::~Sector()
+{
+	m_users.clear();
+}
+
 void Sector::SendUserEnter(User* targetUser)
 {
 	for (const auto& user : m_users)
@@ -36,13 +45,22 @@ void Sector::SendUserExit(User* targetUser)
 	}
 }
 
-Sector::Sector()
+void Sector::Move(User* targetUser)
 {
-}
+	for (const auto& user : m_users)
+	{
+		if (user != targetUser)
+		{
+			UserMoveEvent ev;
+			ev.size = sizeof(ev);
+			ev.type = SC_PACKET_MOVE;
+			ev.id = targetUser->GetID();
+			ev.x = targetUser->GetX();
+			ev.y = targetUser->GetY();
 
-Sector::~Sector()
-{
-	m_users.clear();
+			user->SendPacket(&ev);
+		}
+	}
 }
 
 void Sector::AddUser(User* user)

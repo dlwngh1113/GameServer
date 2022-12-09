@@ -38,4 +38,5 @@ void User::Move(short x, short y)
 {
 	m_x = x;
 	m_y = y;
+	m_sector->Move(this);
 }

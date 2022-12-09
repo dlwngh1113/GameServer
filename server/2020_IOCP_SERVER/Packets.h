@@ -55,4 +55,10 @@ struct UserExitEvent : BasePacket
 	int  id;
 };
 
+struct UserMoveEvent : BasePacket
+{
+	int id;
+	short x, y;
+};
+
 #pragma pack(pop)

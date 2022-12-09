@@ -63,11 +63,11 @@ void Place::Move(User* user, short x, short y)
 		return;
 	}
 
-	user->Move(x, y);
-
 	if (user->GetSector() != targetSector)
 	{
 		user->GetSector()->RemoveUser(user);
 		user->ChangeSector(targetSector);
 	}
+
+	user->Move(x, y);
 }
