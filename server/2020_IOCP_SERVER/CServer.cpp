@@ -1,6 +1,7 @@
 #include"stdafx.h"
 #include "CServer.h"
 #include "DBWorker.h"
+#include"MetaDatas.h"
 
 CServer* CServer::m_instance = nullptr;
 
@@ -21,6 +22,7 @@ void CServer::Run()
 void CServer::Init()
 {
 	RequestHandlerFactory::GetInstance()->Init();
+	MetaDatas::GetInstance()->Init();
 }
 
 User* CServer::GetUser(SOCKET key)
