@@ -11,7 +11,7 @@ void MoveRequestHandler::HandleRequest()
 {
 	MoveRequest* packet = reinterpret_cast<MoveRequest*>(m_packet);
 
-	short x{ 0 }, y{ 0 };
+	short x{ m_user->GetX() }, y{ m_user->GetY() };
 	switch (packet->direction)
 	{
 	case MV_UP:
@@ -28,7 +28,7 @@ void MoveRequestHandler::HandleRequest()
 		break;
 	}
 
-	m_user->Move(x, y, packet->move_time);
+	m_user->Move(x, y);
 
 	MoveResponse res;
 	res.size = sizeof(MoveResponse);

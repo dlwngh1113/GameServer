@@ -201,7 +201,6 @@
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="Sector.h" />
-    <ClInclude Include="Singletone.h" />
     <ClInclude Include="Statics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TeleportRequestHandler.h" />

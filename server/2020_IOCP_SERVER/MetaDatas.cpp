@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "MetaDatas.h"
 
+MetaDatas* MetaDatas::s_instance = nullptr;
+
 void MetaDatas::Init()
 {
     Logger::Info("MetaDatas Load Started");

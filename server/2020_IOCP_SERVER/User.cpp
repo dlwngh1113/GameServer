@@ -1,5 +1,6 @@
 #include"stdafx.h"
 #include "User.h"
+#include"MetaDatas.h"
 
 User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
 {
@@ -19,10 +20,10 @@ void User::SetInfo(char* name, short level, int exp, short hp, short x, short y)
 	this->m_y = y;
 }
 
-void User::Teleport(short x, short y)
+void User::CompleteLogin()
 {
-	this->m_x = x;
-	this->m_y = y;
+	Place* place = MetaDatas::GetInstance()->GetPlace(0);
+	place->AddUser(this);
 }
 
 void User::ChangeSector(Sector* sector)
@@ -32,11 +33,8 @@ void User::ChangeSector(Sector* sector)
 	m_lock.unlock();
 }
 
-void User::Move(short dx, short dy, int nMoveTime)
+void User::Move(short x, short y)
 {
-	if (m_nLastMoveTime + 1 >= nMoveTime)
-		return;
-
-	Teleport(m_x + dx, m_y + dy);
-	m_nLastMoveTime = nMoveTime;
+	m_x = x;
+	m_y = y;
 }

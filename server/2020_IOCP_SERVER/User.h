@@ -31,8 +31,13 @@ public:
 	Sector* const GetSector() const { return m_sector; }
 #pragma endregion
 
+	// 로그인
+
 	void SetInfo(char* name, short level, int exp, short hp, short x, short y);
-	void Teleport(short x, short y);
+	void CompleteLogin();
+
+	// 이동
+
 	void ChangeSector(Sector* sector);
-	void Move(short dx, short dy, int nMoveTime);
+	void Move(short x, short y);
 };

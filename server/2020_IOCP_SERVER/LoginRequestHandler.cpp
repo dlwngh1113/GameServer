@@ -2,6 +2,7 @@
 #include "LoginRequestHandler.h"
 #include"CServer.h"
 #include"DBWorker.h"
+#include"MetaDatas.h"
 
 BaseRequestHandler* LoginRequestHandler::Create()
 {
@@ -13,6 +14,7 @@ void LoginRequestHandler::HandleRequest()
 	LoginRequest* packet = reinterpret_cast<LoginRequest*>(m_packet);
 
 	DBWorker::GetUser(m_user, packet->name);
+	m_user->CompleteLogin();
 
 	LoginResponse res;
 	res.size = sizeof(LoginResponse);

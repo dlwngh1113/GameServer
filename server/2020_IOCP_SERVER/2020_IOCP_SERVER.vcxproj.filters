@@ -215,9 +215,6 @@
     <ClInclude Include="Sector.h">
       <Filter>Client\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Singletone.h">
-      <Filter>Framework\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Place.h">
       <Filter>Client\Model</Filter>
     </ClInclude>

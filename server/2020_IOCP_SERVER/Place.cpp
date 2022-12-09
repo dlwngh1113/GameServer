@@ -48,6 +48,12 @@ Place::~Place()
 		delete[] m_sectors;
 }
 
+void Place::AddUser(User* user)
+{
+	Sector* sector = GetSectorByPoint(user->GetX(), user->GetY());
+	user->ChangeSector(sector);
+}
+
 void Place::Move(User* user, short x, short y)
 {
 	Sector* targetSector = GetSectorByPoint(x, y);
@@ -56,6 +62,8 @@ void Place::Move(User* user, short x, short y)
 		Logger::Error("ÁÂÇ¥°¡  ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù. x = " + std::to_string(x) + ", y = " + std::to_string(y));
 		return;
 	}
+
+	user->Move(x, y);
 
 	if (user->GetSector() != targetSector)
 	{
