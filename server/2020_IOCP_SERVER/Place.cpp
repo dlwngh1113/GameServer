@@ -33,7 +33,7 @@ Place::Place(int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSiz
 		m_sectors[i] = new Sector[m_nWidthSectorSize];
 		for (int j = 0; j < m_nWidthSectorSize; ++j)
 		{
-			m_sectors[i][j].Init(i* nSectorWidth, j* nSectorHeight, nSectorWidth, nSectorHeight);
+			m_sectors[i][j].Init(j * nSectorWidth, i* nSectorHeight, nSectorWidth, nSectorHeight);
 		}
 	}
 }
