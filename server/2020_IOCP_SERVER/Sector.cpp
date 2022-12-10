@@ -73,6 +73,18 @@ void Sector::AddUser(User* user)
 	// 이벤트 발송
 	//
 
+	for (const auto& u : m_users)
+	{
+		UserEnterEvent ev;
+		ev.size = sizeof(ev);
+		ev.type = SC_PACKET_ENTER;
+		ev.id = u->GetID();
+		strcpy_s(ev.name, u->GetName());
+		ev.x = u->GetX();
+		ev.y = u->GetY();
+
+		user->SendPacket(&ev);
+	}
 	SendUserEnter(user);
 }
 
