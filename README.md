@@ -1,4 +1,4 @@
-# IOCP_SERVER
+# GameServer
 IOCP로 제작한 간단한 MMORPG서버입니다.
 
 학교 과제로 만든 것을 추가/수정하며 업그레이드 중입니다.
