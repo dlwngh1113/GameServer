@@ -28,8 +28,6 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 
 		printf("login %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
 	}
-	else
-		Logger::Error("Wrong parameter passed!");
 }
 
 void DBWorker::UpdateUser(User* user)

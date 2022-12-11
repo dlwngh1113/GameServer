@@ -165,7 +165,10 @@
     <ClCompile Include="Place.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
-    <ClCompile Include="Sector.cpp" />
+    <ClCompile Include="Sector.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Statics.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TeleportRequestHandler.cpp" />
@@ -200,7 +203,10 @@
     <ClInclude Include="BaseRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
-    <ClInclude Include="Sector.h" />
+    <ClInclude Include="Sector.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Statics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TeleportRequestHandler.h" />

@@ -32,6 +32,7 @@ constexpr char SC_PACKET_EXIT		= 3;
 constexpr char SC_PACKET_CHAT		= 4;
 constexpr char SC_PACKET_LOGIN_FAIL	= 5;
 constexpr char SC_PACKET_STAT_CHANGE	= 6;
+constexpr char SC_PACKET_SECTOR_ENTER = 7;
 
 constexpr char CS_LOGIN		= 0;
 constexpr char CS_MOVE		= 1;
