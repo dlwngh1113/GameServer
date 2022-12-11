@@ -28,7 +28,6 @@ public:
 	int GetExp() const { return m_nExp; }
 
 	Place* GetPlace() const { return m_place; }
-	Place*& GetPlace() { return m_place; }
 #pragma endregion
 
 	// ·Î±×ÀÎ
