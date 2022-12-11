@@ -19,6 +19,7 @@ void RequestHandlerFactory::Init()
 	BaseRequestHandlerFactory::AddHandler(CS_LOGIN, new LoginRequestHandler());
 	BaseRequestHandlerFactory::AddHandler(CS_MOVE, new MoveRequestHandler());
 	BaseRequestHandlerFactory::AddHandler(CS_TELEPORT, new TeleportRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(CS_LOGOUT, new LogoutRequestHandler());
 	Logger::Info("RequestHandlerFactory Init Finished");
 }
 

@@ -27,7 +27,8 @@ public:
 	short GetY() const { return m_y; }
 	int GetExp() const { return m_nExp; }
 
-	Place* const GetPlace() { return m_place; }
+	Place* GetPlace() const { return m_place; }
+	Place*& GetPlace() { return m_place; }
 #pragma endregion
 
 	// ·Î±×ÀÎ

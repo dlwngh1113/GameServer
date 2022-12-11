@@ -4,6 +4,7 @@
 #include"LoginRequestHandler.h"
 #include"MoveRequestHandler.h"
 #include"TeleportRequestHandler.h"
+#include"LogoutRequestHandler.h"
 
 class RequestHandlerFactory: public BaseRequestHandlerFactory
 {

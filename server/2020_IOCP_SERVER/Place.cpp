@@ -48,19 +48,6 @@ Place::~Place()
 	//	delete[] m_sectors;
 }
 
-void Place::AddUser(User* user)
-{
-	m_lock.lock();
-	m_users.insert(std::make_pair(user->GetID(), user));
-	m_lock.unlock();
-
-	//
-	// 이벤트 발송
-	//
-
-	SendUserEnterEvent(user);
-}
-
 void Place::RemoveUser(User* user)
 {
 	m_lock.lock();
@@ -83,11 +70,26 @@ void Place::SendUserExitEvent(User* targetUser)
 	ev.type = SC_PACKET_EXIT;
 	ev.id = targetUser->GetID();
 
+	// 발송
+
 	m_lock.lock();
 	for (const auto& pair : m_users)
 		if (pair.second != targetUser)
 			pair.second->SendPacket(&ev);
 	m_lock.unlock();
+}
+
+void Place::AddUser(User* user)
+{
+	m_lock.lock();
+	m_users.insert(std::make_pair(user->GetID(), user));
+	m_lock.unlock();
+
+	//
+	// 이벤트 발송
+	//
+
+	SendUserEnterEvent(user);
 }
 
 void Place::SendUserEnterEvent(User* targetUser)
@@ -115,7 +117,7 @@ void Place::Move(User* user, short x, short y)
 {
 	if (0 > x || m_nWidth < x)
 		return;
-	if (0 > y || m_nHeight)
+	if (0 > y || m_nHeight < y)
 		return;
 
 	// 이동
@@ -138,7 +140,7 @@ void Place::SendUserMoveEvent(User* targetUser)
 	ev.x = targetUser->GetX();
 	ev.y = targetUser->GetY();
 
-	// 이벤트 발송
+	// 발송
 
 	m_lock.lock();
 	for (const auto& pair : m_users)
