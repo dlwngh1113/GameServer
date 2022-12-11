@@ -61,6 +61,13 @@ void Place::AddUser(User* user)
 	SendUserEnterEvent(user);
 }
 
+void Place::RemoveUser(User* user)
+{
+	m_lock.lock();
+	m_users.erase(user->GetID());
+	m_lock.unlock();
+}
+
 void Place::SendUserEnterEvent(User* targetUser)
 {
 	// 이벤트 데이터 세팅
@@ -84,5 +91,36 @@ void Place::SendUserEnterEvent(User* targetUser)
 
 void Place::Move(User* user, short x, short y)
 {
+	if (0 > x || m_nWidth < x)
+		return;
+	if (0 > y || m_nHeight)
+		return;
 
+	// 이동
+
+	user->Move(x, y);
+
+	// 이벤트 발송
+
+	SendUserMoveEvent(user);
+}
+
+void Place::SendUserMoveEvent(User* targetUser)
+{
+	// 이벤트 데이터 세팅
+
+	UserMoveEvent ev;
+	ev.size = sizeof(ev);
+	ev.type = SC_PACKET_MOVE;
+	ev.id = targetUser->GetID();
+	ev.x = targetUser->GetX();
+	ev.y = targetUser->GetY();
+
+	// 이벤트 발송
+
+	m_lock.lock();
+	for (const auto& pair : m_users)
+		if (pair.second != targetUser)
+			pair.second->SendPacket(&ev);
+	m_lock.unlock();
 }

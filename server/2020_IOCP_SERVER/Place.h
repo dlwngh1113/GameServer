@@ -12,11 +12,13 @@ private:
 	//Sector* GetSectorByPoint(short x, short y);
 
 	void SendUserEnterEvent(User* targetUser);
+	void SendUserMoveEvent(User* targetUser);
 public:
 	Place();
 	Place(int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);
 	virtual ~Place();
 
 	void AddUser(User* user);
+	void RemoveUser(User* user);
 	void Move(User* user, short x, short y);
 };

@@ -24,7 +24,7 @@ private:
 	char m_mess[MAX_STR_LEN];
 	high_resolution_clock::time_point m_time_out;
 	sf::Text m_text;
-	sf::Text m_name;
+	sf::Text m_name;	
 
 public:
 	short m_x{ 0 }, m_y{ 0 };
@@ -142,7 +142,7 @@ void ProcessPacket(char* ptr)
 	{
 	case SC_PACKET_LOGIN_OK:
 	{
-		sc_packet_login_ok* my_packet = reinterpret_cast<sc_packet_login_ok*>(ptr);
+		LoginResponse* my_packet = reinterpret_cast<LoginResponse*>(ptr);
 		g_myid = my_packet->id;
 		avatar.move(my_packet->x, my_packet->y);
 		avatar.hp = my_packet->hp;
@@ -162,13 +162,13 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_LOGIN_FAIL:
 	{
-		sc_packet_login_fail* my_packet = reinterpret_cast<sc_packet_login_fail*>(ptr);
+		LoginFailResponse* my_packet = reinterpret_cast<LoginFailResponse*>(ptr);
 		cout << my_packet->message << endl;
 		cout << "제대로 된 아이디를 입력해주십시오:";
 		string s;
 		cin >> s;
 
-		cs_packet_login l_packet;
+		LoginRequest l_packet;
 		l_packet.size = sizeof(l_packet);
 		l_packet.type = CS_LOGIN;
 		int t_id = GetCurrentProcessId();
@@ -180,7 +180,7 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_ENTER:
 	{
-		sc_packet_enter* my_packet = reinterpret_cast<sc_packet_enter*>(ptr);
+		UserEnterEvent* my_packet = reinterpret_cast<UserEnterEvent*>(ptr);
 		int id = my_packet->id;
 
 		//printf("%d %d %d\n",
@@ -208,7 +208,7 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_MOVE:
 	{
-		sc_packet_move* my_packet = reinterpret_cast<sc_packet_move*>(ptr);
+		MoveResponse* my_packet = reinterpret_cast<MoveResponse*>(ptr);
 		int other_id = my_packet->id;
 		if (other_id == g_myid) {
 			avatar.move(my_packet->x, my_packet->y);
@@ -223,7 +223,7 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_EXIT:
 	{
-		sc_packet_leave* my_packet = reinterpret_cast<sc_packet_leave*>(ptr);
+		UserExitEvent* my_packet = reinterpret_cast<UserExitEvent*>(ptr);
 		int other_id = my_packet->id;
 		if (other_id == g_myid) {
 			avatar.hide();
@@ -236,7 +236,7 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_CHAT:
 	{
-		sc_packet_chat* my_packet = reinterpret_cast<sc_packet_chat*>(ptr);
+		ChattingEvent* my_packet = reinterpret_cast<ChattingEvent*>(ptr);
 		int other_id = my_packet->id;
 		if (g_myid != other_id)
 			npcs[other_id].add_chat(my_packet->message);
@@ -255,7 +255,7 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_STAT_CHANGE:
 	{
-		sc_packet_stat_change* p = reinterpret_cast<sc_packet_stat_change*>(ptr);
+		StatusChangedEvent* p = reinterpret_cast<StatusChangedEvent*>(ptr);
 		//printf("avatar level = %hd exp = %d hp = %hd, packet level = %hd exp = %d hp = %hd\n", 
 		//	avatar.level, avatar.exp, avatar.hp, p->level, p->exp, p->hp);
 		avatar.level = p->level;
@@ -380,7 +380,7 @@ void send_packet(void* packet)
 
 void send_move_packet(unsigned char dir)
 {
-	cs_packet_move m_packet;
+	MoveRequest m_packet;
 	m_packet.type = CS_MOVE;
 	m_packet.size = sizeof(m_packet);
 	m_packet.direction = dir;
@@ -391,7 +391,7 @@ void send_move_packet(unsigned char dir)
 
 void send_logout_packet()
 {
-	cs_packet_logout p;
+	LogoutRequest p;
 	p.type = CS_LOGOUT;
 	p.size = sizeof(p);
 	send_packet(&p);
@@ -399,10 +399,10 @@ void send_logout_packet()
 
 void send_atk_packet()
 {
-	cs_packet_attack p;
+	AttackRequest p;
 	p.type = CS_ATTACK;
 	p.size = sizeof(p);
-	p.atk_time = duration_cast<seconds>(high_resolution_clock::now()
+	p.atkTime = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
 	send_packet(&p);
 }
@@ -426,7 +426,7 @@ int main()
 
 	client_initialize();
 
-	cs_packet_login l_packet;
+	LoginRequest l_packet;
 	l_packet.size = sizeof(l_packet);
 	l_packet.type = CS_LOGIN;
 	sprintf_s(l_packet.name, s.c_str());

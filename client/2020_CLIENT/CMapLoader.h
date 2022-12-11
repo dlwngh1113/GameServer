@@ -1,7 +1,7 @@
 #pragma once
 #include<SFML/Graphics.hpp>
 #include<SFML/Network.hpp>
-#include"..\..\server\2020_IOCP_SERVER\protocol.h"
+#include"..\..\server\2020_IOCP_SERVER\Packets.h"
 #include <windows.h>
 #include <iostream>
 #include <unordered_map>

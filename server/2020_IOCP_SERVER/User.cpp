@@ -8,6 +8,8 @@ User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
 
 User::~User()
 {
+	if (m_place)
+		m_place->RemoveUser(this);
 }
 
 void User::SetInfo(char* name, short level, int exp, short hp, short x, short y)
