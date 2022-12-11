@@ -28,7 +28,7 @@ extern "C" {
 #pragma comment(lib, "lua54.lib")
 #pragma comment(lib, "odbc32")
 
-#include"protocol.h"
+#include"Defines.h"
 
 struct OVER_EX {
 	WSAOVERLAPPED wsa_over;

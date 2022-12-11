@@ -25,5 +25,8 @@ void LoginRequestHandler::HandleRequest()
 	res.hp = m_user->GetHp();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();
+
+	// 로그인 시 주변 유저를 줘야하는데 어떻게..?
+
 	m_peer->SendPacket(&res);
 }

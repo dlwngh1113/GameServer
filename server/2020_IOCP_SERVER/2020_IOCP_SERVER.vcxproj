@@ -184,6 +184,7 @@
     </ClInclude>
     <ClInclude Include="DBConnector.h" />
     <ClInclude Include="DBWorker.h" />
+    <ClInclude Include="Defines.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
     <ClInclude Include="IHandlerFactory.h" />
@@ -199,7 +200,6 @@
     <ClInclude Include="Packets.h" />
     <ClInclude Include="Peer.h" />
     <ClInclude Include="Place.h" />
-    <ClInclude Include="protocol.h" />
     <ClInclude Include="BaseRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RequestHandlerFactory.h" />

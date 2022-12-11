@@ -26,6 +26,7 @@ void User::CompleteLogin()
 {
 	Place* place = MetaDatas::GetInstance()->GetPlace(0);
 	place->AddUser(this);
+	m_place = place;
 }
 
 void User::Move(short x, short y)
