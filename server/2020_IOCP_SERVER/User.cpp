@@ -26,17 +26,8 @@ void User::CompleteLogin()
 	place->AddUser(this);
 }
 
-void User::ChangeSector(Sector* sector)
-{
-	m_lock.lock();
-	m_sector = sector;
-	m_sector->AddUser(this);
-	m_lock.unlock();
-}
-
 void User::Move(short x, short y)
 {
 	m_x = x;
 	m_y = y;
-	m_sector->Move(this);
 }

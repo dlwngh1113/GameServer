@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Place.h"
-#include"User.h"
 
 //Sector* Place::GetSectorByPoint(short x, short y)
 //{
@@ -51,7 +50,36 @@ Place::~Place()
 
 void Place::AddUser(User* user)
 {
+	m_lock.lock();
+	m_users.insert(std::make_pair(user->GetID(), user));
+	m_lock.unlock();
 
+	//
+	// 이벤트 발송
+	//
+
+	SendUserEnterEvent(user);
+}
+
+void Place::SendUserEnterEvent(User* targetUser)
+{
+	// 이벤트 데이터 세팅
+
+	UserEnterEvent ev;
+	ev.size = sizeof(ev);
+	ev.type = SC_PACKET_ENTER;
+	ev.id = targetUser->GetID();
+	strcpy_s(ev.name, targetUser->GetName());
+	ev.x = targetUser->GetX();
+	ev.y = targetUser->GetY();
+
+	// 발송
+
+	m_lock.lock();
+	for (const auto& pair : m_users)
+		if (pair.second != targetUser)
+			pair.second->SendPacket(&ev);
+	m_lock.unlock();
 }
 
 void Place::Move(User* user, short x, short y)

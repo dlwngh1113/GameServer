@@ -2,7 +2,7 @@
 #include"ClientPeer.h"
 #include"RequestHandlerFactory.h"
 
-class Sector;
+class Place;
 
 class User : public ClientPeer
 {
@@ -13,7 +13,7 @@ class User : public ClientPeer
 	std::mutex m_lock;
 	int m_nLastMoveTime{ 0 };
 
-	Sector* m_sector;
+	Place* m_place;
 
 public:
 	User(Peer* peer);
@@ -26,9 +26,6 @@ public:
 	short GetX() const { return m_x; }
 	short GetY() const { return m_y; }
 	int GetExp() const { return m_nExp; }
-
-	Sector*& GetSector() { return m_sector; }
-	Sector* const GetSector() const { return m_sector; }
 #pragma endregion
 
 	// 로그인
@@ -38,6 +35,5 @@ public:
 
 	// 이동
 
-	void ChangeSector(Sector* sector);
 	void Move(short x, short y);
 };
