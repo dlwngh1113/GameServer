@@ -12,6 +12,7 @@ private:
 	//Sector* GetSectorByPoint(short x, short y);
 
 	void SendUserEnterEvent(User* targetUser);
+	void SendUserExitEvent(User* targetUser);
 	void SendUserMoveEvent(User* targetUser);
 public:
 	Place();

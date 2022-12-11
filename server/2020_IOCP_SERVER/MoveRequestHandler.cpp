@@ -28,7 +28,7 @@ void MoveRequestHandler::HandleRequest()
 		break;
 	}
 
-	m_user->Move(x, y);
+	m_user->GetPlace()->Move(m_user, x, y);
 
 	MoveResponse res;
 	res.size = sizeof(MoveResponse);

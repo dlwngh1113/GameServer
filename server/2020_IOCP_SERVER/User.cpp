@@ -29,7 +29,7 @@ void User::CompleteLogin()
 	m_place = place;
 }
 
-void User::Move(short x, short y)
+void User::SetPosition(short x, short y)
 {
 	m_x = x;
 	m_y = y;

@@ -26,6 +26,8 @@ public:
 	short GetX() const { return m_x; }
 	short GetY() const { return m_y; }
 	int GetExp() const { return m_nExp; }
+
+	Place* const GetPlace() { return m_place; }
 #pragma endregion
 
 	// 로그인
@@ -35,5 +37,5 @@ public:
 
 	// 이동
 
-	void Move(short x, short y);
+	void SetPosition(short x, short y);
 };

@@ -66,6 +66,28 @@ void Place::RemoveUser(User* user)
 	m_lock.lock();
 	m_users.erase(user->GetID());
 	m_lock.unlock();
+
+	//
+	// 이벤트 발송
+	//
+
+	SendUserExitEvent(user);
+}
+
+void Place::SendUserExitEvent(User* targetUser)
+{
+	// 이벤트 데이터 세팅
+
+	UserExitEvent ev;
+	ev.size = sizeof(ev);
+	ev.type = SC_PACKET_EXIT;
+	ev.id = targetUser->GetID();
+
+	m_lock.lock();
+	for (const auto& pair : m_users)
+		if (pair.second != targetUser)
+			pair.second->SendPacket(&ev);
+	m_lock.unlock();
 }
 
 void Place::SendUserEnterEvent(User* targetUser)
@@ -98,7 +120,7 @@ void Place::Move(User* user, short x, short y)
 
 	// 이동
 
-	user->Move(x, y);
+	user->SetPosition(x, y);
 
 	// 이벤트 발송
 

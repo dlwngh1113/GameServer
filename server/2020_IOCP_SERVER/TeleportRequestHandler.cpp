@@ -6,7 +6,7 @@ void TeleportRequestHandler::HandleRequest()
 {
 	TeleportRequest* packet = reinterpret_cast<TeleportRequest*>(m_packet);
 
-	m_user->Move(packet->x, packet->y);
+	m_user->SetPosition(packet->x, packet->y);
 
 	TeleportResponse res;
 	res.size = sizeof(TeleportResponse);
