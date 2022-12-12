@@ -1,6 +1,16 @@
 #pragma once
-#include"Packets.h"
 #include"RequestHandler.h"
+
+#pragma region PacketData
+
+#pragma pack(push, 1)
+struct LogoutRequest : BasePacket
+{
+};
+#pragma pack(pop)
+
+#pragma endregion
+
 
 class LogoutRequestHandler : public RequestHandler
 {

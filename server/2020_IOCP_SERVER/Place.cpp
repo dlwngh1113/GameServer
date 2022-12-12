@@ -121,7 +121,7 @@ void Place::Move(User* user, short x, short y)
 		return;
 
 	// 이동
-
+	
 	user->SetPosition(x, y);
 
 	// 이벤트 발송

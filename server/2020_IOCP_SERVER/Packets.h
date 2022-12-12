@@ -4,32 +4,6 @@
 
 #pragma pack(push, 1)
 
-// 로그인
-
-struct LoginRequest : BasePacket
-{
-	char  name[MAX_ID_LEN];
-};
-
-struct LoginResponse : BasePacket
-{
-	int  id;
-	short x, y;
-	short hp;
-	short level;
-	int   exp;
-};
-
-struct LoginFailResponse : BasePacket
-{
-	int	  id;
-	char  message[MAX_STR_LEN];
-};
-
-struct LogoutRequest : BasePacket
-{
-};
-
 // 채팅
 
 struct ChattingRequest : BasePacket
@@ -56,33 +30,6 @@ struct StatusChangedEvent : BasePacket
 
 // 이동
 
-struct MoveRequest : BasePacket
-{
-	char  direction;
-	int	  move_time;
-};
-
-struct MoveResponse : BasePacket 
-{
-	int id;
-	short x, y;
-	int move_time;
-};
-
-struct UserMoveEvent : BasePacket
-{
-	int id;
-	short x, y;
-};
-
-struct TeleportRequest : BasePacket
-{
-	short x, y;
-};
-
-struct TeleportResponse : BasePacket
-{
-};
 
 // 장소
 
