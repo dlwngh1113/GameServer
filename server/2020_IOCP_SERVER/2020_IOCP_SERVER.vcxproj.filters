@@ -135,6 +135,9 @@
     <ClCompile Include="LogoutRequestHandler.cpp">
       <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="PlaceEnterRequestHandler.cpp">
+      <Filter>Client\RequestHandlers\Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -230,10 +233,21 @@
     <ClInclude Include="LogoutRequestHandler.h">
       <Filter>Client\RequestHandlers\Handlers</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceEnterRequestHandler.h">
+      <Filter>Client\RequestHandlers\Handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">
       <Filter>리소스 파일</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2020_IOCP_SERVER.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

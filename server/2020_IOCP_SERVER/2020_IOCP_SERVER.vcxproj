@@ -164,6 +164,7 @@
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseRequestHandler.cpp" />
     <ClCompile Include="Place.cpp" />
+    <ClCompile Include="PlaceEnterRequestHandler.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Sector.cpp">
@@ -203,8 +204,10 @@
     <ClInclude Include="Peer.h" />
     <ClInclude Include="Place.h" />
     <ClInclude Include="BaseRequestHandler.h" />
+    <ClInclude Include="PlaceEnterRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Sector.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -216,6 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2020_IOCP_SERVER.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
