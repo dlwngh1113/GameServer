@@ -12,8 +12,15 @@ struct SPlace
 struct PlaceEnterRequest : BasePacket
 {
 	int placeId;
+};
+
+struct PlaceEnterResponse : BasePacket
+{
+	int id;
+	short x, y;
 	SPlace placeInfo;
 };
+
 #pragma pack(pop)
 
 #pragma endregion
