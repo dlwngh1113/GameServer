@@ -11,7 +11,8 @@ struct SPlace
 
 struct PlaceEnterRequest : BasePacket
 {
-
+	int placeId;
+	SPlace placeInfo;
 };
 #pragma pack(pop)
 
@@ -20,5 +21,8 @@ struct PlaceEnterRequest : BasePacket
 
 class PlaceEnterRequestHandler : public RequestHandler
 {
+public:
+	void HandleRequest() override;
+	BaseRequestHandler* Create() override;
 };
 

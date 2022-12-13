@@ -8,7 +8,7 @@ void LogoutRequestHandler::HandleRequest()
 	m_user->GetPlace()->RemoveUser(m_user);
 }
 
-LogoutRequestHandler* LogoutRequestHandler::Create()
+BaseRequestHandler* LogoutRequestHandler::Create()
 {
 	return new LogoutRequestHandler;
 }

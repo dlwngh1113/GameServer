@@ -16,6 +16,6 @@ class LogoutRequestHandler : public RequestHandler
 {
 public:
 	void HandleRequest() override;
-	LogoutRequestHandler* Create() override;
+	BaseRequestHandler* Create() override;
 };
 
