@@ -14,7 +14,6 @@ void LoginRequestHandler::HandleRequest()
 	LoginRequest* packet = reinterpret_cast<LoginRequest*>(m_packet);
 
 	DBWorker::GetUser(m_user, packet->name);
-	m_user->CompleteLogin();
 
 	LoginResponse res;
 	res.size = sizeof(LoginResponse);
@@ -25,8 +24,6 @@ void LoginRequestHandler::HandleRequest()
 	res.hp = m_user->GetHp();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();
-
-	// 로그인 시 주변 유저를 줘야하는데 어떻게..?
 
 	m_peer->SendPacket(&res);
 }

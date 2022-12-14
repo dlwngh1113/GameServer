@@ -22,13 +22,6 @@ void User::SetInfo(char* name, short level, int exp, short hp, short x, short y)
 	this->m_y = y;
 }
 
-void User::CompleteLogin()
-{
-	Place* place = MetaDatas::GetInstance()->GetPlace(0);
-	place->AddUser(this);
-	m_place = place;
-}
-
 void User::SetPosition(short x, short y)
 {
 	m_x = x;

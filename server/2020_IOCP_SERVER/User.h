@@ -28,12 +28,12 @@ public:
 	int GetExp() const { return m_nExp; }
 
 	Place* GetPlace() const { return m_place; }
+	Place*& GetPlace() { return m_place; }
 #pragma endregion
 
 	// 로그인
 
 	void SetInfo(char* name, short level, int exp, short hp, short x, short y);
-	void CompleteLogin();
 
 	// 이동
 
