@@ -98,7 +98,7 @@ void Place::SendUserEnterEvent(User* targetUser)
 
 	UserEnterEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_PACKET_ENTER;
+	ev.type = SC_OtherUserEnter;
 	ev.id = targetUser->GetID();
 	strcpy_s(ev.name, targetUser->GetName());
 	ev.x = targetUser->GetX();

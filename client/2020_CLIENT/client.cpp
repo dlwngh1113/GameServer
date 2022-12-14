@@ -142,14 +142,14 @@ void ProcessPacket(char* ptr)
 	{
 	case SC_PACKET_LOGIN_OK:
 	{
-		LoginResponse* my_packet = reinterpret_cast<LoginResponse*>(ptr);
-		g_myid = my_packet->id;
-		avatar.move(my_packet->x, my_packet->y);
-		avatar.hp = my_packet->hp;
-		avatar.level = my_packet->level;
-		avatar.exp = my_packet->exp;
-		g_left_x = my_packet->x - CLIENT_WIDTH / 2;
-		g_top_y = my_packet->y - CLIENT_HEIGHT / 2;
+		LoginResponse* packet = reinterpret_cast<LoginResponse*>(ptr);
+		g_myid = packet->id;
+		avatar.move(packet->x, packet->y);
+		avatar.hp = packet->hp;
+		avatar.level = packet->level;
+		avatar.exp = packet->exp;
+		g_left_x = packet->x - CLIENT_WIDTH / 2;
+		g_top_y = packet->y - CLIENT_HEIGHT / 2;
 		//printf("%d %d %d %d %d %d\n",
 		//	my_packet->id,
 		//	my_packet->hp,
@@ -162,8 +162,8 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_LOGIN_FAIL:
 	{
-		LoginFailResponse* my_packet = reinterpret_cast<LoginFailResponse*>(ptr);
-		cout << my_packet->message << endl;
+		LoginFailResponse* packet = reinterpret_cast<LoginFailResponse*>(ptr);
+		cout << packet->message << endl;
 		cout << "제대로 된 아이디를 입력해주십시오:";
 		string s;
 		cin >> s;
@@ -180,44 +180,42 @@ void ProcessPacket(char* ptr)
 	break;
 	case SC_PACKET_ENTER:
 	{
-		UserEnterEvent* my_packet = reinterpret_cast<UserEnterEvent*>(ptr);
-		int id = my_packet->id;
+		UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
+		int id = packet->id;
 
-		//printf("%d %d %d\n",
-		//	my_packet->id,
-		//	avatar.m_x,
-		//	avatar.m_y);
+		avatar.move(packet->x, packet->y);
+		g_left_x = packet->x - CLIENT_WIDTH / 2;
+		g_top_y = packet->y - CLIENT_HEIGHT / 2;
+		avatar.show();
+	}
+	break;
+	case SC_OtherUserEnter:
+	{
+		UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
+		int id = packet->id;
 
-		if (id == g_myid) {
-			avatar.move(my_packet->x, my_packet->y);
-			g_left_x = my_packet->x - CLIENT_WIDTH / 2;
-			g_top_y = my_packet->y - CLIENT_HEIGHT / 2;
-			avatar.show();
-		}
-		else {
-			if (id < MAX_USER)
-				npcs[id] = OBJECT{ *pieces, 0, 0, TILE_WIDTH, TILE_WIDTH };
-			else
-				npcs[id] = OBJECT{ *pieces, 32, 0, TILE_WIDTH, TILE_WIDTH };
-			strcpy_s(npcs[id].name, my_packet->name);
-			npcs[id].set_name(my_packet->name);
-			npcs[id].move(my_packet->x, my_packet->y);
-			npcs[id].show();
-		}
+		if (id < MAX_USER)
+			npcs[id] = OBJECT{ *pieces, 0, 0, TILE_WIDTH, TILE_WIDTH };
+		else
+			npcs[id] = OBJECT{ *pieces, 32, 0, TILE_WIDTH, TILE_WIDTH };
+		strcpy_s(npcs[id].name, packet->name);
+		npcs[id].set_name(packet->name);
+		npcs[id].move(packet->x, packet->y);
+		npcs[id].show();
 	}
 	break;
 	case SC_PACKET_MOVE:
 	{
-		MoveResponse* my_packet = reinterpret_cast<MoveResponse*>(ptr);
-		int other_id = my_packet->id;
+		MoveResponse* packet = reinterpret_cast<MoveResponse*>(ptr);
+		int other_id = packet->id;
 		if (other_id == g_myid) {
-			avatar.move(my_packet->x, my_packet->y);
-			g_left_x = my_packet->x - CLIENT_WIDTH / 2;
-			g_top_y = my_packet->y - CLIENT_HEIGHT / 2;
+			avatar.move(packet->x, packet->y);
+			g_left_x = packet->x - CLIENT_WIDTH / 2;
+			g_top_y = packet->y - CLIENT_HEIGHT / 2;
 		}
 		else {
 			if (0 != npcs.count(other_id))
-				npcs[other_id].move(my_packet->x, my_packet->y);
+				npcs[other_id].move(packet->x, packet->y);
 		}
 	}
 	break;
