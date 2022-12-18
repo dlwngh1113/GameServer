@@ -55,13 +55,15 @@ void Place::RemoveUser(User* user)
 	m_lock.unlock();
 
 	//
-	// 이벤트 발송
+	// 이벤트 데이터 세팅
 	//
 
 	UserExitEvent ev;
 	ev.size = sizeof(ev);
 	ev.type = SC_PACKET_EXIT;
 	ev.id = user->GetID();
+
+	// 발송
 
 	SendEvent(user, &ev);
 }
@@ -73,7 +75,7 @@ void Place::AddUser(User* user)
 	m_lock.unlock();
 
 	//
-	// 이벤트 발송
+	// 이벤트 데이터 세팅
 	//
 
 	UserEnterEvent ev;
@@ -83,6 +85,8 @@ void Place::AddUser(User* user)
 	strcpy_s(ev.name, user->GetName());
 	ev.x = user->GetX();
 	ev.y = user->GetY();
+
+	// 발송
 
 	SendEvent(user, &ev);
 }

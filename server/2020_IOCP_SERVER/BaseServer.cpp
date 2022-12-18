@@ -46,11 +46,14 @@ void BaseServer::Init()
 
 void BaseServer::Listen()
 {
+	// IPv4, 서버 포트 설정
 	SOCKADDR_IN serverAddr;
 	memset(&serverAddr, 0, sizeof(SOCKADDR_IN));
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_port = ::htons(SERVER_PORT);
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
+
+	// 바인딩, 소켓IO 리스닝
 	::bind(m_listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
 	::listen(m_listenSocket, 5);
 }

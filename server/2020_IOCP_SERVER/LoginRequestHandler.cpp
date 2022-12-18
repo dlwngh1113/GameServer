@@ -15,6 +15,8 @@ void LoginRequestHandler::HandleRequest()
 
 	DBWorker::GetUser(m_user, packet->name);
 
+	// 응답 데이터 세팅
+
 	LoginResponse res;
 	res.size = sizeof(LoginResponse);
 	res.type = SC_PACKET_LOGIN_OK;
@@ -24,6 +26,8 @@ void LoginRequestHandler::HandleRequest()
 	res.hp = m_user->GetHp();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();
+
+	// 발송
 
 	m_peer->SendPacket(&res);
 }

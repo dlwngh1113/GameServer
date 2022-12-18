@@ -8,9 +8,13 @@ void TeleportRequestHandler::HandleRequest()
 
 	m_user->SetPosition(packet->x, packet->y);
 
+	// 이벤트 데이터 세팅
+
 	TeleportResponse res;
 	res.size = sizeof(TeleportResponse);
 	res.type = SC_PACKET_MOVE;
+
+	// 발송
 
 	m_peer->SendPacket(&res);
 }

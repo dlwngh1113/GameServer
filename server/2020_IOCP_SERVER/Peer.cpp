@@ -39,6 +39,7 @@ void Peer::ProcessIO(DWORD ioSize)
 	int nPacketSize = (int)m_pRecvStartPos[0];
 	unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
 
+	// 패킷이 size만큼 도착한 경우
 	while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
 	{
 		ProcessPacket(nPacketSize, m_pRecvStartPos);
