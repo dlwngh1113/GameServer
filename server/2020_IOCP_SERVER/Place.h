@@ -11,9 +11,7 @@ private:
 	//Sector** m_sectors = nullptr;
 	//Sector* GetSectorByPoint(short x, short y);
 
-	void SendUserEnterEvent(User* targetUser);
-	void SendUserExitEvent(User* targetUser);
-	void SendUserMoveEvent(User* targetUser);
+	void SendEvent(User* userToExclude, BasePacket* packet);
 public:
 	Place();
 	Place(int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);

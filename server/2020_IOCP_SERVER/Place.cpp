@@ -58,25 +58,12 @@ void Place::RemoveUser(User* user)
 	// 이벤트 발송
 	//
 
-	SendUserExitEvent(user);
-}
-
-void Place::SendUserExitEvent(User* targetUser)
-{
-	// 이벤트 데이터 세팅
-
 	UserExitEvent ev;
 	ev.size = sizeof(ev);
 	ev.type = SC_PACKET_EXIT;
-	ev.id = targetUser->GetID();
+	ev.id = user->GetID();
 
-	// 발송
-
-	m_lock.lock();
-	for (const auto& pair : m_users)
-		if (pair.second != targetUser)
-			pair.second->SendPacket(&ev);
-	m_lock.unlock();
+	SendEvent(user, &ev);
 }
 
 void Place::AddUser(User* user)
@@ -89,27 +76,23 @@ void Place::AddUser(User* user)
 	// 이벤트 발송
 	//
 
-	SendUserEnterEvent(user);
-}
-
-void Place::SendUserEnterEvent(User* targetUser)
-{
-	// 이벤트 데이터 세팅
-
 	UserEnterEvent ev;
 	ev.size = sizeof(ev);
 	ev.type = SC_OtherUserEnter;
-	ev.id = targetUser->GetID();
-	strcpy_s(ev.name, targetUser->GetName());
-	ev.x = targetUser->GetX();
-	ev.y = targetUser->GetY();
+	ev.id = user->GetID();
+	strcpy_s(ev.name, user->GetName());
+	ev.x = user->GetX();
+	ev.y = user->GetY();
 
-	// 발송
+	SendEvent(user, &ev);
+}
 
+void Place::SendEvent(User* userToExclude, BasePacket* ev)
+{
 	m_lock.lock();
 	for (const auto& pair : m_users)
-		if (pair.second != targetUser)
-			pair.second->SendPacket(&ev);
+		if (pair.second != userToExclude)
+			pair.second->SendPacket(ev);
 	m_lock.unlock();
 }
 
@@ -124,27 +107,16 @@ void Place::Move(User* user, short x, short y)
 	
 	user->SetPosition(x, y);
 
-	// 이벤트 발송
-
-	SendUserMoveEvent(user);
-}
-
-void Place::SendUserMoveEvent(User* targetUser)
-{
 	// 이벤트 데이터 세팅
 
 	UserMoveEvent ev;
 	ev.size = sizeof(ev);
 	ev.type = SC_PACKET_MOVE;
-	ev.id = targetUser->GetID();
-	ev.x = targetUser->GetX();
-	ev.y = targetUser->GetY();
+	ev.id = user->GetID();
+	ev.x = user->GetX();
+	ev.y = user->GetY();
 
 	// 발송
 
-	m_lock.lock();
-	for (const auto& pair : m_users)
-		if (pair.second != targetUser)
-			pair.second->SendPacket(&ev);
-	m_lock.unlock();
+	SendEvent(user, &ev);
 }
