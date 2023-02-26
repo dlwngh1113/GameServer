@@ -22,6 +22,7 @@ extern "C" {
 #include <WinSock2.h>
 #include <ws2def.h>
 #include<unordered_set>
+#include<concurrent_queue.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "MSWSock.lib")

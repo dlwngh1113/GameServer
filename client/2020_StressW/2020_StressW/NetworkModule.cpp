@@ -26,7 +26,7 @@ const static int MAX_PACKET_SIZE = 255;
 const static int MAX_BUFF_SIZE = 255;
 
 #pragma comment (lib, "ws2_32.lib")
-#include"../../../../IOCP_SERVER/server/2020_IOCP_SERVER/protocol.h"
+#include"../../../server/2020_IOCP_SERVER/Packets.h"
 
 HANDLE g_hiocp;
 
@@ -127,7 +127,7 @@ void ProcessPacket(int ci, unsigned char packet[])
 {
 	switch (packet[1]) {
 	case SC_PACKET_MOVE: {
-		sc_packet_move* move_packet = reinterpret_cast<sc_packet_move*>(packet);
+		MoveResponse* move_packet = reinterpret_cast<MoveResponse*>(packet);
 		if (move_packet->id < MAX_CLIENTS) {
 			int my_id = client_map[move_packet->id];
 			if (-1 != my_id) {
@@ -146,19 +146,19 @@ void ProcessPacket(int ci, unsigned char packet[])
 	}
 					   break;
 	case SC_PACKET_ENTER: break;
-	case SC_PACKET_LEAVE: break;
+	case SC_PACKET_EXIT: break;
 	case SC_PACKET_LOGIN_OK:
 	{
 		g_clients[ci].connected = true;
 		active_clients++;
-		sc_packet_login_ok* login_packet = reinterpret_cast<sc_packet_login_ok*>(packet);
+		LoginResponse* login_packet = reinterpret_cast<LoginResponse*>(packet);
 		int my_id = ci;
 		client_map[login_packet->id] = my_id;
 		g_clients[my_id].id = login_packet->id;
 		g_clients[my_id].x = login_packet->x;
 		g_clients[my_id].y = login_packet->y;
 
-		cs_packet_teleport t_packet;
+		TeleportRequest t_packet;
 		t_packet.x = rand() % WORLD_WIDTH;
 		t_packet.y = rand() % WORLD_HEIGHT;
 		t_packet.size = sizeof(t_packet);
@@ -318,7 +318,7 @@ void Adjust_Number_Of_Client()
 	DWORD recv_flag = 0;
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(g_clients[num_connections].client_socket), g_hiocp, num_connections, 0);
 
-	cs_packet_login l_packet;
+	LoginRequest l_packet;
 
 	int temp = num_connections;
 	sprintf_s(l_packet.name, "%d", temp);
@@ -352,7 +352,7 @@ void Test_Thread()
 			if (false == g_clients[i].connected) continue;
 			if (g_clients[i].last_move_time + 1s > high_resolution_clock::now()) continue;
 			g_clients[i].last_move_time = high_resolution_clock::now();
-			cs_packet_move my_packet;
+			MoveRequest my_packet;
 			my_packet.size = sizeof(my_packet);
 			my_packet.type = CS_MOVE;
 			switch (rand() % 4) {

@@ -5,7 +5,7 @@ template <class T>
 class ObjectPool
 {
 	std::mutex m_lock;
-	std::queue<T*> m_pool;
+	Concurrency::concurrent_queue<T*> m_pool;
 public:
 	ObjectPool(int size);
 	virtual ~ObjectPool();
@@ -27,21 +27,16 @@ inline ObjectPool<T>::ObjectPool(int size)
 template<class T>
 inline ObjectPool<T>::~ObjectPool()
 {
-	while (!m_pool.empty())
-	{
-		T* data = m_pool.front();
-			delete data;
+	T* data = nullptr;
 
-		m_pool.pop();
-	}
+	while (m_pool.try_pop(data))
+		delete data;
 }
 
 template<class T>
 inline void ObjectPool<T>::PushObject(T* obj)
 {
-	m_lock.lock();
 	m_pool.push(obj);
-	m_lock.unlock();
 }
 
 template<class T>
@@ -49,14 +44,10 @@ inline T* ObjectPool<T>::PopObject()
 {
 	T* data = nullptr;
 
-	if (m_pool.empty())
-		throw std::exception{ "오브젝트 풀이 비어있습니다." };
+	m_pool.try_pop(data);
 
-	m_lock.lock();
-	data = m_pool.front();
-	m_pool.pop();
-	m_lock.unlock();
-	ZeroMemory(data, sizeof(T));
-
+	if (data == nullptr)
+		data = new T;
+	
 	return data;
 }
