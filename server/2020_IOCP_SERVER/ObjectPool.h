@@ -48,6 +48,7 @@ inline T* ObjectPool<T>::PopObject()
 
 	if (data == nullptr)
 		data = new T;
+	ZeroMemory(data, sizeof(T));
 	
 	return data;
 }
