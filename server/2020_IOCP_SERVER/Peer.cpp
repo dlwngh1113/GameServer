@@ -39,7 +39,7 @@ void Peer::ProcessIO(DWORD ioSize)
 	int nPacketSize = (int)m_pRecvStartPos[0];
 	unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
 
-	// ÆĞÅ¶ÀÌ size¸¸Å­ µµÂøÇÑ °æ¿ì
+	// íŒ¨í‚·ì´ sizeë§Œí¼ ë„ì°©í•œ ê²½ìš°
 	while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
 	{
 		ProcessPacket(nPacketSize, m_pRecvStartPos);
@@ -55,13 +55,13 @@ void Peer::ProcessIO(DWORD ioSize)
 
 	if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
 	{
-		// ÆĞÅ¶ Ã³¸® ÈÄ ³²Àº µ¥ÀÌÅÍ¸¦ ¹öÆÛ ½ÃÀÛ ÁöÁ¡À¸·Î º¹»ç
+		// íŒ¨í‚· ì²˜ë¦¬ í›„ ë‚¨ì€ ë°ì´í„°ë¥¼ ë²„í¼ ì‹œì‘ ì§€ì ìœ¼ë¡œ ë³µì‚¬
 		memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
 		m_pRecvStartPos = m_recvOver.iocp_buf;
 		pNextRecvPos = m_pRecvStartPos + lnLeftData;
 	}
 
-	// µ¥ÀÌÅÍ¸¦ ¹ŞÀ» ¹öÆÛ ¼¼ÆÃ
+	// ë°ì´í„°ë¥¼ ë°›ì„ ë²„í¼ ì„¸íŒ…
 	m_pRecvStartPos = pNextRecvPos;
 	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
 	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
@@ -98,13 +98,14 @@ void Peer::SendPacket(unsigned char* data)
 {
 	try
 	{
-		//OVER EX ¿ÀºêÁ§Æ® Ç®¿¡¼­ ²¨³½ ÈÄ ÃÊ±âÈ­
+		//OVER EX ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ êº¼ë‚¸ í›„ ì´ˆê¸°í™”
 		OVER_EX* overEx = Statics::overlappedPool.PopObject();
+		ZeroMemory(overEx, sizeof(OVER_EX));
 		overEx->op_mode = OP_MODE_SEND;
 		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
 		overEx->wsa_buf.len = data[0];
 
-		//ÆĞÅ¶ µ¥ÀÌÅÍ ¹öÆÛ¿¡ º¹»ç
+		//íŒ¨í‚· ë°ì´í„° ë²„í¼ì— ë³µì‚¬
 		memcpy_s(overEx->iocp_buf, MAX_BUFFER, data, data[0]);
 
 		// Send
