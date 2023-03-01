@@ -18,9 +18,6 @@ BaseServer::~BaseServer()
 
 void BaseServer::Release()
 {
-	for (auto& pair : m_peers)
-		if (pair.second)
-			delete pair.second;
 	m_peers.clear();
 
 	closesocket(m_listenSocket);
@@ -64,7 +61,7 @@ void BaseServer::AddNewClient(SOCKET socket)
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket), h_iocp, socket, 0);
 
 	//按眉 积己 饶 包府
-	Peer* peer = new Peer(socket);
+	std::shared_ptr<Peer> peer = std::make_shared<Peer>(socket);
 
 	clientLock.lock();
 	m_peers[socket] = peer;

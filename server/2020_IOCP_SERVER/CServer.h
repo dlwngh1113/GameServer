@@ -2,17 +2,19 @@
 #include"Place.h"
 #include"BaseServer.h"
 
+using namespace std;
+
 class CServer : public BaseServer
 {
 	std::mutex m_userLock;
-	std::unordered_map<SOCKET, User*> m_users;
+	std::unordered_map<SOCKET, shared_ptr<User>> m_users;
 
 	static CServer* m_instance;
 
 protected:
 	void Release();
 
-	void OnAccept(const SOCKET socket, Peer* peer) override;
+	void OnAccept(const SOCKET socket, shared_ptr<Peer> peer) override;
 	void OnDisconnected(const SOCKET socket) override;
 
 public:
@@ -22,7 +24,7 @@ public:
 	void Run() override;
 	void Init();
 
-	User* GetUser(SOCKET key);
+	shared_ptr<User> GetUser(SOCKET key);
 
 	static CServer* GetInstance()
 	{

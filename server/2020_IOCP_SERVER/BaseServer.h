@@ -8,7 +8,7 @@ class BaseServer
 	OVER_EX m_acceptOver;
 
 	std::mutex clientLock;
-	std::unordered_map<SOCKET, Peer*> m_peers;
+	std::unordered_map<SOCKET, std::shared_ptr<Peer>> m_peers;
 private:
 	void Listen();
 	void AddNewClient(SOCKET socket);
@@ -19,7 +19,7 @@ protected:
 	void Release();
 
 	void BeginAcceptPeer();
-	virtual void OnAccept(const SOCKET socket, Peer* peer) = 0;
+	virtual void OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer) = 0;
 	virtual void OnDisconnected(const SOCKET socket) = 0;
 
 public:

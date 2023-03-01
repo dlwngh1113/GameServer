@@ -28,7 +28,21 @@ void MoveRequestHandler::HandleRequest()
 		break;
 	}
 
-	m_user->GetPlace()->Move(m_user, x, y);
+	m_user->SetPosition(x, y);
+
+	// 이벤트 데이터 세팅
+
+	UserMoveEvent ev;
+	ev.size = sizeof(ev);
+	ev.type = SC_PACKET_MOVE;
+	ev.id = m_user->GetID();
+	ev.x = m_user->GetX();
+	ev.y = m_user->GetY();
+
+	// 발송
+
+	//SendEvent(user, &ev);
+	//m_user->GetPlace()->Move(m_user, x, y);
 
 	MoveResponse res;
 	res.size = sizeof(MoveResponse);

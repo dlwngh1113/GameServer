@@ -25,39 +25,32 @@ void CServer::Init()
 	MetaDatas::GetInstance()->Init();
 }
 
-User* CServer::GetUser(SOCKET key)
+shared_ptr<User> CServer::GetUser(SOCKET key)
 {
 	return m_users[key];
 }
 
 void CServer::Release()
 {
-	for (auto& pair : m_users)
-		if (pair.second)
-			delete pair.second;
-
 	m_users.clear();
 
 	if (m_instance)
 		delete m_instance;
 }
 
-void CServer::OnAccept(const SOCKET socket, Peer* peer)
+void CServer::OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer)
 {
 	m_userLock.lock();
-	m_users[socket] = new User(peer);
+	m_users[socket] = make_shared<User>(peer.get());
 	m_userLock.unlock();
 }
 
 void CServer::OnDisconnected(const SOCKET socket)
 {
 	m_userLock.lock();
-	User* toRemoveUser = m_users[socket];
+	auto& toRemoveUser = m_users[socket];
 	m_users.erase(socket);
 	m_userLock.unlock();
 
 	DBWorker::UpdateUser(toRemoveUser);
-
-	if (toRemoveUser)
-		delete toRemoveUser;
 }

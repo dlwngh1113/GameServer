@@ -2,7 +2,7 @@
 #include "DBWorker.h"
 #include "User.h"
 
-void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
+void DBWorker::GetUser(std::shared_ptr<User> user, char name[MAX_ID_LEN])
 {
 	DBConnector dbc{ "EXEC GetUser ?" };
 	
@@ -30,7 +30,7 @@ void DBWorker::GetUser(User* user, char name[MAX_ID_LEN])
 	}
 }
 
-void DBWorker::UpdateUser(User* user)
+void DBWorker::UpdateUser(std::shared_ptr<User>& user)
 {
 	// name, level, exp, hp, x, y
 	DBConnector dbc{ "EXEC UpdateUser ?, ?, ?, ?, ?, ?" };
