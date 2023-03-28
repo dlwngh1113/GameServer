@@ -10,9 +10,9 @@ void Logger::Error(std::string message)
 	std::cout << "[Error] : " << message << std::endl;
 }
 
-void Logger::Info(std::string message)
+void Logger::Info(const char* file, const char* func, const char* line, const char* fmt, ...)
 {
 	SetConsoleTextAttribute(s_ConsoleHandle, 15);
 
-	std::cout << "[Info] : " << message << std::endl;
+	std::cout << "[Info] - " << "[" << file << "[" << func << "]" << line << fmt << std::endl;
 }
