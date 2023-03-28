@@ -25,8 +25,8 @@ void DBConnector::Init()
 		if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
 		{
 			dbRetcode = SQLAllocHandle(SQL_HANDLE_DBC, m_henv, &m_hdbc);
-			if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO);
-				//Logger::Info("DB Allocate success");
+			if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
+				Logger::Info("DB Allocate success");
 			else
 				CheckError();
 		}
