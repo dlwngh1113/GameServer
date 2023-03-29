@@ -77,7 +77,7 @@ void BaseServer::DisconnectClient(SOCKET socket)
 	m_peers.erase(socket);
 	clientLock.unlock();
 
-	Logger::Info("Client id " + std::to_string(socket) + " successfully disconnected!");
+	Log("Client Id : %d Successfully disconnected!", socket);
 
 	OnDisconnected(socket);
 }

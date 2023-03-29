@@ -15,12 +15,12 @@ RequestHandlerFactory::~RequestHandlerFactory()
 
 void RequestHandlerFactory::Init()
 {
-	Logger::Info("RequestHandlerFactory Init Started");
+	Log("RequestHandlerFactory Init Started");
 	BaseRequestHandlerFactory::AddHandler(CS_LOGIN, new LoginRequestHandler());
 	BaseRequestHandlerFactory::AddHandler(CS_MOVE, new MoveRequestHandler());
 	BaseRequestHandlerFactory::AddHandler(CS_TELEPORT, new TeleportRequestHandler());
 	BaseRequestHandlerFactory::AddHandler(CS_LOGOUT, new LogoutRequestHandler());
-	Logger::Info("RequestHandlerFactory Init Finished");
+	Log("RequestHandlerFactory Init Finished");
 }
 
 RequestHandlerFactory* RequestHandlerFactory::GetInstance()

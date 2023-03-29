@@ -8,5 +8,5 @@ class Logger
 	static HANDLE s_ConsoleHandle;
 public:
 	static void Error(std::string message);
-	static void Info(const char* file, const char* func, const char* line, const char* fmt, ...);
+	static void Info(const char* file, const char* func, const int line, const char* fmt, ...);
 };
