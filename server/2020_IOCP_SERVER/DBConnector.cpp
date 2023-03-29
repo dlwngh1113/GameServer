@@ -51,7 +51,7 @@ void DBConnector::Release()
 void DBConnector::CheckError()
 {
 	SQLGetDiagRec(SQL_HANDLE_DBC, m_hdbc, ++m_nRecord, m_sState, &m_nNative, m_sMessage, UCHAR_MAX, &m_nLenth);
-	Logger::Error((char*)m_sMessage);
+	Log((char*)m_sMessage);
 }
 
 void DBConnector::ExecuteDirectSQL()
@@ -65,8 +65,8 @@ void DBConnector::PrepareStatement()
 {
 	SQLRETURN retCode = SQLPrepare(m_hstmt, m_query, SQL_NTS);
 
-	if (retCode == SQL_SUCCESS);
-		//Logger::Info("Query Prepare Success");
+	if (retCode == SQL_SUCCESS)
+		Log("Query Prepare Success");
 	else
 		CheckError();
 }
@@ -75,8 +75,8 @@ void DBConnector::ExecutePreparedStatement()
 {
 	SQLRETURN retCode = SQLExecute(m_hstmt);
 
-	if (retCode == SQL_SUCCESS);
-		//Logger::Info("Prepared Query Execute Success");
+	if (retCode == SQL_SUCCESS)
+		Log("Prepared Query Execute Success");
 	else
 		CheckError();
 }
@@ -89,8 +89,8 @@ void DBConnector::SetQueryString(const char* query)
 	m_query = (SQLWCHAR*)tQuery;
 
 	SQLRETURN retCode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
-	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO);
-		//Logger::Info("Allocate Handle Success");
+	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
+		Log("Allocate Handle Success");
 	else
 		CheckError();
 }

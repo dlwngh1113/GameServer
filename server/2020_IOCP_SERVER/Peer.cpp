@@ -25,7 +25,7 @@ void Peer::StartRecv()
 	{
 		int err_no = WSAGetLastError();
 		if (ERROR_IO_PENDING != err_no)
-			Logger::Error("WSA Error - " + err_no);
+			Log("WSA Error - " + err_no);
 	}
 }
 
@@ -90,7 +90,7 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 	}
 	catch (std::exception& ex)
 	{
-		Logger::Error(ex.what());
+		Log(ex.what());
 	}
 }
 
@@ -115,7 +115,7 @@ void Peer::SendPacket(unsigned char* data)
 	}
 	catch (std::exception& ex)
 	{
-		Logger::Error(ex.what());
+		Log(ex.what());
 	}
 }
 
