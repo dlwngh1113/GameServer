@@ -11,6 +11,15 @@ BaseServer::BaseServer()
 	BeginAcceptPeer();
 }
 
+void BaseServer::BeginAcceptPeer()
+{
+	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
+	m_acceptOver.op_mode = OP_MODE_ACCEPT;
+	m_acceptOver.wsa_buf.len = static_cast<int>(cSocket);
+	ZeroMemory(&m_acceptOver.wsa_over, sizeof(&m_acceptOver.wsa_over));
+	AcceptEx(m_listenSocket, cSocket, m_acceptOver.iocp_buf, 0, 32, 32, NULL, &m_acceptOver.wsa_over);
+}
+
 BaseServer::~BaseServer()
 {
 	Release();
@@ -112,7 +121,7 @@ void BaseServer::Process()
 				DisconnectClient(ns);
 			else
 			{
-				Log("Packet from Client [" + std::to_string(ns) + "] - ioSize: " + std::to_string(ioSize));
+				Log("Packet from Client [%d] - ioSize: ", ns, ioSize);
 				clientLock.lock();
 				m_peers[ns]->ProcessIO(ioSize);
 				clientLock.unlock();
@@ -123,13 +132,4 @@ void BaseServer::Process()
 			break;
 		}
 	}
-}
-
-void BaseServer::BeginAcceptPeer()
-{
-	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
-	m_acceptOver.op_mode = OP_MODE_ACCEPT;
-	m_acceptOver.wsa_buf.len = static_cast<int>(cSocket);
-	ZeroMemory(&m_acceptOver.wsa_over, sizeof(&m_acceptOver.wsa_over));
-	AcceptEx(m_listenSocket, cSocket, m_acceptOver.iocp_buf, 0, 32, 32, NULL, &m_acceptOver.wsa_over);
 }

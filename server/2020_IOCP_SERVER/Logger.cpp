@@ -14,5 +14,5 @@ void Logger::Info(const char* file, const char* func, const int line, const char
 {
 	SetConsoleTextAttribute(s_ConsoleHandle, 15);
 
-	std::cout << "[" << file << " : " << line << "]" << std::endl;
+	std::cout << "[" << file << " : " << line << "]" << fmt << std::endl;
 }
