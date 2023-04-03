@@ -14,5 +14,10 @@ void Logger::Info(const char* file, const char* func, const int line, const char
 {
 	SetConsoleTextAttribute(s_ConsoleHandle, 15);
 
-	std::cout << "[" << file << " : " << line << "]" << fmt << std::endl;
+	va_list ap;
+	va_start(ap, fmt);
+	printf("[%s : %d] ", file, line);
+	vprintf(fmt, ap);
+	va_end(ap);
+	printf("\n");
 }

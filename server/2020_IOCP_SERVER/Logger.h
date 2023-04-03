@@ -1,5 +1,4 @@
 #pragma once
-#include"stdafx.h"
 
 #define Log(fmt, ...) Logger::Info(__FILE__, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 

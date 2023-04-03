@@ -121,7 +121,7 @@ void BaseServer::Process()
 				DisconnectClient(ns);
 			else
 			{
-				Log("Packet from Client [%d] - ioSize: ", ns, ioSize);
+				Log("Packet from Client [%d] - ioSize: %d", ns, ioSize);
 				clientLock.lock();
 				m_peers[ns]->ProcessIO(ioSize);
 				clientLock.unlock();
