@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "TeleportRequestHandler.h"
-#include"CServer.h"
+#include "User.h"
+#include "Packets.h"
+#include "CServer.h"
 
 void TeleportRequestHandler::HandleRequest()
 {

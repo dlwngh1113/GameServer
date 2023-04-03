@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "PlaceEnterRequestHandler.h"
 #include"MetaDatas.h"
+#include"User.h"
+#include "Packets.h"
 
 void PlaceEnterRequestHandler::HandleRequest()
 {
 	PlaceEnterRequest* packet = reinterpret_cast<PlaceEnterRequest*>(m_packet);
 	Place* place = MetaDatas::GetInstance()->GetPlace(packet->placeId);
 
-	place->AddUser(m_user.get());
+	place->AddUser(m_user);
 	m_user->GetPlace() = place;
 
 	// 응답 데이터 세팅

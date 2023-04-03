@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MetaDatas.h"
+#include "Logger.h"
 
 MetaDatas* MetaDatas::s_instance = nullptr;
 

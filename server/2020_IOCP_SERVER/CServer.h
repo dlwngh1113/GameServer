@@ -1,6 +1,8 @@
 #pragma once
-#include"Place.h"
 #include"BaseServer.h"
+
+class User;
+class Peer;
 
 class CServer : public BaseServer
 {

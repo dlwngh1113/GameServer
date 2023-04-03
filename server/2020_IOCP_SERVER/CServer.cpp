@@ -1,7 +1,10 @@
 #include"stdafx.h"
 #include "CServer.h"
 #include "DBWorker.h"
+#include"Place.h"
 #include"MetaDatas.h"
+#include "RequestHandlerFactory.h"
+#include "User.h"
 
 CServer* CServer::m_instance = nullptr;
 

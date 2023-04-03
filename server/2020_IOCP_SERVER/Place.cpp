@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Place.h"
+#include "User.h"
+#include "Packets.h"
 
 //Sector* Place::GetSectorByPoint(short x, short y)
 //{
@@ -48,7 +50,7 @@ Place::~Place()
 	//	delete[] m_sectors;
 }
 
-void Place::RemoveUser(User* user)
+void Place::RemoveUser(std::shared_ptr<User> user)
 {
 	m_lock.lock();
 	m_users.erase(user->GetID());
@@ -68,7 +70,7 @@ void Place::RemoveUser(User* user)
 	SendEvent(user, &ev);
 }
 
-void Place::AddUser(User* user)
+void Place::AddUser(std::shared_ptr<User> user)
 {
 	m_lock.lock();
 	m_users.insert(std::make_pair(user->GetID(), user));
@@ -91,7 +93,7 @@ void Place::AddUser(User* user)
 	SendEvent(user, &ev);
 }
 
-void Place::SendEvent(User* userToExclude, BasePacket* ev)
+void Place::SendEvent(std::shared_ptr<User> userToExclude, BasePacket* ev)
 {
 	m_lock.lock();
 	for (const auto& pair : m_users)
@@ -100,7 +102,7 @@ void Place::SendEvent(User* userToExclude, BasePacket* ev)
 	m_lock.unlock();
 }
 
-void Place::Move(User* user, short x, short y)
+void Place::Move(std::shared_ptr<User> user, short x, short y)
 {
 	if (0 > x || m_nWidth < x)
 		return;
