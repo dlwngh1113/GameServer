@@ -105,7 +105,7 @@ void DBConnector::AddParameter(short val)
 	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_SHORT, SQL_SMALLINT, 0, 0, &val, 0, NULL);
 }
 
-void DBConnector::AddParameter(char* val)
+void DBConnector::AddParameter(const char* val)
 {
-	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, strlen(val), 0, val, 0, NULL);
+	SQLBindParameter(m_hstmt, ++m_nParamIndex, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, strlen(val), 0, (SQLCHAR*)const_cast<char*>(val), 0, NULL);
 }

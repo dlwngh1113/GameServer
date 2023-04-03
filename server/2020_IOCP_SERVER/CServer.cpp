@@ -48,7 +48,7 @@ void CServer::OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer)
 
 void CServer::OnDisconnected(const SOCKET socket)
 {
-	auto& toRemoveUser = m_users[socket];
+	auto toRemoveUser = m_users[socket];
 	DBWorker::UpdateUser(toRemoveUser);
 	
 	m_userLock.lock();

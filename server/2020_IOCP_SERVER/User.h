@@ -6,7 +6,7 @@ class Place;
 
 class User : public ClientPeer
 {
-	short m_level{ 0 }, m_hp{ 0 }, m_x{ 0 }, m_y{ 0 };
+	short m_snLevel{ 0 }, m_snHp{ 0 }, m_snX{ 0 }, m_snY{ 0 };
 	int m_nExp{ 0 };
 	char m_sName[MAX_ID_LEN];
 
@@ -20,11 +20,11 @@ public:
 	virtual ~User();
 
 #pragma region Properties
-	char* const GetName() { return m_sName; }
-	short GetLevel() const { return m_level; }
-	short GetHp() const { return m_hp; }
-	short GetX() const { return m_x; }
-	short GetY() const { return m_y; }
+	const char* GetName() { return m_sName; }
+	short GetLevel() const { return m_snLevel; }
+	short GetHp() const { return m_snHp; }
+	short GetX() const { return m_snX; }
+	short GetY() const { return m_snY; }
 	int GetExp() const { return m_nExp; }
 
 	Place* GetPlace() const { return m_place; }

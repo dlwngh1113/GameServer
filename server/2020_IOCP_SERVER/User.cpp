@@ -15,15 +15,16 @@ User::~User()
 void User::SetInfo(char* name, short level, int exp, short hp, short x, short y)
 {
 	strcpy_s(this->m_sName, name);
-	this->m_level = level;
+	this->m_snLevel = level;
 	this->m_nExp = exp;
-	this->m_hp = hp;
-	this->m_x = x;
-	this->m_y = y;
+	this->m_snHp = hp;
+	this->m_snX = x;
+	this->m_snY = y;
+	Log("SetInfo User Name - ")
 }
 
 void User::SetPosition(short x, short y)
 {
-	m_x = x;
-	m_y = y;
+	m_snX = x;
+	m_snY = y;
 }
