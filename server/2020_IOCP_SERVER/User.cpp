@@ -20,7 +20,6 @@ void User::SetInfo(char* name, short level, int exp, short hp, short x, short y)
 	this->m_snHp = hp;
 	this->m_snX = x;
 	this->m_snY = y;
-	Log("SetInfo User Name - ")
 }
 
 void User::SetPosition(short x, short y)
