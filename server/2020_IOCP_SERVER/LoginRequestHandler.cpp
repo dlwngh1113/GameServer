@@ -1,8 +1,8 @@
 #include"stdafx.h"
 #include "LoginRequestHandler.h"
-#include"CServer.h"
 #include"DBWorker.h"
-#include"MetaDatas.h"
+#include"User.h"
+#include"Packets.h"
 
 BaseRequestHandler* LoginRequestHandler::Create()
 {

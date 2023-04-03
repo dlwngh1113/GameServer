@@ -1,6 +1,6 @@
 #pragma once
 
-template <class TKey, class TValue>
+template <typename TKey, typename TValue>
 class IFactory
 {
 protected:

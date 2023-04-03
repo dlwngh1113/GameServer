@@ -1,6 +1,25 @@
 #include "stdafx.h"
+#include"DBConnector.h"
 #include "DBWorker.h"
 #include "User.h"
+
+void DBWorker::AddUser(char name[MAX_ID_LEN])
+{
+	// name, level, exp, hp, x, y
+	DBConnector dbc{ "EXEC AddUser ?, ?, ?, ?, ?, ?" };
+
+	dbc.PrepareStatement();
+
+	dbc.AddParameter(name);
+	dbc.AddParameter(1);
+	dbc.AddParameter(0);
+	dbc.AddParameter(50);
+	dbc.AddParameter(0);
+	dbc.AddParameter(0);
+
+	dbc.ExecutePreparedStatement();
+	Log("Add User %s\n", name);
+}
 
 void DBWorker::GetUser(std::shared_ptr<User> user, char name[MAX_ID_LEN])
 {
@@ -26,11 +45,16 @@ void DBWorker::GetUser(std::shared_ptr<User> user, char name[MAX_ID_LEN])
 	{
 		user->SetInfo(name, level, exp, hp, x, y);
 
-		printf("login %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
+		Log("login %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
+	}
+	else
+	{
+		AddUser(name);
+		user->SetInfo(name, 1, 0, 50, 0, 0);
 	}
 }
 
-void DBWorker::UpdateUser(std::shared_ptr<User>& user)
+void DBWorker::UpdateUser(std::shared_ptr<User> user)
 {
 	// name, level, exp, hp, x, y
 	DBConnector dbc{ "EXEC UpdateUser ?, ?, ?, ?, ?, ?" };
@@ -45,5 +69,5 @@ void DBWorker::UpdateUser(std::shared_ptr<User>& user)
 	dbc.AddParameter(user->GetY());
 
 	dbc.ExecutePreparedStatement();
-	printf("logout %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
+	Log("logout %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
 }

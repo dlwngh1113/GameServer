@@ -1,20 +1,23 @@
 #pragma once
-#include"Place.h"
 #include"BaseServer.h"
 
-using namespace std;
+class User;
+class Peer;
 
 class CServer : public BaseServer
 {
 	std::mutex m_userLock;
-	std::unordered_map<SOCKET, shared_ptr<User>> m_users;
+	std::unordered_map<SOCKET, std::shared_ptr<User>> m_users;
 
 	static CServer* m_instance;
+
+private:
+	void Init();
 
 protected:
 	void Release();
 
-	void OnAccept(const SOCKET socket, shared_ptr<Peer> peer) override;
+	void OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer) override;
 	void OnDisconnected(const SOCKET socket) override;
 
 public:
@@ -22,9 +25,8 @@ public:
 	virtual ~CServer();
 
 	void Run() override;
-	void Init();
 
-	shared_ptr<User> GetUser(SOCKET key);
+	std::shared_ptr<User> GetUser(SOCKET key);
 
 	static CServer* GetInstance()
 	{

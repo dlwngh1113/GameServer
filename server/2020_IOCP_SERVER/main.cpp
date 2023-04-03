@@ -4,6 +4,5 @@
 int main()
 {
 	CServer* server = CServer::GetInstance();
-	server->Init();
 	server->Run();
 }

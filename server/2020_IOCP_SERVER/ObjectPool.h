@@ -1,7 +1,7 @@
 #pragma once
 #include"Logger.h"
 
-template <class T>
+template <typename T>
 class ObjectPool
 {
 	std::mutex m_lock;
@@ -14,7 +14,7 @@ public:
 	T* PopObject();
 };
 
-template<class T>
+template<typename T>
 inline ObjectPool<T>::ObjectPool(int size)
 {
 	for (int i = 0; i < size; ++i)
@@ -24,7 +24,7 @@ inline ObjectPool<T>::ObjectPool(int size)
 	}
 }
 
-template<class T>
+template<typename T>
 inline ObjectPool<T>::~ObjectPool()
 {
 	T* data = nullptr;
@@ -33,13 +33,13 @@ inline ObjectPool<T>::~ObjectPool()
 		delete data;
 }
 
-template<class T>
+template<typename T>
 inline void ObjectPool<T>::PushObject(T* obj)
 {
 	m_pool.push(obj);
 }
 
-template<class T>
+template<typename T>
 inline T* ObjectPool<T>::PopObject()
 {
 	T* data = nullptr;

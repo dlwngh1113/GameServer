@@ -33,5 +33,5 @@ public:
 
 	void AddParameter(int val);
 	void AddParameter(short val);
-	void AddParameter(char* val);
+	void AddParameter(const char* val);
 };
