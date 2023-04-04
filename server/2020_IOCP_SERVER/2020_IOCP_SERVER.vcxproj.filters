@@ -22,9 +22,6 @@
     <Filter Include="Framework\Peer">
       <UniqueIdentifier>{a6bbec3a-fcf6-4671-aaf1-e8e83751e144}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\Packet">
-      <UniqueIdentifier>{20bed9a5-6efd-43d8-9a0f-7c513e4229e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework\Server">
       <UniqueIdentifier>{ebc97cb8-3d29-4562-838c-66f57404cb2c}</UniqueIdentifier>
     </Filter>
@@ -161,12 +158,6 @@
     <ClInclude Include="BaseServer.h">
       <Filter>Framework\Server</Filter>
     </ClInclude>
-    <ClInclude Include="BasePacket.h">
-      <Filter>Framework\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Packets.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -226,9 +217,6 @@
     </ClInclude>
     <ClInclude Include="Sector.h">
       <Filter>Client\Instance</Filter>
-    </ClInclude>
-    <ClInclude Include="Defines.h">
-      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="LogoutRequestHandler.h">
       <Filter>Client\RequestHandlers\Handlers</Filter>

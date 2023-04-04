@@ -1,6 +1,5 @@
 #pragma once
 #include"IPeer.h"
-#include"BasePacket.h"
 #include"Statics.h"
 
 class IHandlerFactory;

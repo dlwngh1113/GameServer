@@ -1,6 +1,6 @@
 #pragma once
 
-class BasePacket;
+struct BasePacket;
 class User;
 
 class Place

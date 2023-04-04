@@ -18,7 +18,6 @@ void DBWorker::AddUser(char name[MAX_ID_LEN])
 	dbc.AddParameter(0);
 
 	dbc.ExecutePreparedStatement();
-	Log("Add User %s\n", name);
 }
 
 void DBWorker::GetUser(std::shared_ptr<User> user, char name[MAX_ID_LEN])

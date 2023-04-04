@@ -2,7 +2,6 @@
 #include "LoginRequestHandler.h"
 #include"DBWorker.h"
 #include"User.h"
-#include"Packets.h"
 
 BaseRequestHandler* LoginRequestHandler::Create()
 {

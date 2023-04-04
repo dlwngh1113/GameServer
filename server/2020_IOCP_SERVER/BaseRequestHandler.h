@@ -1,7 +1,7 @@
 #pragma once
 
 class Peer;
-class BasePacket;
+struct BasePacket;
 
 class BaseRequestHandler
 {

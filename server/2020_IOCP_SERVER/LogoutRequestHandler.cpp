@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "LogoutRequestHandler.h"
-#include"Packets.h"
 
 void LogoutRequestHandler::HandleRequest()
 {
