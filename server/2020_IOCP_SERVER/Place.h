@@ -2,6 +2,7 @@
 
 struct BasePacket;
 class User;
+class Sector;
 
 class Place
 {
@@ -10,8 +11,8 @@ private:
 	std::mutex m_lock;
 	std::unordered_map<int, std::shared_ptr<User>> m_users;
 
-	//Sector** m_sectors = nullptr;
-	//Sector* GetSectorByPoint(short x, short y);
+	Sector** m_sectors = nullptr;
+	Sector* GetSectorByPoint(short x, short y);
 
 	void SendEvent(std::shared_ptr<User> userToExclude, BasePacket* packet);
 public:
