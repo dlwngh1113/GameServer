@@ -148,8 +148,8 @@ void ProcessPacket(char* ptr)
 		avatar.hp = packet->hp;
 		avatar.level = packet->level;
 		avatar.exp = packet->exp;
-		g_left_x = packet->x - CLIENT_WIDTH / 2;
-		g_top_y = packet->y - CLIENT_HEIGHT / 2;
+		//g_left_x = packet->x - CLIENT_WIDTH / 2;
+		//g_top_y = packet->y - CLIENT_HEIGHT / 2;
 		//printf("%d %d %d %d %d %d\n",
 		//	my_packet->id,
 		//	my_packet->hp,
@@ -196,21 +196,21 @@ void ProcessPacket(char* ptr)
 		avatar.show();
 	}
 	break;
-	//case SC_OtherUserEnter:
-	//{
-	//	UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
-	//	int id = packet->id;
+	case SC_OtherUserEnter:
+	{
+		UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
+		int id = packet->id;
 
-	//	if (id < MAX_USER)
-	//		npcs[id] = OBJECT{ *pieces, 0, 0, TILE_WIDTH, TILE_WIDTH };
-	//	else
-	//		npcs[id] = OBJECT{ *pieces, 32, 0, TILE_WIDTH, TILE_WIDTH };
-	//	strcpy_s(npcs[id].name, packet->name);
-	//	npcs[id].set_name(packet->name);
-	//	npcs[id].move(packet->x, packet->y);
-	//	npcs[id].show();
-	//}
-	//break;
+		if (id < MAX_USER)
+			npcs[id] = OBJECT{ *pieces, 0, 0, TILE_WIDTH, TILE_WIDTH };
+		else
+			npcs[id] = OBJECT{ *pieces, 32, 0, TILE_WIDTH, TILE_WIDTH };
+		strcpy_s(npcs[id].name, packet->name);
+		npcs[id].set_name(packet->name);
+		npcs[id].move(packet->x, packet->y);
+		npcs[id].show();
+	}
+	break;
 	case SC_PACKET_MOVE:
 	{
 		MoveResponse* packet = reinterpret_cast<MoveResponse*>(ptr);

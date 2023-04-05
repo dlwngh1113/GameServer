@@ -14,7 +14,7 @@ private:
 	Sector** m_sectors = nullptr;
 	Sector* GetSectorByPoint(short x, short y);
 
-	void SendEvent(std::shared_ptr<User> userToExclude, BasePacket* packet);
+	void SendEvent(const std::shared_ptr<User>& userToExclude, BasePacket* packet);
 public:
 	Place();
 	Place(int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);

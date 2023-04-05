@@ -94,7 +94,7 @@ void Place::AddUser(std::shared_ptr<User> user)
 	SendEvent(user, &ev);
 }
 
-void Place::SendEvent(std::shared_ptr<User> userToExclude, BasePacket* ev)
+void Place::SendEvent(const std::shared_ptr<User>& userToExclude, BasePacket* ev)
 {
 	m_lock.lock();
 	for (const auto& pair : m_users)
