@@ -32,6 +32,7 @@ public:
 	short level{ 0 };
 	int   exp{ 0 };
 	char name[MAX_ID_LEN];
+	int placeId{ 0 };
 	OBJECT(sf::Texture& t, int x, int y, int x2, int y2) {
 		m_showing = false;
 		m_sprite.setTexture(t);
@@ -144,7 +145,7 @@ void ProcessPacket(char* ptr)
 	{
 		LoginResponse* packet = reinterpret_cast<LoginResponse*>(ptr);
 		g_myid = packet->id;
-		avatar.move(packet->x, packet->y);
+		avatar.placeId = packet->placeId;
 		avatar.hp = packet->hp;
 		avatar.level = packet->level;
 		avatar.exp = packet->exp;
@@ -162,7 +163,7 @@ void ProcessPacket(char* ptr)
 		PlaceEnterRequest p_packet;
 		p_packet.size = sizeof(p_packet);
 		p_packet.type = CS_ENTERPLACE;
-		p_packet.placeId = 0;
+		p_packet.placeId = avatar.placeId;
 
 		send_packet(&p_packet);
 	}

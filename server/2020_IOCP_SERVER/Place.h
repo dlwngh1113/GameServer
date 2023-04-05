@@ -7,6 +7,7 @@ class Sector;
 class Place
 {
 private:
+	int m_nId{ 0 };
 	int m_nWidth{ 0 }, m_nHeight{ 0 }, m_nWidthSectorSize{ 0 }, m_nHeightSectorSize{ 0 };
 	std::mutex m_lock;
 	std::unordered_map<int, std::shared_ptr<User>> m_users;
@@ -17,8 +18,10 @@ private:
 	void SendEvent(const std::shared_ptr<User>& userToExclude, BasePacket* packet);
 public:
 	Place();
-	Place(int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);
+	Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);
 	virtual ~Place();
+
+	int GetId() const { return m_nId; }
 
 	void AddUser(std::shared_ptr<User> user);
 	void RemoveUser(std::shared_ptr<User> user);

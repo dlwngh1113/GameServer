@@ -1,6 +1,7 @@
 #include"stdafx.h"
 #include "LoginRequestHandler.h"
 #include"DBWorker.h"
+#include"Place.h"
 #include"User.h"
 
 BaseRequestHandler* LoginRequestHandler::Create()
@@ -23,8 +24,7 @@ void LoginRequestHandler::HandleRequest()
 	res.level = m_user->GetLevel();
 	res.exp = m_user->GetExp();
 	res.hp = m_user->GetHp();
-	res.x = m_user->GetX();
-	res.y = m_user->GetY();
+	res.placeId = m_user->GetPlace()->GetId();
 
 	// ¹ß¼Û
 

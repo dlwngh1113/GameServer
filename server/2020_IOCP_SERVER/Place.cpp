@@ -23,7 +23,7 @@ Place::Place()
 {
 }
 
-Place::Place(int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize) : m_nWidth{ nWidth }, m_nHeight{ nHeight }, m_nWidthSectorSize{ nWidthSectorSize }, m_nHeightSectorSize{ nHeightSectorSize }
+Place::Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize) : m_nId{ nId }, m_nWidth { nWidth }, m_nHeight{ nHeight }, m_nWidthSectorSize{ nWidthSectorSize }, m_nHeightSectorSize{ nHeightSectorSize }
 {
 	// 각 섹터별 너비, 높이
 	int nSectorWidth = m_nWidth / m_nWidthSectorSize;
@@ -49,6 +49,15 @@ Place::~Place()
 
 	if (m_sectors)
 		delete[] m_sectors;
+}
+
+void Place::SendEvent(const std::shared_ptr<User>& userToExclude, BasePacket* ev)
+{
+	m_lock.lock();
+	for (const auto& pair : m_users)
+		if (pair.second != userToExclude)
+			pair.second->SendPacket(ev);
+	m_lock.unlock();
 }
 
 void Place::RemoveUser(std::shared_ptr<User> user)
@@ -92,15 +101,6 @@ void Place::AddUser(std::shared_ptr<User> user)
 	// 발송
 
 	SendEvent(user, &ev);
-}
-
-void Place::SendEvent(const std::shared_ptr<User>& userToExclude, BasePacket* ev)
-{
-	m_lock.lock();
-	for (const auto& pair : m_users)
-		if (pair.second != userToExclude)
-			pair.second->SendPacket(ev);
-	m_lock.unlock();
 }
 
 void Place::Move(std::shared_ptr<User> user, short x, short y)

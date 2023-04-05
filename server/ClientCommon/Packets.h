@@ -66,10 +66,10 @@ struct LoginRequest : BasePacket
 struct LoginResponse : BasePacket
 {
 	int  id;
-	short x, y;
 	short hp;
 	short level;
 	int   exp;
+	short placeId;
 };
 
 struct LoginFailResponse : BasePacket
