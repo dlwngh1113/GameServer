@@ -158,6 +158,13 @@ void ProcessPacket(char* ptr)
 		//	avatar.m_x,
 		//	avatar.m_y);
 		avatar.show();
+
+		PlaceEnterRequest p_packet;
+		p_packet.size = sizeof(p_packet);
+		p_packet.type = CS_ENTERPLACE;
+		p_packet.placeId = 0;
+
+		send_packet(&p_packet);
 	}
 	break;
 	case SC_PACKET_LOGIN_FAIL:

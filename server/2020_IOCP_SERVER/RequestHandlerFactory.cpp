@@ -1,5 +1,10 @@
 #include"stdafx.h"
 #include "RequestHandlerFactory.h"
+#include"LoginRequestHandler.h"
+#include"MoveRequestHandler.h"
+#include"TeleportRequestHandler.h"
+#include"LogoutRequestHandler.h"
+#include"PlaceEnterRequestHandler.h"
 
 RequestHandlerFactory* RequestHandlerFactory::m_instance = nullptr;
 
@@ -20,6 +25,7 @@ void RequestHandlerFactory::Init()
 	BaseRequestHandlerFactory::AddHandler(CS_MOVE, new MoveRequestHandler());
 	BaseRequestHandlerFactory::AddHandler(CS_TELEPORT, new TeleportRequestHandler());
 	BaseRequestHandlerFactory::AddHandler(CS_LOGOUT, new LogoutRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(CS_ENTERPLACE, new PlaceEnterRequestHandler());
 	Log("RequestHandlerFactory Init Finished");
 }
 

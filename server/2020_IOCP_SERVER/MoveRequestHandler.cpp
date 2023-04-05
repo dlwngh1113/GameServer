@@ -2,6 +2,7 @@
 #include "MoveRequestHandler.h"
 #include"User.h"
 #include"Packets.h"
+#include "Place.h"
 
 BaseRequestHandler* MoveRequestHandler::Create()
 {
@@ -29,7 +30,11 @@ void MoveRequestHandler::HandleRequest()
 		break;
 	}
 
-	m_user->SetPosition(x, y);
+	Place* place = m_user->GetPlace();
+	if (place == nullptr)
+		throw std::exception{ "현재 장소가 없습니다." };
+
+	place->Move(m_user, x, y);
 
 	// 이벤트 데이터 세팅
 
