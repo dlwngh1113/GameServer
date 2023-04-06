@@ -3,6 +3,12 @@
 #include "DBWorker.h"
 #include "User.h"
 
+void DBWorker::LoadMetaDatas()
+{
+	DBConnector dbc{ "EXEC LoadMetaDatas" };
+	dbc.ExecuteDirectSQL();
+}
+
 void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
 {
 	// name, level, exp, hp, x, y
@@ -28,16 +34,17 @@ void DBWorker::GetUser(std::shared_ptr<User> user, char name[ClientCommon::MAX_I
 	dbc.AddParameter(name);
 	dbc.ExecutePreparedStatement();
 
-	short level, hp, x, y;
+	short level, hp, x, y, placeId;
 	int exp;
-	SQLLEN cLevel, cHp, cX, cY, cExp;
+	SQLLEN cLevel, cHp, cX, cY, cExp, cYPlaceId;
 
 	SQLBindCol(dbc.GetStatement(), 2, SQL_C_SHORT, &level, sizeof(level), &cLevel);
 	SQLBindCol(dbc.GetStatement(), 3, SQL_C_LONG, &exp, sizeof(exp), &cExp);
 	SQLBindCol(dbc.GetStatement(), 4, SQL_C_SHORT, &hp, sizeof(hp), &cHp);
 	SQLBindCol(dbc.GetStatement(), 5, SQL_C_SHORT, &x, sizeof(x), &cX);
 	SQLBindCol(dbc.GetStatement(), 6, SQL_C_SHORT, &y, sizeof(y), &cY);
-
+	SQLBindCol(dbc.GetStatement(), 7, SQL_C_SHORT, &placeId, sizeof(placeId), &cYPlaceId);
+	
 	SQLRETURN retCode = SQLFetch(dbc.GetStatement());
 
 	if (retCode == SQL_SUCCESS)
