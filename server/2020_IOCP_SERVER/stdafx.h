@@ -37,6 +37,6 @@ struct OVER_EX {
 	WSAOVERLAPPED wsa_over;
 	char	op_mode;
 	WSABUF	wsa_buf;
-	unsigned char iocp_buf[MAX_BUFFER];
+	unsigned char iocp_buf[ClientCommon::MAX_BUFFER];
 	int		object_id;
 };

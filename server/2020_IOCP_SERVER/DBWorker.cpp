@@ -3,7 +3,7 @@
 #include "DBWorker.h"
 #include "User.h"
 
-void DBWorker::AddUser(char name[MAX_ID_LEN])
+void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
 {
 	// name, level, exp, hp, x, y
 	DBConnector dbc{ "EXEC AddUser ?, ?, ?, ?, ?, ?" };
@@ -20,7 +20,7 @@ void DBWorker::AddUser(char name[MAX_ID_LEN])
 	dbc.ExecutePreparedStatement();
 }
 
-void DBWorker::GetUser(std::shared_ptr<User> user, char name[MAX_ID_LEN])
+void DBWorker::GetUser(std::shared_ptr<User> user, char name[ClientCommon::MAX_ID_LEN])
 {
 	DBConnector dbc{ "EXEC GetUser ?" };
 	

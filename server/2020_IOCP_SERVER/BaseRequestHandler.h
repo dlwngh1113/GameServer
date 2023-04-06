@@ -1,15 +1,15 @@
 #pragma once
 
 class Peer;
-struct BasePacket;
+struct ClientCommon::BasePacket;
 
 class BaseRequestHandler
 {
 protected:
 	Peer* m_peer;
-	BasePacket* m_packet;
+	ClientCommon::BasePacket* m_packet;
 public:
-	void Init(Peer* peer, BasePacket* packet);
+	void Init(Peer* peer, ClientCommon::BasePacket* packet);
 
 	virtual void Handle() = 0;
 	virtual BaseRequestHandler* Create() = 0;

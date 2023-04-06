@@ -12,7 +12,7 @@ ClientPeer::~ClientPeer()
 		delete m_peer;
 }
 
-void ClientPeer::SendPacket(BasePacket* packet)
+void ClientPeer::SendPacket(ClientCommon::BasePacket* packet)
 {
 	m_peer->SendPacket(packet);
 }

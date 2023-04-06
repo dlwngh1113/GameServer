@@ -11,21 +11,21 @@ BaseRequestHandler* MoveRequestHandler::Create()
 
 void MoveRequestHandler::HandleRequest()
 {
-	MoveRequest* packet = reinterpret_cast<MoveRequest*>(m_packet);
+	ClientCommon::MoveRequest* packet = reinterpret_cast<ClientCommon::MoveRequest*>(m_packet);
 
 	short x{ m_user->GetX() }, y{ m_user->GetY() };
 	switch (packet->direction)
 	{
-	case MV_UP:
+	case ClientCommon::MV_UP:
 		--y;
 		break;
-	case MV_DOWN:
+	case ClientCommon::MV_DOWN:
 		++y;
 		break;
-	case MV_LEFT:
+	case ClientCommon::MV_LEFT:
 		--x;
 		break;
-	case MV_RIGHT:
+	case ClientCommon::MV_RIGHT:
 		++x;
 		break;
 	}
@@ -38,9 +38,9 @@ void MoveRequestHandler::HandleRequest()
 
 	// 이벤트 데이터 세팅
 
-	UserMoveEvent ev;
+	ClientCommon::UserMoveEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_PACKET_MOVE;
+	ev.type = ClientCommon::SC_PACKET_MOVE;
 	ev.id = m_user->GetID();
 	ev.x = m_user->GetX();
 	ev.y = m_user->GetY();
@@ -50,9 +50,9 @@ void MoveRequestHandler::HandleRequest()
 	//SendEvent(user, &ev);
 	//m_user->GetPlace()->Move(m_user, x, y);
 
-	MoveResponse res;
-	res.size = sizeof(MoveResponse);
-	res.type = SC_PACKET_MOVE;
+	ClientCommon::MoveResponse res;
+	res.size = sizeof(ClientCommon::MoveResponse);
+	res.type = ClientCommon::SC_PACKET_MOVE;
 	res.id = m_peer->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

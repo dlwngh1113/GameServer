@@ -51,7 +51,7 @@ Place::~Place()
 		delete[] m_sectors;
 }
 
-void Place::SendEvent(const std::shared_ptr<User>& userToExclude, BasePacket* ev)
+void Place::SendEvent(const std::shared_ptr<User>& userToExclude, ClientCommon::BasePacket* ev)
 {
 	m_lock.lock();
 	for (const auto& pair : m_users)
@@ -70,9 +70,9 @@ void Place::RemoveUser(std::shared_ptr<User> user)
 	// 이벤트 데이터 세팅
 	//
 
-	UserExitEvent ev;
+	ClientCommon::UserExitEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_PACKET_EXIT;
+	ev.type = ClientCommon::SC_PACKET_EXIT;
 	ev.id = user->GetID();
 
 	// 발송
@@ -90,9 +90,9 @@ void Place::AddUser(std::shared_ptr<User> user)
 	// 이벤트 데이터 세팅
 	//
 
-	UserEnterEvent ev;
+	ClientCommon::UserEnterEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_OtherUserEnter;
+	ev.type = ClientCommon::SC_OtherUserEnter;
 	ev.id = user->GetID();
 	strcpy_s(ev.name, user->GetName());
 	ev.x = user->GetX();
@@ -116,9 +116,9 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 
 	// 이벤트 데이터 세팅
 
-	UserMoveEvent ev;
+	ClientCommon::UserMoveEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_PACKET_MOVE;
+	ev.type = ClientCommon::SC_PACKET_MOVE;
 	ev.id = user->GetID();
 	ev.x = user->GetX();
 	ev.y = user->GetY();

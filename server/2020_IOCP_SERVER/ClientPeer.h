@@ -11,5 +11,5 @@ public:
 
 	int GetID() const { return m_peer->GetID(); }
 
-	void SendPacket(BasePacket* packet);
+	void SendPacket(ClientCommon::BasePacket* packet);
 };
