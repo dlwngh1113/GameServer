@@ -6,15 +6,15 @@
 
 void TeleportRequestHandler::HandleRequest()
 {
-	TeleportRequest* packet = reinterpret_cast<TeleportRequest*>(m_packet);
+	ClientCommon::TeleportRequest* packet = reinterpret_cast<ClientCommon::TeleportRequest*>(m_packet);
 
 	m_user->SetPosition(packet->x, packet->y);
 
 	// 이벤트 데이터 세팅
 
-	TeleportResponse res;
-	res.size = sizeof(TeleportResponse);
-	res.type = SC_PACKET_MOVE;
+	ClientCommon::TeleportResponse res;
+	res.size = sizeof(ClientCommon::TeleportResponse);
+	res.type = ClientCommon::SC_PACKET_MOVE;
 
 	// 발송
 

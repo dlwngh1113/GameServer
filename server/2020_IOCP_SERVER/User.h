@@ -7,7 +7,7 @@ class User : public ClientPeer
 {
 	short m_snLevel{ 0 }, m_snHp{ 0 }, m_snX{ 0 }, m_snY{ 0 };
 	int m_nExp{ 0 };
-	char m_sName[MAX_ID_LEN];
+	char m_sName[ClientCommon::MAX_ID_LEN];
 
 	std::mutex m_lock;
 	int m_nLastMoveTime{ 0 };

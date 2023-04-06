@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Sector.h"
+#include"User.h"
 
 Sector::Sector()
 {
@@ -16,9 +17,9 @@ void Sector::SendUserEnter(User* targetUser)
 	{
 		if (targetUser != user)
 		{
-			UserEnterEvent ev;
+			ClientCommon::UserEnterEvent ev;
 			ev.size = sizeof(ev);
-			ev.type = SC_PACKET_ENTER;
+			ev.type = ClientCommon::SC_PACKET_ENTER;
 			ev.id = targetUser->GetID();
 			strcpy_s(ev.name, targetUser->GetName());
 			ev.x = targetUser->GetX();
@@ -35,9 +36,9 @@ void Sector::SendUserExit(User* targetUser)
 	{
 		if (user != targetUser)
 		{
-			UserExitEvent ev;
+			ClientCommon::UserExitEvent ev;
 			ev.size = sizeof(ev);
-			ev.type = SC_PACKET_EXIT;
+			ev.type = ClientCommon::SC_PACKET_EXIT;
 			ev.id = targetUser->GetID();
 
 			user->SendPacket(&ev);
@@ -51,9 +52,9 @@ void Sector::Move(User* targetUser)
 	{
 		if (user != targetUser)
 		{
-			UserMoveEvent ev;
+			ClientCommon::UserMoveEvent ev;
 			ev.size = sizeof(ev);
-			ev.type = SC_PACKET_MOVE;
+			ev.type = ClientCommon::SC_PACKET_MOVE;
 			ev.id = targetUser->GetID();
 			ev.x = targetUser->GetX();
 			ev.y = targetUser->GetY();
@@ -75,9 +76,9 @@ void Sector::AddUser(User* user)
 
 	for (const auto& u : m_users)
 	{
-		UserEnterEvent ev;
+		ClientCommon::UserEnterEvent ev;
 		ev.size = sizeof(ev);
-		ev.type = SC_PACKET_ENTER;
+		ev.type = ClientCommon::SC_PACKET_ENTER;
 		ev.id = u->GetID();
 		strcpy_s(ev.name, u->GetName());
 		ev.x = u->GetX();

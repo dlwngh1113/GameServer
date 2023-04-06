@@ -7,9 +7,19 @@ private:
 	static MetaDatas* s_instance;
 	std::unordered_map<int, Place*> m_places;
 
+
 public:
-	void Init();
+	~MetaDatas();
+
+	void Initialize();
 	Place* GetPlace(int id);
+
+private:
+	MetaDatas() = default;
+
+	void LoadMetaDatas();
+
+public:
 
 	static MetaDatas* GetInstance() 
 	{

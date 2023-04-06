@@ -2,52 +2,62 @@
 #include "Place.h"
 #include "User.h"
 #include "Packets.h"
+#include"Sector.h"
 
-//Sector* Place::GetSectorByPoint(short x, short y)
-//{
-//	Sector* sector = nullptr;
-//	for (int i = 0; i < m_nHeightSectorSize; ++i)
-//	{
-//		for (int j = 0; j < m_nWidthSectorSize; ++j)
-//		{
-//			if (m_sectors[i][j].IsPointInSector(x, y))
-//				return &m_sectors[i][j];
-//		}
-//	}
-//
-//	return nullptr;
-//}
+Sector* Place::GetSectorByPoint(short x, short y)
+{
+	Sector* sector = nullptr;
+	for (int i = 0; i < m_nHeightSectorSize; ++i)
+	{
+		for (int j = 0; j < m_nWidthSectorSize; ++j)
+		{
+			if (m_sectors[i][j].IsPointInSector(x, y))
+				return &m_sectors[i][j];
+		}
+	}
+
+	return nullptr;
+}
 
 Place::Place()
 {
 }
 
-Place::Place(int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize) : m_nWidth{ nWidth }, m_nHeight{ nHeight }, m_nWidthSectorSize{ nWidthSectorSize }, m_nHeightSectorSize{ nHeightSectorSize }
+Place::Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize) : m_nId{ nId }, m_nWidth { nWidth }, m_nHeight{ nHeight }, m_nWidthSectorSize{ nWidthSectorSize }, m_nHeightSectorSize{ nHeightSectorSize }
 {
-	//// 각 섹터별 너비, 높이
-	//int nSectorWidth = m_nWidth / m_nWidthSectorSize;
-	//int nSectorHeight = m_nHeight / m_nHeightSectorSize;
+	// 각 섹터별 너비, 높이
+	int nSectorWidth = m_nWidth / m_nWidthSectorSize;
+	int nSectorHeight = m_nHeight / m_nHeightSectorSize;
 
-	//// 섹터 할당
-	//m_sectors = new Sector * [m_nHeightSectorSize];
-	//for (int i = 0; i < m_nHeightSectorSize; ++i)
-	//{
-	//	m_sectors[i] = new Sector[m_nWidthSectorSize];
-	//	for (int j = 0; j < m_nWidthSectorSize; ++j)
-	//	{
-	//		m_sectors[i][j].Init(j * nSectorWidth, i* nSectorHeight, nSectorWidth, nSectorHeight);
-	//	}
-	//}
+	// 섹터 할당
+	m_sectors = new Sector * [m_nHeightSectorSize];
+	for (int i = 0; i < m_nHeightSectorSize; ++i)
+	{
+		m_sectors[i] = new Sector[m_nWidthSectorSize];
+		for (int j = 0; j < m_nWidthSectorSize; ++j)
+		{
+			m_sectors[i][j].Init(j * nSectorWidth, i* nSectorHeight, nSectorWidth, nSectorHeight);
+		}
+	}
 }
 
 Place::~Place()
 {
-	//for (int i = 0; i < m_nHeightSectorSize; ++i)
-	//	if (m_sectors[i])
-	//		delete[] m_sectors[i];
+	for (int i = 0; i < m_nHeightSectorSize; ++i)
+		if (m_sectors[i])
+			delete[] m_sectors[i];
 
-	//if (m_sectors)
-	//	delete[] m_sectors;
+	if (m_sectors)
+		delete[] m_sectors;
+}
+
+void Place::SendEvent(const std::shared_ptr<User>& userToExclude, ClientCommon::BasePacket* ev)
+{
+	m_lock.lock();
+	for (const auto& pair : m_users)
+		if (pair.second != userToExclude)
+			pair.second->SendPacket(ev);
+	m_lock.unlock();
 }
 
 void Place::RemoveUser(std::shared_ptr<User> user)
@@ -60,9 +70,9 @@ void Place::RemoveUser(std::shared_ptr<User> user)
 	// 이벤트 데이터 세팅
 	//
 
-	UserExitEvent ev;
+	ClientCommon::UserExitEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_PACKET_EXIT;
+	ev.type = ClientCommon::SC_PACKET_EXIT;
 	ev.id = user->GetID();
 
 	// 발송
@@ -80,9 +90,9 @@ void Place::AddUser(std::shared_ptr<User> user)
 	// 이벤트 데이터 세팅
 	//
 
-	UserEnterEvent ev;
+	ClientCommon::UserEnterEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_OtherUserEnter;
+	ev.type = ClientCommon::SC_OtherUserEnter;
 	ev.id = user->GetID();
 	strcpy_s(ev.name, user->GetName());
 	ev.x = user->GetX();
@@ -91,15 +101,6 @@ void Place::AddUser(std::shared_ptr<User> user)
 	// 발송
 
 	SendEvent(user, &ev);
-}
-
-void Place::SendEvent(std::shared_ptr<User> userToExclude, BasePacket* ev)
-{
-	m_lock.lock();
-	for (const auto& pair : m_users)
-		if (pair.second != userToExclude)
-			pair.second->SendPacket(ev);
-	m_lock.unlock();
 }
 
 void Place::Move(std::shared_ptr<User> user, short x, short y)
@@ -115,9 +116,9 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 
 	// 이벤트 데이터 세팅
 
-	UserMoveEvent ev;
+	ClientCommon::UserMoveEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = SC_PACKET_MOVE;
+	ev.type = ClientCommon::SC_PACKET_MOVE;
 	ev.id = user->GetID();
 	ev.x = user->GetX();
 	ev.y = user->GetY();

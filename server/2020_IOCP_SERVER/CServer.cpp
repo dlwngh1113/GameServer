@@ -26,7 +26,7 @@ void CServer::Run()
 void CServer::Init()
 {
 	RequestHandlerFactory::GetInstance()->Init();
-	MetaDatas::GetInstance()->Init();
+	MetaDatas::GetInstance()->Initialize();
 }
 
 std::shared_ptr<User> CServer::GetUser(SOCKET key)

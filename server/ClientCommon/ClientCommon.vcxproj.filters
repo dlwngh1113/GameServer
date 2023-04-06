@@ -15,38 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="client.cpp">
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packets.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CMapLoader.cpp">
+    <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="chess2.png">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="chessmap.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="cour.ttf">
-      <Filter>리소스 파일</Filter>
-    </Font>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\server\2020_IOCP_SERVER\protocol.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CMapLoader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

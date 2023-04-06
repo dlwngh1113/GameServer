@@ -29,13 +29,14 @@ extern "C" {
 #pragma comment(lib, "MSWSock.lib")
 #pragma comment(lib, "lua54.lib")
 #pragma comment(lib, "odbc32")
+#pragma comment(lib, "ClientCommon.lib")
 
-#include"Defines.h"
+#include "Packets.h"
 
 struct OVER_EX {
 	WSAOVERLAPPED wsa_over;
 	char	op_mode;
 	WSABUF	wsa_buf;
-	unsigned char iocp_buf[MAX_BUFFER];
+	unsigned char iocp_buf[ClientCommon::MAX_BUFFER];
 	int		object_id;
 };

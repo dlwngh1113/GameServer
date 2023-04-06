@@ -1,5 +1,6 @@
 #pragma once
-#include"User.h"
+
+class User;
 
 class Sector
 {

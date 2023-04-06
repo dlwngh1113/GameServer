@@ -6,7 +6,7 @@
 
 void PlaceEnterRequestHandler::HandleRequest()
 {
-	PlaceEnterRequest* packet = reinterpret_cast<PlaceEnterRequest*>(m_packet);
+	ClientCommon::PlaceEnterRequest* packet = reinterpret_cast<ClientCommon::PlaceEnterRequest*>(m_packet);
 	Place* place = MetaDatas::GetInstance()->GetPlace(packet->placeId);
 
 	place->AddUser(m_user);
@@ -14,9 +14,9 @@ void PlaceEnterRequestHandler::HandleRequest()
 
 	// 응답 데이터 세팅
 
-	PlaceEnterResponse res;
+	ClientCommon::PlaceEnterResponse res;
 	res.size = sizeof(res);
-	res.type = SC_PACKET_ENTER;
+	res.type = ClientCommon::SC_PACKET_ENTER;
 	res.id = m_user->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

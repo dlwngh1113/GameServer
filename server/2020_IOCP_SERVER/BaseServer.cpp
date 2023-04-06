@@ -15,7 +15,7 @@ void BaseServer::Init()
 {
 	h_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, 0);
 	m_listenSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
-	CreateIoCompletionPort(reinterpret_cast<HANDLE>(m_listenSocket), h_iocp, KEY_SERVER, 0);
+	CreateIoCompletionPort(reinterpret_cast<HANDLE>(m_listenSocket), h_iocp, ClientCommon::KEY_SERVER, 0);
 }
 
 void BaseServer::Listen()
@@ -24,7 +24,7 @@ void BaseServer::Listen()
 	SOCKADDR_IN serverAddr;
 	memset(&serverAddr, 0, sizeof(SOCKADDR_IN));
 	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_port = ::htons(SERVER_PORT);
+	serverAddr.sin_port = ::htons(ClientCommon::SERVER_PORT);
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
 
 	// 바인딩, 소켓IO 리스닝
@@ -35,7 +35,7 @@ void BaseServer::Listen()
 void BaseServer::BeginAcceptPeer()
 {
 	SOCKET cSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
-	m_acceptOver.op_mode = OP_MODE_ACCEPT;
+	m_acceptOver.op_mode = ClientCommon::OP_MODE_ACCEPT;
 	m_acceptOver.wsa_buf.len = static_cast<int>(cSocket);
 	ZeroMemory(&m_acceptOver.wsa_over, sizeof(&m_acceptOver.wsa_over));
 	AcceptEx(m_listenSocket, cSocket, m_acceptOver.iocp_buf, 0, 32, 32, NULL, &m_acceptOver.wsa_over);
@@ -58,7 +58,7 @@ void BaseServer::Release()
 void BaseServer::Run()
 {
 	std::vector<std::thread> worker_threads;
-	for (int i = 0; i < MAX_THREAD_COUNT; ++i)
+	for (int i = 0; i < ClientCommon::MAX_THREAD_COUNT; ++i)
 		worker_threads.emplace_back([&]() { Process(); });
 	for (auto& th : worker_threads)
 		th.join();
@@ -112,11 +112,11 @@ void BaseServer::Process()
 		OVER_EX* overEx = reinterpret_cast<OVER_EX*>(lpOver);
 		switch (overEx->op_mode)
 		{
-		case OP_MODE_ACCEPT:
+		case ClientCommon::OP_MODE_ACCEPT:
 			ns = static_cast<SOCKET>(overEx->wsa_buf.len);
 			AddNewClient(ns);
 			break;
-		case OP_MODE_RECV:
+		case ClientCommon::OP_MODE_RECV:
 			if (0 == ioSize)
 				DisconnectClient(ns);
 			else
@@ -127,7 +127,7 @@ void BaseServer::Process()
 				clientLock.unlock();
 			}
 			break;
-		case OP_MODE_SEND:
+		case ClientCommon::OP_MODE_SEND:
 			Statics::overlappedPool.PushObject(overEx);
 			break;
 		}
