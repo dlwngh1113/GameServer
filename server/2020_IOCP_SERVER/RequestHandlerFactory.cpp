@@ -1,5 +1,6 @@
 #include"stdafx.h"
 #include "RequestHandlerFactory.h"
+#include"Logger.h"
 #include"LoginRequestHandler.h"
 #include"MoveRequestHandler.h"
 #include"TeleportRequestHandler.h"
