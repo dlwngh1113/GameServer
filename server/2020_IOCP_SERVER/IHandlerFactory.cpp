@@ -2,7 +2,7 @@
 #include "IHandlerFactory.h"
 #include"BaseRequestHandler.h"
 
-void IHandlerFactory::AddHandler(unsigned char key, BaseRequestHandler* value)
+void IHandlerFactory::AddHandler(short key, BaseRequestHandler* value)
 {
 	m_handlers[key] = value;
 }
