@@ -1,5 +1,5 @@
 #pragma once
-#include"Logger.h"
+#include "Logger.h"
 
 class DBConnector
 {
@@ -12,7 +12,7 @@ class DBConnector
 	SQLINTEGER m_nRecord, m_nNative;
 	SQLWCHAR m_sState[7], m_sMessage[UCHAR_MAX];
 
-	SQLWCHAR* m_query;
+	SQLWCHAR* m_query{ nullptr };
 
 private:
 	void Init();

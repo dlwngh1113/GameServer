@@ -1,8 +1,9 @@
 #include"stdafx.h"
 #include "LoginRequestHandler.h"
-#include"DBWorker.h"
-#include"Place.h"
-#include"User.h"
+#include "DBWorker.h"
+#include "DBConnector.h"
+#include "Place.h"
+#include "User.h"
 
 BaseRequestHandler* LoginRequestHandler::Create()
 {
@@ -13,7 +14,15 @@ void LoginRequestHandler::HandleRequest()
 {
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
-	DBWorker::GetUser(m_user, packet->name);
+	DBConnector* dbc = DBWorker::GetUser(packet->name);
+
+	if (dbc)
+	{
+		m_user->SetInfo(dbc);
+		delete dbc;
+	}
+	else
+		m_user->SetInfo(packet->name, 1, 0, 50, 0, 0);
 
 	// 응답 데이터 세팅
 

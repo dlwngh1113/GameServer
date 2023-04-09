@@ -2,6 +2,7 @@
 #include"ClientPeer.h"
 
 class Place;
+class DBConnector;
 
 class User : public ClientPeer
 {
@@ -32,6 +33,7 @@ public:
 
 	// 로그인
 
+	void SetInfo(DBConnector* dbc);
 	void SetInfo(char* name, short level, int exp, short hp, short x, short y);
 
 	// 이동
