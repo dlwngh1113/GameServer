@@ -92,6 +92,10 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 	{
 		Log(ex.what());
 	}
+	catch (...)
+	{
+		Log("Default exception");
+	}
 }
 
 void Peer::SendPacket(unsigned char* data)
@@ -116,6 +120,10 @@ void Peer::SendPacket(unsigned char* data)
 	catch (std::exception& ex)
 	{
 		Log(ex.what());
+	}
+	catch (...)
+	{
+		Log("Default exception");
 	}
 }
 

@@ -22,7 +22,7 @@ void LoginRequestHandler::HandleRequest()
 		delete dbc;
 	}
 	else
-		m_user->SetInfo(packet->name, 1, 0, 50, 0, 0);
+		m_user->SetInfo(packet->name, 1, 0, 50, 0, 0, 0);
 
 	// 응답 데이터 세팅
 

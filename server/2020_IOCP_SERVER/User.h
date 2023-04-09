@@ -4,7 +4,7 @@
 class Place;
 class DBConnector;
 
-class User : public ClientPeer
+class User : public ClientPeer, public std::enable_shared_from_this<User>
 {
 	short m_snLevel{ 0 }, m_snHp{ 0 }, m_snX{ 0 }, m_snY{ 0 };
 	int m_nExp{ 0 };
@@ -34,7 +34,7 @@ public:
 	// 로그인
 
 	void SetInfo(DBConnector* dbc);
-	void SetInfo(char* name, short level, int exp, short hp, short x, short y);
+	void SetInfo(char* name, short level, int exp, short hp, short x, short y, short placeId);
 
 	// 이동
 

@@ -21,7 +21,7 @@ private:
 	bool m_showing;
 	sf::Sprite m_sprite;
 
-	char m_mess[MAX_STR_LEN];
+	char m_mess[ClientCommon::MAX_STR_LEN];
 	high_resolution_clock::time_point m_time_out;
 	sf::Text m_text;
 	sf::Text m_name;	
@@ -31,7 +31,7 @@ public:
 	short hp{ 0 };
 	short level{ 0 };
 	int   exp{ 0 };
-	char name[MAX_ID_LEN];
+	char name[ClientCommon::MAX_ID_LEN];
 	int placeId{ 0 };
 	OBJECT(sf::Texture& t, int x, int y, int x2, int y2) {
 		m_showing = false;
@@ -101,7 +101,7 @@ OBJECT tile2;
 OBJECT tile3;
 OBJECT ghost;
 
-short g_map[WORLD_WIDTH][WORLD_HEIGHT];
+short g_map[ClientCommon::WORLD_WIDTH][ClientCommon::WORLD_HEIGHT];
 
 sf::Texture* board;
 sf::Texture* pieces;
@@ -141,14 +141,16 @@ void ProcessPacket(char* ptr)
 {
 	switch (ptr[1])
 	{
-	case SC_PACKET_LOGIN_OK:
+	case ClientCommon::SC_PACKET_LOGIN_OK:
 	{
-		LoginResponse* packet = reinterpret_cast<LoginResponse*>(ptr);
+		ClientCommon::LoginResponse* packet = reinterpret_cast<ClientCommon::LoginResponse*>(ptr);
 		g_myid = packet->id;
-		avatar.placeId = packet->placeId;
 		avatar.hp = packet->hp;
 		avatar.level = packet->level;
 		avatar.exp = packet->exp;
+		avatar.m_x = packet->x;
+		avatar.m_y = packet->y;
+		avatar.placeId = packet->placeId;
 		//g_left_x = packet->x - CLIENT_WIDTH / 2;
 		//g_top_y = packet->y - CLIENT_HEIGHT / 2;
 		//printf("%d %d %d %d %d %d\n",
@@ -159,26 +161,19 @@ void ProcessPacket(char* ptr)
 		//	avatar.m_x,
 		//	avatar.m_y);
 		avatar.show();
-
-		PlaceEnterRequest p_packet;
-		p_packet.size = sizeof(p_packet);
-		p_packet.type = CS_ENTERPLACE;
-		p_packet.placeId = avatar.placeId;
-
-		send_packet(&p_packet);
 	}
 	break;
-	case SC_PACKET_LOGIN_FAIL:
+	case ClientCommon::SC_PACKET_LOGIN_FAIL:
 	{
-		LoginFailResponse* packet = reinterpret_cast<LoginFailResponse*>(ptr);
+		ClientCommon::LoginFailResponse* packet = reinterpret_cast<ClientCommon::LoginFailResponse*>(ptr);
 		cout << packet->message << endl;
 		cout << "제대로 된 아이디를 입력해주십시오:";
 		string s;
 		cin >> s;
 
-		LoginRequest l_packet;
+		ClientCommon::LoginRequest l_packet;
 		l_packet.size = sizeof(l_packet);
-		l_packet.type = CS_LOGIN;
+		l_packet.type = ClientCommon::CS_LOGIN;
 		int t_id = GetCurrentProcessId();
 		sprintf_s(l_packet.name, s.c_str());
 		strcpy_s(avatar.name, l_packet.name);
@@ -186,9 +181,9 @@ void ProcessPacket(char* ptr)
 		send_packet(&l_packet);
 	}
 	break;
-	case SC_PACKET_ENTER:
+	case ClientCommon::SC_PACKET_ENTER:
 	{
-		UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
+		ClientCommon::UserEnterEvent* packet = reinterpret_cast<ClientCommon::UserEnterEvent*>(ptr);
 		int id = packet->id;
 
 		avatar.move(packet->x, packet->y);
@@ -197,12 +192,12 @@ void ProcessPacket(char* ptr)
 		avatar.show();
 	}
 	break;
-	case SC_OtherUserEnter:
+	case ClientCommon::SC_OtherUserEnter:
 	{
-		UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
+		ClientCommon::UserEnterEvent* packet = reinterpret_cast<ClientCommon::UserEnterEvent*>(ptr);
 		int id = packet->id;
 
-		if (id < MAX_USER)
+		if (id < ClientCommon::MAX_USER)
 			npcs[id] = OBJECT{ *pieces, 0, 0, TILE_WIDTH, TILE_WIDTH };
 		else
 			npcs[id] = OBJECT{ *pieces, 32, 0, TILE_WIDTH, TILE_WIDTH };
@@ -212,9 +207,9 @@ void ProcessPacket(char* ptr)
 		npcs[id].show();
 	}
 	break;
-	case SC_PACKET_MOVE:
+	case ClientCommon::SC_PACKET_MOVE:
 	{
-		MoveResponse* packet = reinterpret_cast<MoveResponse*>(ptr);
+		ClientCommon::MoveResponse* packet = reinterpret_cast<ClientCommon::MoveResponse*>(ptr);
 		int other_id = packet->id;
 		if (other_id == g_myid) {
 			avatar.move(packet->x, packet->y);
@@ -227,9 +222,9 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case SC_PACKET_EXIT:
+	case ClientCommon::SC_PACKET_EXIT:
 	{
-		UserExitEvent* my_packet = reinterpret_cast<UserExitEvent*>(ptr);
+		ClientCommon::UserExitEvent* my_packet = reinterpret_cast<ClientCommon::UserExitEvent*>(ptr);
 		int other_id = my_packet->id;
 		if (other_id == g_myid) {
 			avatar.hide();
@@ -240,15 +235,15 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case SC_PACKET_CHAT:
+	case ClientCommon::SC_PACKET_CHAT:
 	{
-		ChattingEvent* my_packet = reinterpret_cast<ChattingEvent*>(ptr);
+		ClientCommon::ChattingEvent* my_packet = reinterpret_cast<ClientCommon::ChattingEvent*>(ptr);
 		int other_id = my_packet->id;
 		if (g_myid != other_id)
 			npcs[other_id].add_chat(my_packet->message);
 		else {
 			sf::Text tmp;
-			char buf[MAX_STR_LEN];
+			char buf[ClientCommon::MAX_STR_LEN];
 			tmp.setFont(g_font);
 			strcpy_s(buf, my_packet->message);
 			tmp.setString(buf);
@@ -259,9 +254,9 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case SC_PACKET_STAT_CHANGE:
+	case ClientCommon::SC_PACKET_STAT_CHANGE:
 	{
-		StatusChangedEvent* p = reinterpret_cast<StatusChangedEvent*>(ptr);
+		ClientCommon::StatusChangedEvent* p = reinterpret_cast<ClientCommon::StatusChangedEvent*>(ptr);
 		//printf("avatar level = %hd exp = %d hp = %hd, packet level = %hd exp = %d hp = %hd\n", 
 		//	avatar.level, avatar.exp, avatar.hp, p->level, p->exp, p->hp);
 		avatar.level = p->level;
@@ -334,7 +329,7 @@ void client_main()
 			int tile_x = i - g_left_x;
 			int tile_y = j - g_top_y;
 			if ((i < 0) || (j < 0)) continue;
-			if ((i > WORLD_WIDTH - 1) || (j > WORLD_HEIGHT - 1))continue;
+			if ((i > ClientCommon::WORLD_WIDTH - 1) || (j > ClientCommon::WORLD_HEIGHT - 1))continue;
 			if (g_map[i][j] == 0) {
 				tile1.a_move(TILE_WIDTH * tile_x + 7, TILE_WIDTH * tile_y + 7);
 				tile1.a_draw();
@@ -386,8 +381,8 @@ void send_packet(void* packet)
 
 void send_move_packet(unsigned char dir)
 {
-	MoveRequest m_packet;
-	m_packet.type = CS_MOVE;
+	ClientCommon::MoveRequest m_packet;
+	m_packet.type = ClientCommon::CS_MOVE;
 	m_packet.size = sizeof(m_packet);
 	m_packet.direction = dir;
 	m_packet.move_time = duration_cast<seconds>(high_resolution_clock::now()
@@ -397,16 +392,16 @@ void send_move_packet(unsigned char dir)
 
 void send_logout_packet()
 {
-	LogoutRequest p;
-	p.type = CS_LOGOUT;
+	ClientCommon::LogoutRequest p;
+	p.type = ClientCommon::CS_LOGOUT;
 	p.size = sizeof(p);
 	send_packet(&p);
 }
 
 void send_atk_packet()
 {
-	AttackRequest p;
-	p.type = CS_ATTACK;
+	ClientCommon::AttackRequest p;
+	p.type = ClientCommon::CS_ATTACK;
 	p.size = sizeof(p);
 	p.atkTime = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
@@ -419,7 +414,7 @@ int main()
 	std::cout << "IP주소를 입력하세요:";
 	string s;
 	cin >> s;
-	sf::Socket::Status status = g_socket.connect(s.c_str(), SERVER_PORT);
+	sf::Socket::Status status = g_socket.connect(s.c_str(), ClientCommon::SERVER_PORT);
 	g_socket.setBlocking(false);
 
 	if (status != sf::Socket::Done) {
@@ -432,9 +427,9 @@ int main()
 
 	client_initialize();
 
-	LoginRequest l_packet;
+	ClientCommon::LoginRequest l_packet;
 	l_packet.size = sizeof(l_packet);
-	l_packet.type = CS_LOGIN;
+	l_packet.type = ClientCommon::CS_LOGIN;
 	sprintf_s(l_packet.name, s.c_str());
 	strcpy_s(avatar.name, l_packet.name);
 	avatar.set_name(l_packet.name);
@@ -454,16 +449,16 @@ int main()
 				int p_type = -1; 
 				switch (event.key.code) {
 				case sf::Keyboard::Left:
-					send_move_packet(MV_LEFT);
+					send_move_packet(ClientCommon::MV_LEFT);
 					break;
 				case sf::Keyboard::Right:
-					send_move_packet(MV_RIGHT);
+					send_move_packet(ClientCommon::MV_RIGHT);
 					break;
 				case sf::Keyboard::Up:
-					send_move_packet(MV_UP);
+					send_move_packet(ClientCommon::MV_UP);
 					break;
 				case sf::Keyboard::Down:
-					send_move_packet(MV_DOWN);
+					send_move_packet(ClientCommon::MV_DOWN);
 					break;
 				case sf::Keyboard::Escape:
 					send_logout_packet();
