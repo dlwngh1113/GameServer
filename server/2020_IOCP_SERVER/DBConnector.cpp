@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DBConnector.h"
+#include "Logger.h"
 
 DBConnector::DBConnector()
 {

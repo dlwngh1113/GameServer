@@ -72,7 +72,7 @@ namespace ClientCommon
 		short level;
 		int   exp;
 		short x, y;
-		short placeId;
+		int placeId;
 	};
 
 	struct LoginFailResponse : BasePacket
