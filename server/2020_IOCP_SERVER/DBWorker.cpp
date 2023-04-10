@@ -15,7 +15,7 @@ DBConnector* DBWorker::LoadMetaDatas()
 		return nullptr;
 }
 
-void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
+void DBWorker::AddUser(char name[MAX_ID_LEN])
 {
 	// name, level, exp, hp, x, y, placeId
 	DBConnector dbc{ "EXEC AddUser ?, ?, ?, ?, ?, ?" };
@@ -33,7 +33,7 @@ void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
 	dbc.ExecutePreparedStatement();
 }
 
-std::shared_ptr<DBConnector> DBWorker::GetUser(char name[ClientCommon::MAX_ID_LEN])
+std::shared_ptr<DBConnector> DBWorker::GetUser(char name[MAX_ID_LEN])
 {
 	DBConnector dbc{ "EXEC GetUser ?" };
 	
@@ -52,7 +52,7 @@ std::shared_ptr<DBConnector> DBWorker::GetUser(char name[ClientCommon::MAX_ID_LE
 	}
 }
 
-void DBWorker::GetUser(std::shared_ptr<User> user, char name[ClientCommon::MAX_ID_LEN])
+void DBWorker::GetUser(std::shared_ptr<User> user, char name[MAX_ID_LEN])
 {
 	DBConnector dbc{ "EXEC GetUser ?" };
 

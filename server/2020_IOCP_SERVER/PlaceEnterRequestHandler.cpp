@@ -16,7 +16,7 @@ void PlaceEnterRequestHandler::HandleRequest()
 
 	ClientCommon::PlaceEnterResponse res;
 	res.size = sizeof(res);
-	res.type = ClientCommon::SC_PACKET_ENTER;
+	res.type = ServerCommand::SC_PACKET_ENTER;
 	res.id = m_user->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

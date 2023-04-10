@@ -34,7 +34,7 @@ void MetaDatas::LoadMetaDatas()
     //else
     {
         int id{ 0 };
-        auto place = new Place(id, ClientCommon::WORLD_WIDTH, ClientCommon::WORLD_HEIGHT, 8, 8);
+        auto place = new Place(id, WORLD_WIDTH, WORLD_HEIGHT, 8, 8);
         m_places[id++] = place;
     }
 }

@@ -72,7 +72,7 @@ void Place::RemoveUser(std::shared_ptr<User> user)
 
 	ClientCommon::UserExitEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = ClientCommon::SC_PACKET_EXIT;
+	ev.type = ServerCommand::SC_PACKET_EXIT;
 	ev.id = user->GetID();
 
 	// ¹ß¼Û
@@ -92,7 +92,7 @@ void Place::AddUser(std::shared_ptr<User> user)
 
 	ClientCommon::UserEnterEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = ClientCommon::SC_OtherUserEnter;
+	ev.type = ServerCommand::SC_OtherUserEnter;
 	ev.id = user->GetID();
 	strcpy_s(ev.name, user->GetName());
 	ev.x = user->GetX();
@@ -118,7 +118,7 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 
 	ClientCommon::UserMoveEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = ClientCommon::SC_PACKET_MOVE;
+	ev.type = ServerCommand::SC_PACKET_MOVE;
 	ev.id = user->GetID();
 	ev.x = user->GetX();
 	ev.y = user->GetY();

@@ -5,7 +5,7 @@
 
 Peer::Peer(SOCKET socket) : m_socket{ socket }
 {
-	m_recvOver.op_mode = ClientCommon::OP_MODE_RECV;
+	m_recvOver.op_mode = OP_MODE_RECV;
 	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(m_recvOver.iocp_buf);
 	m_recvOver.wsa_buf.len = sizeof(m_recvOver.iocp_buf);
 	ZeroMemory(&m_recvOver.wsa_over, sizeof(m_recvOver.wsa_over));
@@ -53,7 +53,7 @@ void Peer::ProcessIO(DWORD ioSize)
 
 	long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
 
-	if ((ClientCommon::MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < ClientCommon::MIN_BUFFER)
+	if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
 	{
 		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
 		memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
@@ -64,7 +64,7 @@ void Peer::ProcessIO(DWORD ioSize)
 	// 데이터를 받을 버퍼 세팅
 	m_pRecvStartPos = pNextRecvPos;
 	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
-	m_recvOver.wsa_buf.len = ClientCommon::MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
+	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
 	StartRecv();
 }
@@ -105,12 +105,12 @@ void Peer::SendPacket(unsigned char* data)
 		//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
 		OVER_EX* overEx = Statics::overlappedPool.PopObject();
 		ZeroMemory(overEx, sizeof(OVER_EX));
-		overEx->op_mode = ClientCommon::OP_MODE_SEND;
+		overEx->op_mode = OP_MODE_SEND;
 		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
 		overEx->wsa_buf.len = data[0];
 
 		//패킷 데이터 버퍼에 복사
-		memcpy_s(overEx->iocp_buf, ClientCommon::MAX_BUFFER, data, data[0]);
+		memcpy_s(overEx->iocp_buf, MAX_BUFFER, data, data[0]);
 
 		// Send
 		m_lock.lock();

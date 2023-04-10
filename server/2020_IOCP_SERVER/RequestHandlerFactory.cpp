@@ -22,11 +22,11 @@ RequestHandlerFactory::~RequestHandlerFactory()
 void RequestHandlerFactory::Init()
 {
 	Log("RequestHandlerFactory Init Started");
-	BaseRequestHandlerFactory::AddHandler(ClientCommon::CS_LOGIN, new LoginRequestHandler());
-	BaseRequestHandlerFactory::AddHandler(ClientCommon::CS_MOVE, new MoveRequestHandler());
-	BaseRequestHandlerFactory::AddHandler(ClientCommon::CS_TELEPORT, new TeleportRequestHandler());
-	BaseRequestHandlerFactory::AddHandler(ClientCommon::CS_LOGOUT, new LogoutRequestHandler());
-	BaseRequestHandlerFactory::AddHandler(ClientCommon::CS_ENTERPLACE, new PlaceEnterRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(ClientCommand::CS_LOGIN, new LoginRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(ClientCommand::CS_MOVE, new MoveRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(ClientCommand::CS_TELEPORT, new TeleportRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(ClientCommand::CS_LOGOUT, new LogoutRequestHandler());
+	BaseRequestHandlerFactory::AddHandler(ClientCommand::CS_ENTERPLACE, new PlaceEnterRequestHandler());
 	Log("RequestHandlerFactory Init Finished");
 }
 

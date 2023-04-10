@@ -26,7 +26,7 @@ void LoginRequestHandler::HandleRequest()
 
 	ClientCommon::LoginResponse res;
 	res.size = sizeof(ClientCommon::LoginResponse);
-	res.type = ClientCommon::SC_PACKET_LOGIN_OK;
+	res.type = ServerCommand::SC_PACKET_LOGIN_OK;
 	res.id = m_peer->GetID();
 	res.level = m_user->GetLevel();
 	res.exp = m_user->GetExp();

@@ -1,6 +1,6 @@
 #include "CMapLoader.h"
 
-void CMapLoader::LoadMap(short map[ClientCommon::WORLD_WIDTH][ClientCommon::WORLD_HEIGHT], const char* fileName)
+void CMapLoader::LoadMap(short map[WORLD_WIDTH][WORLD_HEIGHT], const char* fileName)
 {
 	std::ifstream in(fileName);
 	int w, h;
@@ -15,15 +15,15 @@ void CMapLoader::LoadMap(short map[ClientCommon::WORLD_WIDTH][ClientCommon::WORL
 	}
 }
 
-void CMapLoader::SaveMap(short map[ClientCommon::WORLD_WIDTH][ClientCommon::WORLD_HEIGHT], const char* fileName)
+void CMapLoader::SaveMap(short map[WORLD_WIDTH][WORLD_HEIGHT], const char* fileName)
 {
 	std::ofstream out(fileName);
 
-	out << ClientCommon::WORLD_HEIGHT << ' ' << ClientCommon::WORLD_WIDTH << '\n';
+	out << WORLD_HEIGHT << ' ' << WORLD_WIDTH << '\n';
 
-	for (int i = 0; i < ClientCommon::WORLD_WIDTH; ++i)
+	for (int i = 0; i < WORLD_WIDTH; ++i)
 	{
-		for (int j = 0; j < ClientCommon::WORLD_HEIGHT; ++j)
+		for (int j = 0; j < WORLD_HEIGHT; ++j)
 		{
 			out << map[i][j] << ' ';
 		}
