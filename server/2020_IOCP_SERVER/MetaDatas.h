@@ -7,7 +7,6 @@ private:
 	static MetaDatas* s_instance;
 	std::unordered_map<int, Place*> m_places;
 
-
 public:
 	~MetaDatas();
 

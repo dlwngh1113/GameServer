@@ -34,7 +34,7 @@ public:
 	// 로그인
 
 	void SetInfo(DBConnector* dbc);
-	void SetInfo(char* name, short level, int exp, short hp, short x, short y, short placeId);
+	void SetInfo(char* name, short level, int exp, short hp, short x, short y, int placeId);
 
 	// 이동
 

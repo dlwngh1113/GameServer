@@ -16,8 +16,8 @@ User::~User()
 
 void User::SetInfo(DBConnector* dbc)
 {
-	short level, hp, x, y, placeId;
-	int exp;
+	short level, hp, x, y;
+	int exp, placeId;
 	SQLLEN cLevel, cHp, cX, cY, cExp, cYPlaceId;
 
 	SQLBindCol(dbc->GetStatement(), 2, SQL_C_SHORT, &level, sizeof(level), &cLevel);
@@ -25,12 +25,12 @@ void User::SetInfo(DBConnector* dbc)
 	SQLBindCol(dbc->GetStatement(), 4, SQL_C_SHORT, &hp, sizeof(hp), &cHp);
 	SQLBindCol(dbc->GetStatement(), 5, SQL_C_SHORT, &x, sizeof(x), &cX);
 	SQLBindCol(dbc->GetStatement(), 6, SQL_C_SHORT, &y, sizeof(y), &cY);
-	SQLBindCol(dbc->GetStatement(), 7, SQL_C_SHORT, &placeId, sizeof(placeId), &cYPlaceId);
+	SQLBindCol(dbc->GetStatement(), 7, SQL_C_LONG, &placeId, sizeof(placeId), &cYPlaceId);
 
 	SetInfo(m_sName, level, exp, hp, x, y, placeId);
 }
 
-void User::SetInfo(char* name, short level, int exp, short hp, short x, short y, short placeId)
+void User::SetInfo(char* name, short level, int exp, short hp, short x, short y, int placeId)
 {
 	strcpy_s(this->m_sName, name);
 	this->m_snLevel = level;
@@ -39,7 +39,6 @@ void User::SetInfo(char* name, short level, int exp, short hp, short x, short y,
 	this->m_snX = x;
 	this->m_snY = y;
 	this->m_place = MetaDatas::GetInstance()->GetPlace(placeId);
-	m_place->AddUser(shared_from_this());
 }
 
 void User::SetPosition(short x, short y)

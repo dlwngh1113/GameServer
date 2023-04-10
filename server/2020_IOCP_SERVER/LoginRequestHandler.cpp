@@ -14,13 +14,10 @@ void LoginRequestHandler::HandleRequest()
 {
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
-	DBConnector* dbc = DBWorker::GetUser(packet->name);
+	auto dbc = DBWorker::GetUser(packet->name);
 
 	if (dbc)
-	{
-		m_user->SetInfo(dbc);
-		delete dbc;
-	}
+		m_user->SetInfo(dbc.get());
 	else
 		m_user->SetInfo(packet->name, 1, 0, 50, 0, 0, 0);
 

@@ -3,9 +3,9 @@
 
 class DBConnector
 {
-	SQLHENV m_henv;
-	SQLHDBC m_hdbc;
-	SQLHSTMT m_hstmt = 0;
+	SQLHENV m_henv{ nullptr };
+	SQLHDBC m_hdbc{ nullptr };
+	SQLHSTMT m_hstmt{ nullptr };
 	int m_nParamIndex{ 0 };
 
 	SQLSMALLINT m_nLenth;

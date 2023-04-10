@@ -3,10 +3,16 @@
 #include "DBConnector.h"
 #include "User.h"
 
-void DBWorker::LoadMetaDatas()
+DBConnector* DBWorker::LoadMetaDatas()
 {
-	DBConnector dbc{ "EXEC LoadMetaDatas" };
-	dbc.ExecuteDirectSQL();
+	DBConnector* dbc = new DBConnector("EXEC LoadMetaDatas");
+	dbc->ExecuteDirectSQL();
+
+	SQLRETURN retCode = SQLFetch(dbc->GetStatement());
+	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
+		return dbc;
+	else
+		return nullptr;
 }
 
 void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
@@ -26,22 +32,21 @@ void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
 	dbc.ExecutePreparedStatement();
 }
 
-DBConnector* DBWorker::GetUser(char name[ClientCommon::MAX_ID_LEN])
+std::shared_ptr<DBConnector> DBWorker::GetUser(char name[ClientCommon::MAX_ID_LEN])
 {
-	DBConnector* dbc = new DBConnector("EXEC GetUser ?");
+	DBConnector dbc{ "EXEC GetUser ?" };
 	
-	dbc->PrepareStatement();
-	dbc->AddParameter(name);
-	dbc->ExecutePreparedStatement();
+	dbc.PrepareStatement();
+	dbc.AddParameter(name);
+	dbc.ExecutePreparedStatement();
 	
-	SQLRETURN retCode = SQLFetch(dbc->GetStatement());
+	SQLRETURN retCode = SQLFetch(dbc.GetStatement());
 
 	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
-		return dbc;
+		return std::make_shared<DBConnector>(dbc);
 	else
 	{
 		AddUser(name);
-		delete dbc;
 		return nullptr;
 	}
 }
