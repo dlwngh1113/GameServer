@@ -14,7 +14,7 @@ void TeleportRequestHandler::HandleRequest()
 
 	ClientCommon::TeleportResponse res;
 	res.size = sizeof(ClientCommon::TeleportResponse);
-	res.type = ClientCommon::SC_PACKET_MOVE;
+	res.type = ServerCommand::SC_PACKET_MOVE;
 
 	// ¹ß¼Û
 

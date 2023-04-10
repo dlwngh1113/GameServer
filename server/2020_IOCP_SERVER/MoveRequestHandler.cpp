@@ -16,16 +16,16 @@ void MoveRequestHandler::HandleRequest()
 	short x{ m_user->GetX() }, y{ m_user->GetY() };
 	switch (packet->direction)
 	{
-	case ClientCommon::MV_UP:
+	case MV_UP:
 		--y;
 		break;
-	case ClientCommon::MV_DOWN:
+	case MV_DOWN:
 		++y;
 		break;
-	case ClientCommon::MV_LEFT:
+	case MV_LEFT:
 		--x;
 		break;
-	case ClientCommon::MV_RIGHT:
+	case MV_RIGHT:
 		++x;
 		break;
 	}
@@ -40,7 +40,7 @@ void MoveRequestHandler::HandleRequest()
 
 	ClientCommon::UserMoveEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = ClientCommon::SC_PACKET_MOVE;
+	ev.type = ServerCommand::SC_PACKET_MOVE;
 	ev.id = m_user->GetID();
 	ev.x = m_user->GetX();
 	ev.y = m_user->GetY();
@@ -52,7 +52,7 @@ void MoveRequestHandler::HandleRequest()
 
 	ClientCommon::MoveResponse res;
 	res.size = sizeof(ClientCommon::MoveResponse);
-	res.type = ClientCommon::SC_PACKET_MOVE;
+	res.type = ServerCommand::SC_PACKET_MOVE;
 	res.id = m_peer->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

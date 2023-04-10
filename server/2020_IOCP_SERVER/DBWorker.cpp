@@ -1,17 +1,23 @@
 #include "stdafx.h"
-#include"DBConnector.h"
 #include "DBWorker.h"
+#include "DBConnector.h"
 #include "User.h"
 
-void DBWorker::LoadMetaDatas()
+DBConnector* DBWorker::LoadMetaDatas()
 {
-	DBConnector dbc{ "EXEC LoadMetaDatas" };
-	dbc.ExecuteDirectSQL();
+	DBConnector* dbc = new DBConnector("EXEC LoadMetaDatas");
+	dbc->ExecuteDirectSQL();
+
+	SQLRETURN retCode = SQLFetch(dbc->GetStatement());
+	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
+		return dbc;
+	else
+		return nullptr;
 }
 
-void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
+void DBWorker::AddUser(char name[MAX_ID_LEN])
 {
-	// name, level, exp, hp, x, y
+	// name, level, exp, hp, x, y, placeId
 	DBConnector dbc{ "EXEC AddUser ?, ?, ?, ?, ?, ?" };
 
 	dbc.PrepareStatement();
@@ -22,20 +28,40 @@ void DBWorker::AddUser(char name[ClientCommon::MAX_ID_LEN])
 	dbc.AddParameter(50);
 	dbc.AddParameter(0);
 	dbc.AddParameter(0);
+	dbc.AddParameter(0);
 
 	dbc.ExecutePreparedStatement();
 }
 
-void DBWorker::GetUser(std::shared_ptr<User> user, char name[ClientCommon::MAX_ID_LEN])
+std::shared_ptr<DBConnector> DBWorker::GetUser(char name[MAX_ID_LEN])
 {
 	DBConnector dbc{ "EXEC GetUser ?" };
 	
 	dbc.PrepareStatement();
 	dbc.AddParameter(name);
 	dbc.ExecutePreparedStatement();
+	
+	SQLRETURN retCode = SQLFetch(dbc.GetStatement());
 
-	short level, hp, x, y, placeId;
-	int exp;
+	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
+		return std::make_shared<DBConnector>(dbc);
+	else
+	{
+		AddUser(name);
+		return nullptr;
+	}
+}
+
+void DBWorker::GetUser(std::shared_ptr<User> user, char name[MAX_ID_LEN])
+{
+	DBConnector dbc{ "EXEC GetUser ?" };
+
+	dbc.PrepareStatement();
+	dbc.AddParameter(name);
+	dbc.ExecutePreparedStatement();
+
+	short level, hp, x, y;
+	int exp, placeId;
 	SQLLEN cLevel, cHp, cX, cY, cExp, cYPlaceId;
 
 	SQLBindCol(dbc.GetStatement(), 2, SQL_C_SHORT, &level, sizeof(level), &cLevel);
@@ -43,20 +69,16 @@ void DBWorker::GetUser(std::shared_ptr<User> user, char name[ClientCommon::MAX_I
 	SQLBindCol(dbc.GetStatement(), 4, SQL_C_SHORT, &hp, sizeof(hp), &cHp);
 	SQLBindCol(dbc.GetStatement(), 5, SQL_C_SHORT, &x, sizeof(x), &cX);
 	SQLBindCol(dbc.GetStatement(), 6, SQL_C_SHORT, &y, sizeof(y), &cY);
-	SQLBindCol(dbc.GetStatement(), 7, SQL_C_SHORT, &placeId, sizeof(placeId), &cYPlaceId);
-	
+	SQLBindCol(dbc.GetStatement(), 7, SQL_C_LONG, &placeId, sizeof(placeId), &cYPlaceId);
+
 	SQLRETURN retCode = SQLFetch(dbc.GetStatement());
 
-	if (retCode == SQL_SUCCESS)
-	{
-		user->SetInfo(name, level, exp, hp, x, y);
-
-		Log("login %s %d %d %d %d %d\n", user->GetName(), user->GetLevel(), user->GetExp(), user->GetHp(), user->GetX(), user->GetY());
-	}
+	if (retCode == SQL_SUCCESS || retCode == SQL_SUCCESS_WITH_INFO)
+		user->SetInfo(name, level, exp, hp, x, y, placeId);
 	else
 	{
 		AddUser(name);
-		user->SetInfo(name, 1, 0, 50, 0, 0);
+		user->SetInfo(name, 1, 0, 50, 0, 0, 0);
 	}
 }
 

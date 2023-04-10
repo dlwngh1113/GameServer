@@ -1,5 +1,4 @@
 #pragma once
-#include"Logger.h"
 #include"BaseRequestHandlerFactory.h"
 
 class RequestHandlerFactory: public BaseRequestHandlerFactory

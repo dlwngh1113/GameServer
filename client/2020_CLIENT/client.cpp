@@ -141,14 +141,16 @@ void ProcessPacket(char* ptr)
 {
 	switch (ptr[1])
 	{
-	case SC_PACKET_LOGIN_OK:
+	case ServerCommand::SC_PACKET_LOGIN_OK:
 	{
-		LoginResponse* packet = reinterpret_cast<LoginResponse*>(ptr);
+		ClientCommon::LoginResponse* packet = reinterpret_cast<ClientCommon::LoginResponse*>(ptr);
 		g_myid = packet->id;
-		avatar.placeId = packet->placeId;
 		avatar.hp = packet->hp;
 		avatar.level = packet->level;
 		avatar.exp = packet->exp;
+		avatar.m_x = packet->x;
+		avatar.m_y = packet->y;
+		avatar.placeId = packet->placeId;
 		//g_left_x = packet->x - CLIENT_WIDTH / 2;
 		//g_top_y = packet->y - CLIENT_HEIGHT / 2;
 		//printf("%d %d %d %d %d %d\n",
@@ -159,26 +161,19 @@ void ProcessPacket(char* ptr)
 		//	avatar.m_x,
 		//	avatar.m_y);
 		avatar.show();
-
-		PlaceEnterRequest p_packet;
-		p_packet.size = sizeof(p_packet);
-		p_packet.type = CS_ENTERPLACE;
-		p_packet.placeId = avatar.placeId;
-
-		send_packet(&p_packet);
 	}
 	break;
-	case SC_PACKET_LOGIN_FAIL:
+	case ServerCommand::SC_PACKET_LOGIN_FAIL:
 	{
-		LoginFailResponse* packet = reinterpret_cast<LoginFailResponse*>(ptr);
+		ClientCommon::LoginFailResponse* packet = reinterpret_cast<ClientCommon::LoginFailResponse*>(ptr);
 		cout << packet->message << endl;
 		cout << "제대로 된 아이디를 입력해주십시오:";
 		string s;
 		cin >> s;
 
-		LoginRequest l_packet;
+		ClientCommon::LoginRequest l_packet;
 		l_packet.size = sizeof(l_packet);
-		l_packet.type = CS_LOGIN;
+		l_packet.type = ClientCommand::CS_LOGIN;
 		int t_id = GetCurrentProcessId();
 		sprintf_s(l_packet.name, s.c_str());
 		strcpy_s(avatar.name, l_packet.name);
@@ -186,9 +181,9 @@ void ProcessPacket(char* ptr)
 		send_packet(&l_packet);
 	}
 	break;
-	case SC_PACKET_ENTER:
+	case ServerCommand::SC_PACKET_ENTER:
 	{
-		UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
+		ClientCommon::UserEnterEvent* packet = reinterpret_cast<ClientCommon::UserEnterEvent*>(ptr);
 		int id = packet->id;
 
 		avatar.move(packet->x, packet->y);
@@ -197,9 +192,9 @@ void ProcessPacket(char* ptr)
 		avatar.show();
 	}
 	break;
-	case SC_OtherUserEnter:
+	case ServerCommand::SC_OtherUserEnter:
 	{
-		UserEnterEvent* packet = reinterpret_cast<UserEnterEvent*>(ptr);
+		ClientCommon::UserEnterEvent* packet = reinterpret_cast<ClientCommon::UserEnterEvent*>(ptr);
 		int id = packet->id;
 
 		if (id < MAX_USER)
@@ -212,9 +207,9 @@ void ProcessPacket(char* ptr)
 		npcs[id].show();
 	}
 	break;
-	case SC_PACKET_MOVE:
+	case ServerCommand::SC_PACKET_MOVE:
 	{
-		MoveResponse* packet = reinterpret_cast<MoveResponse*>(ptr);
+		ClientCommon::MoveResponse* packet = reinterpret_cast<ClientCommon::MoveResponse*>(ptr);
 		int other_id = packet->id;
 		if (other_id == g_myid) {
 			avatar.move(packet->x, packet->y);
@@ -227,9 +222,9 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case SC_PACKET_EXIT:
+	case ServerCommand::SC_PACKET_EXIT:
 	{
-		UserExitEvent* my_packet = reinterpret_cast<UserExitEvent*>(ptr);
+		ClientCommon::UserExitEvent* my_packet = reinterpret_cast<ClientCommon::UserExitEvent*>(ptr);
 		int other_id = my_packet->id;
 		if (other_id == g_myid) {
 			avatar.hide();
@@ -240,9 +235,9 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case SC_PACKET_CHAT:
+	case ServerCommand::SC_PACKET_CHAT:
 	{
-		ChattingEvent* my_packet = reinterpret_cast<ChattingEvent*>(ptr);
+		ClientCommon::ChattingEvent* my_packet = reinterpret_cast<ClientCommon::ChattingEvent*>(ptr);
 		int other_id = my_packet->id;
 		if (g_myid != other_id)
 			npcs[other_id].add_chat(my_packet->message);
@@ -259,9 +254,9 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case SC_PACKET_STAT_CHANGE:
+	case ServerCommand::SC_PACKET_STAT_CHANGE:
 	{
-		StatusChangedEvent* p = reinterpret_cast<StatusChangedEvent*>(ptr);
+		ClientCommon::StatusChangedEvent* p = reinterpret_cast<ClientCommon::StatusChangedEvent*>(ptr);
 		//printf("avatar level = %hd exp = %d hp = %hd, packet level = %hd exp = %d hp = %hd\n", 
 		//	avatar.level, avatar.exp, avatar.hp, p->level, p->exp, p->hp);
 		avatar.level = p->level;
@@ -386,8 +381,8 @@ void send_packet(void* packet)
 
 void send_move_packet(unsigned char dir)
 {
-	MoveRequest m_packet;
-	m_packet.type = CS_MOVE;
+	ClientCommon::MoveRequest m_packet;
+	m_packet.type = ClientCommand::CS_MOVE;
 	m_packet.size = sizeof(m_packet);
 	m_packet.direction = dir;
 	m_packet.move_time = duration_cast<seconds>(high_resolution_clock::now()
@@ -397,16 +392,16 @@ void send_move_packet(unsigned char dir)
 
 void send_logout_packet()
 {
-	LogoutRequest p;
-	p.type = CS_LOGOUT;
+	ClientCommon::LogoutRequest p;
+	p.type = ClientCommand::CS_LOGOUT;
 	p.size = sizeof(p);
 	send_packet(&p);
 }
 
 void send_atk_packet()
 {
-	AttackRequest p;
-	p.type = CS_ATTACK;
+	ClientCommon::AttackRequest p;
+	p.type = ClientCommand::CS_ATTACK;
 	p.size = sizeof(p);
 	p.atkTime = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
@@ -432,9 +427,9 @@ int main()
 
 	client_initialize();
 
-	LoginRequest l_packet;
+	ClientCommon::LoginRequest l_packet;
 	l_packet.size = sizeof(l_packet);
-	l_packet.type = CS_LOGIN;
+	l_packet.type = ClientCommand::CS_LOGIN;
 	sprintf_s(l_packet.name, s.c_str());
 	strcpy_s(avatar.name, l_packet.name);
 	avatar.set_name(l_packet.name);

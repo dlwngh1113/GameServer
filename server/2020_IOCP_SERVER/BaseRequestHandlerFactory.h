@@ -7,6 +7,6 @@ public:
 	BaseRequestHandlerFactory();
 	virtual ~BaseRequestHandlerFactory();
 
-	BaseRequestHandler* CreateInstance(unsigned char type) override final;
+	BaseRequestHandler* CreateInstance(short type) override final;
 	virtual void Init() = 0;
 };

@@ -2,14 +2,14 @@
 #include"IFactory.h"
 class BaseRequestHandler;
 
-class IHandlerFactory : public IFactory<unsigned char, BaseRequestHandler>
+class IHandlerFactory : public IFactory<short, BaseRequestHandler>
 {
 protected:
-	std::unordered_map<unsigned char, BaseRequestHandler*> m_handlers;
-	void AddHandler(unsigned char key, BaseRequestHandler* value);
+	std::unordered_map<short, BaseRequestHandler*> m_handlers;
+	void AddHandler(short key, BaseRequestHandler* value);
 public:
 	IHandlerFactory();
 	virtual ~IHandlerFactory();
 
-	BaseRequestHandler* CreateInstance(unsigned char key) = 0;
+	BaseRequestHandler* CreateInstance(short key) = 0;
 };

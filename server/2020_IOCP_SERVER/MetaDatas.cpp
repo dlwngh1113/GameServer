@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "MetaDatas.h"
 #include "Logger.h"
-#include"DBWorker.h"
+#include "DBConnector.h"
+#include "DBWorker.h"
 
 MetaDatas* MetaDatas::s_instance = nullptr;
 
@@ -14,9 +15,28 @@ void MetaDatas::Initialize()
 
 void MetaDatas::LoadMetaDatas()
 {
-    int id{ 0 };
-    auto place = new Place(id, ClientCommon::WORLD_WIDTH, ClientCommon::WORLD_HEIGHT, 8, 8);
-    m_places[id++] = place;
+    //DBConnector* dbc = DBWorker::LoadMetaDatas();
+
+    //if (dbc)
+    //{
+    //    do 
+    //    {
+    //        int id, width, height;
+    //        SQLLEN cId, cWidth, cHeight;
+
+    //        SQLBindCol(dbc->GetStatement(), 1, SQL_C_LONG, &id, sizeof(id), &cId);
+    //        SQLBindCol(dbc->GetStatement(), 2, SQL_C_LONG, &width, sizeof(width), &cWidth);
+    //        SQLBindCol(dbc->GetStatement(), 3, SQL_C_LONG, &height, sizeof(height), &cHeight);
+
+    //        auto place = new Place(id, width, height, 8, 8);
+    //    } while (SQLFetch(dbc->GetStatement()));
+    //}
+    //else
+    {
+        int id{ 0 };
+        auto place = new Place(id, WORLD_WIDTH, WORLD_HEIGHT, 8, 8);
+        m_places[id++] = place;
+    }
 }
 
 MetaDatas::~MetaDatas()

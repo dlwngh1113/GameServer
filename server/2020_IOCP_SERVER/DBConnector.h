@@ -1,27 +1,25 @@
 #pragma once
-#include"Logger.h"
 
 class DBConnector
 {
 	SQLHENV m_henv;
 	SQLHDBC m_hdbc;
-	SQLHSTMT m_hstmt = 0;
+	SQLHSTMT m_hstmt;
 	int m_nParamIndex{ 0 };
 
 	SQLSMALLINT m_nLenth;
 	SQLINTEGER m_nRecord, m_nNative;
 	SQLWCHAR m_sState[7], m_sMessage[UCHAR_MAX];
 
-	SQLWCHAR* m_query;
+	SQLWCHAR* m_query{ nullptr };
 
 private:
-	void Init();
 	void Release();
 	void CheckError();
 
 	DBConnector();
 public:
-	DBConnector(const char* query);
+	explicit DBConnector(const char* query);
 	virtual ~DBConnector();
 
 	void SetQueryString(const char* statement);
