@@ -15,7 +15,7 @@ class Peer : IPeer
 
 	void StartRecv();
 public:
-	Peer(SOCKET socket);
+	explicit Peer(SOCKET socket);
 	virtual ~Peer();
 
 	int GetID() const { return static_cast<int>(m_socket); }

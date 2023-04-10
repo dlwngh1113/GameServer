@@ -4,21 +4,6 @@
 
 DBConnector::DBConnector()
 {
-	Init();
-}
-
-DBConnector::DBConnector(const char* query) : DBConnector()
-{
-	SetQueryString(query);
-}
-
-DBConnector::~DBConnector()
-{
-	Release();
-}
-
-void DBConnector::Init()
-{
 	SQLRETURN dbRetcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_henv);
 	if (dbRetcode == SQL_SUCCESS || dbRetcode == SQL_SUCCESS_WITH_INFO)
 	{
@@ -38,6 +23,16 @@ void DBConnector::Init()
 		CheckError();
 
 	SQLConnect(m_hdbc, (SQLWCHAR*)L"g_server", SQL_NTS, (SQLWCHAR*)NULL, 0, NULL, 0);
+}
+
+DBConnector::DBConnector(const char* query) : DBConnector()
+{
+	SetQueryString(query);
+}
+
+DBConnector::~DBConnector()
+{
+	Release();
 }
 
 void DBConnector::Release()

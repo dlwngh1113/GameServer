@@ -2,9 +2,9 @@
 
 class DBConnector
 {
-	SQLHENV m_henv{ nullptr };
-	SQLHDBC m_hdbc{ nullptr };
-	SQLHSTMT m_hstmt{ nullptr };
+	SQLHENV m_henv;
+	SQLHDBC m_hdbc;
+	SQLHSTMT m_hstmt;
 	int m_nParamIndex{ 0 };
 
 	SQLSMALLINT m_nLenth;
@@ -14,13 +14,12 @@ class DBConnector
 	SQLWCHAR* m_query{ nullptr };
 
 private:
-	void Init();
 	void Release();
 	void CheckError();
 
 	DBConnector();
 public:
-	DBConnector(const char* query);
+	explicit DBConnector(const char* query);
 	virtual ~DBConnector();
 
 	void SetQueryString(const char* statement);

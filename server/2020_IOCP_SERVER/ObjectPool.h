@@ -7,7 +7,7 @@ class ObjectPool
 	std::mutex m_lock;
 	Concurrency::concurrent_queue<T*> m_pool;
 public:
-	ObjectPool(int size);
+	explicit ObjectPool(int size);
 	virtual ~ObjectPool();
 
 	void PushObject(T* obj);

@@ -16,7 +16,7 @@ class User : public ClientPeer, public std::enable_shared_from_this<User>
 	Place* m_place;
 
 public:
-	User(Peer* peer);
+	explicit User(Peer* peer);
 	virtual ~User();
 
 #pragma region Properties

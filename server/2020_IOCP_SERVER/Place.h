@@ -18,7 +18,7 @@ private:
 	void SendEvent(const std::shared_ptr<User>& userToExclude, ClientCommon::BasePacket* packet);
 public:
 	Place();
-	Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);
+	explicit Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);
 	virtual ~Place();
 
 	int GetId() const { return m_nId; }
