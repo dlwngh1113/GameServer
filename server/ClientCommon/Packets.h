@@ -29,30 +29,27 @@ constexpr char MV_DOWN = 1;
 constexpr char MV_LEFT = 2;
 constexpr char MV_RIGHT = 3;
 
-namespace ServerCommand 
+enum class ServerCommand : short
 {
-	// 서버 to 클라이언트 명령
-	constexpr char SC_PACKET_LOGIN_OK = 0;
-	constexpr char SC_PACKET_MOVE = 1;
-	constexpr char SC_PACKET_ENTER = 2;
-	constexpr char SC_PACKET_EXIT = 3;
-	constexpr char SC_PACKET_CHAT = 4;
-	constexpr char SC_PACKET_LOGIN_FAIL = 5;
-	constexpr char SC_PACKET_STAT_CHANGE = 6;
-	constexpr char SC_OtherUserEnter = 7;
-}
+	LoginOk = 0,
+	LoginFail,
+	UserMove,
+	UserEnter,
+	UserExit,
+	UserChatting,
+	StatusChanged,
+};
 
-namespace ClientCommand 
+enum class ClientCommand : short
 {
-	// 클라이언트 to 서버 명령
-	constexpr char CS_LOGIN = 0;
-	constexpr char CS_MOVE = 1;
-	constexpr char CS_ATTACK = 2;
-	constexpr char CS_CHAT = 3;
-	constexpr char CS_LOGOUT = 4;
-	constexpr char CS_TELEPORT = 5;				// 부하 테스트용 동접 테스트를 위해 텔러포트로 Hot Spot 해소
-	constexpr char CS_ENTERPLACE = 6;
-}
+	Login = 0,
+	Logout,
+	Move,
+	Attack,
+	ChattingMessageSend,
+	Teleport,
+	PlaceEnter,
+};
 
 namespace ClientCommon
 {
