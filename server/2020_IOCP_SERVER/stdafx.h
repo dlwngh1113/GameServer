@@ -32,7 +32,7 @@ extern "C" {
 #pragma comment(lib, "MSWSock.lib")
 #pragma comment(lib, "lua54.lib")
 #pragma comment(lib, "ClientCommon.lib")
-#pragma comment(lib, "mysqlcppconn8-static.lib")
+#pragma comment(lib, "mysqlcppconn.lib")
 
 #include "Packets.h"
 
