@@ -14,18 +14,14 @@ User::~User()
 		m_place->RemoveUser(std::make_shared<User>(m_peer));
 }
 
-void User::SetInfo(DBConnector* dbc)
+void User::SetInfo(sql::ResultSet* result)
 {
-	short level, hp, x, y;
-	int exp, placeId;
-	SQLLEN cLevel, cHp, cX, cY, cExp, cYPlaceId;
-
-	SQLBindCol(dbc->GetStatement(), 2, SQL_C_SHORT, &level, sizeof(level), &cLevel);
-	SQLBindCol(dbc->GetStatement(), 3, SQL_C_LONG, &exp, sizeof(exp), &cExp);
-	SQLBindCol(dbc->GetStatement(), 4, SQL_C_SHORT, &hp, sizeof(hp), &cHp);
-	SQLBindCol(dbc->GetStatement(), 5, SQL_C_SHORT, &x, sizeof(x), &cX);
-	SQLBindCol(dbc->GetStatement(), 6, SQL_C_SHORT, &y, sizeof(y), &cY);
-	SQLBindCol(dbc->GetStatement(), 7, SQL_C_LONG, &placeId, sizeof(placeId), &cYPlaceId);
+	short level = result->getInt(2);
+	short x = result->getInt(3);
+	short y = result->getInt(4);
+	short exp = result->getInt(5);
+	short hp = result->getInt(6);
+	short placeId = result->getInt(7);
 
 	SetInfo(m_sName, level, exp, hp, x, y, placeId);
 }
