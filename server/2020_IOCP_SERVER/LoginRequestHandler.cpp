@@ -14,19 +14,14 @@ void LoginRequestHandler::HandleRequest()
 {
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
-	DBWorker::GetUser(m_user, packet->name);
-	//auto dbc = DBWorker::GetUser(packet->name);
-
-	//if (dbc)
-	//	m_user->SetInfo(dbc.get());
-	//else
-	//	m_user->SetInfo(packet->name, 1, 0, 50, 0, 0, 0);
+	sql::ResultSet* result = DBWorker::GetUser(packet->name);
+	m_user->SetInfo(result);
 
 	// 응답 데이터 세팅
 
 	ClientCommon::LoginResponse res;
 	res.size = sizeof(ClientCommon::LoginResponse);
-	res.type = ServerCommand::SC_PACKET_LOGIN_OK;
+	res.type = static_cast<short>(ServerCommand::LoginOk);
 	res.id = m_peer->GetID();
 	res.level = m_user->GetLevel();
 	res.exp = m_user->GetExp();

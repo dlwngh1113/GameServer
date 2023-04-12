@@ -40,7 +40,7 @@ void MoveRequestHandler::HandleRequest()
 
 	ClientCommon::UserMoveEvent ev;
 	ev.size = sizeof(ev);
-	ev.type = ServerCommand::SC_PACKET_MOVE;
+	ev.type = static_cast<short>(ServerCommand::UserMove);
 	ev.id = m_user->GetID();
 	ev.x = m_user->GetX();
 	ev.y = m_user->GetY();
@@ -52,7 +52,7 @@ void MoveRequestHandler::HandleRequest()
 
 	ClientCommon::MoveResponse res;
 	res.size = sizeof(ClientCommon::MoveResponse);
-	res.type = ServerCommand::SC_PACKET_MOVE;
+	res.type = static_cast<short>(ServerCommand::UserMove);
 	res.id = m_peer->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

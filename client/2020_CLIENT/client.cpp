@@ -141,7 +141,7 @@ void ProcessPacket(char* ptr)
 {
 	switch (ptr[1])
 	{
-	case ServerCommand::SC_PACKET_LOGIN_OK:
+	case static_cast<short>(ServerCommand::LoginOk):
 	{
 		ClientCommon::LoginResponse* packet = reinterpret_cast<ClientCommon::LoginResponse*>(ptr);
 		g_myid = packet->id;
@@ -163,7 +163,7 @@ void ProcessPacket(char* ptr)
 		avatar.show();
 	}
 	break;
-	case ServerCommand::SC_PACKET_LOGIN_FAIL:
+	case static_cast<short>(ServerCommand::LoginFail):
 	{
 		ClientCommon::LoginFailResponse* packet = reinterpret_cast<ClientCommon::LoginFailResponse*>(ptr);
 		cout << packet->message << endl;
@@ -173,7 +173,7 @@ void ProcessPacket(char* ptr)
 
 		ClientCommon::LoginRequest l_packet;
 		l_packet.size = sizeof(l_packet);
-		l_packet.type = ClientCommand::CS_LOGIN;
+		l_packet.type = static_cast<short>(ClientCommand::Login);
 		int t_id = GetCurrentProcessId();
 		sprintf_s(l_packet.name, s.c_str());
 		strcpy_s(avatar.name, l_packet.name);
@@ -181,18 +181,18 @@ void ProcessPacket(char* ptr)
 		send_packet(&l_packet);
 	}
 	break;
-	case ServerCommand::SC_PACKET_ENTER:
-	{
-		ClientCommon::UserEnterEvent* packet = reinterpret_cast<ClientCommon::UserEnterEvent*>(ptr);
-		int id = packet->id;
+	//case static_cast<short>(ServerCommand::UserEnter):
+	//{
+	//	ClientCommon::UserEnterEvent* packet = reinterpret_cast<ClientCommon::UserEnterEvent*>(ptr);
+	//	int id = packet->id;
 
-		avatar.move(packet->x, packet->y);
-		g_left_x = packet->x - CLIENT_WIDTH / 2;
-		g_top_y = packet->y - CLIENT_HEIGHT / 2;
-		avatar.show();
-	}
-	break;
-	case ServerCommand::SC_OtherUserEnter:
+	//	avatar.move(packet->x, packet->y);
+	//	g_left_x = packet->x - CLIENT_WIDTH / 2;
+	//	g_top_y = packet->y - CLIENT_HEIGHT / 2;
+	//	avatar.show();
+	//}
+	//break;
+	case static_cast<short>(ServerCommand::UserEnter):
 	{
 		ClientCommon::UserEnterEvent* packet = reinterpret_cast<ClientCommon::UserEnterEvent*>(ptr);
 		int id = packet->id;
@@ -207,7 +207,7 @@ void ProcessPacket(char* ptr)
 		npcs[id].show();
 	}
 	break;
-	case ServerCommand::SC_PACKET_MOVE:
+	case static_cast<short>(ServerCommand::UserMove):
 	{
 		ClientCommon::MoveResponse* packet = reinterpret_cast<ClientCommon::MoveResponse*>(ptr);
 		int other_id = packet->id;
@@ -222,7 +222,7 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case ServerCommand::SC_PACKET_EXIT:
+	case static_cast<short>(ServerCommand::UserExit):
 	{
 		ClientCommon::UserExitEvent* my_packet = reinterpret_cast<ClientCommon::UserExitEvent*>(ptr);
 		int other_id = my_packet->id;
@@ -235,7 +235,7 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case ServerCommand::SC_PACKET_CHAT:
+	case static_cast<short>(ServerCommand::UserChatting):
 	{
 		ClientCommon::ChattingEvent* my_packet = reinterpret_cast<ClientCommon::ChattingEvent*>(ptr);
 		int other_id = my_packet->id;
@@ -254,7 +254,7 @@ void ProcessPacket(char* ptr)
 		}
 	}
 	break;
-	case ServerCommand::SC_PACKET_STAT_CHANGE:
+	case static_cast<short>(ServerCommand::StatusChanged):
 	{
 		ClientCommon::StatusChangedEvent* p = reinterpret_cast<ClientCommon::StatusChangedEvent*>(ptr);
 		//printf("avatar level = %hd exp = %d hp = %hd, packet level = %hd exp = %d hp = %hd\n", 
@@ -382,7 +382,7 @@ void send_packet(void* packet)
 void send_move_packet(unsigned char dir)
 {
 	ClientCommon::MoveRequest m_packet;
-	m_packet.type = ClientCommand::CS_MOVE;
+	m_packet.type = static_cast<short>(ClientCommand::Move);
 	m_packet.size = sizeof(m_packet);
 	m_packet.direction = dir;
 	m_packet.move_time = duration_cast<seconds>(high_resolution_clock::now()
@@ -393,7 +393,7 @@ void send_move_packet(unsigned char dir)
 void send_logout_packet()
 {
 	ClientCommon::LogoutRequest p;
-	p.type = ClientCommand::CS_LOGOUT;
+	p.type = static_cast<short>(ClientCommand::Logout);
 	p.size = sizeof(p);
 	send_packet(&p);
 }
@@ -401,7 +401,7 @@ void send_logout_packet()
 void send_atk_packet()
 {
 	ClientCommon::AttackRequest p;
-	p.type = ClientCommand::CS_ATTACK;
+	p.type = static_cast<short>(ClientCommand::Attack);
 	p.size = sizeof(p);
 	p.atkTime = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
@@ -429,7 +429,7 @@ int main()
 
 	ClientCommon::LoginRequest l_packet;
 	l_packet.size = sizeof(l_packet);
-	l_packet.type = ClientCommand::CS_LOGIN;
+	l_packet.type = static_cast<short>(ClientCommand::Login);
 	sprintf_s(l_packet.name, s.c_str());
 	strcpy_s(avatar.name, l_packet.name);
 	avatar.set_name(l_packet.name);

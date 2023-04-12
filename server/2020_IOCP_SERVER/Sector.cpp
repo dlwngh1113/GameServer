@@ -19,7 +19,7 @@ void Sector::SendUserEnter(User* targetUser)
 		{
 			ClientCommon::UserEnterEvent ev;
 			ev.size = sizeof(ev);
-			ev.type = ClientCommon::SC_PACKET_ENTER;
+			ev.type = static_cast<short>(ServerCommand::UserEnter);
 			ev.id = targetUser->GetID();
 			strcpy_s(ev.name, targetUser->GetName());
 			ev.x = targetUser->GetX();
@@ -38,7 +38,7 @@ void Sector::SendUserExit(User* targetUser)
 		{
 			ClientCommon::UserExitEvent ev;
 			ev.size = sizeof(ev);
-			ev.type = ClientCommon::SC_PACKET_EXIT;
+			ev.type = static_cast<short>(ServerCommand::UserExit);
 			ev.id = targetUser->GetID();
 
 			user->SendPacket(&ev);
@@ -54,7 +54,7 @@ void Sector::Move(User* targetUser)
 		{
 			ClientCommon::UserMoveEvent ev;
 			ev.size = sizeof(ev);
-			ev.type = ClientCommon::SC_PACKET_MOVE;
+			ev.type = static_cast<short>(ServerCommand::UserMove);
 			ev.id = targetUser->GetID();
 			ev.x = targetUser->GetX();
 			ev.y = targetUser->GetY();
@@ -78,7 +78,7 @@ void Sector::AddUser(User* user)
 	{
 		ClientCommon::UserEnterEvent ev;
 		ev.size = sizeof(ev);
-		ev.type = ClientCommon::SC_PACKET_ENTER;
+		ev.type = static_cast<short>(ServerCommand::UserEnter);
 		ev.id = u->GetID();
 		strcpy_s(ev.name, u->GetName());
 		ev.x = u->GetX();
