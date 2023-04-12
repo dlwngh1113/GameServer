@@ -3,8 +3,8 @@
 class DBConnector
 {
 	static DBConnector* m_connector;
-	static sql::Driver* m_driver;
-	static sql::Connection* m_connection;
+	sql::Driver* m_driver;
+	sql::Connection* m_connection;
 public:
 	DBConnector();
 	virtual ~DBConnector();

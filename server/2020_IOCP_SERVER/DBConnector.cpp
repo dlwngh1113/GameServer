@@ -2,11 +2,13 @@
 #include "DBConnector.h"
 #include "Logger.h"
 
+DBConnector* DBConnector::m_connector = nullptr;
+
 DBConnector::DBConnector()
 {
-	const std::string server = "tcp://yourservername.mysql.database.azure.com:3306";
-	const std::string username = "username@servername";
-	const std::string password = "yourpassword";
+	const std::string server = "127.0.0.1:3306";
+	const std::string username = "root";
+	const std::string password = "ljh915727!";
 
 	try
 	{
@@ -25,6 +27,7 @@ DBConnector::DBConnector()
 
 DBConnector::~DBConnector()
 {
+	delete m_connection;
 }
 
 sql::Statement* DBConnector::GetStatement()
