@@ -28,12 +28,8 @@ void MetaDatas::LoadMetaDatas()
             auto place = new Place(id, width, height, 8, 8);
             AddPlace(place);
         }
-    }
-    else
-    {
-        int id{ 0 };
-        auto place = new Place(id, WORLD_WIDTH, WORLD_HEIGHT, 8, 8);
-        m_places[id++] = place;
+
+        delete result;
     }
 }
 

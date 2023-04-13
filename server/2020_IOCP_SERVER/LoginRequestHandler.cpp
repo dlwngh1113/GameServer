@@ -22,6 +22,8 @@ void LoginRequestHandler::HandleRequest()
 	}
 	m_user->SetInfo(result);
 
+	delete result;
+
 	// 응답 데이터 세팅
 
 	ClientCommon::LoginResponse res;

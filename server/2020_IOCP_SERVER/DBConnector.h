@@ -12,9 +12,7 @@ public:
 	virtual ~DBConnector();
 
 	void Initialize();
-
-	sql::Statement* GetStatement();
-	sql::PreparedStatement* GetPreparedStatement(const char* sSql);
+	sql::Connection* GetConnection() const;
 
 	static DBConnector* GetInstance()
 	{

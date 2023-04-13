@@ -34,13 +34,8 @@ void DBConnector::Initialize()
 	m_connection->setSchema("smo");
 }
 
-sql::Statement* DBConnector::GetStatement()
+sql::Connection* DBConnector::GetConnection() const
 {
-	return m_connection->createStatement();
-}
-
-sql::PreparedStatement* DBConnector::GetPreparedStatement(const char* sSql)
-{
-	return m_connection->prepareStatement(sSql);
+	return m_connection;
 }
 
