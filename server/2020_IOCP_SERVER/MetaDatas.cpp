@@ -15,28 +15,31 @@ void MetaDatas::Initialize()
 
 void MetaDatas::LoadMetaDatas()
 {
-    //DBConnector* dbc = DBWorker::LoadMetaDatas();
+    sql::ResultSet* result = DBWorker::LoadPlaces();
 
-    //if (dbc)
-    //{
-    //    do 
-    //    {
-    //        int id, width, height;
-    //        SQLLEN cId, cWidth, cHeight;
+    if (result->rowsCount() > 0)
+    {
+        while (result->next())
+        {
+            int id = result->getInt(1);
+            int width = result->getInt(2);
+            int height = result->getInt(3);
 
-    //        SQLBindCol(dbc->GetStatement(), 1, SQL_C_LONG, &id, sizeof(id), &cId);
-    //        SQLBindCol(dbc->GetStatement(), 2, SQL_C_LONG, &width, sizeof(width), &cWidth);
-    //        SQLBindCol(dbc->GetStatement(), 3, SQL_C_LONG, &height, sizeof(height), &cHeight);
-
-    //        auto place = new Place(id, width, height, 8, 8);
-    //    } while (SQLFetch(dbc->GetStatement()));
-    //}
-    //else
+            auto place = new Place(id, width, height, 8, 8);
+            AddPlace(place);
+        }
+    }
+    else
     {
         int id{ 0 };
         auto place = new Place(id, WORLD_WIDTH, WORLD_HEIGHT, 8, 8);
         m_places[id++] = place;
     }
+}
+
+void MetaDatas::AddPlace(Place* place)
+{
+    m_places.insert(std::make_pair(place->GetId(), place));
 }
 
 MetaDatas::~MetaDatas()

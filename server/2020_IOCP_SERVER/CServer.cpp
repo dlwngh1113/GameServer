@@ -1,8 +1,9 @@
-#include"stdafx.h"
+#include "stdafx.h"
 #include "CServer.h"
 #include "DBWorker.h"
-#include"Place.h"
-#include"MetaDatas.h"
+#include "DBConnector.h"
+#include "Place.h"
+#include "MetaDatas.h"
 #include "RequestHandlerFactory.h"
 #include "User.h"
 
@@ -26,6 +27,7 @@ void CServer::Run()
 void CServer::Init()
 {
 	RequestHandlerFactory::GetInstance()->Init();
+	DBConnector::GetInstance()->Init();
 	MetaDatas::GetInstance()->Initialize();
 }
 

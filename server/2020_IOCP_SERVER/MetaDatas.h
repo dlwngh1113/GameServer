@@ -18,6 +18,12 @@ private:
 
 	void LoadMetaDatas();
 
+	//
+	// Place
+	//
+
+	void AddPlace(Place* place);
+
 public:
 
 	static MetaDatas* GetInstance() 

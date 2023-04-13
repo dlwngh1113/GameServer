@@ -34,3 +34,15 @@ BEGIN
     (_name, 1, 0, 0, 0, 50, 0);
 END //
 DELIMITER ;
+
+CREATE TABLE r_Place(
+	id			INT,
+    width		INT,
+    height		INT);
+
+DELIMITER //
+CREATE PROCEDURE smo_LoadPlaces()
+BEGIN
+	SELECT * FROM r_Place;
+END //
+DELIMITER ;

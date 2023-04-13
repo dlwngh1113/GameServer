@@ -9,6 +9,12 @@ sql::ResultSet* DBWorker::LoadMetaDatas()
 	return preparedStatement->executeQuery();
 }
 
+sql::ResultSet* DBWorker::LoadPlaces()
+{
+	sql::PreparedStatement* preparedStatement = DBConnector::GetInstance()->GetPreparedStatement("CALL smo_LoadPlaces");
+	return preparedStatement->executeQuery();
+}
+
 void DBWorker::AddUser(char name[MAX_ID_LEN])
 {
 	sql::PreparedStatement* preparedStatement = DBConnector::GetInstance()->GetPreparedStatement("CALL smo_AddUser(:name)");

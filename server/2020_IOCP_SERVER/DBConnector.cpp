@@ -2,7 +2,7 @@
 #include "DBConnector.h"
 #include "Logger.h"
 
-DBConnector* DBConnector::m_connector = nullptr;
+DBConnector* DBConnector::s_instance = nullptr;
 
 DBConnector::DBConnector()
 {
