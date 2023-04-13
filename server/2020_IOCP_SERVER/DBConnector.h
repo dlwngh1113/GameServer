@@ -11,6 +11,8 @@ private:
 public:
 	virtual ~DBConnector();
 
+	void Initialize();
+
 	sql::Statement* GetStatement();
 	sql::PreparedStatement* GetPreparedStatement(const char* sSql);
 

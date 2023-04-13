@@ -27,7 +27,7 @@ void CServer::Run()
 void CServer::Initialize()
 {
 	RequestHandlerFactory::GetInstance()->Initialize();
-	DBConnector::GetInstance()->Init();
+	DBConnector::GetInstance()->Initialize();
 	MetaDatas::GetInstance()->Initialize();
 }
 

@@ -6,6 +6,15 @@ DBConnector* DBConnector::s_instance = nullptr;
 
 DBConnector::DBConnector()
 {
+}
+
+DBConnector::~DBConnector()
+{
+	delete m_connection;
+}
+
+void DBConnector::Initialize()
+{
 	const std::string server = "127.0.0.1:3306";
 	const std::string username = "root";
 	const std::string password = "ljh915727!";
@@ -22,12 +31,7 @@ DBConnector::DBConnector()
 		exit(1);
 	}
 
-	m_connection->setSchema("g_server");
-}
-
-DBConnector::~DBConnector()
-{
-	delete m_connection;
+	m_connection->setSchema("smo");
 }
 
 sql::Statement* DBConnector::GetStatement()
@@ -39,3 +43,4 @@ sql::PreparedStatement* DBConnector::GetPreparedStatement(const char* sSql)
 {
 	return m_connection->prepareStatement(sSql);
 }
+
