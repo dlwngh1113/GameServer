@@ -19,7 +19,7 @@ RequestHandlerFactory::~RequestHandlerFactory()
 		delete m_instance;
 }
 
-void RequestHandlerFactory::Init()
+void RequestHandlerFactory::Initialize()
 {
 	Log("RequestHandlerFactory Init Started");
 	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::Login) , new LoginRequestHandler());

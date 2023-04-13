@@ -21,7 +21,7 @@ public:
 	int GetID() const { return static_cast<int>(m_socket); }
 
 	void ProcessIO(DWORD ioSize);
-	void Init(IHandlerFactory* instance);
+	void Initialize(IHandlerFactory* instance);
 
 	void ProcessPacket(unsigned char size, unsigned char* data) final;
 	void SendPacket(unsigned char* data) final;

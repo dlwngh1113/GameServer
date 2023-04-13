@@ -10,7 +10,7 @@ class BaseServer
 	std::mutex clientLock;
 	std::unordered_map<SOCKET, std::shared_ptr<Peer>> m_peers;
 private:
-	void Init();
+	void Initialize();
 	void Listen();
 	void BeginAcceptPeer();
 

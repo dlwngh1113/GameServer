@@ -8,5 +8,5 @@ public:
 	virtual ~BaseRequestHandlerFactory();
 
 	BaseRequestHandler* CreateInstance(short type) override final;
-	virtual void Init() = 0;
+	virtual void Initialize() = 0;
 };

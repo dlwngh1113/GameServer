@@ -8,6 +8,6 @@ public:
 	RequestHandlerFactory();
 	virtual ~RequestHandlerFactory();
 
-	void Init() override;
+	void Initialize() override;
 	static RequestHandlerFactory* GetInstance();
 };

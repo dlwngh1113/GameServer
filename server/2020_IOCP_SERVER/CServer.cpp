@@ -7,11 +7,11 @@
 #include "RequestHandlerFactory.h"
 #include "User.h"
 
-CServer* CServer::m_instance = nullptr;
+CServer* CServer::s_instance = nullptr;
 
 CServer::CServer() : BaseServer()
 {
-	Init();
+	Initialize();
 }
 
 CServer::~CServer()
@@ -24,9 +24,9 @@ void CServer::Run()
 	BaseServer::Run();
 }
 
-void CServer::Init()
+void CServer::Initialize()
 {
-	RequestHandlerFactory::GetInstance()->Init();
+	RequestHandlerFactory::GetInstance()->Initialize();
 	DBConnector::GetInstance()->Init();
 	MetaDatas::GetInstance()->Initialize();
 }
@@ -40,8 +40,8 @@ void CServer::Release()
 {
 	m_users.clear();
 
-	if (m_instance)
-		delete m_instance;
+	if (s_instance)
+		delete s_instance;
 }
 
 void CServer::OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer)
