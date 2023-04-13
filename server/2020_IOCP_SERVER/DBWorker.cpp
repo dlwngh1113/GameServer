@@ -11,6 +11,8 @@ sql::ResultSet* DBWorker::LoadMetaDatas()
 
 void DBWorker::AddUser(char name[MAX_ID_LEN])
 {
+	sql::PreparedStatement* preparedStatement = DBConnector::GetInstance()->GetPreparedStatement("CALL smo_AddUser(:name)");
+	preparedStatement->executeQuery();
 }
 
 void DBWorker::UpdateUser(std::shared_ptr<User> user)

@@ -23,12 +23,7 @@ void User::SetInfo(sql::ResultSet* result)
 	short hp = result->getInt(6);
 	short placeId = result->getInt(7);
 
-	SetInfo(m_sName, level, exp, hp, x, y, placeId);
-}
-
-void User::SetInfo(char* name, short level, int exp, short hp, short x, short y, int placeId)
-{
-	strcpy_s(this->m_sName, name);
+	strcpy_s(this->m_sName, result->getString(1)->c_str());
 	this->m_snLevel = level;
 	this->m_nExp = exp;
 	this->m_snHp = hp;

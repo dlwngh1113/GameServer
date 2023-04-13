@@ -34,7 +34,6 @@ public:
 	// 로그인
 
 	void SetInfo(sql::ResultSet* result);
-	void SetInfo(char* name, short level, int exp, short hp, short x, short y, int placeId);
 
 	// 이동
 
