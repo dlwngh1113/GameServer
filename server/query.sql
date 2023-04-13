@@ -46,3 +46,9 @@ BEGIN
 	SELECT * FROM r_Place;
 END //
 DELIMITER ;
+
+ALTER TABLE t_User
+ADD CONSTRAINT pk_t_user PRIMARY KEY(name);
+
+ALTER TABLE r_Place
+ADD CONSTRAINT pk_r_place PRIMARY KEY(id);

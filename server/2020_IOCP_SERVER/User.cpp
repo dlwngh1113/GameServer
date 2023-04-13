@@ -4,6 +4,8 @@
 #include "RequestHandlerFactory.h"
 #include "MetaDatas.h"
 
+#include "Logger.h"
+
 User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
 {
 }
@@ -16,14 +18,17 @@ User::~User()
 
 void User::SetInfo(sql::ResultSet* result)
 {
-	short level = result->getInt(2);
-	short x = result->getInt(3);
-	short y = result->getInt(4);
-	short exp = result->getInt(5);
-	short hp = result->getInt(6);
-	short placeId = result->getInt(7);
+	auto name = result->getString(1);
+	int level = result->getInt(2);
+	int x = result->getInt(3);
+	int y = result->getInt(4);
+	int exp = result->getInt(5);
+	int hp = result->getInt(6);
+	int placeId = result->getInt(7);
+	
+	Log("place Id = %s %d", name.c_str(), level);
 
-	strcpy_s(this->m_sName, result->getString(1)->c_str());
+	strcpy_s(this->m_sName, name.c_str());
 	this->m_snLevel = level;
 	this->m_nExp = exp;
 	this->m_snHp = hp;

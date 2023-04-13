@@ -15,6 +15,11 @@ void LoginRequestHandler::HandleRequest()
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
 	sql::ResultSet* result = DBWorker::GetUser(packet->name);
+	if (result->rowsCount() <= 0)
+	{
+		DBWorker::AddUser(packet->name);
+		result = DBWorker::GetUser(packet->name);
+	}
 	m_user->SetInfo(result);
 
 	// 응답 데이터 세팅

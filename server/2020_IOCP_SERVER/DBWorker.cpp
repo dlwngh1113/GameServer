@@ -18,6 +18,8 @@ sql::ResultSet* DBWorker::LoadPlaces()
 void DBWorker::AddUser(char name[MAX_ID_LEN])
 {
 	sql::PreparedStatement* preparedStatement = DBConnector::GetInstance()->GetPreparedStatement("CALL smo_AddUser(:name)");
+	preparedStatement->setQueryAttrString(":name", name);
+
 	preparedStatement->executeQuery();
 }
 
