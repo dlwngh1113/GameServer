@@ -1,11 +1,16 @@
 #pragma once
-#include"CMaptoolScene.h"
+
+class CScene;
 
 class CFramework
 {
+private:
+    SDL_Window* m_window{nullptr};
+
     CScene* scene;
 public:
     CFramework();
     virtual ~CFramework();
-    LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+    void Run();    
 };

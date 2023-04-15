@@ -1,48 +1,49 @@
 #include "pch.h"
 #include "CFramework.h"
+#include "CMaptoolScene.h"
 
 CFramework::CFramework()
 {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
+        std::cout << "SDL_INIT failed " << SDL_GetError() << std::endl;
+        exit(0);
+    }
+
+    m_window = SDL_CreateWindow("Test Client", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 720, 0);
+
+    if (!m_window)
+    {
+        std::cout << "SDL_CREATE_WINDOW failed " << SDL_GetError() << std::endl;
+        exit(0);
+    }
+
     scene = new CMaptoolScene;
 }
 
 CFramework::~CFramework()
 {
+    SDL_DestroyWindow(m_window);
+    SDL_Quit();
     delete scene;
 }
 
-LRESULT CFramework::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void CFramework::Run()
 {
-    switch (message)
+    SDL_Event event;
+    while (true)
     {
-    case WM_CREATE:
-        scene->SethWnd(hWnd);
-        break;
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
-
-        scene->Render(hdc);
-
-        EndPaint(hWnd, &ps);
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                exit(0);
+                break;
+            
+            default:
+                break;
+            }
+        }
     }
-    break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    case WM_KEYDOWN:
-    case WM_CHAR:
-        scene->KeyInputProcess(wParam, lParam);
-        InvalidateRect(hWnd, NULL, FALSE);
-        break;
-    case WM_MOUSEMOVE:
-    case WM_LBUTTONDOWN:
-        scene->MouseInputProcess(message, wParam, lParam);
-        InvalidateRect(hWnd, NULL, FALSE);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
 }
