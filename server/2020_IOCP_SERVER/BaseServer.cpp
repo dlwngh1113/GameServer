@@ -128,7 +128,7 @@ void BaseServer::Process()
 			}
 			break;
 		case OP_MODE_SEND:
-			Statics::overlappedPool.PushObject(overEx);
+			Statics::s_overlappedPool.PushObject(overEx);
 			break;
 		}
 	}

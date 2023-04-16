@@ -84,6 +84,7 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 		
 		BaseRequestHandler* handler = m_requestHandlerFactory->CreateInstance(packet->type);
 		handler->Initialize(this, packet);
+		//Statics::s_threadPool.EnqueWork(std::function<void()>([&handler]() { handler->Handle(); }));
 		handler->Handle();
 
 		delete handler;
@@ -103,7 +104,7 @@ void Peer::SendPacket(unsigned char* data)
 	try
 	{
 		//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
-		OVER_EX* overEx = Statics::overlappedPool.PopObject();
+		OVER_EX* overEx = Statics::s_overlappedPool.PopObject();
 		ZeroMemory(overEx, sizeof(OVER_EX));
 		overEx->op_mode = OP_MODE_SEND;
 		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
