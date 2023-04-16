@@ -11,6 +11,6 @@
 #include <iostream>
 #include <fstream>
 
-#include<SDL2/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "Resource.h"
