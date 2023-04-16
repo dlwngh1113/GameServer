@@ -1,8 +1,7 @@
 #include "pch.h"
-#include "CFramework.h"
-#include "CMaptoolScene.h"
+#include "Framework.h"
 
-CFramework::CFramework()
+Framework::Framework()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -17,18 +16,16 @@ CFramework::CFramework()
         std::cout << "SDL_CREATE_WINDOW failed " << SDL_GetError() << std::endl;
         exit(0);
     }
-
-    scene = new CMaptoolScene;
 }
 
-CFramework::~CFramework()
+Framework::~Framework()
 {
     SDL_DestroyWindow(m_window);
     SDL_Quit();
     delete scene;
 }
 
-void CFramework::Run()
+void Framework::Run()
 {
     SDL_Event event;
     while (true)
@@ -46,4 +43,5 @@ void CFramework::Run()
             }
         }
     }
+    return;
 }
