@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PlaceEnterRequestHandler.h"
-#include"MetaDatas.h"
-#include"User.h"
+#include "MetaDatas.h"
+#include "User.h"
 #include "Packets.h"
 
 void PlaceEnterRequestHandler::HandleRequest()

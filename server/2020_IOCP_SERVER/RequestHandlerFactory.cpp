@@ -1,11 +1,11 @@
-#include"stdafx.h"
+#include "stdafx.h"
 #include "RequestHandlerFactory.h"
-#include"Logger.h"
-#include"LoginRequestHandler.h"
-#include"MoveRequestHandler.h"
-#include"TeleportRequestHandler.h"
-#include"LogoutRequestHandler.h"
-#include"PlaceEnterRequestHandler.h"
+#include "Logger.h"
+#include "LoginRequestHandler.h"
+#include "MoveRequestHandler.h"
+#include "TeleportRequestHandler.h"
+#include "LogoutRequestHandler.h"
+#include "PlaceEnterRequestHandler.h"
 
 RequestHandlerFactory* RequestHandlerFactory::m_instance = nullptr;
 

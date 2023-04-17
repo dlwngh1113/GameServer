@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Sector.h"
-#include"User.h"
+#include "User.h"
 
 Sector::Sector()
 {

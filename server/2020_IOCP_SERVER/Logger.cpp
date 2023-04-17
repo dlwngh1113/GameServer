@@ -1,4 +1,4 @@
-#include"stdafx.h"
+#include "stdafx.h"
 #include "Logger.h"
 
 HANDLE Logger::s_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);

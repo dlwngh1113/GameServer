@@ -1,5 +1,4 @@
 #pragma once
-#include"Logger.h"
 
 template <typename T>
 class ObjectPool
