@@ -2,6 +2,7 @@
 #include "Peer.h"
 #include "BaseRequestHandler.h"
 #include "IHandlerFactory.h"
+#include "Logger.h"
 
 Peer::Peer(SOCKET socket) : m_socket{ socket }
 {

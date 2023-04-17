@@ -15,8 +15,8 @@ void PlaceEnterRequestHandler::HandleRequest()
 	// 응답 데이터 세팅
 
 	ClientCommon::PlaceEnterResponse res;
-	res.size = sizeof(res);
-	res.type = static_cast<short>(ServerCommand::UserEnter);
+	res.header.size = sizeof(res);
+	res.header.type = static_cast<short>(ServerCommand::UserEnter);
 	res.id = m_user->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

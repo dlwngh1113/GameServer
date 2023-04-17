@@ -71,8 +71,8 @@ void Place::RemoveUser(std::shared_ptr<User> user)
 	//
 
 	ClientCommon::UserExitEvent ev;
-	ev.size = sizeof(ev);
-	ev.type = static_cast<short>(ServerCommand::UserExit);
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerCommand::UserExit);
 	ev.id = user->GetID();
 
 	// 발송
@@ -91,8 +91,8 @@ void Place::AddUser(std::shared_ptr<User> user)
 	//
 
 	ClientCommon::UserEnterEvent ev;
-	ev.size = sizeof(ev);
-	ev.type = static_cast<short>(ServerCommand::UserEnter);
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerCommand::UserEnter);
 	ev.id = user->GetID();
 	strcpy_s(ev.name, user->GetName());
 	ev.x = user->GetX();
@@ -117,8 +117,8 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 	// 이벤트 데이터 세팅
 
 	ClientCommon::UserMoveEvent ev;
-	ev.size = sizeof(ev);
-	ev.type = static_cast<short>(ServerCommand::UserMove);
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerCommand::UserMove);
 	ev.id = user->GetID();
 	ev.x = user->GetX();
 	ev.y = user->GetY();

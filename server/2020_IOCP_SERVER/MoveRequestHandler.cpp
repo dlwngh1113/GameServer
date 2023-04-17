@@ -39,8 +39,8 @@ void MoveRequestHandler::HandleRequest()
 	// 이벤트 데이터 세팅
 
 	ClientCommon::UserMoveEvent ev;
-	ev.size = sizeof(ev);
-	ev.type = static_cast<short>(ServerCommand::UserMove);
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerCommand::UserMove);
 	ev.id = m_user->GetID();
 	ev.x = m_user->GetX();
 	ev.y = m_user->GetY();
@@ -51,8 +51,8 @@ void MoveRequestHandler::HandleRequest()
 	//m_user->GetPlace()->Move(m_user, x, y);
 
 	ClientCommon::MoveResponse res;
-	res.size = sizeof(ClientCommon::MoveResponse);
-	res.type = static_cast<short>(ServerCommand::UserMove);
+	res.header.size = sizeof(ClientCommon::MoveResponse);
+	res.header.type = static_cast<short>(ServerCommand::UserMove);
 	res.id = m_peer->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BaseServer.h"
+#include "Logger.h"
 
 BaseServer::BaseServer()
 {

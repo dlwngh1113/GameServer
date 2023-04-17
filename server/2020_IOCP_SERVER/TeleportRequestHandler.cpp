@@ -13,8 +13,8 @@ void TeleportRequestHandler::HandleRequest()
 	// 이벤트 데이터 세팅
 
 	ClientCommon::TeleportResponse res;
-	res.size = sizeof(ClientCommon::TeleportResponse);
-	res.type = static_cast<short>(ServerCommand::UserMove);
+	res.header.size = sizeof(ClientCommon::TeleportResponse);
+	res.header.type = static_cast<short>(ServerCommand::UserMove);
 
 	// 발송
 

@@ -27,8 +27,8 @@ void LoginRequestHandler::HandleRequest()
 	// 응답 데이터 세팅
 
 	ClientCommon::LoginResponse res;
-	res.size = sizeof(ClientCommon::LoginResponse);
-	res.type = static_cast<short>(ServerCommand::LoginOk);
+	res.header.size = sizeof(ClientCommon::LoginResponse);
+	res.header.type = static_cast<short>(ServerCommand::LoginOk);
 	res.id = m_peer->GetID();
 	res.level = m_user->GetLevel();
 	res.exp = m_user->GetExp();
