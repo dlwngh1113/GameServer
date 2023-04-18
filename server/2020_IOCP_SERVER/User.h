@@ -4,7 +4,7 @@
 class Place;
 class DBConnector;
 
-class User : public ClientPeer, public std::enable_shared_from_this<User>
+class User : public ClientPeer
 {
 	short m_snLevel{ 0 }, m_snHp{ 0 }, m_snX{ 0 }, m_snY{ 0 };
 	int m_nExp{ 0 };

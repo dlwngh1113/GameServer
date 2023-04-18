@@ -4,7 +4,7 @@
 
 class IHandlerFactory;
 
-class Peer : IPeer
+class Peer : IPeer, public std::enable_shared_from_this<Peer>
 {
 	SOCKET m_socket{ NULL };
 	OVER_EX m_recvOver;
