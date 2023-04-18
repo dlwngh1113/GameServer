@@ -9,7 +9,7 @@ protected:
 	std::shared_ptr<Peer> m_peer;
 	ClientCommon::BasePacket* m_packet;
 public:
-	BaseRequestHandler() = delete;
+	BaseRequestHandler();
 	virtual ~BaseRequestHandler();
 
 	void Initialize(std::shared_ptr<Peer> peer, ClientCommon::BasePacket* packet);

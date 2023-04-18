@@ -2,6 +2,10 @@
 #include "BaseRequestHandler.h"
 #include "Peer.h"
 
+BaseRequestHandler::BaseRequestHandler()
+{
+}
+
 BaseRequestHandler::~BaseRequestHandler()
 {
 }

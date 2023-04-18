@@ -172,8 +172,8 @@ void ProcessPacket(char* ptr)
 		cin >> s;
 
 		ClientCommon::LoginRequest l_packet;
-		l_packet.size = sizeof(l_packet);
-		l_packet.type = static_cast<short>(ClientCommand::Login);
+		l_packet.header.size = sizeof(l_packet);
+		l_packet.header.type = static_cast<short>(ClientCommand::Login);
 		int t_id = GetCurrentProcessId();
 		sprintf_s(l_packet.name, s.c_str());
 		strcpy_s(avatar.name, l_packet.name);
@@ -382,8 +382,8 @@ void send_packet(void* packet)
 void send_move_packet(unsigned char dir)
 {
 	ClientCommon::MoveRequest m_packet;
-	m_packet.type = static_cast<short>(ClientCommand::Move);
-	m_packet.size = sizeof(m_packet);
+	m_packet.header.type = static_cast<short>(ClientCommand::Move);
+	m_packet.header.size = sizeof(m_packet);
 	m_packet.direction = dir;
 	m_packet.move_time = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
@@ -393,16 +393,16 @@ void send_move_packet(unsigned char dir)
 void send_logout_packet()
 {
 	ClientCommon::LogoutRequest p;
-	p.type = static_cast<short>(ClientCommand::Logout);
-	p.size = sizeof(p);
+	p.header.type = static_cast<short>(ClientCommand::Logout);
+	p.header.size = sizeof(p);
 	send_packet(&p);
 }
 
 void send_atk_packet()
 {
 	ClientCommon::AttackRequest p;
-	p.type = static_cast<short>(ClientCommand::Attack);
-	p.size = sizeof(p);
+	p.header.type = static_cast<short>(ClientCommand::Attack);
+	p.header.size = sizeof(p);
 	p.atkTime = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
 	send_packet(&p);
@@ -428,8 +428,8 @@ int main()
 	client_initialize();
 
 	ClientCommon::LoginRequest l_packet;
-	l_packet.size = sizeof(l_packet);
-	l_packet.type = static_cast<short>(ClientCommand::Login);
+	l_packet.header.size = sizeof(l_packet);
+	l_packet.header.type = static_cast<short>(ClientCommand::Login);
 	sprintf_s(l_packet.name, s.c_str());
 	strcpy_s(avatar.name, l_packet.name);
 	avatar.set_name(l_packet.name);
