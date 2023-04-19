@@ -37,6 +37,12 @@ Peer::~Peer()
 
 void Peer::ProcessIO(DWORD ioSize)
 {
+	if (ioSize < sizeof(ClientCommon::Header))
+		return;
+
+
+	short snPacketSize = 
+	/*	[TODO] - 패킷 헤더 4바이트로 변경 후 새로 읽는 로직 작성
 	int nPacketSize = (int)m_pRecvStartPos[0];
 	unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
 
@@ -68,6 +74,7 @@ void Peer::ProcessIO(DWORD ioSize)
 	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
 	StartRecv();
+	*/
 }
 
 void Peer::Initialize(IHandlerFactory* instance)
