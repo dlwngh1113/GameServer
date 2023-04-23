@@ -13,6 +13,8 @@ Peer::Peer(SOCKET socket) : m_socket{ socket }
 
 	m_pRecvStartPos = m_recvOver.iocp_buf;
 	StartRecv();
+
+	std::cerr << "peer constructor\n";
 }
 
 void Peer::StartRecv()
@@ -37,23 +39,43 @@ Peer::~Peer()
 
 void Peer::ProcessIO(DWORD ioSize)
 {
-	if (ioSize < sizeof(ClientCommon::Header))
-		return;
-
-
-	short snPacketSize = 
-	/*	[TODO] - 패킷 헤더 4바이트로 변경 후 새로 읽는 로직 작성
-	int nPacketSize = (int)m_pRecvStartPos[0];
 	unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
 
-	// 패킷이 size만큼 도착한 경우
-	while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
+	if (ioSize < sizeof(ClientCommon::Header))
 	{
-		ProcessPacket(nPacketSize, m_pRecvStartPos);
+		long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
 
-		m_pRecvStartPos += nPacketSize;
+		if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
+		{
+			// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
+			memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
+			m_pRecvStartPos = m_recvOver.iocp_buf;
+			pNextRecvPos = m_pRecvStartPos + lnLeftData;
+		}
+
+		// 데이터를 받을 버퍼 세팅
+		m_pRecvStartPos = pNextRecvPos;
+		m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
+		m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
+
+		StartRecv();
+	}
+
+	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pRecvStartPos);
+	short snPacketType = header->type;
+	short snPacketSize = header->size;
+
+	// 패킷이 size만큼 도착한 경우
+	while (snPacketSize <= pNextRecvPos - m_pRecvStartPos)
+	{
+		ProcessPacket(snPacketSize, m_pRecvStartPos);
+
+		m_pRecvStartPos += snPacketSize;
 		if (m_pRecvStartPos < pNextRecvPos)
-			nPacketSize = m_pRecvStartPos[0];
+		{
+			header = reinterpret_cast<ClientCommon::Header*>(m_pRecvStartPos);
+			snPacketSize = header->size;
+		}
 		else
 			break;
 	}
@@ -74,7 +96,39 @@ void Peer::ProcessIO(DWORD ioSize)
 	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
 	StartRecv();
-	*/
+
+	//[TODO] - 패킷 헤더 4바이트로 변경 후 새로 읽는 로직 작성
+	//int nPacketSize = (int)m_pRecvStartPos[0];
+	//unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
+
+	//// 패킷이 size만큼 도착한 경우
+	//while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
+	//{
+	//	ProcessPacket(nPacketSize, m_pRecvStartPos);
+
+	//	m_pRecvStartPos += nPacketSize;
+	//	if (m_pRecvStartPos < pNextRecvPos)
+	//		nPacketSize = m_pRecvStartPos[0];
+	//	else
+	//		break;
+	//}
+
+	//long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
+
+	//if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
+	//{
+	//	// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
+	//	memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
+	//	m_pRecvStartPos = m_recvOver.iocp_buf;
+	//	pNextRecvPos = m_pRecvStartPos + lnLeftData;
+	//}
+
+	//// 데이터를 받을 버퍼 세팅
+	//m_pRecvStartPos = pNextRecvPos;
+	//m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
+	//m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
+
+	//StartRecv();
 }
 
 void Peer::Initialize(IHandlerFactory* instance)

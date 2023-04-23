@@ -57,8 +57,8 @@ namespace ClientCommon
 
 	struct Header
 	{
-		short size;
 		short type;
+		short size;
 	};
 
 	struct BasePacket
