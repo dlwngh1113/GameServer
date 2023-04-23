@@ -77,7 +77,7 @@ void BaseServer::AddNewClient(SOCKET socket)
 	m_peers[socket] = peer;
 	clientLock.unlock();
 	
-	OnAccept(socket, peer);
+	OnAccept(socket, peer.get());
 	BeginAcceptPeer();
 }
 

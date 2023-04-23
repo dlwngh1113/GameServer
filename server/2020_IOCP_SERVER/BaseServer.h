@@ -21,7 +21,7 @@ protected:
 	void Process();
 	void Release();
 
-	virtual void OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer) = 0;
+	virtual void OnAccept(const SOCKET socket, Peer* peer) = 0;
 	virtual void OnDisconnected(const SOCKET socket) = 0;
 
 public:

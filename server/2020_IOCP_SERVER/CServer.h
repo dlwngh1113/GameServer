@@ -17,7 +17,7 @@ private:
 protected:
 	void Release();
 
-	void OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer) override;
+	void OnAccept(const SOCKET socket, Peer* peer) override;
 	void OnDisconnected(const SOCKET socket) override;
 
 public:

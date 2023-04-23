@@ -44,10 +44,10 @@ void CServer::Release()
 		delete s_instance;
 }
 
-void CServer::OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer)
+void CServer::OnAccept(const SOCKET socket, Peer* peer)
 {
 	m_userLock.lock();
-	m_users[socket] = std::make_shared<User>(peer.get());
+	m_users[socket] = std::make_shared<User>(peer);
 	m_userLock.unlock();
 }
 
