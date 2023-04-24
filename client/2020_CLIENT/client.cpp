@@ -372,22 +372,22 @@ void client_main()
 	}
 }
 
-void send_packet(void* packet, short snSize)
+void send_packet(void* pPacket, short snPacketSize)
 {
-	char* p = reinterpret_cast<char*>(packet);
+	char* p = reinterpret_cast<char*>(pPacket);
 	size_t sent;
-	sf::Socket::Status st = g_socket.send(p, snSize, sent);
+	sf::Socket::Status st = g_socket.send(p, snPacketSize, sent);
 }
 
 void send_move_packet(unsigned char dir)
 {
-	ClientCommon::MoveRequest m_packet;
-	m_packet.header.type = static_cast<short>(ClientCommand::Move);
-	m_packet.header.size = sizeof(m_packet);
-	m_packet.direction = dir;
-	m_packet.move_time = duration_cast<seconds>(high_resolution_clock::now()
+	ClientCommon::MoveRequest p;
+	p.header.type = static_cast<short>(ClientCommand::Move);
+	p.header.size = sizeof(p);
+	p.direction = dir;
+	p.move_time = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
-	send_packet(&m_packet, m_packet.header.size);
+	send_packet(&p, p.header.size);
 }
 
 void send_logout_packet()
@@ -427,13 +427,13 @@ int main()
 
 	client_initialize();
 
-	ClientCommon::LoginRequest l_packet;
-	l_packet.header.size = sizeof(l_packet);
-	l_packet.header.type = static_cast<short>(ClientCommand::Login);
-	sprintf_s(l_packet.name, s.c_str());
-	strcpy_s(avatar.name, l_packet.name);
-	avatar.set_name(l_packet.name);
-	send_packet(&l_packet, l_packet.header.size);
+	ClientCommon::LoginRequest packet;
+	packet.header.size = sizeof(packet);
+	packet.header.type = static_cast<short>(ClientCommand::Login);
+	sprintf_s(packet.name, s.c_str());
+	strcpy_s(avatar.name, packet.name);
+	avatar.set_name(packet.name);
+	send_packet(&packet, packet.header.size);
 
 	sf::RenderWindow window(sf::VideoMode(TILE_WIDTH * CLIENT_WIDTH, TILE_WIDTH * CLIENT_HEIGHT), "2D CLIENT");
 	g_window = &window;
