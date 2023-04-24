@@ -24,6 +24,6 @@ public:
 	void Initialize(IHandlerFactory* instance);
 
 	void ProcessPacket(unsigned char size, unsigned char* data) final;
-	void SendPacket(unsigned char* data) final;
+	void SendPacket(unsigned char* data, unsigned short snSize) final;
 	void SendPacket(ClientCommon::BasePacket * packet);
 };
