@@ -1,16 +1,17 @@
-#include"stdafx.h"
+#include "stdafx.h"
 #include "CServer.h"
 #include "DBWorker.h"
-#include"Place.h"
-#include"MetaDatas.h"
+#include "DBConnector.h"
+#include "Place.h"
+#include "MetaDatas.h"
 #include "RequestHandlerFactory.h"
 #include "User.h"
 
-CServer* CServer::m_instance = nullptr;
+CServer* CServer::s_instance = nullptr;
 
 CServer::CServer() : BaseServer()
 {
-	Init();
+	Initialize();
 }
 
 CServer::~CServer()
@@ -23,9 +24,10 @@ void CServer::Run()
 	BaseServer::Run();
 }
 
-void CServer::Init()
+void CServer::Initialize()
 {
-	RequestHandlerFactory::GetInstance()->Init();
+	RequestHandlerFactory::GetInstance()->Initialize();
+	DBConnector::GetInstance()->Initialize();
 	MetaDatas::GetInstance()->Initialize();
 }
 
@@ -38,14 +40,14 @@ void CServer::Release()
 {
 	m_users.clear();
 
-	if (m_instance)
-		delete m_instance;
+	if (s_instance)
+		delete s_instance;
 }
 
-void CServer::OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer)
+void CServer::OnAccept(const SOCKET socket, Peer* peer)
 {
 	m_userLock.lock();
-	m_users[socket] = std::make_shared<User>(peer.get());
+	m_users[socket] = std::make_shared<User>(peer);
 	m_userLock.unlock();
 }
 

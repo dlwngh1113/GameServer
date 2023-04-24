@@ -1,5 +1,5 @@
-#include"stdafx.h"
-#include"CServer.h"
+#include "stdafx.h"
+#include "CServer.h"
 
 int main()
 {

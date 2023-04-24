@@ -1,7 +1,8 @@
-#include"stdafx.h"
-#include"Peer.h"
-#include"BaseRequestHandler.h"
-#include"IHandlerFactory.h"
+#include "stdafx.h"
+#include "Peer.h"
+#include "BaseRequestHandler.h"
+#include "IHandlerFactory.h"
+#include "Logger.h"
 
 Peer::Peer(SOCKET socket) : m_socket{ socket }
 {
@@ -36,17 +37,44 @@ Peer::~Peer()
 
 void Peer::ProcessIO(DWORD ioSize)
 {
-	int nPacketSize = (int)m_pRecvStartPos[0];
 	unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
 
-	// 패킷이 size만큼 도착한 경우
-	while (nPacketSize <= pNextRecvPos - m_pRecvStartPos)
+	if (ioSize < sizeof(ClientCommon::Header))
 	{
-		ProcessPacket(nPacketSize, m_pRecvStartPos);
+		long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
 
-		m_pRecvStartPos += nPacketSize;
+		if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
+		{
+			// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
+			memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
+			m_pRecvStartPos = m_recvOver.iocp_buf;
+			pNextRecvPos = m_pRecvStartPos + lnLeftData;
+		}
+
+		// 데이터를 받을 버퍼 세팅
+		m_pRecvStartPos = pNextRecvPos;
+		m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
+		m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
+
+		StartRecv();
+		return;
+	}
+
+	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pRecvStartPos);
+	short snPacketType = header->type;
+	short snPacketSize = header->size;
+
+	// 패킷이 size만큼 도착한 경우
+	while (snPacketSize <= pNextRecvPos - m_pRecvStartPos)
+	{
+		ProcessPacket(snPacketSize, m_pRecvStartPos);
+
+		m_pRecvStartPos += snPacketSize;
 		if (m_pRecvStartPos < pNextRecvPos)
-			nPacketSize = m_pRecvStartPos[0];
+		{
+			header = reinterpret_cast<ClientCommon::Header*>(m_pRecvStartPos);
+			snPacketSize = header->size;
+		}
 		else
 			break;
 	}
@@ -69,7 +97,7 @@ void Peer::ProcessIO(DWORD ioSize)
 	StartRecv();
 }
 
-void Peer::Init(IHandlerFactory* instance)
+void Peer::Initialize(IHandlerFactory* instance)
 {
 	m_requestHandlerFactory = instance;
 }
@@ -82,8 +110,9 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 		if (m_requestHandlerFactory == nullptr)
 			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
 		
-		BaseRequestHandler* handler = m_requestHandlerFactory->CreateInstance(packet->type);
-		handler->Init(this, packet);
+		BaseRequestHandler* handler = m_requestHandlerFactory->CreateInstance(packet->header.type);
+		handler->Initialize(shared_from_this(), packet);
+		//Statics::s_threadPool.EnqueWork(std::function<void()>([&handler]() { handler->Handle(); }));
 		handler->Handle();
 
 		delete handler;
@@ -98,19 +127,19 @@ void Peer::ProcessPacket(unsigned char size, unsigned char* data)
 	}
 }
 
-void Peer::SendPacket(unsigned char* data)
+void Peer::SendPacket(unsigned char* data, unsigned short snSize)
 {
 	try
 	{
 		//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
-		OVER_EX* overEx = Statics::overlappedPool.PopObject();
+		OVER_EX* overEx = Statics::s_overlappedPool.PopObject();
 		ZeroMemory(overEx, sizeof(OVER_EX));
 		overEx->op_mode = OP_MODE_SEND;
 		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
-		overEx->wsa_buf.len = data[0];
+		overEx->wsa_buf.len = snSize;
 
 		//패킷 데이터 버퍼에 복사
-		memcpy_s(overEx->iocp_buf, MAX_BUFFER, data, data[0]);
+		memcpy_s(overEx->iocp_buf, MAX_BUFFER, data, snSize);
 
 		// Send
 		m_lock.lock();
@@ -130,5 +159,5 @@ void Peer::SendPacket(unsigned char* data)
 void Peer::SendPacket(ClientCommon::BasePacket* packet)
 {
 	unsigned char* data = reinterpret_cast<unsigned char*>(packet);
-	SendPacket(data);
+	SendPacket(data, packet->header.size);
 }

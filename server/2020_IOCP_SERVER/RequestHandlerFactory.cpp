@@ -1,11 +1,11 @@
-#include"stdafx.h"
+#include "stdafx.h"
 #include "RequestHandlerFactory.h"
-#include"Logger.h"
-#include"LoginRequestHandler.h"
-#include"MoveRequestHandler.h"
-#include"TeleportRequestHandler.h"
-#include"LogoutRequestHandler.h"
-#include"PlaceEnterRequestHandler.h"
+#include "Logger.h"
+#include "LoginRequestHandler.h"
+#include "MoveRequestHandler.h"
+#include "TeleportRequestHandler.h"
+#include "LogoutRequestHandler.h"
+#include "PlaceEnterRequestHandler.h"
 
 RequestHandlerFactory* RequestHandlerFactory::m_instance = nullptr;
 
@@ -19,7 +19,7 @@ RequestHandlerFactory::~RequestHandlerFactory()
 		delete m_instance;
 }
 
-void RequestHandlerFactory::Init()
+void RequestHandlerFactory::Initialize()
 {
 	Log("RequestHandlerFactory Init Started");
 	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::Login) , new LoginRequestHandler());

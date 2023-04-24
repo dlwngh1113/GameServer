@@ -1,5 +1,5 @@
 #pragma once
-#include"Place.h"
+#include "Place.h"
 
 class MetaDatas
 {
@@ -17,6 +17,12 @@ private:
 	MetaDatas() = default;
 
 	void LoadMetaDatas();
+
+	//
+	// Place
+	//
+
+	void AddPlace(Place* place);
 
 public:
 

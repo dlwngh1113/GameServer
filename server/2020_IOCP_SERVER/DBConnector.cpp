@@ -2,9 +2,18 @@
 #include "DBConnector.h"
 #include "Logger.h"
 
-DBConnector* DBConnector::m_connector = nullptr;
+DBConnector* DBConnector::s_instance = nullptr;
 
 DBConnector::DBConnector()
+{
+}
+
+DBConnector::~DBConnector()
+{
+	delete m_connection;
+}
+
+void DBConnector::Initialize()
 {
 	const std::string server = "127.0.0.1:3306";
 	const std::string username = "root";
@@ -22,20 +31,11 @@ DBConnector::DBConnector()
 		exit(1);
 	}
 
-	m_connection->setSchema("g_server");
+	m_connection->setSchema("smo");
 }
 
-DBConnector::~DBConnector()
+sql::Connection* DBConnector::GetConnection() const
 {
-	delete m_connection;
+	return m_connection;
 }
 
-sql::Statement* DBConnector::GetStatement()
-{
-	return m_connection->createStatement();
-}
-
-sql::PreparedStatement* DBConnector::GetPreparedStatement(const char* sSql)
-{
-	return m_connection->prepareStatement(sSql);
-}

@@ -2,21 +2,25 @@
 
 class DBConnector
 {
-	static DBConnector* m_connector;
+private:
+	static DBConnector* s_instance;
 	sql::Driver* m_driver;
 	sql::Connection* m_connection;
-public:
+
 	DBConnector();
+public:
 	virtual ~DBConnector();
 
-	sql::Statement* GetStatement();
-	sql::PreparedStatement* GetPreparedStatement(const char* sSql);
+	void Initialize();
+	sql::Connection* GetConnection() const;
 
 	static DBConnector* GetInstance()
 	{
-		if (!m_connector)
-			m_connector = new DBConnector();
+		if (!s_instance)
+		{
+			s_instance = new DBConnector();
+		}
 
-		return m_connector;
+		return s_instance;
 	}
 };

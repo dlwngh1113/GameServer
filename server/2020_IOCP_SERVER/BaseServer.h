@@ -1,5 +1,5 @@
 #pragma once
-#include"Peer.h"
+#include "Peer.h"
 
 class BaseServer
 {
@@ -10,7 +10,7 @@ class BaseServer
 	std::mutex clientLock;
 	std::unordered_map<SOCKET, std::shared_ptr<Peer>> m_peers;
 private:
-	void Init();
+	void Initialize();
 	void Listen();
 	void BeginAcceptPeer();
 
@@ -21,7 +21,7 @@ protected:
 	void Process();
 	void Release();
 
-	virtual void OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer) = 0;
+	virtual void OnAccept(const SOCKET socket, Peer* peer) = 0;
 	virtual void OnDisconnected(const SOCKET socket) = 0;
 
 public:

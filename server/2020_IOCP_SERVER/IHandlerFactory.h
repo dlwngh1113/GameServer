@@ -1,5 +1,6 @@
 #pragma once
-#include"IFactory.h"
+#include "IFactory.h"
+
 class BaseRequestHandler;
 
 class IHandlerFactory : public IFactory<short, BaseRequestHandler>

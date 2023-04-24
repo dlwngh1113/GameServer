@@ -55,10 +55,15 @@ namespace ClientCommon
 {
 	#pragma pack(push, 1)
 
+	struct Header
+	{
+		short type;
+		short size;
+	};
+
 	struct BasePacket
 	{
-		short size;
-		short type;
+		Header header;
 	};
 
 	#pragma region Login

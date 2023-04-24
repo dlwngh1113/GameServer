@@ -1,17 +1,18 @@
-#include"stdafx.h"
+#include "stdafx.h"
 #include "BaseServer.h"
+#include "Logger.h"
 
 BaseServer::BaseServer()
 {
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 0), &WSAData);
 
-	Init();
+	Initialize();
 	Listen();
 	BeginAcceptPeer();
 }
 
-void BaseServer::Init()
+void BaseServer::Initialize()
 {
 	h_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, 0);
 	m_listenSocket = ::WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
@@ -76,7 +77,7 @@ void BaseServer::AddNewClient(SOCKET socket)
 	m_peers[socket] = peer;
 	clientLock.unlock();
 	
-	OnAccept(socket, peer);
+	OnAccept(socket, peer.get());
 	BeginAcceptPeer();
 }
 
@@ -128,7 +129,7 @@ void BaseServer::Process()
 			}
 			break;
 		case OP_MODE_SEND:
-			Statics::overlappedPool.PushObject(overEx);
+			Statics::s_overlappedPool.PushObject(overEx);
 			break;
 		}
 	}

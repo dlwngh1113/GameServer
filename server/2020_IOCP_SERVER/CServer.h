@@ -1,5 +1,5 @@
 #pragma once
-#include"BaseServer.h"
+#include "BaseServer.h"
 
 class User;
 class Peer;
@@ -9,15 +9,15 @@ class CServer : public BaseServer
 	std::mutex m_userLock;
 	std::unordered_map<SOCKET, std::shared_ptr<User>> m_users;
 
-	static CServer* m_instance;
+	static CServer* s_instance;
 
 private:
-	void Init();
+	void Initialize();
 
 protected:
 	void Release();
 
-	void OnAccept(const SOCKET socket, std::shared_ptr<Peer> peer) override;
+	void OnAccept(const SOCKET socket, Peer* peer) override;
 	void OnDisconnected(const SOCKET socket) override;
 
 public:
@@ -30,9 +30,9 @@ public:
 
 	static CServer* GetInstance()
 	{
-		if (m_instance == nullptr)
-			m_instance = new CServer;
+		if (s_instance == nullptr)
+			s_instance = new CServer;
 
-		return m_instance;
+		return s_instance;
 	}
 };

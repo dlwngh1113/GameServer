@@ -1,5 +1,5 @@
 #pragma once
-#include"BaseRequestHandlerFactory.h"
+#include "BaseRequestHandlerFactory.h"
 
 class RequestHandlerFactory: public BaseRequestHandlerFactory
 {
@@ -8,6 +8,6 @@ public:
 	RequestHandlerFactory();
 	virtual ~RequestHandlerFactory();
 
-	void Init() override;
+	void Initialize() override;
 	static RequestHandlerFactory* GetInstance();
 };

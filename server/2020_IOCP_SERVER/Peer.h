@@ -1,10 +1,10 @@
 #pragma once
-#include"IPeer.h"
-#include"Statics.h"
+#include "IPeer.h"
+#include "Statics.h"
 
 class IHandlerFactory;
 
-class Peer : IPeer
+class Peer : IPeer, public std::enable_shared_from_this<Peer>
 {
 	SOCKET m_socket{ NULL };
 	OVER_EX m_recvOver;
@@ -21,9 +21,9 @@ public:
 	int GetID() const { return static_cast<int>(m_socket); }
 
 	void ProcessIO(DWORD ioSize);
-	void Init(IHandlerFactory* instance);
+	void Initialize(IHandlerFactory* instance);
 
 	void ProcessPacket(unsigned char size, unsigned char* data) final;
-	void SendPacket(unsigned char* data) final;
+	void SendPacket(unsigned char* data, unsigned short snSize) final;
 	void SendPacket(ClientCommon::BasePacket * packet);
 };

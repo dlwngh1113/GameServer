@@ -8,6 +8,14 @@
 #define PCH_H
 
 // 여기에 미리 컴파일하려는 헤더 추가
-#include"stdafx.h"
+
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <fstream>
+
+#include <SDL2/SDL.h>
+
+#include "Resource.h"
 
 #endif //PCH_H
