@@ -107,7 +107,7 @@ sf::Texture* board;
 sf::Texture* pieces;
 sf::Texture* ghost_img;
 
-void send_packet(void* packet);
+void send_packet(void* packet, short snSize);
 
 void client_initialize()
 {
@@ -178,7 +178,7 @@ void ProcessPacket(char* ptr)
 		sprintf_s(l_packet.name, s.c_str());
 		strcpy_s(avatar.name, l_packet.name);
 		avatar.set_name(l_packet.name);
-		send_packet(&l_packet);
+		send_packet(&l_packet, l_packet.header.size);
 	}
 	break;
 	//case static_cast<short>(ServerCommand::UserEnter):
@@ -372,11 +372,11 @@ void client_main()
 	}
 }
 
-void send_packet(void* packet)
+void send_packet(void* packet, short snSize)
 {
 	char* p = reinterpret_cast<char*>(packet);
 	size_t sent;
-	sf::Socket::Status st = g_socket.send(p, p[0], sent);
+	sf::Socket::Status st = g_socket.send(p, snSize, sent);
 }
 
 void send_move_packet(unsigned char dir)
@@ -387,7 +387,7 @@ void send_move_packet(unsigned char dir)
 	m_packet.direction = dir;
 	m_packet.move_time = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
-	send_packet(&m_packet);
+	send_packet(&m_packet, m_packet.header.size);
 }
 
 void send_logout_packet()
@@ -395,7 +395,7 @@ void send_logout_packet()
 	ClientCommon::LogoutRequest p;
 	p.header.type = static_cast<short>(ClientCommand::Logout);
 	p.header.size = sizeof(p);
-	send_packet(&p);
+	send_packet(&p, p.header.size);
 }
 
 void send_atk_packet()
@@ -405,7 +405,7 @@ void send_atk_packet()
 	p.header.size = sizeof(p);
 	p.atkTime = duration_cast<seconds>(high_resolution_clock::now()
 		.time_since_epoch()).count();
-	send_packet(&p);
+	send_packet(&p, p.header.size);
 }
 
 int main()
@@ -433,7 +433,7 @@ int main()
 	sprintf_s(l_packet.name, s.c_str());
 	strcpy_s(avatar.name, l_packet.name);
 	avatar.set_name(l_packet.name);
-	send_packet(&l_packet);
+	send_packet(&l_packet, l_packet.header.size);
 
 	sf::RenderWindow window(sf::VideoMode(TILE_WIDTH * CLIENT_WIDTH, TILE_WIDTH * CLIENT_HEIGHT), "2D CLIENT");
 	g_window = &window;

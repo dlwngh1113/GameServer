@@ -13,8 +13,6 @@ Peer::Peer(SOCKET socket) : m_socket{ socket }
 
 	m_pRecvStartPos = m_recvOver.iocp_buf;
 	StartRecv();
-
-	std::cerr << "peer constructor\n";
 }
 
 void Peer::StartRecv()
@@ -59,6 +57,7 @@ void Peer::ProcessIO(DWORD ioSize)
 		m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
 		StartRecv();
+		return;
 	}
 
 	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pRecvStartPos);
