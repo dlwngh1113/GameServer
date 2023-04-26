@@ -7,6 +7,7 @@ protected:
 
 public:
 	Object();
+	Object(int nX, int nY, int nWidth, int nHeight);
 	virtual ~Object();
 
 	virtual void Update(float flElapsedTime) = 0;

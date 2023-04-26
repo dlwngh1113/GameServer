@@ -173,6 +173,7 @@
     <ClInclude Include="MaptoolScene.h" />
     <ClInclude Include="MovableObject.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="pch.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="MaptoolScene.cpp" />
     <ClCompile Include="MovableObject.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="main.cpp" />

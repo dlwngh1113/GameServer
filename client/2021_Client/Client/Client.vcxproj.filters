@@ -63,6 +63,12 @@
     <ClInclude Include="MaptoolScene.h">
       <Filter>소스 파일\Maptool</Filter>
     </ClInclude>
+    <ClInclude Include="MovableObject.h">
+      <Filter>Framework\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +97,12 @@
     </ClCompile>
     <ClCompile Include="MaptoolScene.cpp">
       <Filter>소스 파일\Maptool</Filter>
+    </ClCompile>
+    <ClCompile Include="MovableObject.cpp">
+      <Filter>Framework\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
