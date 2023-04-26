@@ -3,8 +3,12 @@
 class Object
 {
 protected:
+	SDL_Rect m_position{ NULL };
+
 public:
-	Object() = default;
-	Object(SDL_Rect* position);
+	Object();
 	virtual ~Object();
+
+	virtual void Update(float flElapsedTime) = 0;
+	virtual void Render() = 0;
 };

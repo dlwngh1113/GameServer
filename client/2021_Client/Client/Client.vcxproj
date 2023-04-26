@@ -171,6 +171,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MaptoolScene.h" />
+    <ClInclude Include="MovableObject.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Tile.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="CMapLoader.cpp" />
     <ClCompile Include="MaptoolScene.cpp" />
+    <ClCompile Include="MovableObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Tile.cpp" />
