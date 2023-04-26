@@ -12,7 +12,7 @@ public:
 	virtual ~Player();
 
 	virtual void Update(float flElapsedTime);
-	virtual void Render();
+	virtual void Render(SDL_Renderer* renderer);
 
 	virtual void Move(int nDx, int nDy);
 };

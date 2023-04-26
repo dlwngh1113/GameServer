@@ -17,7 +17,7 @@ void Player::Update(float flElapsedTime)
 {
 }
 
-void Player::Render()
+void Player::Render(SDL_Renderer* renderer)
 {
 }
 
