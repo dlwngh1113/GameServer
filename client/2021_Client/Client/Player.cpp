@@ -19,6 +19,7 @@ void Player::Update(float flElapsedTime)
 
 void Player::Render(SDL_Renderer* renderer)
 {
+	SDL_RenderCopy(renderer, m_texture, NULL, &m_position);
 }
 
 void Player::Move(int nDx, int nDy)

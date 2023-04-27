@@ -3,6 +3,10 @@
 
 class InGameScene : public Scene
 {
+private:
+	Player* m_player{ nullptr };
+	std::vector<Object*> m_objects;
+
 public:
 	InGameScene();
 	virtual ~InGameScene();

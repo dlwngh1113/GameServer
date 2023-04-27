@@ -17,6 +17,8 @@ Framework::Framework()
         exit(0);
     }
 
+    SDL_SetWindowTitle(m_window, "SMO");
+
     m_scene = new InGameScene;
 }
 

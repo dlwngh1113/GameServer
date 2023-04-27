@@ -8,7 +8,7 @@ private:
 
 public:
 	Player();
-	Player(int nX, int nY, int nWidth, int nHeight);
+	explicit Player(int nX, int nY, int nWidth, int nHeight);
 	virtual ~Player();
 
 	virtual void Update(float flElapsedTime);

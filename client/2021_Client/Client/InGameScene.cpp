@@ -9,6 +9,12 @@ InGameScene::InGameScene() : Scene()
 
 InGameScene::~InGameScene()
 {
+	if (m_player)
+		delete m_player;
+
+	for (auto& obj : m_objects)
+		delete obj;
+	m_objects.clear();
 }
 
 void InGameScene::Render(SDL_Renderer* renderer)
