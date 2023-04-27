@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Framework.h"
 #include "Scene.h"
+#include "Renderer.h"
 #include "InGameScene.h"
 
 Framework::Framework()
@@ -10,6 +11,8 @@ Framework::Framework()
         std::cout << "SDL_INIT failed " << SDL_GetError() << std::endl;
         exit(0);
     }
+
+    m_renderer = Renderer::GetInstance()->GetRenderer();
 
     if (SDL_CreateWindowAndRenderer(640, 480, 0, &m_window, &m_renderer) < 0)
     {
@@ -24,7 +27,6 @@ Framework::Framework()
 
 Framework::~Framework()
 {
-    SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
     SDL_Quit();
     delete m_scene;

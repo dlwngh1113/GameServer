@@ -9,7 +9,7 @@ public:
 	Scene();
 	virtual ~Scene();
 
-	virtual void Run() = 0;
+	void Run();
 	virtual void Render(SDL_Renderer* renderer) = 0;
 	virtual void Update() = 0;
 };

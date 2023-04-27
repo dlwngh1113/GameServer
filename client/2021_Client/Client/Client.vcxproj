@@ -175,7 +175,9 @@
     <ClInclude Include="MovableObject.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Singletone.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -189,7 +191,9 @@
     <ClCompile Include="MovableObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Singletone.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">

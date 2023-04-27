@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Player.h"
+#include "Renderer.h"
 
 Player::Player()
 {
@@ -7,6 +8,11 @@ Player::Player()
 
 Player::Player(int nX, int nY, int nWidth, int nHeight) : MovableObject{ nX, nY, nWidth, nHeight }
 {
+	SDL_Surface* surface = SDL_LoadBMP("players.bmp");
+	if (surface == 0)
+		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
+
+	SDL_CreateTextureFromSurface(Renderer::GetInstance()->GetRenderer(), surface);
 }
 
 Player::~Player()
