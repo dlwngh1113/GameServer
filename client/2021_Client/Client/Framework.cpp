@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Framework.h"
 #include "Scene.h"
+#include "InGameScene.h"
 
 Framework::Framework()
 {
@@ -15,6 +16,8 @@ Framework::Framework()
         std::cout << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << std::endl;
         exit(0);
     }
+
+    m_scene = new InGameScene;
 }
 
 Framework::~Framework()
@@ -34,6 +37,7 @@ void Framework::Render()
 
 void Framework::Update()
 {
+    m_scene->Update();
 }
 
 void Framework::Run()

@@ -4,7 +4,7 @@
 class Player : public MovableObject
 {
 private:
-	SDL_Surface* m_surface{ nullptr };
+	SDL_Texture* m_texture{ nullptr };
 
 public:
 	Player();
