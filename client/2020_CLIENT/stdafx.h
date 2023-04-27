@@ -8,6 +8,4 @@
 #include <chrono>
 #include<fstream>
 
-#pragma lib(lib, "ClientCommon.lib")
-
 #include "Packets.h"

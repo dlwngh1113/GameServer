@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Framework.h"
+#include "Scene.h"
+#include "Renderer.h"
+#include "InGameScene.h"
 
 Framework::Framework()
 {
@@ -9,20 +12,36 @@ Framework::Framework()
         exit(0);
     }
 
-    m_window = SDL_CreateWindow("Test Client", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 720, 0);
+    m_renderer = Renderer::GetInstance()->GetRenderer();
 
-    if (!m_window)
+    if (SDL_CreateWindowAndRenderer(640, 480, 0, &m_window, &m_renderer) < 0)
     {
-        std::cout << "SDL_CREATE_WINDOW failed " << SDL_GetError() << std::endl;
+        std::cout << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << std::endl;
         exit(0);
     }
+
+    SDL_SetWindowTitle(m_window, "SMO");
+
+    m_scene = new InGameScene;
 }
 
 Framework::~Framework()
 {
     SDL_DestroyWindow(m_window);
     SDL_Quit();
-    delete scene;
+    delete m_scene;
+}
+
+void Framework::Render()
+{
+    SDL_RenderClear(m_renderer);
+    m_scene->Render(m_renderer);
+    SDL_RenderPresent(m_renderer);
+}
+
+void Framework::Update()
+{
+    m_scene->Update();
 }
 
 void Framework::Run()
@@ -43,5 +62,4 @@ void Framework::Run()
             }
         }
     }
-    return;
 }

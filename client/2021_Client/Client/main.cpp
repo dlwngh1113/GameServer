@@ -6,7 +6,7 @@
 
 Framework* framework;
 
-int main(int* argc, char* argv[])
+int SDL_main(int argc, char* argv[])
 {
 	framework = new Framework();
 	framework->Run();
