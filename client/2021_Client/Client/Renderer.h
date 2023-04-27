@@ -1,7 +1,7 @@
 #pragma once
-#include "Singletone.h"
+#include "Singleton.h"
 
-class Renderer : public Singletone<Renderer>
+class Renderer : public Singleton<Renderer>
 {
 	SDL_Renderer* m_renderer;
 public:
@@ -10,4 +10,3 @@ public:
 
 	SDL_Renderer*& GetRenderer();
 };
-
