@@ -4,6 +4,7 @@ class Object
 {
 protected:
 	SDL_Rect m_position{ NULL };
+	SDL_Rect m_resourcePosition{ NULL };
 
 public:
 	Object();

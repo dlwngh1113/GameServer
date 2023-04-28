@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "Renderer.h"
+#include "Singleton.h"
 
 Player::Player()
 {
@@ -12,11 +13,14 @@ Player::Player(int nX, int nY, int nWidth, int nHeight) : MovableObject{ nX, nY,
 	if (surface == 0)
 		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
 
-	SDL_CreateTextureFromSurface(Renderer::GetInstance()->GetRenderer(), surface);
+	m_texture = SDL_CreateTextureFromSurface(Singleton<Renderer>::GetInstance()->GetRenderer(), surface);
+
+	SDL_FreeSurface(surface);
 }
 
 Player::~Player()
 {
+	SDL_DestroyTexture(m_texture);
 }
 
 void Player::Update(float flElapsedTime)
