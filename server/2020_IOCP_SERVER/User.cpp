@@ -12,7 +12,7 @@ User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
 User::~User()
 {
 	if (m_place)
-		m_place->RemoveUser(std::make_shared<User>(m_peer));
+		m_place->RemoveUser(shared_from_this());
 }
 
 void User::SetInfo(sql::ResultSet* result)

@@ -54,7 +54,9 @@ void CServer::OnAccept(const SOCKET socket, Peer* peer)
 void CServer::OnDisconnected(const SOCKET socket)
 {
 	auto toRemoveUser = m_users[socket];
-	DBWorker::UpdateUser(toRemoveUser);
+
+	if (toRemoveUser->GetStatus() == LoginStatus::LogedIn)
+		DBWorker::UpdateUser(toRemoveUser);
 	
 	m_userLock.lock();
 	m_users.erase(socket);

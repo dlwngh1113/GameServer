@@ -4,11 +4,9 @@
 #include "pch.h"
 #include "Framework.h"
 
-Framework* framework;
-
 int SDL_main(int argc, char* argv[])
 {
-	framework = new Framework();
-	framework->Run();
+	Framework framwork;
+	framwork.Run();
 	return 0;
 }

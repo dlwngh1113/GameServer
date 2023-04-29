@@ -21,7 +21,7 @@ Framework::Framework()
     }
 
     if (!Singleton<NetworkManager>::GetInstance()->Init())
-        exit(0);
+        delete this;
 
     SDL_SetWindowTitle(m_window, "SMO");
 
