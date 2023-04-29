@@ -18,7 +18,7 @@ bool NetworkManager::Init()
 	}
 
 	IPaddress ipAddress;
-	SDLNet_ResolveHost(&ipAddress, "127.0.0.1", );
+	SDLNet_ResolveHost(&ipAddress, "127.0.0.1", SERVER_PORT);
 	m_tcpSocket = SDLNet_TCP_Open(&ipAddress);
 	if (m_tcpSocket == NULL)
 	{
