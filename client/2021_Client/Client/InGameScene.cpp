@@ -25,3 +25,15 @@ void InGameScene::Render(SDL_Renderer* renderer)
 void InGameScene::Update()
 {
 }
+
+void InGameScene::OnEvent(SDL_Event& evt)
+{
+	switch (evt.type)
+	{
+	case SDL_QUIT:
+		SDL_Quit();
+		break;
+	default:
+		break;
+	}
+}

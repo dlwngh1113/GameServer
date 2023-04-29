@@ -1,6 +1,9 @@
 #pragma once
 #include "Scene.h"
 
+class Player;
+class Object;
+
 class InGameScene : public Scene
 {
 private:
@@ -13,5 +16,6 @@ public:
 
 	virtual void Render(SDL_Renderer* renderer) override;
 	virtual void Update() override;
+	virtual void OnEvent(SDL_Event& evt) override;
 };
 

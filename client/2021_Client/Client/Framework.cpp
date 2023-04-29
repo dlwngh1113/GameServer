@@ -50,18 +50,9 @@ void Framework::Run()
     while (true)
     {
         while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-            case SDL_QUIT:
-                exit(0);
-                break;
-            
-            default:
-                break;
-            }
-        }
-        m_scene->Update();
+            m_scene->OnEvent(event);
+
+        Update();
 
         Render();
     }
