@@ -13,9 +13,9 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <exception>
 
 #include <SDL2/SDL.h>
-
-#include "Resource.h"
+#include <SDL2/SDL_net.h>
 
 #endif //PCH_H

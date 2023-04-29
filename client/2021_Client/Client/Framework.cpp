@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Singleton.h"
 #include "Renderer.h"
+#include "NetworkManager.h"
 #include "InGameScene.h"
 
 Framework::Framework()
@@ -18,6 +19,9 @@ Framework::Framework()
         std::cout << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << std::endl;
         exit(0);
     }
+
+    if (!Singleton<NetworkManager>::GetInstance()->Init())
+        exit(0);
 
     SDL_SetWindowTitle(m_window, "SMO");
 

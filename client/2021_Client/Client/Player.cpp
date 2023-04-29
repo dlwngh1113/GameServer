@@ -16,6 +16,7 @@ Player::Player(int nX, int nY, int nWidth, int nHeight) : MovableObject{ nX, nY,
 		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
 
 	m_resourcePosition = surface->clip_rect;
+	m_resourcePosition.w -= 32;
 
 	m_texture = SDL_CreateTextureFromSurface(Singleton<Renderer>::GetInstance()->GetRenderer(), surface);
 

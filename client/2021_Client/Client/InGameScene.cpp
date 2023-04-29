@@ -51,6 +51,7 @@ void InGameScene::OnEvent(SDL_Event& evt)
 		break;
 	case SDL_QUIT:
 		SDL_Quit();
+		exit(0);
 		break;
 	default:
 		break;
