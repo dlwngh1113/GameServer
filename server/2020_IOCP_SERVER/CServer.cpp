@@ -55,7 +55,7 @@ void CServer::OnDisconnected(const SOCKET socket)
 {
 	auto toRemoveUser = m_users[socket];
 
-	if (toRemoveUser->GetStatus() == LoginStatus::LogedIn)
+	if (toRemoveUser->GetStatus() == LoginStatus::LoggedIn)
 		DBWorker::UpdateUser(toRemoveUser);
 	
 	m_userLock.lock();

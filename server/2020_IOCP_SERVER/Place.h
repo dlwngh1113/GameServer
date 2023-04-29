@@ -15,7 +15,7 @@ private:
 	Sector** m_sectors = nullptr;
 	Sector* GetSectorByPoint(short x, short y);
 
-	void SendEvent(const std::shared_ptr<User>& userToExclude, ClientCommon::BasePacket* packet);
+	void SendEvent(const int nId, ClientCommon::BasePacket* packet);
 public:
 	Place();
 	explicit Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);
@@ -24,6 +24,7 @@ public:
 	int GetId() const { return m_nId; }
 
 	void AddUser(std::shared_ptr<User> user);
+	void RemoveUser(const int nId);
 	void RemoveUser(std::shared_ptr<User> user);
 	void Move(std::shared_ptr<User> user, short x, short y);
 };

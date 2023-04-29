@@ -51,33 +51,13 @@ Place::~Place()
 		delete[] m_sectors;
 }
 
-void Place::SendEvent(const std::shared_ptr<User>& userToExclude, ClientCommon::BasePacket* ev)
+void Place::SendEvent(const int nId, ClientCommon::BasePacket* ev)
 {
 	m_lock.lock();
 	for (const auto& pair : m_users)
-		if (pair.second != userToExclude)
+		if (pair.second->GetID() != nId)
 			pair.second->SendPacket(ev);
 	m_lock.unlock();
-}
-
-void Place::RemoveUser(std::shared_ptr<User> user)
-{
-	m_lock.lock();
-	m_users.erase(user->GetID());
-	m_lock.unlock();
-
-	//
-	// 이벤트 데이터 세팅
-	//
-
-	ClientCommon::UserExitEvent ev;
-	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerCommand::UserExit);
-	ev.id = user->GetID();
-
-	// 발송
-
-	SendEvent(user, &ev);
 }
 
 void Place::AddUser(std::shared_ptr<User> user)
@@ -100,7 +80,47 @@ void Place::AddUser(std::shared_ptr<User> user)
 
 	// 발송
 
-	SendEvent(user, &ev);
+	SendEvent(user->GetID(), &ev);
+}
+
+void Place::RemoveUser(const int nId)
+{
+	m_lock.lock();
+	m_users.erase(nId);
+	m_lock.unlock();
+
+	//
+	// 이벤트 데이터 세팅
+	//
+
+	ClientCommon::UserExitEvent ev;
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerCommand::UserExit);
+	ev.id = nId;
+
+	// 발송
+
+	SendEvent(nId, &ev);
+}
+
+void Place::RemoveUser(std::shared_ptr<User> user)
+{
+	m_lock.lock();
+	m_users.erase(user->GetID());
+	m_lock.unlock();
+
+	//
+	// 이벤트 데이터 세팅
+	//
+
+	ClientCommon::UserExitEvent ev;
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerCommand::UserExit);
+	ev.id = user->GetID();
+
+	// 발송
+
+	SendEvent(user->GetID(), &ev);
 }
 
 void Place::Move(std::shared_ptr<User> user, short x, short y)
@@ -125,5 +145,5 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 
 	// 발송
 
-	SendEvent(user, &ev);
+	SendEvent(user->GetID(), &ev);
 }

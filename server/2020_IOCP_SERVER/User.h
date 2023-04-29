@@ -8,7 +8,7 @@ enum class LoginStatus
 {
 	NotLogin,
 	LoggingIn,
-	LogedIn
+	LoggedIn
 };
 
 class User : public ClientPeer, public std::enable_shared_from_this<User>
@@ -22,7 +22,7 @@ class User : public ClientPeer, public std::enable_shared_from_this<User>
 	std::mutex m_lock;
 	int m_nLastMoveTime{ 0 };
 
-	Place* m_place;
+	Place* m_place{ nullptr };
 
 public:
 	explicit User(Peer* peer);
