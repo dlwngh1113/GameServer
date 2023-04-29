@@ -4,7 +4,7 @@
 #include "User.h"
 #include "Packets.h"
 
-void PlaceEnterRequestHandler::HandleRequest()
+void PlaceEnterRequestHandler::HandleInGame()
 {
 	ClientCommon::PlaceEnterRequest* packet = reinterpret_cast<ClientCommon::PlaceEnterRequest*>(m_packet);
 	Place* place = MetaDatas::GetInstance()->GetPlace(packet->placeId);

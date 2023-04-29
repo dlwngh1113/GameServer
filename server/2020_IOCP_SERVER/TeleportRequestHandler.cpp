@@ -4,7 +4,7 @@
 #include "Packets.h"
 #include "CServer.h"
 
-void TeleportRequestHandler::HandleRequest()
+void TeleportRequestHandler::HandleInGame()
 {
 	ClientCommon::TeleportRequest* packet = reinterpret_cast<ClientCommon::TeleportRequest*>(m_packet);
 

@@ -9,7 +9,7 @@ BaseRequestHandler* MoveRequestHandler::Create()
 	return new MoveRequestHandler;
 }
 
-void MoveRequestHandler::HandleRequest()
+void MoveRequestHandler::HandleInGame()
 {
 	ClientCommon::MoveRequest* packet = reinterpret_cast<ClientCommon::MoveRequest*>(m_packet);
 
