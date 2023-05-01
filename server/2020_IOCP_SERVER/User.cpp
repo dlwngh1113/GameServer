@@ -12,7 +12,7 @@ User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
 User::~User()
 {
 	if (m_place)
-		m_place->RemoveUser(shared_from_this());
+		m_place->RemoveUser(GetID());
 }
 
 void User::SetInfo(sql::ResultSet* result)

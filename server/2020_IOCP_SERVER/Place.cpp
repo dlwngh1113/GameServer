@@ -103,26 +103,6 @@ void Place::RemoveUser(const int nId)
 	SendEvent(nId, &ev);
 }
 
-void Place::RemoveUser(std::shared_ptr<User> user)
-{
-	m_lock.lock();
-	m_users.erase(user->GetID());
-	m_lock.unlock();
-
-	//
-	// 이벤트 데이터 세팅
-	//
-
-	ClientCommon::UserExitEvent ev;
-	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerCommand::UserExit);
-	ev.id = user->GetID();
-
-	// 발송
-
-	SendEvent(user->GetID(), &ev);
-}
-
 void Place::Move(std::shared_ptr<User> user, short x, short y)
 {
 	if (0 > x || m_nWidth < x)

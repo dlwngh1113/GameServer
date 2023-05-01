@@ -25,6 +25,5 @@ public:
 
 	void AddUser(std::shared_ptr<User> user);
 	void RemoveUser(const int nId);
-	void RemoveUser(std::shared_ptr<User> user);
 	void Move(std::shared_ptr<User> user, short x, short y);
 };
