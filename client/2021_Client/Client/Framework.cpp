@@ -21,10 +21,9 @@ Framework::Framework()
     }
 
     if (!Singleton<NetworkManager>::GetInstance()->Init())
-    {
-        SDL_DestroyWindow(m_window);
-        SDL_Quit();
-    }
+        Release();
+
+    Singleton<NetworkManager>::GetInstance()->ConnectToServer();
 
     SDL_SetWindowTitle(m_window, "SMO");
 
@@ -33,6 +32,11 @@ Framework::Framework()
 }
 
 Framework::~Framework()
+{
+    Release();
+}
+
+void Framework::Release()
 {
     SDL_DestroyWindow(m_window);
     SDL_Quit();
