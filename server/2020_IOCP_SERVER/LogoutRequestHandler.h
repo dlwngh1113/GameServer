@@ -1,10 +1,10 @@
 #pragma once
-#include "RequestHandler.h"
+#include "LoginRequiredRequestHandler.h"
 
-class LogoutRequestHandler : public RequestHandler
+class LogoutRequestHandler : public LoginRequiredRequestHandler
 {
 public:
-	void HandleRequest() override;
+	void HandleInGame() override;
 	BaseRequestHandler* Create() override;
 };
 

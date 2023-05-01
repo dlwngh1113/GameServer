@@ -8,8 +8,6 @@ ClientPeer::ClientPeer(Peer* peer, IHandlerFactory* instance) : m_peer{peer}
 
 ClientPeer::~ClientPeer()
 {
-	if (m_peer)
-		delete m_peer;
 }
 
 void ClientPeer::SendPacket(ClientCommon::BasePacket* packet)

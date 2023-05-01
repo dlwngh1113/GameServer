@@ -4,8 +4,17 @@
 class Place;
 class DBConnector;
 
-class User : public ClientPeer
+enum class LoginStatus
 {
+	NotLogin,
+	LoggingIn,
+	LoggedIn
+};
+
+class User : public ClientPeer, public std::enable_shared_from_this<User>
+{
+	LoginStatus m_status;
+
 	short m_snLevel{ 0 }, m_snHp{ 0 }, m_snX{ 0 }, m_snY{ 0 };
 	int m_nExp{ 0 };
 	char m_sName[MAX_ID_LEN];
@@ -13,7 +22,7 @@ class User : public ClientPeer
 	std::mutex m_lock;
 	int m_nLastMoveTime{ 0 };
 
-	Place* m_place;
+	Place* m_place{ nullptr };
 
 public:
 	explicit User(Peer* peer);
@@ -29,6 +38,7 @@ public:
 
 	Place* GetPlace() const { return m_place; }
 	Place*& GetPlace() { return m_place; }
+	LoginStatus GetStatus() const { return m_status; }
 #pragma endregion
 
 	// ·Î±×ÀÎ

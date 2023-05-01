@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LogoutRequestHandler.h"
 
-void LogoutRequestHandler::HandleRequest()
+void LogoutRequestHandler::HandleInGame()
 {
 	ClientCommon::LogoutRequest* packet = reinterpret_cast<ClientCommon::LogoutRequest*>(m_packet);
 }

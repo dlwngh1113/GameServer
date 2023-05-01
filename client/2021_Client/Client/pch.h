@@ -13,9 +13,11 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <exception>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_net.h>
 
-#include "Resource.h"
+#include "Packets.h"
 
 #endif //PCH_H

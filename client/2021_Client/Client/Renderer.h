@@ -1,7 +1,6 @@
 #pragma once
-#include "Singleton.h"
 
-class Renderer : public Singleton<Renderer>
+class Renderer
 {
 	SDL_Renderer* m_renderer;
 public:

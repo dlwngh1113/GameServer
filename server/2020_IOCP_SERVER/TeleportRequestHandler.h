@@ -1,9 +1,9 @@
 #pragma once
-#include "RequestHandler.h"
+#include "LoginRequiredRequestHandler.h"
 
-class TeleportRequestHandler : public RequestHandler
+class TeleportRequestHandler : public LoginRequiredRequestHandler
 {
 public:
-	virtual void HandleRequest();
+	virtual void HandleInGame();
 	virtual BaseRequestHandler* Create();
 };

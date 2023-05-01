@@ -1,9 +1,9 @@
 #pragma once
-#include "RequestHandler.h"
+#include "LoginRequiredRequestHandler.h"
 
-class MoveRequestHandler : public RequestHandler
+class MoveRequestHandler : public LoginRequiredRequestHandler
 {
 public:
-	virtual void HandleRequest()  override;
+	virtual void HandleInGame()  override;
 	virtual BaseRequestHandler* Create() override;
 };

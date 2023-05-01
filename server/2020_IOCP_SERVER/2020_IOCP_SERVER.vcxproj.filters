@@ -135,6 +135,9 @@
     <ClCompile Include="ThreadPool.cpp">
       <Filter>Framework\Util\Pool</Filter>
     </ClCompile>
+    <ClCompile Include="LoginRequiredRequestHandler.cpp">
+      <Filter>Client\RequestHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="ThreadPool.h">
       <Filter>Framework\Util\Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRequiredRequestHandler.h">
+      <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

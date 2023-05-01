@@ -30,3 +30,6 @@ public:
 		return s_instance;
 	}
 };
+
+template<typename T>
+T* Singleton<T>::s_instance = nullptr;
