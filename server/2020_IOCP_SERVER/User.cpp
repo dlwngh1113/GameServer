@@ -11,10 +11,8 @@ User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
 
 User::~User()
 {
-	int nId = GetID();
 	if (m_place)
-		Statics::s_threadPool.EnqueWork([=]() { m_place->RemoveUser(nId); });
-		//m_place->RemoveUser(GetID());
+		m_place->RemoveUser(GetID());
 }
 
 void User::SetInfo(sql::ResultSet* result)
