@@ -20,7 +20,7 @@ Framework::Framework()
         exit(0);
     }
 
-    if (!Singleton<NetworkManager>::GetInstance()->Init())
+    if (!Singleton<NetworkManager>::GetInstance()->Initialize())
         Release();
 
     Singleton<NetworkManager>::GetInstance()->ConnectToServer();

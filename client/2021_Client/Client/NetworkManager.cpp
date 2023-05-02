@@ -39,7 +39,7 @@ bool NetworkManager::ConnectToServer()
 void NetworkManager::ReceivePacket()
 {
 	int nRececeiveSize = 0;
-	nRececeiveSize = SDLNet_TCP_Recv(m_tcpSocket, m_buffer, MAX_BUFFER);
+	nRececeiveSize = SDLNet_TCP_Recv(m_tcpSocket, m_pReceiveStartPtr, MAX_BUFFER);
 
 	if (nRececeiveSize <= 0)
 	{
@@ -47,18 +47,65 @@ void NetworkManager::ReceivePacket()
 		return;
 	}
 
-	// 패킷의 종류에 따라 처리
+	m_pNextReceivePtr = m_pReceiveStartPtr + nRececeiveSize;
+
+	// 헤더보다 작은 사이즈의 패킷일 경우 계속 recv
 	if (nRececeiveSize < sizeof(ClientCommon::Header))
 	{
-		// 헤더보다 작은 사이즈의 패킷일 경우 계속 recv
+		ReceiveLeftData();
+		return;
 	}
 
+	// 패킷의 종류에 따라 처리
 	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
 	short snPacketType = header->type;
 	short snPacketSize = header->size;
-	
-	// 아닌경우 패킷 조립
 
+	// size만큼 패킷이 온 경우
+	while (snPacketSize <= m_pNextReceivePtr - m_pReceiveStartPtr)
+	{
+		ProcessPacket(m_pReceiveStartPtr, snPacketSize);
+
+		m_pReceiveStartPtr += snPacketSize;
+		if (m_pReceiveStartPtr < m_pNextReceivePtr)
+		{
+			header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
+			snPacketSize = header->size;
+		}
+		else
+			break;
+	}
+}
+
+void NetworkManager::ReceiveLeftData()
+{
+	long long lnLeftData = m_pNextReceivePtr - m_pReceiveStartPtr;
+
+	if ((MAX_BUFFER - (m_pNextReceivePtr - m_dataBuffer)) < MIN_BUFFER)
+	{
+		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
+		memcpy(m_dataBuffer, m_pReceiveStartPtr, lnLeftData);
+		m_pReceiveStartPtr = m_dataBuffer;
+		m_pNextReceivePtr = m_pReceiveStartPtr + lnLeftData;
+	}
+
+	// 데이터를 받을 버퍼 세팅
+	m_pReceiveStartPtr = m_pNextReceivePtr;
+}
+
+void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
+{
+	ClientCommon::BasePacket* packet = reinterpret_cast<ClientCommon::BasePacket*>(data);
+	
+	ClientCommand cmd = static_cast<ClientCommand>(packet->header.type);
+	switch (cmd)
+	{
+	case ClientCommand::Login:
+		break;
+	default:
+		break;
+	}
+	
 }
 
 void NetworkManager::SendPacket(unsigned char* packet, short snSize)
