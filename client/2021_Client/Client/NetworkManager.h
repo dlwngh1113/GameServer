@@ -18,8 +18,9 @@ public:
 	virtual ~NetworkManager();
 
 	bool Initialize();
-	bool ConnectToServer();
+	void LoginToServer(const char* sName);
 	void ReceivePacket();
+	void SendPacket(ClientCommon::BasePacket* packet);
 	void SendPacket(unsigned char* packet, short snSize);
 };
 

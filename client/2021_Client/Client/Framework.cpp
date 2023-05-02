@@ -23,7 +23,7 @@ Framework::Framework()
     if (!Singleton<NetworkManager>::GetInstance()->Initialize())
         Release();
 
-    Singleton<NetworkManager>::GetInstance()->ConnectToServer();
+    Singleton<NetworkManager>::GetInstance()->LoginToServer("dlwngh");
 
     SDL_SetWindowTitle(m_window, "SMO");
 

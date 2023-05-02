@@ -31,9 +31,14 @@ bool NetworkManager::Initialize()
 	return true;
 }
 
-bool NetworkManager::ConnectToServer()
+void NetworkManager::LoginToServer(const char* sName)
 {
-	return true;
+	ClientCommon::LoginRequest packet;
+	packet.header.size = sizeof(packet);
+	packet.header.type = static_cast<short>(ClientCommand::Login);
+	strcpy_s(packet.name, sName);
+
+	SendPacket(&packet);
 }
 
 void NetworkManager::ReceivePacket()
@@ -97,15 +102,20 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 {
 	ClientCommon::BasePacket* packet = reinterpret_cast<ClientCommon::BasePacket*>(data);
 	
-	ClientCommand cmd = static_cast<ClientCommand>(packet->header.type);
+	ServerCommand cmd = static_cast<ServerCommand>(packet->header.type);
 	switch (cmd)
 	{
-	case ClientCommand::Login:
+	case ServerCommand::LoginOk:
 		break;
 	default:
 		break;
 	}
-	
+}
+
+void NetworkManager::SendPacket(ClientCommon::BasePacket* packet)
+{
+	unsigned char* data = reinterpret_cast<unsigned char*>(packet);
+	SendPacket(data, packet->header.size);
 }
 
 void NetworkManager::SendPacket(unsigned char* packet, short snSize)
