@@ -11,7 +11,7 @@ Peer::Peer(SOCKET socket) : m_socket{ socket }
 	m_recvOver.wsa_buf.len = sizeof(m_recvOver.iocp_buf);
 	ZeroMemory(&m_recvOver.wsa_over, sizeof(m_recvOver.wsa_over));
 
-	m_pRecvStartPos = m_recvOver.iocp_buf;
+	m_pReceiveStartPtr = m_recvOver.iocp_buf;
 	StartRecv();
 }
 
@@ -42,7 +42,7 @@ Peer::~Peer()
 
 void Peer::ProcessIO(DWORD ioSize)
 {
-	unsigned char* pNextRecvPos = m_pRecvStartPos + ioSize;
+	unsigned char* pNextRecvPos = m_pReceiveStartPtr + ioSize;
 
 	if (ioSize < sizeof(ClientCommon::Header))
 	{
@@ -50,19 +50,19 @@ void Peer::ProcessIO(DWORD ioSize)
 		return;
 	}
 
-	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pRecvStartPos);
+	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
 	short snPacketType = header->type;
 	short snPacketSize = header->size;
 
 	// 패킷이 size만큼 도착한 경우
-	while (snPacketSize <= pNextRecvPos - m_pRecvStartPos)
+	while (snPacketSize <= pNextRecvPos - m_pReceiveStartPtr)
 	{
-		ProcessPacket(snPacketSize, m_pRecvStartPos);
+		ProcessPacket(m_pReceiveStartPtr, snPacketSize);
 
-		m_pRecvStartPos += snPacketSize;
-		if (m_pRecvStartPos < pNextRecvPos)
+		m_pReceiveStartPtr += snPacketSize;
+		if (m_pReceiveStartPtr < pNextRecvPos)
 		{
-			header = reinterpret_cast<ClientCommon::Header*>(m_pRecvStartPos);
+			header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
 			snPacketSize = header->size;
 		}
 		else
@@ -74,25 +74,25 @@ void Peer::ProcessIO(DWORD ioSize)
 
 void Peer::ReceiveLeftData(unsigned char* pNextRecvPos)
 {
-	long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
+	long long lnLeftData = pNextRecvPos - m_pReceiveStartPtr;
 
 	if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
 	{
 		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-		memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
-		m_pRecvStartPos = m_recvOver.iocp_buf;
-		pNextRecvPos = m_pRecvStartPos + lnLeftData;
+		memcpy(m_recvOver.iocp_buf, m_pReceiveStartPtr, lnLeftData);
+		m_pReceiveStartPtr = m_recvOver.iocp_buf;
+		pNextRecvPos = m_pReceiveStartPtr + lnLeftData;
 	}
 
 	// 데이터를 받을 버퍼 세팅
-	m_pRecvStartPos = pNextRecvPos;
+	m_pReceiveStartPtr = pNextRecvPos;
 	m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
 	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
 	StartRecv();
 }
 
-void Peer::ProcessPacket(unsigned char size, unsigned char* data)
+void Peer::ProcessPacket(unsigned char* data, unsigned short snSize)
 {
 	ClientCommon::BasePacket* packet = reinterpret_cast<ClientCommon::BasePacket*>(data);
 	try

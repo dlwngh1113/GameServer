@@ -10,12 +10,12 @@ class Peer : IPeer, public std::enable_shared_from_this<Peer>
 	OVER_EX m_recvOver;
 	std::mutex m_lock;
 
-	unsigned char* m_pRecvStartPos{ NULL };
+	unsigned char* m_pReceiveStartPtr{ NULL };
 	IHandlerFactory* m_requestHandlerFactory = nullptr;
 
 	void StartRecv();
 	void ReceiveLeftData(unsigned char* pNextRecvPos);
-	void ProcessPacket(unsigned char size, unsigned char* data) override final;
+	void ProcessPacket(unsigned char* data, unsigned short snSize) override final;
 public:
 	explicit Peer(SOCKET socket);
 	virtual ~Peer();

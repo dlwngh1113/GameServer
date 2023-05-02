@@ -11,7 +11,7 @@ NetworkManager::~NetworkManager()
 		SDLNet_TCP_Close(m_tcpSocket);
 }
 
-bool NetworkManager::Init()
+bool NetworkManager::Initialize()
 {
 	if (SDLNet_Init() < 0)
 	{
@@ -48,11 +48,14 @@ void NetworkManager::ReceivePacket()
 	}
 
 	// 패킷의 종류에 따라 처리
-
 	if (nRececeiveSize < sizeof(ClientCommon::Header))
 	{
 		// 헤더보다 작은 사이즈의 패킷일 경우 계속 recv
 	}
+
+	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
+	short snPacketType = header->type;
+	short snPacketSize = header->size;
 	
 	// 아닌경우 패킷 조립
 
