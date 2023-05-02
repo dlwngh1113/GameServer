@@ -29,6 +29,8 @@ ThreadPool::~ThreadPool()
 	while (!m_works.empty())
 		m_works.pop();
 
+	m_conditionVariable.notify_all();
+
 	for (auto& worker : m_workers)
 		worker.join();
 }
