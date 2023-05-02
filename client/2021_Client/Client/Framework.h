@@ -10,6 +10,8 @@ private:
 
     Scene* m_scene{ nullptr };
 
+    void Release();
+
     void Render();
     void Update();
 public:
