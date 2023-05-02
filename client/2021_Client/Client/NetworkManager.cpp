@@ -48,6 +48,14 @@ void NetworkManager::ReceivePacket()
 	}
 
 	// 패킷의 종류에 따라 처리
+
+	if (nRececeiveSize < sizeof(ClientCommon::Header))
+	{
+		// 헤더보다 작은 사이즈의 패킷일 경우 계속 recv
+	}
+	
+	// 아닌경우 패킷 조립
+
 }
 
 void NetworkManager::SendPacket(unsigned char* packet, short snSize)

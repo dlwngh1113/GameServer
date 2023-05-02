@@ -30,6 +30,11 @@ void Peer::StartRecv()
 	}
 }
 
+void Peer::Initialize(IHandlerFactory* instance)
+{
+	m_requestHandlerFactory = instance;
+}
+
 Peer::~Peer()
 {
 	closesocket(m_socket);
@@ -41,22 +46,7 @@ void Peer::ProcessIO(DWORD ioSize)
 
 	if (ioSize < sizeof(ClientCommon::Header))
 	{
-		long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
-
-		if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
-		{
-			// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-			memcpy(m_recvOver.iocp_buf, m_pRecvStartPos, lnLeftData);
-			m_pRecvStartPos = m_recvOver.iocp_buf;
-			pNextRecvPos = m_pRecvStartPos + lnLeftData;
-		}
-
-		// 데이터를 받을 버퍼 세팅
-		m_pRecvStartPos = pNextRecvPos;
-		m_recvOver.wsa_buf.buf = reinterpret_cast<CHAR*>(pNextRecvPos);
-		m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
-
-		StartRecv();
+		ReceiveLeftData(pNextRecvPos);
 		return;
 	}
 
@@ -79,6 +69,11 @@ void Peer::ProcessIO(DWORD ioSize)
 			break;
 	}
 
+	ReceiveLeftData(pNextRecvPos);
+}
+
+void Peer::ReceiveLeftData(unsigned char* pNextRecvPos)
+{
 	long long lnLeftData = pNextRecvPos - m_pRecvStartPos;
 
 	if ((MAX_BUFFER - (pNextRecvPos - m_recvOver.iocp_buf)) < MIN_BUFFER)
@@ -95,11 +90,6 @@ void Peer::ProcessIO(DWORD ioSize)
 	m_recvOver.wsa_buf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocp_buf);
 
 	StartRecv();
-}
-
-void Peer::Initialize(IHandlerFactory* instance)
-{
-	m_requestHandlerFactory = instance;
 }
 
 void Peer::ProcessPacket(unsigned char size, unsigned char* data)
