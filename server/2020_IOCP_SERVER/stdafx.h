@@ -31,10 +31,9 @@ extern "C" {
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "MSWSock.lib")
 #pragma comment(lib, "lua54.lib")
-#pragma comment(lib, "ClientCommon.lib")
 #pragma comment(lib, "mysqlcppconn.lib")
 
-#include "Packets.h"
+#include "../Common/Common.hpp"
 
 struct OVER_EX {
 	WSAOVERLAPPED wsa_over;

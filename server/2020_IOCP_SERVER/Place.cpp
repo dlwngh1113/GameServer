@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Place.h"
 #include "User.h"
-#include "Packets.h"
 #include "Sector.h"
 
 Sector* Place::GetSectorByPoint(short x, short y)

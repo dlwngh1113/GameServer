@@ -53,7 +53,7 @@ enum class ClientCommand : short
 
 namespace ClientCommon
 {
-	#pragma pack(push, 1)
+#pragma pack(push, 1)
 
 	struct Header
 	{
@@ -66,7 +66,7 @@ namespace ClientCommon
 		Header header;
 	};
 
-	#pragma region Login
+#pragma region Login
 
 	struct LoginRequest : BasePacket
 	{
@@ -89,17 +89,17 @@ namespace ClientCommon
 		char  message[MAX_STR_LEN];
 	};
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Logout
+#pragma region Logout
 
 	struct LogoutRequest : BasePacket
 	{
 	};
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Chatting
+#pragma region Chatting
 
 	struct ChattingRequest : BasePacket
 	{
@@ -112,9 +112,9 @@ namespace ClientCommon
 		char  message[MAX_STR_LEN];
 	};
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region StatusChange
+#pragma region StatusChange
 
 	struct StatusChangedEvent : BasePacket
 	{
@@ -125,9 +125,9 @@ namespace ClientCommon
 		char message[MAX_STR_LEN];
 	};
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Move
+#pragma region Move
 
 	struct MoveRequest : BasePacket
 	{
@@ -157,9 +157,9 @@ namespace ClientCommon
 	{
 	};
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Place
+#pragma region Place
 
 	struct SPlace
 	{
@@ -189,16 +189,16 @@ namespace ClientCommon
 		int  id;
 	};
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Attack
+#pragma region Attack
 
 	struct AttackRequest : BasePacket
 	{
 		int atkTime;
 	};
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma pack(pop)
+#pragma pack(pop)
 }

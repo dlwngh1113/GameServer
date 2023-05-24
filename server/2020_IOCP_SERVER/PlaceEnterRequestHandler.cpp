@@ -2,7 +2,6 @@
 #include "PlaceEnterRequestHandler.h"
 #include "MetaDatas.h"
 #include "User.h"
-#include "Packets.h"
 
 void PlaceEnterRequestHandler::HandleInGame()
 {

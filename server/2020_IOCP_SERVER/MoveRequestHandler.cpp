@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MoveRequestHandler.h"
 #include "User.h"
-#include "Packets.h"
 #include "Place.h"
 
 BaseRequestHandler* MoveRequestHandler::Create()

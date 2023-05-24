@@ -26,7 +26,7 @@ const static int MAX_PACKET_SIZE = 255;
 const static int MAX_BUFF_SIZE = 255;
 
 #pragma comment (lib, "ws2_32.lib")
-#include"../../../server/2020_IOCP_SERVER/Packets.h"
+#include "../../server/Common/Common.hpp"
 
 HANDLE g_hiocp;
 
