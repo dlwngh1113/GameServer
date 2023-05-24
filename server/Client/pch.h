@@ -18,6 +18,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
 
-#include "Packets.h"
+#include "../Common/Common.hpp"
 
 #endif //PCH_H
