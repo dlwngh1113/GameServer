@@ -5,9 +5,9 @@
 #include "Place.h"
 #include "User.h"
 
-BaseRequestHandler* LoginRequestHandler::Create()
+std::shared_ptr<BaseRequestHandler> LoginRequestHandler::Create()
 {
-	return new LoginRequestHandler;
+	return std::make_shared<LoginRequestHandler>();
 }
 
 void LoginRequestHandler::HandleRequest()

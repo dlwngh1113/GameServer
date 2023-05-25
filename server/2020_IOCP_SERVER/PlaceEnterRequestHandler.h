@@ -5,6 +5,6 @@ class PlaceEnterRequestHandler : public LoginRequiredRequestHandler
 {
 public:
 	void HandleInGame() override;
-	BaseRequestHandler* Create() override;
+	std::shared_ptr<BaseRequestHandler> Create() override;
 };
 

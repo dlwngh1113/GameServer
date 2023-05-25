@@ -5,5 +5,5 @@ class MoveRequestHandler : public LoginRequiredRequestHandler
 {
 public:
 	virtual void HandleInGame()  override;
-	virtual BaseRequestHandler* Create() override;
+	virtual std::shared_ptr<BaseRequestHandler> Create() override;
 };

@@ -4,5 +4,5 @@ template <typename TKey, typename TValue>
 class IFactory
 {
 public:
-	virtual TValue* CreateInstance(TKey key) = 0;
+	virtual std::shared_ptr<TValue> CreateInstance(TKey key) = 0;
 };

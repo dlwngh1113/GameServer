@@ -10,5 +10,5 @@ protected:
 public:
 	void Handle() override final;
 	virtual void HandleRequest() = 0;
-	virtual BaseRequestHandler* Create() = 0;
+	virtual std::shared_ptr<BaseRequestHandler> Create() = 0;
 };

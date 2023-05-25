@@ -25,7 +25,7 @@ void PlaceEnterRequestHandler::HandleInGame()
 	m_user->SendPacket(&res);
 }
 
-BaseRequestHandler* PlaceEnterRequestHandler::Create()
+std::shared_ptr<BaseRequestHandler> PlaceEnterRequestHandler::Create()
 {
-	return new PlaceEnterRequestHandler;
+	return std::make_shared<PlaceEnterRequestHandler>();
 }
