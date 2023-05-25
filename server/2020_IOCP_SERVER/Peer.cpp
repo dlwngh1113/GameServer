@@ -103,12 +103,16 @@ void Peer::ProcessPacket(unsigned char* data, unsigned short snSize)
 		BaseRequestHandler* handler = m_requestHandlerFactory->CreateInstance(packet->header.type);
 		handler->Initialize(shared_from_this(), packet);
 		// handler 변수를 어떻게 shared_ptr로 만들수 있을까..
-		//Statics::s_threadPool.EnqueWork(std::function<void()>([&handler]() { handler->Handle(); }));
+		//Statics::s_threadPool.EnqueWork([&handler]() { handler->Handle(); delete handler; });
 		handler->Handle();
 
 		delete handler;
 	}
 	catch (std::exception& ex)
+	{
+		Log(ex.what());
+	}
+	catch (sql::SQLException& ex)
 	{
 		Log(ex.what());
 	}

@@ -15,6 +15,6 @@ public:
 	explicit ThreadPool(size_t size);
 	virtual ~ThreadPool();
 
-	void EnqueWork(std::function<void()> work);
+	void EnqueWork(std::function<void()>&& work);
 };
 
