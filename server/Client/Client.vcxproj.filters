@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="소스 파일\Maptool">
       <UniqueIdentifier>{3add47ea-3b1a-406f-abac-8f3e4e22ae9d}</UniqueIdentifier>
     </Filter>
@@ -30,11 +26,14 @@
     <Filter Include="Framework\Scene">
       <UniqueIdentifier>{6219e985-f313-4216-9814-80c5834bfc33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Network">
+      <UniqueIdentifier>{6ef7c37e-ac97-46c5-8e63-2af93862dff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene">
+      <UniqueIdentifier>{fa7db335-1417-4871-89d1-8aebaa8f54fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Framework\Scene</Filter>
     </ClInclude>
@@ -59,20 +58,23 @@
     <ClInclude Include="MovableObject.h">
       <Filter>Framework\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="InGameScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Framework\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="pch.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="NetworkManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameScene.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketSender.h">
+      <Filter>소스 파일\Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,14 +111,17 @@
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="InGameScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Framework\Camera</Filter>
     </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketSender.cpp">
+      <Filter>소스 파일\Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

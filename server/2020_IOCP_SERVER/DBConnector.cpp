@@ -2,7 +2,7 @@
 #include "DBConnector.h"
 #include "Logger.h"
 
-DBConnector* DBConnector::s_instance = nullptr;
+DBConnector DBConnector::s_instance;
 
 DBConnector::DBConnector()
 {
@@ -10,19 +10,25 @@ DBConnector::DBConnector()
 
 DBConnector::~DBConnector()
 {
-	delete m_connection;
+	sql::Connection* conn;
+	while (m_connections.try_pop(conn))
+	{
+		delete conn;
+	}
 }
 
 void DBConnector::Initialize()
 {
-	const std::string server = "127.0.0.1:3306";
-	const std::string username = "root";
-	const std::string password = "ljh915727!";
-
 	try
 	{
 		m_driver = get_driver_instance();
-		m_connection = m_driver->connect(server, username, password);
+		sql::Connection* conn;
+		for (auto i = 0; i < m_connectionCount; ++i)
+		{
+			conn= m_driver->connect(server, username, password);
+			conn->setSchema("smo");
+			m_connections.push(conn);
+		}
 	}
 	catch (sql::SQLException e)
 	{
@@ -30,12 +36,23 @@ void DBConnector::Initialize()
 		system("pause");
 		exit(1);
 	}
-
-	m_connection->setSchema("smo");
 }
 
-sql::Connection* DBConnector::GetConnection() const
+sql::Connection* DBConnector::GetConnection()
 {
-	return m_connection;
+	sql::Connection* conn;
+	if (m_connections.try_pop(conn))
+		return conn;
+
+	conn = m_driver->connect(server, username, password);
+	conn->setSchema("smo");
+
+	return conn;
+}
+
+void DBConnector::AddConnection(sql::Connection* conn)
+{
+	conn->close();
+	m_connections.push(conn);
 }
 

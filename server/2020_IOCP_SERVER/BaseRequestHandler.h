@@ -15,5 +15,5 @@ public:
 	void Initialize(std::shared_ptr<Peer> peer, ClientCommon::BasePacket* packet);
 
 	virtual void Handle() = 0;
-	virtual BaseRequestHandler* Create() = 0;
+	virtual std::shared_ptr<BaseRequestHandler> Create() = 0;
 };

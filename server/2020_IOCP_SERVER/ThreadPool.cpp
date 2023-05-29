@@ -35,10 +35,10 @@ ThreadPool::~ThreadPool()
 		worker.join();
 }
 
-void ThreadPool::EnqueWork(std::function<void()> work)
+void ThreadPool::EnqueWork(std::function<void()>&& work)
 {
 	m_lock.lock();
-	m_works.push(work);
+	m_works.emplace(work);
 	m_lock.unlock();
 
 	m_conditionVariable.notify_one();

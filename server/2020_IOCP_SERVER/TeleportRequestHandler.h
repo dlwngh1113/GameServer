@@ -5,5 +5,5 @@ class TeleportRequestHandler : public LoginRequiredRequestHandler
 {
 public:
 	virtual void HandleInGame();
-	virtual BaseRequestHandler* Create();
+	virtual std::shared_ptr<BaseRequestHandler> Create();
 };

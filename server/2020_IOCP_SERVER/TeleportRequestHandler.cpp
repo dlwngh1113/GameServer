@@ -20,7 +20,7 @@ void TeleportRequestHandler::HandleInGame()
 	m_peer->SendPacket(&res);
 }
 
-BaseRequestHandler* TeleportRequestHandler::Create()
+std::shared_ptr<BaseRequestHandler> TeleportRequestHandler::Create()
 {
-	return new TeleportRequestHandler;
+	return std::make_shared<TeleportRequestHandler>();
 }

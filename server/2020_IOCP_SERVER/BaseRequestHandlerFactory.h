@@ -7,6 +7,6 @@ public:
 	BaseRequestHandlerFactory();
 	virtual ~BaseRequestHandlerFactory();
 
-	BaseRequestHandler* CreateInstance(short type) override final;
+	std::shared_ptr<BaseRequestHandler> CreateInstance(short type) override final;
 	virtual void Initialize() = 0;
 };

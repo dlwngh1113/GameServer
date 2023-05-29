@@ -6,7 +6,7 @@ void LogoutRequestHandler::HandleInGame()
 	ClientCommon::LogoutRequest* packet = reinterpret_cast<ClientCommon::LogoutRequest*>(m_packet);
 }
 
-BaseRequestHandler* LogoutRequestHandler::Create()
+std::shared_ptr<BaseRequestHandler> LogoutRequestHandler::Create()
 {
-	return new LogoutRequestHandler;
+	return std::make_shared<LogoutRequestHandler>();
 }

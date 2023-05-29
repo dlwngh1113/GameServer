@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "Renderer.h"
-#include "Singleton.h"
+#include "NetworkManager.h"
 
 Player::Player()
 {
@@ -18,7 +18,7 @@ Player::Player(int nX, int nY, int nWidth, int nHeight) : MovableObject{ nX, nY,
 	m_resourcePosition = surface->clip_rect;
 	m_resourcePosition.w -= 32;
 
-	m_texture = SDL_CreateTextureFromSurface(Singleton<Renderer>::GetInstance()->GetRenderer(), surface);
+	m_texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetRenderer(), surface);
 
 	SDL_FreeSurface(surface);
 }

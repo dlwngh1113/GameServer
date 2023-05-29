@@ -3,9 +3,9 @@
 #include "User.h"
 #include "Place.h"
 
-BaseRequestHandler* MoveRequestHandler::Create()
+std::shared_ptr<BaseRequestHandler> MoveRequestHandler::Create()
 {
-	return new MoveRequestHandler;
+	return std::make_shared<MoveRequestHandler>();
 }
 
 void MoveRequestHandler::HandleInGame()
