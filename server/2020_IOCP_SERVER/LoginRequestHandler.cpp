@@ -15,7 +15,7 @@ void LoginRequestHandler::HandleRequest()
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
 	auto result = DBWorker::GetUser(packet->name);
-	if (result->rowsCount() >= 0)
+	if (result)
 	{
 		m_user->SetInfo(result.get());
 

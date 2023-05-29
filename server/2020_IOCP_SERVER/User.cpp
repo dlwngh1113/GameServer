@@ -17,24 +17,17 @@ User::~User()
 
 void User::SetInfo(sql::ResultSet* result)
 {
-	result->next();
-	auto name = result->getString("name");
-	int level = result->getInt("level");
-	int x = result->getInt("x");
-	int y = result->getInt("y");
-	int exp = result->getInt("exp");
-	int hp = result->getInt("hp");
 	int placeId = result->getInt("placeId");
 	
-	Log("place Id = %s %d", name.c_str(), level);
-
-	strcpy_s(this->m_sName, name.c_str());
-	this->m_snLevel = level;
-	this->m_nExp = exp;
-	this->m_snHp = hp;
-	this->m_snX = x;
-	this->m_snY = y;
+	strcpy_s(this->m_sName, result->getString("name").c_str());
+	this->m_snLevel = result->getInt("level");
+	this->m_nExp = result->getInt("exp");
+	this->m_snHp = result->getInt("hp");
+	this->m_snX = result->getInt("x");
+	this->m_snY = result->getInt("y");
 	this->m_place = MetaDatas::GetInstance()->GetPlace(placeId);
+
+	m_status = LoginStatus::LoggedIn;
 }
 
 void User::SetPosition(short x, short y)

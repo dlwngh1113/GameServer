@@ -18,6 +18,7 @@ public:
 
 	void Initialize();
 	sql::Connection* GetConnection();
+	void AddConnection(sql::Connection* conn);
 
 	static DBConnector* GetInstance()
 	{

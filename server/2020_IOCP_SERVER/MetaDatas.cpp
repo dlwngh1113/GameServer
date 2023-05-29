@@ -15,21 +15,19 @@ void MetaDatas::Initialize()
 
 void MetaDatas::LoadMetaDatas()
 {
-    sql::ResultSet* result = DBWorker::LoadPlaces();
+    std::unique_ptr<sql::ResultSet> result = DBWorker::LoadPlaces();
 
     if (result->rowsCount() > 0)
     {
         while (result->next())
         {
-            int id = result->getInt(1);
-            int width = result->getInt(2);
-            int height = result->getInt(3);
+            int id = result->getInt("id");
+            int width = result->getInt("width");
+            int height = result->getInt("height");
 
             auto place = new Place(id, width, height, 8, 8);
             AddPlace(place);
         }
-
-        delete result;
     }
 }
 

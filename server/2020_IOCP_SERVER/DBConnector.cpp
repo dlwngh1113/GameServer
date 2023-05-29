@@ -50,3 +50,9 @@ sql::Connection* DBConnector::GetConnection()
 	return conn;
 }
 
+void DBConnector::AddConnection(sql::Connection* conn)
+{
+	conn->close();
+	m_connections.push(conn);
+}
+
