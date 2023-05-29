@@ -33,16 +33,6 @@ bool NetworkManager::Initialize()
 	return true;
 }
 
-void NetworkManager::LoginToServer(const char* sName)
-{
-	ClientCommon::LoginRequest packet;
-	packet.header.size = sizeof(packet);
-	packet.header.type = static_cast<short>(ClientCommand::Login);
-	strcpy_s(packet.name, sName);
-
-	SendPacket(&packet);
-}
-
 void NetworkManager::ReceivePacket()
 {
 	int nRececeiveSize = 0;
@@ -112,12 +102,6 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	default:
 		break;
 	}
-}
-
-void NetworkManager::SendPacket(ClientCommon::BasePacket* packet)
-{
-	unsigned char* data = reinterpret_cast<unsigned char*>(packet);
-	SendPacket(data, packet->header.size);
 }
 
 void NetworkManager::SendPacket(unsigned char* packet, short snSize)

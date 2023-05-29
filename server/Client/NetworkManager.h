@@ -21,9 +21,7 @@ public:
 	NetworkManager& operator=(const NetworkManager& other) = delete;
 
 	bool Initialize();
-	void LoginToServer(const char* sName);
 	void ReceivePacket();
-	void SendPacket(ClientCommon::BasePacket* packet);
 	void SendPacket(unsigned char* packet, short snSize);
 
 	static NetworkManager& GetInstance()

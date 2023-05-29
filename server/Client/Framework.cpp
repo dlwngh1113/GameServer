@@ -2,6 +2,7 @@
 #include "Framework.h"
 #include "Scene.h"
 #include "Renderer.h"
+#include "PacketSender.h"
 #include "NetworkManager.h"
 #include "InGameScene.h"
 
@@ -22,7 +23,7 @@ Framework::Framework()
     if (!NetworkManager::GetInstance().Initialize())
         Release();
 
-    NetworkManager::GetInstance().LoginToServer("dlwngh");
+    PacketSender::GetInstance().SendLogin("dlwngh");
 
     SDL_SetWindowTitle(m_window, "SMO");
 
