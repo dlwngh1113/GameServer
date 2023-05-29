@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "NetworkManager.h"
 
+NetworkManager NetworkManager::s_instance;
+
 NetworkManager::NetworkManager()
 {
 }

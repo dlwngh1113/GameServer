@@ -61,9 +61,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Framework\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>소스 파일</Filter>
     </ClInclude>

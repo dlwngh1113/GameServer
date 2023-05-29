@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Renderer.h"
 
+Renderer Renderer::s_instance;
+
 Renderer::Renderer()
 {
 }

@@ -178,7 +178,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Singleton.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

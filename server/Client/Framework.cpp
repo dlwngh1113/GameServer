@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Framework.h"
 #include "Scene.h"
-#include "Singleton.h"
 #include "Renderer.h"
 #include "NetworkManager.h"
 #include "InGameScene.h"
@@ -14,20 +13,20 @@ Framework::Framework()
         exit(0);
     }
 
-    if (SDL_CreateWindowAndRenderer(640, 480, 0, &m_window, &Singleton<Renderer>::GetInstance()->GetRenderer()) < 0)
+    if (SDL_CreateWindowAndRenderer(640, 480, 0, &m_window, &Renderer::GetInstance().GetRenderer()) < 0)
     {
         std::cout << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << std::endl;
         exit(0);
     }
 
-    if (!Singleton<NetworkManager>::GetInstance()->Initialize())
+    if (!NetworkManager::GetInstance().Initialize())
         Release();
 
-    Singleton<NetworkManager>::GetInstance()->LoginToServer("dlwngh");
+    NetworkManager::GetInstance().LoginToServer("dlwngh");
 
     SDL_SetWindowTitle(m_window, "SMO");
 
-    m_renderer = Singleton<Renderer>::GetInstance()->GetRenderer();
+    m_renderer = Renderer::GetInstance().GetRenderer();
     m_scene = new InGameScene;
 }
 
@@ -40,7 +39,8 @@ void Framework::Release()
 {
     SDL_DestroyWindow(m_window);
     SDL_Quit();
-    delete m_scene;
+    if (m_scene)
+        delete m_scene;
 }
 
 void Framework::Render()
