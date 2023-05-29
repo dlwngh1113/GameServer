@@ -45,6 +45,7 @@ sql::Connection* DBConnector::GetConnection()
 		return conn;
 
 	conn = m_driver->connect(server, username, password);
+	conn->setSchema("smo");
 
 	return conn;
 }

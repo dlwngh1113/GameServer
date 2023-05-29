@@ -14,28 +14,24 @@ void LoginRequestHandler::HandleRequest()
 {
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
-	sql::ResultSet* result = DBWorker::GetUser(packet->name);
-	if (result->rowsCount() <= 0)
+	auto result = DBWorker::GetUser(packet->name);
+	if (result->rowsCount() >= 0)
 	{
-		DBWorker::AddUser(packet->name);
-		result = DBWorker::GetUser(packet->name);
+		m_user->SetInfo(result.get());
+
+		// 응답 데이터 세팅
+
+		ClientCommon::LoginResponse res;
+		res.header.size = sizeof(ClientCommon::LoginResponse);
+		res.header.type = static_cast<short>(ServerCommand::LoginOk);
+		res.id = m_peer->GetID();
+		res.level = m_user->GetLevel();
+		res.exp = m_user->GetExp();
+		res.hp = m_user->GetHp();
+		res.placeId = m_user->GetPlace()->GetId();
+
+		// 발송
+
+		m_peer->SendPacket(&res);
 	}
-	m_user->SetInfo(result);
-
-	delete result;
-
-	// 응답 데이터 세팅
-
-	ClientCommon::LoginResponse res;
-	res.header.size = sizeof(ClientCommon::LoginResponse);
-	res.header.type = static_cast<short>(ServerCommand::LoginOk);
-	res.id = m_peer->GetID();
-	res.level = m_user->GetLevel();
-	res.exp = m_user->GetExp();
-	res.hp = m_user->GetHp();
-	res.placeId = m_user->GetPlace()->GetId();
-
-	// 발송
-
-	m_peer->SendPacket(&res);
 }

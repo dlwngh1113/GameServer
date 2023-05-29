@@ -17,13 +17,14 @@ User::~User()
 
 void User::SetInfo(sql::ResultSet* result)
 {
-	auto name = result->getString(1);
-	int level = result->getInt(2);
-	int x = result->getInt(3);
-	int y = result->getInt(4);
-	int exp = result->getInt(5);
-	int hp = result->getInt(6);
-	int placeId = result->getInt(7);
+	result->next();
+	auto name = result->getString("name");
+	int level = result->getInt("level");
+	int x = result->getInt("x");
+	int y = result->getInt("y");
+	int exp = result->getInt("exp");
+	int hp = result->getInt("hp");
+	int placeId = result->getInt("placeId");
 	
 	Log("place Id = %s %d", name.c_str(), level);
 

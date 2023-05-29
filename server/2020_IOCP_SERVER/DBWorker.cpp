@@ -25,8 +25,8 @@ sql::ResultSet* DBWorker::LoadPlaces()
 void DBWorker::AddUser(char name[MAX_ID_LEN])
 {
 	sql::Connection* conn = DBConnector::GetInstance()->GetConnection();
-	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_AddUser(:name)") };
-	preparedStatement->setQueryAttrString(":name", name);
+	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_AddUser(?)") };
+	preparedStatement->setString(1, name);
 
 	preparedStatement->executeQuery();
 }
@@ -35,13 +35,13 @@ void DBWorker::UpdateUser(std::shared_ptr<User> user)
 {
 }
 
-sql::ResultSet* DBWorker::GetUser(char name[MAX_ID_LEN])
+std::unique_ptr<sql::ResultSet> DBWorker::GetUser(char name[MAX_ID_LEN])
 {
 	sql::Connection* conn = DBConnector::GetInstance()->GetConnection();
-	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_GetUser(:name)") };
-	preparedStatement->setQueryAttrString(":name", name);
+	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_GetUser(?)") };
+	preparedStatement->setString(1, name);
 
-	sql::ResultSet* result = preparedStatement->executeQuery();
+	std::unique_ptr<sql::ResultSet> result{ preparedStatement->executeQuery() };
 
-	return result;
+	return std::move(result);
 }
