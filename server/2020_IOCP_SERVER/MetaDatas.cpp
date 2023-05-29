@@ -4,7 +4,7 @@
 #include "DBConnector.h"
 #include "DBWorker.h"
 
-MetaDatas* MetaDatas::s_instance = nullptr;
+MetaDatas MetaDatas::s_instance;
 
 void MetaDatas::Initialize()
 {

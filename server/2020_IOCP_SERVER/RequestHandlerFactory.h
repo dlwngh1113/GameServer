@@ -3,11 +3,14 @@
 
 class RequestHandlerFactory: public BaseRequestHandlerFactory
 {
-	static RequestHandlerFactory* m_instance;
+	static RequestHandlerFactory s_instance;
 public:
 	RequestHandlerFactory();
 	virtual ~RequestHandlerFactory();
 
 	void Initialize() override;
-	static RequestHandlerFactory* GetInstance();
+	static RequestHandlerFactory& GetInstance()
+	{
+		return s_instance;
+	}
 };

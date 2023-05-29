@@ -5,7 +5,7 @@
 #include "MetaDatas.h"
 #include "Logger.h"
 
-User::User(Peer* peer) : ClientPeer(peer, RequestHandlerFactory::GetInstance())
+User::User(Peer* peer) : ClientPeer(peer, &RequestHandlerFactory::GetInstance())
 {
 }
 
@@ -25,7 +25,7 @@ void User::SetInfo(sql::ResultSet* result)
 	this->m_snHp = result->getInt("hp");
 	this->m_snX = result->getInt("x");
 	this->m_snY = result->getInt("y");
-	this->m_place = MetaDatas::GetInstance()->GetPlace(placeId);
+	this->m_place = MetaDatas::GetInstance().GetPlace(placeId);
 
 	m_status = LoginStatus::LoggedIn;
 }

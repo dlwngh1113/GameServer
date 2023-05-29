@@ -6,7 +6,7 @@
 void PlaceEnterRequestHandler::HandleInGame()
 {
 	ClientCommon::PlaceEnterRequest* packet = reinterpret_cast<ClientCommon::PlaceEnterRequest*>(m_packet);
-	Place* place = MetaDatas::GetInstance()->GetPlace(packet->placeId);
+	Place* place = MetaDatas::GetInstance().GetPlace(packet->placeId);
 
 	place->AddUser(m_user);
 	m_user->GetPlace() = place;

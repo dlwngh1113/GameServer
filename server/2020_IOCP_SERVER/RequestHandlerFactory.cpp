@@ -7,7 +7,7 @@
 #include "LogoutRequestHandler.h"
 #include "PlaceEnterRequestHandler.h"
 
-RequestHandlerFactory* RequestHandlerFactory::m_instance = nullptr;
+RequestHandlerFactory RequestHandlerFactory::s_instance;
 
 RequestHandlerFactory::RequestHandlerFactory() : BaseRequestHandlerFactory()
 {
@@ -15,8 +15,6 @@ RequestHandlerFactory::RequestHandlerFactory() : BaseRequestHandlerFactory()
 
 RequestHandlerFactory::~RequestHandlerFactory()
 {
-	if (m_instance)
-		delete m_instance;
 }
 
 void RequestHandlerFactory::Initialize()
@@ -28,12 +26,4 @@ void RequestHandlerFactory::Initialize()
 	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::Logout), std::make_shared<LogoutRequestHandler>());
 	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::PlaceEnter), std::make_shared<PlaceEnterRequestHandler>());
 	Log("RequestHandlerFactory Init Finished");
-}
-
-RequestHandlerFactory* RequestHandlerFactory::GetInstance()
-{
-	if (m_instance == nullptr)
-		m_instance = new RequestHandlerFactory();
-
-	return m_instance;
 }
