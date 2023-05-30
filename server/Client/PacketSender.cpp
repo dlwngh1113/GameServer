@@ -24,3 +24,13 @@ void PacketSender::SendLogin(const char* sName)
 
 	Send(&packet);
 }
+
+void PacketSender::SendMove(char direction)
+{
+	ClientCommon::MoveRequest packet;
+	packet.header.size = sizeof(packet);
+	packet.header.type = static_cast<short>(ClientCommand::Move);
+	packet.direction = direction;
+
+	Send(&packet);
+}

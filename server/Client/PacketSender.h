@@ -11,11 +11,10 @@ private:
 	static void Send(unsigned char* packet, short snSize);
 
 public:
-	static void SendLogin(const char* sName);
+	static PacketSender& GetInstance() { return s_instance; }
 
-	static PacketSender& GetInstance()
-	{
-		return s_instance;
-	}
+public:
+	static void SendLogin(const char* sName);
+	static void SendMove(char direction);
 };
 

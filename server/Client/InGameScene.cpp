@@ -34,16 +34,10 @@ void InGameScene::OnEvent(SDL_Event& evt)
 		switch (evt.key.keysym.sym)
 		{
 		case SDLK_LEFT:
-			m_player->Move(-10, 0);
-			break;
 		case SDLK_RIGHT:
-			m_player->Move(10, 0);
-			break;
 		case SDLK_UP:
-			m_player->Move(0, -10);
-			break;
 		case SDLK_DOWN:
-			m_player->Move(0, 10);
+			m_player->Move(evt.key.keysym.sym);
 			break;
 		default:
 			break;

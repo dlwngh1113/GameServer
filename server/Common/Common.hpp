@@ -24,10 +24,10 @@ constexpr int MAX_BUFFER = 4096;
 constexpr int MIN_BUFFER = 1024;
 
 //
-constexpr char MV_UP = 0;
-constexpr char MV_DOWN = 1;
-constexpr char MV_LEFT = 2;
-constexpr char MV_RIGHT = 3;
+constexpr char MV_RIGHT = 0;
+constexpr char MV_LEFT = 1;
+constexpr char MV_DOWN = 2;
+constexpr char MV_UP = 3;
 
 enum class ServerCommand : short
 {
