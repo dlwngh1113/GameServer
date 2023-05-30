@@ -9,6 +9,7 @@ class BaseServer
 
 	std::mutex clientLock;
 	std::unordered_map<SOCKET, std::shared_ptr<Peer>> m_peers;
+	ThreadPool m_threadPool;
 private:
 	void Initialize();
 	void Listen();
@@ -27,6 +28,7 @@ protected:
 public:
 	BaseServer();
 	virtual ~BaseServer();
+	void AddWork(std::function<void()> work) { m_threadPool.EnqueWork(std::move(work)); }
 
 	virtual void Run();
 };

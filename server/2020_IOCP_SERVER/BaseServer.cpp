@@ -2,7 +2,7 @@
 #include "BaseServer.h"
 #include "Logger.h"
 
-BaseServer::BaseServer()
+BaseServer::BaseServer() : m_threadPool{ 10 }
 {
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 0), &WSAData);
