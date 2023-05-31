@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "LoginRequestHandler.h"
 #include "DBWorker.h"
-#include "DBConnector.h"
 #include "Place.h"
 #include "User.h"
+#include "Logger.h"
 
 std::shared_ptr<BaseRequestHandler> LoginRequestHandler::Create()
 {
