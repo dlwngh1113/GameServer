@@ -6,6 +6,8 @@
 #include "NetworkManager.h"
 #include "InGameScene.h"
 
+Framework Framework::s_instance;
+
 Framework::Framework()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)

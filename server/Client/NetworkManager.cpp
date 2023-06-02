@@ -100,7 +100,6 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	case ServerEvent::LoginOk:
 		break;
 	case ServerEvent::UserMove:
-
 		break;
 	default:
 		break;
