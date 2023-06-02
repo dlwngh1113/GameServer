@@ -15,7 +15,7 @@ void PlaceEnterRequestHandler::HandleInGame()
 
 	ClientCommon::PlaceEnterResponse res;
 	res.header.size = sizeof(res);
-	res.header.type = static_cast<short>(ServerCommand::UserEnter);
+	res.header.type = static_cast<short>(ServerEvent::UserEnter);
 	res.id = m_user->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

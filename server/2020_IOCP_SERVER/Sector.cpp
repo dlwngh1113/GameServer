@@ -19,7 +19,7 @@ void Sector::SendUserEnter(User* targetUser)
 		{
 			ClientCommon::UserEnterEvent ev;
 			ev.header.size = sizeof(ev);
-			ev.header.type = static_cast<short>(ServerCommand::UserEnter);
+			ev.header.type = static_cast<short>(ServerEvent::UserEnter);
 			ev.id = targetUser->GetID();
 			strcpy_s(ev.name, targetUser->GetName());
 			ev.x = targetUser->GetX();
@@ -38,7 +38,7 @@ void Sector::SendUserExit(User* targetUser)
 		{
 			ClientCommon::UserExitEvent ev;
 			ev.header.size = sizeof(ev);
-			ev.header.type = static_cast<short>(ServerCommand::UserExit);
+			ev.header.type = static_cast<short>(ServerEvent::UserExit);
 			ev.id = targetUser->GetID();
 
 			user->SendPacket(&ev);
@@ -54,7 +54,7 @@ void Sector::Move(User* targetUser)
 		{
 			ClientCommon::UserMoveEvent ev;
 			ev.header.size = sizeof(ev);
-			ev.header.type = static_cast<short>(ServerCommand::UserMove);
+			ev.header.type = static_cast<short>(ServerEvent::UserMove);
 			ev.id = targetUser->GetID();
 			ev.x = targetUser->GetX();
 			ev.y = targetUser->GetY();
@@ -78,7 +78,7 @@ void Sector::AddUser(User* user)
 	{
 		ClientCommon::UserEnterEvent ev;
 		ev.header.size = sizeof(ev);
-		ev.header.type = static_cast<short>(ServerCommand::UserEnter);
+		ev.header.type = static_cast<short>(ServerEvent::UserEnter);
 		ev.id = u->GetID();
 		strcpy_s(ev.name, u->GetName());
 		ev.x = u->GetX();

@@ -29,7 +29,7 @@ constexpr char MV_LEFT = 1;
 constexpr char MV_DOWN = 2;
 constexpr char MV_UP = 3;
 
-enum class ServerCommand : short
+enum class ServerEvent : short
 {
 	LoginOk = 0,
 	LoginFail,

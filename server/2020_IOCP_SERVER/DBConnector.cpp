@@ -10,11 +10,6 @@ DBConnector::DBConnector()
 
 DBConnector::~DBConnector()
 {
-	sql::Connection* conn;
-	while (m_connections.try_pop(conn))
-	{
-		delete conn;
-	}
 }
 
 void DBConnector::Initialize()
@@ -22,13 +17,6 @@ void DBConnector::Initialize()
 	try
 	{
 		m_driver = get_driver_instance();
-		sql::Connection* conn;
-		for (auto i = 0; i < m_connectionCount; ++i)
-		{
-			conn= m_driver->connect(server, username, password);
-			conn->setSchema("smo");
-			m_connections.push(conn);
-		}
 	}
 	catch (sql::SQLException e)
 	{
@@ -45,10 +33,3 @@ std::unique_ptr<sql::Connection>DBConnector::GetConnection()
 
 	return conn;
 }
-
-void DBConnector::AddConnection(sql::Connection* conn)
-{
-	conn->close();
-	m_connections.push(conn);
-}
-

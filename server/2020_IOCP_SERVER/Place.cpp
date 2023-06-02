@@ -71,7 +71,7 @@ void Place::AddUser(std::shared_ptr<User> user)
 
 	ClientCommon::UserEnterEvent ev;
 	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerCommand::UserEnter);
+	ev.header.type = static_cast<short>(ServerEvent::UserEnter);
 	ev.id = user->GetID();
 	strcpy_s(ev.name, user->GetName());
 	ev.x = user->GetX();
@@ -94,7 +94,7 @@ void Place::RemoveUser(const int nId)
 
 	ClientCommon::UserExitEvent ev;
 	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerCommand::UserExit);
+	ev.header.type = static_cast<short>(ServerEvent::UserExit);
 	ev.id = nId;
 
 	// ¹ß¼Û
@@ -117,7 +117,7 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 
 	ClientCommon::UserMoveEvent ev;
 	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerCommand::UserMove);
+	ev.header.type = static_cast<short>(ServerEvent::UserMove);
 	ev.id = user->GetID();
 	ev.x = user->GetX();
 	ev.y = user->GetY();

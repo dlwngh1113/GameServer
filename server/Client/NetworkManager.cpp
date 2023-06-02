@@ -94,10 +94,13 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 {
 	ClientCommon::BasePacket* packet = reinterpret_cast<ClientCommon::BasePacket*>(data);
 	
-	ServerCommand cmd = static_cast<ServerCommand>(packet->header.type);
+	ServerEvent cmd = static_cast<ServerEvent>(packet->header.type);
 	switch (cmd)
 	{
-	case ServerCommand::LoginOk:
+	case ServerEvent::LoginOk:
+		break;
+	case ServerEvent::UserMove:
+
 		break;
 	default:
 		break;
