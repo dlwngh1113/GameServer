@@ -3,7 +3,6 @@
 #include "DBConnector.h"
 #include "RequestHandlerFactory.h"
 #include "MetaDatas.h"
-#include "Logger.h"
 
 User::User(Peer* peer) : ClientPeer(peer, &RequestHandlerFactory::GetInstance())
 {

@@ -38,13 +38,9 @@ void DBConnector::Initialize()
 	}
 }
 
-sql::Connection* DBConnector::GetConnection()
+std::unique_ptr<sql::Connection>DBConnector::GetConnection()
 {
-	sql::Connection* conn;
-	if (m_connections.try_pop(conn))
-		return conn;
-
-	conn = m_driver->connect(server, username, password);
+	std::unique_ptr<sql::Connection> conn{ m_driver->connect(server,username,password) };
 	conn->setSchema("smo");
 
 	return conn;

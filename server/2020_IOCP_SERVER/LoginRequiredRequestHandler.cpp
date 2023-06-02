@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "LoginRequiredRequestHandler.h"
 #include "User.h"
+#include "Logger.h"
 
 void LoginRequiredRequestHandler::HandleRequest()
 {

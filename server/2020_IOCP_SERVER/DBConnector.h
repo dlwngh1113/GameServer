@@ -19,7 +19,7 @@ public:
 	DBConnector& operator=(const DBConnector& other) = delete;
 
 	void Initialize();
-	sql::Connection* GetConnection();
+	std::unique_ptr<sql::Connection>GetConnection();
 	void AddConnection(sql::Connection* conn);
 
 	static DBConnector& GetInstance()
