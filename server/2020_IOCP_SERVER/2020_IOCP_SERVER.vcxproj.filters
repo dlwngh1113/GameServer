@@ -134,6 +134,9 @@
     <ClCompile Include="LoginRequiredRequestHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="RequestHandlerException.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -232,6 +235,7 @@
     <ClInclude Include="stdafx.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="RequestHandlerException.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

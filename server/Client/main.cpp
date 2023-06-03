@@ -6,7 +6,6 @@
 
 int SDL_main(int argc, char* argv[])
 {
-	Framework framwork;
-	framwork.Run();
+	Framework::GetInstance().Run();
 	return 0;
 }

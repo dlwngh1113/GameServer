@@ -176,6 +176,7 @@
     <ClCompile Include="Place.cpp" />
     <ClCompile Include="PlaceEnterRequestHandler.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
+    <ClCompile Include="RequestHandlerException.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Sector.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -215,6 +216,7 @@
     <ClInclude Include="BaseRequestHandler.h" />
     <ClInclude Include="PlaceEnterRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />
+    <ClInclude Include="RequestHandlerException.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sector.h">
