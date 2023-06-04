@@ -2,7 +2,7 @@
 #include "BaseServer.h"
 #include "Logger.h"
 
-BaseServer::BaseServer() : m_threadPool{ 10 }
+BaseServer::BaseServer()
 {
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 0), &WSAData);
@@ -129,7 +129,7 @@ void BaseServer::Process()
 			}
 			break;
 		case OP_MODE_SEND:
-			Statics::s_overlappedPool.PushObject(overEx);
+			Global::GetInstance().overlappedPool.PushObject(overEx);
 			break;
 		}
 	}

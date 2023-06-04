@@ -77,7 +77,7 @@
     <ClCompile Include="BaseRequestHandlerFactory.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
-    <ClCompile Include="Statics.cpp">
+    <ClCompile Include="Global.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
     <ClCompile Include="BaseRequestHandler.cpp">
@@ -135,7 +135,7 @@
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
     <ClCompile Include="RequestHandlerException.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +163,7 @@
     <ClInclude Include="BaseRequestHandlerFactory.h">
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
-    <ClInclude Include="Statics.h">
+    <ClInclude Include="Global.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
     <ClInclude Include="BaseRequestHandler.h">
@@ -235,7 +235,9 @@
     <ClInclude Include="stdafx.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="RequestHandlerException.h" />
+    <ClInclude Include="RequestHandlerException.h">
+      <Filter>Framework\RequestHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

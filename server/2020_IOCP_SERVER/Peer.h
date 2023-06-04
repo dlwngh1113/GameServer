@@ -1,6 +1,6 @@
 #pragma once
 #include "IPeer.h"
-#include "Statics.h"
+#include "Global.h"
 
 class IHandlerFactory;
 
