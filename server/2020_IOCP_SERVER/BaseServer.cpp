@@ -87,7 +87,7 @@ void BaseServer::DisconnectClient(SOCKET socket)
 	m_peers.erase(socket);
 	clientLock.unlock();
 
-	Log("Client Id : %d Successfully disconnected!", socket);
+	LogFormat("Client Id : %d Successfully disconnected!", socket);
 
 	OnDisconnected(socket);
 }
@@ -122,7 +122,7 @@ void BaseServer::Process()
 				DisconnectClient(ns);
 			else
 			{
-				Log("Packet from Client [%d] - ioSize: %d", ns, ioSize);
+				LogFormat("Packet from Client [%d] - ioSize: %d", ns, ioSize);
 				clientLock.lock();
 				m_peers[ns]->ProcessIO(ioSize);
 				clientLock.unlock();

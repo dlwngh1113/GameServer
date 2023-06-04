@@ -20,7 +20,7 @@ void DBConnector::Initialize()
 	}
 	catch (sql::SQLException e)
 	{
-		Log("Could not connect to server. Error message: %s", e.what());
+		Log(e.what());
 		system("pause");
 		exit(1);
 	}

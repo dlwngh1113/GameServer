@@ -10,13 +10,12 @@ void Logger::Error(std::string message)
 	std::cout << "[Error] : " << message << std::endl;
 }
 
-void Logger::Info(const char* file, const char* func, const int line, const char* fmt, ...)
+void Logger::Info(const char* fmt, ...)
 {
 	SetConsoleTextAttribute(s_ConsoleHandle, 15);
 
 	va_list ap;
 	va_start(ap, fmt);
-	printf("[%s : %d] ", file, line);
 	vprintf(fmt, ap);
 	va_end(ap);
 	printf("\n");
