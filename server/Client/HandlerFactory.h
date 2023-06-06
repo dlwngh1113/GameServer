@@ -14,6 +14,8 @@ public:
 	virtual ~HandlerFactory();
 
 	void Init();
+	Handler* GetHandler(ServerEvent evt);
+
 	static HandlerFactory& GetInstance() { return s_instance; }
 };
 

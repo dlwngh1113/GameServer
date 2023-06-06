@@ -8,5 +8,6 @@ public:
 	virtual ~LoginHandler();
 
 	virtual void Handle() override;
+	virtual Handler* Create() override;
 };
 

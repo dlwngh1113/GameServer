@@ -97,14 +97,14 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	ClientCommon::BasePacket* packet = reinterpret_cast<ClientCommon::BasePacket*>(data);
 	
 	ServerEvent cmd = static_cast<ServerEvent>(packet->header.type);
-	switch (cmd)
+	try
 	{
-	case ServerEvent::LoginOk:
-		break;
-	case ServerEvent::UserMove:
-		break;
-	default:
-		break;
+		Handler* handler = HandlerFactory::GetInstance().GetHandler(cmd);
+		handler->Handle();
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
 	}
 }
 

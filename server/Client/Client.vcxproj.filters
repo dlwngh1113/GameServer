@@ -85,7 +85,9 @@
     <ClInclude Include="Handlers.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
-    <ClInclude Include="LoginHandler.h" />
+    <ClInclude Include="LoginHandler.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -140,7 +142,7 @@
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
     <ClCompile Include="LoginHandler.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
