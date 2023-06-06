@@ -30,7 +30,6 @@ Framework::Framework()
     SDL_SetWindowTitle(m_window, "SMO");
 
     m_renderer = Renderer::GetInstance().GetRenderer();
-    m_scene = new InGameScene;
 }
 
 Framework::~Framework()
@@ -44,6 +43,11 @@ void Framework::Release()
     SDL_Quit();
     if (m_scene)
         delete m_scene;
+}
+
+void Framework::ChangeScene(Scene* scene)
+{
+    m_scene = scene;
 }
 
 void Framework::Render()

@@ -23,9 +23,10 @@ public:
 
     void Run();
     void Release();
+    void ChangeScene(Scene* scene);
 
 public:
-    const Scene* GetScene() { return m_scene; }
+    Scene* GetScene() { return m_scene; }
 
     static Framework& GetInstance() { return s_instance; }
 };

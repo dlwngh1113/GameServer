@@ -100,7 +100,9 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	try
 	{
 		Handler* handler = HandlerFactory::GetInstance().GetHandler(cmd);
+		handler->Init(data, snSize);
 		handler->Handle();
+		delete handler;
 	}
 	catch (std::exception& ex)
 	{

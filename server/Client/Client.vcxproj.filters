@@ -32,6 +32,12 @@
     <Filter Include="소스 파일\Scene">
       <UniqueIdentifier>{fa7db335-1417-4871-89d1-8aebaa8f54fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Network\InWorld">
+      <UniqueIdentifier>{95694601-b7f4-49d7-ab98-80326b466c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player">
+      <UniqueIdentifier>{ddd5fd3a-109a-42f8-a01b-a4fba5c26f6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -64,9 +70,6 @@
     <ClInclude Include="pch.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="NetworkManager.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
@@ -88,6 +91,16 @@
     <ClInclude Include="LoginHandler.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
+    <ClInclude Include="MoveHandler.h">
+      <Filter>소스 파일\Network\InWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPlayer.h">
+      <Filter>소스 파일\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -120,9 +133,6 @@
     <ClCompile Include="MovableObject.cpp">
       <Filter>Framework\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Framework\Camera</Filter>
     </ClCompile>
@@ -143,6 +153,18 @@
     </ClCompile>
     <ClCompile Include="LoginHandler.cpp">
       <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveHandler.cpp">
+      <Filter>소스 파일\Network\InWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPlayer.cpp">
+      <Filter>소스 파일\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherPlayer.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
