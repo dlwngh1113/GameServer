@@ -15,5 +15,4 @@ public:
 	virtual void Render(SDL_Renderer* renderer) override;
 
 	virtual void Move(int nDx, int nDy) override;
-	void Move(SDL_Keycode code);
 };
