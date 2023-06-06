@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "NetworkManager.h"
+#include "HandlerFactory.h"
 
 NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
 {
+	HandlerFactory::GetInstance().Init();
 }
 
 NetworkManager::~NetworkManager()

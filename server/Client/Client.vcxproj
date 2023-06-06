@@ -169,6 +169,8 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Handler.h" />
+    <ClInclude Include="HandlerFactory.h" />
     <ClInclude Include="InGameScene.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MaptoolScene.h" />
@@ -186,6 +188,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="CMapLoader.cpp" />
+    <ClCompile Include="Handler.cpp" />
+    <ClCompile Include="HandlerFactory.cpp" />
     <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="MaptoolScene.cpp" />
     <ClCompile Include="MovableObject.cpp" />

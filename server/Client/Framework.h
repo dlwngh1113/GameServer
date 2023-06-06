@@ -12,8 +12,6 @@ private:
 
     Scene* m_scene{ nullptr };
 
-    void Release();
-
     void Render();
     void Update();
 
@@ -23,7 +21,11 @@ private:
 public:
     virtual ~Framework();
 
-    static Framework& GetInstance() { return s_instance; }
-
     void Run();
+    void Release();
+
+public:
+    const Scene* GetScene() { return m_scene; }
+
+    static Framework& GetInstance() { return s_instance; }
 };
