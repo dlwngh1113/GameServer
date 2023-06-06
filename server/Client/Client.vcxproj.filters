@@ -82,6 +82,10 @@
     <ClInclude Include="HandlerFactory.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
+    <ClInclude Include="Handlers.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -134,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="HandlerFactory.cpp">
       <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginHandler.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

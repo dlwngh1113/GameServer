@@ -6,7 +6,7 @@ public:
 	Handler();
 	virtual ~Handler();
 
-protected:
+public:
 	virtual void Handle() = 0;
 };
 
