@@ -4,7 +4,6 @@
 #include "Renderer.h"
 #include "PacketSender.h"
 #include "NetworkManager.h"
-#include "InGameScene.h"
 
 Framework Framework::s_instance;
 
