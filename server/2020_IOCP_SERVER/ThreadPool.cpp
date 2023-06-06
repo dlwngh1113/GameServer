@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ThreadPool.h"
+#include "Logger.h"
 
 void ThreadPool::Work()
 {
@@ -14,14 +15,21 @@ void ThreadPool::Work()
 		m_works.pop();
 		lock.unlock();
 
-		work();
+		try
+		{
+			work();
+		}
+		catch (std::exception& ex)
+		{
+			Log(ex.what());
+		}
 	}
 }
 
 ThreadPool::ThreadPool(size_t size)
 {
 	for (int i=0; i<size;++i)
-		m_workers.emplace_back(std::thread{ [&]() { Work(); } });
+		m_workers.emplace_back(std::thread{ [this]() { Work(); } });
 }
 
 ThreadPool::~ThreadPool()

@@ -13,7 +13,7 @@ void TeleportRequestHandler::HandleInGame()
 
 	ClientCommon::TeleportResponse res;
 	res.header.size = sizeof(ClientCommon::TeleportResponse);
-	res.header.type = static_cast<short>(ServerCommand::UserMove);
+	res.header.type = static_cast<short>(ServerEvent::UserMove);
 
 	// ¹ß¼Û
 

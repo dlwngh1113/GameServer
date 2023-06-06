@@ -31,7 +31,7 @@ void MoveRequestHandler::HandleInGame()
 
 	Place* place = m_user->GetPlace();
 	if (place == nullptr)
-		throw std::exception{ "현재 장소가 없습니다." };
+		throw RequestHandlerException{ "현재 장소가 없습니다." };
 
 	place->Move(m_user, x, y);
 
@@ -39,7 +39,7 @@ void MoveRequestHandler::HandleInGame()
 
 	ClientCommon::UserMoveEvent ev;
 	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerCommand::UserMove);
+	ev.header.type = static_cast<short>(ServerEvent::UserMove);
 	ev.id = m_user->GetID();
 	ev.x = m_user->GetX();
 	ev.y = m_user->GetY();
@@ -51,7 +51,7 @@ void MoveRequestHandler::HandleInGame()
 
 	ClientCommon::MoveResponse res;
 	res.header.size = sizeof(ClientCommon::MoveResponse);
-	res.header.type = static_cast<short>(ServerCommand::UserMove);
+	res.header.type = static_cast<short>(ServerEvent::UserMove);
 	res.id = m_peer->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();

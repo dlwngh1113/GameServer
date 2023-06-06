@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "Renderer.h"
-#include "NetworkManager.h"
+#include "PacketSender.h"
 
 Player::Player()
 {
@@ -41,4 +41,9 @@ void Player::Move(int nDx, int nDy)
 {
 	m_position.x += nDx;
 	m_position.y += nDy;
+}
+
+void Player::Move(SDL_Keycode code)
+{
+	PacketSender::GetInstance().SendMove(code - 79);
 }

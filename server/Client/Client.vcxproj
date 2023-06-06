@@ -169,12 +169,19 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Handler.h" />
+    <ClInclude Include="HandlerFactory.h" />
+    <ClInclude Include="Handlers.h" />
     <ClInclude Include="InGameScene.h" />
+    <ClInclude Include="LoginHandler.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MaptoolScene.h" />
     <ClInclude Include="MovableObject.h" />
+    <ClInclude Include="MoveHandler.h" />
+    <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="OtherPlayer.h" />
     <ClInclude Include="PacketSender.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
@@ -186,11 +193,17 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="CMapLoader.cpp" />
+    <ClCompile Include="Handler.cpp" />
+    <ClCompile Include="HandlerFactory.cpp" />
     <ClCompile Include="InGameScene.cpp" />
+    <ClCompile Include="LoginHandler.cpp" />
     <ClCompile Include="MaptoolScene.cpp" />
     <ClCompile Include="MovableObject.cpp" />
+    <ClCompile Include="MoveHandler.cpp" />
+    <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="OtherPlayer.cpp" />
     <ClCompile Include="PacketSender.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />

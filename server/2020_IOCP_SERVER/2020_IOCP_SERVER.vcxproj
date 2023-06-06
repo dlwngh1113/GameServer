@@ -176,12 +176,13 @@
     <ClCompile Include="Place.cpp" />
     <ClCompile Include="PlaceEnterRequestHandler.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
+    <ClCompile Include="RequestHandlerException.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Sector.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Statics.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TeleportRequestHandler.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
@@ -215,13 +216,14 @@
     <ClInclude Include="BaseRequestHandler.h" />
     <ClInclude Include="PlaceEnterRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />
+    <ClInclude Include="RequestHandlerException.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sector.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Statics.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TeleportRequestHandler.h" />
     <ClInclude Include="ThreadPool.h" />

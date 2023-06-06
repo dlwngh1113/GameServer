@@ -1,8 +1,9 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Peer.h"
 #include "BaseRequestHandler.h"
 #include "IHandlerFactory.h"
 #include "Logger.h"
+#include "CServer.h"
 
 Peer::Peer(SOCKET socket) : m_socket{ socket }
 {
@@ -102,23 +103,12 @@ void Peer::ProcessPacket(unsigned char* data, unsigned short snSize)
 		
 		std::shared_ptr<BaseRequestHandler> handler = m_requestHandlerFactory->CreateInstance(packet->header.type);
 		handler->Initialize(shared_from_this(), packet);
-		// handler 변수를 어떻게 shared_ptr로 만들수 있을까..
-		Statics::s_threadPool.EnqueWork([&handler]() { handler->Handle(); });
-		//handler->Handle();
 
-		//delete handler;
+		Global::GetInstance().threadPool.EnqueWork([handler]() { handler->Handle(); });
 	}
 	catch (std::exception& ex)
 	{
 		Log(ex.what());
-	}
-	catch (sql::SQLException& ex)
-	{
-		Log(ex.what());
-	}
-	catch (...)
-	{
-		Log("Default exception");
 	}
 }
 
@@ -127,7 +117,7 @@ void Peer::SendPacket(unsigned char* data, unsigned short snSize)
 	try
 	{
 		//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
-		OVER_EX* overEx = Statics::s_overlappedPool.PopObject();
+		OVER_EX* overEx = Global::GetInstance().overlappedPool.PopObject();
 		ZeroMemory(overEx, sizeof(OVER_EX));
 		overEx->op_mode = OP_MODE_SEND;
 		overEx->wsa_buf.buf = reinterpret_cast<CHAR*>(overEx->iocp_buf);
@@ -144,10 +134,6 @@ void Peer::SendPacket(unsigned char* data, unsigned short snSize)
 	catch (std::exception& ex)
 	{
 		Log(ex.what());
-	}
-	catch (...)
-	{
-		Log("Default exception");
 	}
 }
 

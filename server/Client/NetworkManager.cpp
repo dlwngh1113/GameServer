@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "NetworkManager.h"
+#include "HandlerFactory.h"
 
 NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
 {
+	HandlerFactory::GetInstance().Init();
 }
 
 NetworkManager::~NetworkManager()
@@ -94,13 +96,17 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 {
 	ClientCommon::BasePacket* packet = reinterpret_cast<ClientCommon::BasePacket*>(data);
 	
-	ServerCommand cmd = static_cast<ServerCommand>(packet->header.type);
-	switch (cmd)
+	ServerEvent cmd = static_cast<ServerEvent>(packet->header.type);
+	try
 	{
-	case ServerCommand::LoginOk:
-		break;
-	default:
-		break;
+		Handler* handler = HandlerFactory::GetInstance().GetHandler(cmd);
+		handler->Init(data, snSize);
+		handler->Handle();
+		delete handler;
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
 	}
 }
 

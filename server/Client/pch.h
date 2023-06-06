@@ -9,15 +9,19 @@
 
 // 여기에 미리 컴파일하려는 헤더 추가
 
+// std headers
 #include <vector>
 #include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <exception>
+#include <unordered_map>
 
+// SDL library
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
 
+// Common
 #include "../Common/Common.hpp"
 
 #endif //PCH_H

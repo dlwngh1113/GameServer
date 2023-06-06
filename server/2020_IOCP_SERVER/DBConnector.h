@@ -10,7 +10,6 @@ private:
 
 	static DBConnector s_instance;
 	sql::Driver* m_driver;
-	Concurrency::concurrent_queue<sql::Connection*> m_connections;
 
 	DBConnector();
 public:
@@ -19,8 +18,7 @@ public:
 	DBConnector& operator=(const DBConnector& other) = delete;
 
 	void Initialize();
-	sql::Connection* GetConnection();
-	void AddConnection(sql::Connection* conn);
+	std::unique_ptr<sql::Connection>GetConnection();
 
 	static DBConnector& GetInstance()
 	{

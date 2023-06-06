@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "LoginRequestHandler.h"
 #include "DBWorker.h"
-#include "DBConnector.h"
 #include "Place.h"
 #include "User.h"
+#include "Logger.h"
 
 std::shared_ptr<BaseRequestHandler> LoginRequestHandler::Create()
 {
@@ -15,7 +15,7 @@ void LoginRequestHandler::HandleRequest()
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
 	auto result = DBWorker::GetUser(packet->name);
-	if (result)
+	if (result->next())
 	{
 		m_user->SetInfo(result.get());
 
@@ -23,7 +23,7 @@ void LoginRequestHandler::HandleRequest()
 
 		ClientCommon::LoginResponse res;
 		res.header.size = sizeof(ClientCommon::LoginResponse);
-		res.header.type = static_cast<short>(ServerCommand::LoginOk);
+		res.header.type = static_cast<short>(ServerEvent::LoginOk);
 		res.id = m_peer->GetID();
 		res.level = m_user->GetLevel();
 		res.exp = m_user->GetExp();
