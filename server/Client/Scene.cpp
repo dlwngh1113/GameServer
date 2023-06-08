@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Scene.h"
-#include "Object.h"
+#include "Framework.h"
 #include "Player.h"
 #include "MyPlayer.h"
 #include "OtherPlayer.h"
@@ -35,6 +35,27 @@ void Scene::Update()
 
 void Scene::OnEvent(SDL_Event& evt)
 {
+	switch (evt.type)
+	{
+	case SDL_KEYDOWN:
+		switch (evt.key.keysym.sym)
+		{
+		case SDLK_LEFT:
+		case SDLK_RIGHT:
+		case SDLK_UP:
+		case SDLK_DOWN:
+			m_myPlayer->Move(evt.key.keysym.sym);
+			break;
+		default:
+			break;
+		}
+		break;
+	case SDL_QUIT:
+		Framework::GetInstance().Release();
+		break;
+	default:
+		break;
+	}
 }
 
 void Scene::AddOtherPlayer(OtherPlayer* otherPlayer)
