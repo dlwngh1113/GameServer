@@ -2,13 +2,19 @@
 #include "HandlerFactory.h"
 #include "Handlers.h"
 
-void HandlerFactory::AddHandler(ServerEvent evt, Handler* handler)
+HandlerFactory HandlerFactory::s_instance;
+
+HandlerFactory::HandlerFactory()
 {
-	m_handlers.insert(std::pair<ServerEvent, Handler*>(evt, handler));
 }
 
 HandlerFactory::~HandlerFactory()
 {
+}
+
+void HandlerFactory::AddHandler(ServerEvent evt, Handler* handler)
+{
+	m_handlers.insert(std::pair<ServerEvent, Handler*>(evt, handler));
 }
 
 void HandlerFactory::Init()

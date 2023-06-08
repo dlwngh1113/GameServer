@@ -4,7 +4,6 @@
 #include "Renderer.h"
 #include "PacketSender.h"
 #include "NetworkManager.h"
-#include "InGameScene.h"
 
 Framework Framework::s_instance;
 
@@ -30,6 +29,7 @@ Framework::Framework()
     SDL_SetWindowTitle(m_window, "SMO");
 
     m_renderer = Renderer::GetInstance().GetRenderer();
+    m_scene = new Scene;
 }
 
 Framework::~Framework()
@@ -47,7 +47,12 @@ void Framework::Release()
 
 void Framework::ChangeScene(Scene* scene)
 {
+    Scene* currentScene = m_scene;
+
     m_scene = scene;
+    
+    if (currentScene)
+        delete currentScene;
 }
 
 void Framework::Render()

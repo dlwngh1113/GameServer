@@ -23,9 +23,6 @@
     <Filter Include="Framework\Camera">
       <UniqueIdentifier>{0f83723e-e2f9-4822-8274-8f273923843d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\Scene">
-      <UniqueIdentifier>{6219e985-f313-4216-9814-80c5834bfc33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Network">
       <UniqueIdentifier>{6ef7c37e-ac97-46c5-8e63-2af93862dff3}</UniqueIdentifier>
     </Filter>
@@ -38,11 +35,11 @@
     <Filter Include="소스 파일\Player">
       <UniqueIdentifier>{ddd5fd3a-109a-42f8-a01b-a4fba5c26f6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Network\Handler">
+      <UniqueIdentifier>{7176e739-e14b-44f1-84d3-3cc4e342a16e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Scene.h">
-      <Filter>Framework\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Framework.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -73,22 +70,7 @@
     <ClInclude Include="NetworkManager.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
-    <ClInclude Include="InGameScene.h">
-      <Filter>소스 파일\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="PacketSender.h">
-      <Filter>소스 파일\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Handler.h">
-      <Filter>소스 파일\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="HandlerFactory.h">
-      <Filter>소스 파일\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Handlers.h">
-      <Filter>소스 파일\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginHandler.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
     <ClInclude Include="MoveHandler.h">
@@ -100,7 +82,24 @@
     <ClInclude Include="MyPlayer.h">
       <Filter>소스 파일\Player</Filter>
     </ClInclude>
-    <ClInclude Include="OtherPlayer.h" />
+    <ClInclude Include="OtherPlayer.h">
+      <Filter>소스 파일\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="HandlerFactory.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Handlers.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginHandler.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Framework\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Framework.cpp">
       <Filter>Framework</Filter>
@@ -139,19 +135,7 @@
     <ClCompile Include="NetworkManager.cpp">
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
-    <ClCompile Include="InGameScene.cpp">
-      <Filter>소스 파일\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="PacketSender.cpp">
-      <Filter>소스 파일\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="Handler.cpp">
-      <Filter>소스 파일\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="HandlerFactory.cpp">
-      <Filter>소스 파일\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginHandler.cpp">
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
     <ClCompile Include="MoveHandler.cpp">
@@ -164,7 +148,19 @@
       <Filter>소스 파일\Player</Filter>
     </ClCompile>
     <ClCompile Include="OtherPlayer.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Handler.cpp">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="HandlerFactory.cpp">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginHandler.cpp">
+      <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

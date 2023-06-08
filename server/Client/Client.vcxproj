@@ -172,7 +172,6 @@
     <ClInclude Include="Handler.h" />
     <ClInclude Include="HandlerFactory.h" />
     <ClInclude Include="Handlers.h" />
-    <ClInclude Include="InGameScene.h" />
     <ClInclude Include="LoginHandler.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MaptoolScene.h" />
@@ -195,7 +194,6 @@
     <ClCompile Include="CMapLoader.cpp" />
     <ClCompile Include="Handler.cpp" />
     <ClCompile Include="HandlerFactory.cpp" />
-    <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="LoginHandler.cpp" />
     <ClCompile Include="MaptoolScene.cpp" />
     <ClCompile Include="MovableObject.cpp" />
