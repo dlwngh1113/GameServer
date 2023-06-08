@@ -7,7 +7,7 @@ class OtherPlayer;
 class Scene
 {
 protected:
-	MyPlayer* m_myPlayer;
+	MyPlayer* m_myPlayer{ nullptr };
 	std::vector<OtherPlayer*> m_otherPlayers;
 
 public:
