@@ -64,6 +64,7 @@ void Framework::Render()
 
 void Framework::Update()
 {
+    NetworkManager::GetInstance().Service();
     m_scene->Update();
 }
 
