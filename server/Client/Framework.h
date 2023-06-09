@@ -25,6 +25,8 @@ public:
     void Release();
     void ChangeScene(Scene* scene);
 
+    void ShowError(const char* message);
+
 public:
     Scene* GetScene() { return m_scene; }
 

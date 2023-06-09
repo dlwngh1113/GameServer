@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NetworkManager.h"
 #include "HandlerFactory.h"
+#include "Framework.h"
 
 NetworkManager NetworkManager::s_instance;
 
@@ -23,6 +24,10 @@ bool NetworkManager::Initialize()
 		return false;
 	}
 
+	// SocketSet 추가
+	m_socketSet = SDLNet_AllocSocketSet(1);
+
+	// Socket 연결
 	IPaddress ipAddress;
 	SDLNet_ResolveHost(&ipAddress, "127.0.0.1", SERVER_PORT);
 	m_tcpSocket = SDLNet_TCP_Open(&ipAddress);
@@ -32,7 +37,16 @@ bool NetworkManager::Initialize()
 		return false;
 	}
 
+	// SocketSet에 추가
+	SDLNet_TCP_AddSocket(m_socketSet, m_tcpSocket);
+
 	return true;
+}
+
+void NetworkManager::Service()
+{
+	if (SDLNet_CheckSockets(m_socketSet, 0) > 0)
+		ReceivePacket();
 }
 
 void NetworkManager::ReceivePacket()
@@ -106,7 +120,7 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	}
 	catch (std::exception& ex)
 	{
-		std::cout << ex.what() << std::endl;
+		Framework::GetInstance().ShowError(ex.what());
 	}
 }
 

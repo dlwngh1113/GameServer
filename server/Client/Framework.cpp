@@ -55,6 +55,11 @@ void Framework::ChangeScene(Scene* scene)
         delete currentScene;
 }
 
+void Framework::ShowError(const char* message)
+{
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "error", message, m_window);
+}
+
 void Framework::Render()
 {
     SDL_RenderClear(m_renderer);
@@ -64,6 +69,7 @@ void Framework::Render()
 
 void Framework::Update()
 {
+    NetworkManager::GetInstance().Service();
     m_scene->Update();
 }
 
