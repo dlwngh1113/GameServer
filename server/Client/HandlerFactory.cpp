@@ -24,6 +24,7 @@ void HandlerFactory::AddHandler(ServerEvent evt, Handler* handler)
 void HandlerFactory::Init()
 {
 	m_handlers.insert(std::make_pair<ServerEvent, Handler*>(ServerEvent::LoginOk, new LoginHandler));
+	m_handlers.insert(std::make_pair<ServerEvent, Handler*>(ServerEvent::UserMove, new MoveHandler));
 }
 
 Handler* HandlerFactory::GetHandler(ServerEvent evt)

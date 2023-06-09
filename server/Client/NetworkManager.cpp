@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NetworkManager.h"
 #include "HandlerFactory.h"
+#include "Framework.h"
 
 NetworkManager NetworkManager::s_instance;
 
@@ -119,7 +120,7 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	}
 	catch (std::exception& ex)
 	{
-		std::cout << ex.what() << std::endl;
+		Framework::GetInstance().ShowError(ex.what());
 	}
 }
 
