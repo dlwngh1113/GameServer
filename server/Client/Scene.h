@@ -20,7 +20,7 @@ public:
 
 public:
 	void SetPlayer(MyPlayer* player) { m_myPlayer = player; }
-	const MyPlayer* GetPlayer() const { return m_myPlayer; }
+	MyPlayer* GetPlayer() const { return m_myPlayer; }
 
 	void AddOtherPlayer(OtherPlayer* otherPlayer);
 	OtherPlayer* GetOtherPlayer(int nId);

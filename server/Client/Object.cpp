@@ -5,10 +5,11 @@ Object::Object()
 {
 }
 
-Object::Object(int nX, int nY, int nWidth, int nHeight) : m_position{ nX, nY, nWidth, nHeight }
+Object::~Object()
 {
 }
 
-Object::~Object()
+void Object::SetPosition(int nX, int nY, int nWidth, int nHeight)
 {
+	m_position = { nX, nY, nWidth, nHeight };
 }

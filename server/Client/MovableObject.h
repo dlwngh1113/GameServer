@@ -5,7 +5,6 @@ class MovableObject : public Object
 {
 public:
 	MovableObject();
-	explicit MovableObject(int nX, int nY, int nWidth, int nHeight);
 	virtual ~MovableObject();
 
 	virtual void Update(float flElapsedTime) = 0;

@@ -3,8 +3,13 @@
 
 class OtherPlayer : public Player
 {
+private:
+	OtherPlayer();
 public:
-	explicit OtherPlayer(int nx, int ny, int nWidth, int nHeight);
 	virtual ~OtherPlayer();
+	void Init(int nId);
+
+public:
+	static OtherPlayer* Create(int nId);
 };
 

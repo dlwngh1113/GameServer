@@ -5,10 +5,6 @@
 
 Player::Player()
 {
-}
-
-Player::Player(int nX, int nY, int nWidth, int nHeight) : MovableObject{ nX, nY, nWidth, nHeight }
-{
 	SDL_Surface* surface = nullptr;
 	surface = SDL_LoadBMP("players.bmp");
 
