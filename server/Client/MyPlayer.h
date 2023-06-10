@@ -3,8 +3,16 @@
 
 class MyPlayer : public Player
 {
+private:
+	MyPlayer();
+
 public:
-	explicit MyPlayer(int nx, int ny, int nWidth, int nHeight);
 	virtual ~MyPlayer();
 	void Move(SDL_Keycode code);
+
+	virtual void Move(int nX, int nY) override;
+	void Init(int nId);
+
+public:
+	static MyPlayer* Create(int nId);
 };

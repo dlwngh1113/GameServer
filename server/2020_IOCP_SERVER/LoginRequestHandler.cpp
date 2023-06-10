@@ -27,6 +27,8 @@ void LoginRequestHandler::HandleRequest()
 		res.id = m_peer->GetID();
 		res.level = m_user->GetLevel();
 		res.exp = m_user->GetExp();
+		res.x = m_user->GetX();
+		res.y = m_user->GetY();
 		res.hp = m_user->GetHp();
 		res.placeId = m_user->GetPlace()->GetId();
 

@@ -52,3 +52,25 @@ ADD CONSTRAINT pk_t_user PRIMARY KEY(name);
 
 ALTER TABLE r_Place
 ADD CONSTRAINT pk_r_place PRIMARY KEY(id);
+
+DELIMITER //
+CREATE PROCEDURE smo_UpdateUser(
+	_name		VARCHAR(10),
+    _level		INT,
+    x			INT,
+    y			INT,
+    exp			INT,
+    hp			INT,
+    placeId		INT
+)
+BEGIN
+	UPDATE t_User AS a
+    SET a.level = level,
+    a.x = x,
+    a.y = y,
+    a.exp = exp,
+    a.hp = hp,
+    a.placeId = placeId
+    WHERE a.name = _name;
+END //
+DELIMITER ;

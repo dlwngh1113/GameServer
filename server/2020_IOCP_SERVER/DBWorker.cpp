@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "DBWorker.h"
 #include "DBConnector.h"
+#include "User.h"
+#include "Place.h"
+#include "Logger.h"
 
 std::unique_ptr<sql::ResultSet> DBWorker::LoadMetaDatas()
 {
@@ -28,11 +31,28 @@ void DBWorker::AddUser(char name[MAX_ID_LEN])
 	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_AddUser(?)") };
 	preparedStatement->setString(1, name);
 
-	preparedStatement->executeQuery();
+	preparedStatement->executeUpdate();
 }
 
+// name level x y exp hp placeId
 void DBWorker::UpdateUser(std::shared_ptr<User> user)
 {
+	int nParamIndex = 0;
+	auto conn = DBConnector::GetInstance().GetConnection();
+	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_UpdateUser(?, ?, ?, ?, ?, ?, ?)") };
+
+	preparedStatement->setString(++nParamIndex, user->GetName());
+	preparedStatement->setInt(++nParamIndex, user->GetLevel());
+	preparedStatement->setInt(++nParamIndex, user->GetX());
+	preparedStatement->setInt(++nParamIndex, user->GetY());
+	preparedStatement->setInt(++nParamIndex, user->GetExp());
+	preparedStatement->setInt(++nParamIndex, user->GetHp());
+	preparedStatement->setInt(++nParamIndex, user->GetPlace()->GetId());
+
+	if (preparedStatement->executeUpdate())
+		LogFormat("player [%s] DB update succeed!\n", user->GetName());
+	else
+		LogFormat("player [%s] DB update failed!\n", user->GetName());
 }
 
 std::unique_ptr<sql::ResultSet> DBWorker::GetUser(char name[MAX_ID_LEN])
