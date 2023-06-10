@@ -15,9 +15,9 @@ void MyPlayer::Move(SDL_Keycode code)
 	PacketSender::GetInstance().SendMove(code - 79);
 }
 
-void MyPlayer::Move(int nDx, int nDy)
+void MyPlayer::Move(int nX, int nY)
 {
-	Player::Move(nDx, nDy);
+	Player::Move(nX, nY);
 }
 
 void MyPlayer::Init(int nId)

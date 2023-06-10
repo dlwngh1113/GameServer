@@ -3,6 +3,7 @@
 //
 constexpr int WORLD_WIDTH = 800;
 constexpr int WORLD_HEIGHT = 800;
+constexpr int TILE_SIZE = 64;
 
 constexpr int MAX_STR_LEN = 100;
 constexpr int MAX_ID_LEN = 10;

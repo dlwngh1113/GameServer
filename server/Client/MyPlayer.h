@@ -10,7 +10,7 @@ public:
 	virtual ~MyPlayer();
 	void Move(SDL_Keycode code);
 
-	virtual void Move(int nDx, int nDy) override;
+	virtual void Move(int nX, int nY) override;
 	void Init(int nId);
 
 public:

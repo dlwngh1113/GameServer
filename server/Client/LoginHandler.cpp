@@ -17,7 +17,7 @@ void LoginHandler::Handle()
 	ClientCommon::LoginResponse* packet = reinterpret_cast<ClientCommon::LoginResponse*>(m_packet);
 
 	MyPlayer* myPlayer = MyPlayer::Create(packet->id);
-	myPlayer->SetPosition(packet->x, packet->y, 64, 64);
+	myPlayer->SetPosition(packet->x, packet->y, TILE_SIZE, TILE_SIZE);
 
 	Scene* scene = new Scene;
 	scene->SetPlayer(myPlayer);
