@@ -50,9 +50,9 @@ void DBWorker::UpdateUser(std::shared_ptr<User> user)
 	preparedStatement->setInt(++nParamIndex, user->GetPlace()->GetId());
 
 	if (preparedStatement->executeUpdate())
-		LogFormat("player name [%s] DB update succeed!\n", user->GetName());
+		LogFormat("player [%s] DB update succeed!\n", user->GetName());
 	else
-		LogFormat("player name [%s] DB update failed!\n", user->GetName());
+		LogFormat("player [%s] DB update failed!\n", user->GetName());
 }
 
 std::unique_ptr<sql::ResultSet> DBWorker::GetUser(char name[MAX_ID_LEN])
