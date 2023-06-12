@@ -35,19 +35,7 @@ void MoveRequestHandler::HandleInGame()
 
 	place->Move(m_user, x, y);
 
-	// 이벤트 데이터 세팅
-
-	ClientCommon::UserMoveEvent ev;
-	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerEvent::UserMove);
-	ev.id = m_user->GetID();
-	ev.x = m_user->GetX();
-	ev.y = m_user->GetY();
-
 	// 발송
-
-	//SendEvent(user, &ev);
-	//m_user->GetPlace()->Move(m_user, x, y);
 
 	ClientCommon::MoveResponse res;
 	res.header.size = sizeof(ClientCommon::MoveResponse);

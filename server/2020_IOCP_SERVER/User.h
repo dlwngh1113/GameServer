@@ -45,6 +45,10 @@ public:
 
 	void SetInfo(sql::ResultSet* result);
 
+	// 로그아웃
+
+	void Logout();
+
 	// 이동
 
 	void SetPosition(short x, short y);
