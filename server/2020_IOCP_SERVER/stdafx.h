@@ -6,27 +6,33 @@ extern "C" {
 #include "include/lualib.h"
 }
 
+// C++
 #include <iostream>
-#include <WS2tcpip.h>
-#include <MSWSock.h>
 #include <thread>
-#include <vector>
-#include <queue>
 #include <mutex>
-#include <unordered_map>
 #include <chrono>
 #include <string>
-#include <windows.h>  
-#include <sqlext.h>
 #include <fstream>
+#include <concurrent_queue.h>
+
+// STL
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+
+// windows
+#include <WS2tcpip.h>
+#include <MSWSock.h>
+#include <windows.h>
 #include <WinSock2.h>
 #include <ws2def.h>
-#include <unordered_set>
-#include <concurrent_queue.h>
-#include <stdarg.h>
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
+
+// sql
+#include <sqlext.h>
+#include <jdbc/cppconn/driver.h>
+#include <jdbc/cppconn/exception.h>
+#include <jdbc/cppconn/prepared_statement.h>
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "MSWSock.lib")
