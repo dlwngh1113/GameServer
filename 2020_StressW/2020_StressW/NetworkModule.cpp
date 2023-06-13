@@ -28,6 +28,8 @@ const static int MAX_BUFF_SIZE = 255;
 #pragma comment (lib, "ws2_32.lib")
 #include "../../server/Common/Common.hpp"
 
+using namespace ClientCommon;
+
 HANDLE g_hiocp;
 
 enum OPTYPE { OP_SEND, OP_RECV, OP_DO_MOVE };
@@ -125,8 +127,11 @@ void SendPacket(int cl, void* packet)
 
 void ProcessPacket(int ci, unsigned char packet[])
 {
-	switch (packet[1]) {
-	case SC_PACKET_MOVE: {
+	BasePacket* p = reinterpret_cast<BasePacket*>(packet);
+	ServerEvent evt = static_cast<ServerEvent>(p->header.type);
+
+	switch (evt) {
+	case ServerEvent::UserMove: {
 		MoveResponse* move_packet = reinterpret_cast<MoveResponse*>(packet);
 		if (move_packet->id < MAX_CLIENTS) {
 			int my_id = client_map[move_packet->id];
@@ -145,9 +150,9 @@ void ProcessPacket(int ci, unsigned char packet[])
 		}
 	}
 					   break;
-	case SC_PACKET_ENTER: break;
-	case SC_PACKET_EXIT: break;
-	case SC_PACKET_LOGIN_OK:
+	case ServerEvent::UserEnter: break;
+	case ServerEvent::UserExit: break;
+	case ServerEvent::LoginOk:
 	{
 		g_clients[ci].connected = true;
 		active_clients++;
@@ -161,15 +166,15 @@ void ProcessPacket(int ci, unsigned char packet[])
 		TeleportRequest t_packet;
 		t_packet.x = rand() % WORLD_WIDTH;
 		t_packet.y = rand() % WORLD_HEIGHT;
-		t_packet.size = sizeof(t_packet);
-		t_packet.type = CS_TELEPORT;
+		t_packet.header.size = sizeof(t_packet);
+		t_packet.header.type = static_cast<int>(ClientCommand::Teleport);
 		SendPacket(my_id, &t_packet);
 	}
 	break;
-	case SC_PACKET_CHAT:
-		break;
-	case SC_PACKET_STAT_CHANGE:
-		break;
+	//case SC_PACKET_CHAT:
+	//	break;
+	//case SC_PACKET_STAT_CHANGE:
+	//	break;
 	default: MessageBox(hWnd, L"Unknown Packet Type", L"ERROR", 0);
 		while (true);
 	}
@@ -322,8 +327,8 @@ void Adjust_Number_Of_Client()
 
 	int temp = num_connections;
 	sprintf_s(l_packet.name, "%d", temp);
-	l_packet.size = sizeof(l_packet);
-	l_packet.type = CS_LOGIN;
+	l_packet.header.size = sizeof(l_packet);
+	l_packet.header.type = static_cast<int>(ClientCommand::Login);
 	SendPacket(num_connections, &l_packet);
 
 
@@ -353,8 +358,8 @@ void Test_Thread()
 			if (g_clients[i].last_move_time + 1s > high_resolution_clock::now()) continue;
 			g_clients[i].last_move_time = high_resolution_clock::now();
 			MoveRequest my_packet;
-			my_packet.size = sizeof(my_packet);
-			my_packet.type = CS_MOVE;
+			my_packet.header.size = sizeof(my_packet);
+			my_packet.header.type = static_cast<int>(ClientCommand::Move);
 			switch (rand() % 4) {
 			case 0: my_packet.direction = MV_UP; break;
 			case 1: my_packet.direction = MV_DOWN; break;
