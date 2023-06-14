@@ -109,10 +109,10 @@ void DisconnectClient(int ci)
 	// cout << "Client [" << ci << "] Disconnected!\n";
 }
 
-void SendPacket(int cl, void* packet)
+void SendPacket(int cl, BasePacket* packet)
 {
-	int psize = reinterpret_cast<unsigned char*>(packet)[0];
-	int ptype = reinterpret_cast<unsigned char*>(packet)[1];
+	int psize = packet->header.size;
+	int ptype = packet->header.type;
 	OverlappedEx* over = new OverlappedEx;
 	over->event_type = OP_SEND;
 	memcpy(over->IOCP_buf, packet, psize);
@@ -177,7 +177,7 @@ void ProcessPacket(int ci, unsigned char packet[])
 		t_packet.x = rand() % WORLD_WIDTH;
 		t_packet.y = rand() % WORLD_HEIGHT;
 		t_packet.header.size = sizeof(t_packet);
-		t_packet.header.type = static_cast<int>(ClientCommand::Teleport);
+		t_packet.header.type = static_cast<short>(ClientCommand::Teleport);
 		SendPacket(my_id, &t_packet);
 	}
 	break;
@@ -225,23 +225,34 @@ void Worker_Thread()
 			unsigned pr_size = g_clients[ci].prev_packet_data;
 			while (io_size > 0) 
 			{
-				if (0 == psize) psize = buf[0];
-				if (io_size + pr_size >= psize)
-				{
-					// 지금 패킷 완성 가능
-					unsigned char packet[MAX_PACKET_SIZE];
-					memcpy(packet, g_clients[ci].packet_buf, pr_size);
-					memcpy(packet + pr_size, buf, psize - pr_size);
-					ProcessPacket(static_cast<int>(ci), packet);
-					io_size -= psize - pr_size;
-					buf += psize - pr_size;
-					psize = 0; pr_size = 0;
-				}
-				else
+				if (io_size < sizeof(Header))
 				{
 					memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
 					pr_size += io_size;
 					io_size = 0;
+				}
+				else
+				{
+					BasePacket* bp = reinterpret_cast<BasePacket*>(buf);
+					psize = bp->header.size;
+
+					if (io_size + pr_size >= psize)
+					{
+						// 지금 패킷 완성 가능
+						unsigned char packet[MAX_PACKET_SIZE];
+						memcpy(packet, g_clients[ci].packet_buf, pr_size);
+						memcpy(packet + pr_size, buf, psize - pr_size);
+						ProcessPacket(static_cast<int>(ci), packet);
+						io_size -= psize - pr_size;
+						buf += psize - pr_size;
+						psize = 0; pr_size = 0;
+					}
+					else
+					{
+						memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
+						pr_size += io_size;
+						io_size = 0;
+					}
 				}
 			}
 			g_clients[ci].curr_packet_size = psize;
@@ -353,9 +364,9 @@ void Adjust_Number_Of_Client()
 	LoginRequest l_packet;
 
 	int temp = num_connections;
-	sprintf_s(l_packet.name, "%d", temp);
 	l_packet.header.size = sizeof(l_packet);
-	l_packet.header.type = static_cast<int>(ClientCommand::Login);
+	l_packet.header.type = static_cast<short>(ClientCommand::Login);
+	sprintf_s(l_packet.name, "%d", temp);
 	SendPacket(num_connections, &l_packet);
 
 
@@ -389,7 +400,7 @@ void Test_Thread()
 			g_clients[i].last_move_time = high_resolution_clock::now();
 			MoveRequest my_packet;
 			my_packet.header.size = sizeof(my_packet);
-			my_packet.header.type = static_cast<int>(ClientCommand::Move);
+			my_packet.header.type = static_cast<short>(ClientCommand::Move);
 			switch (rand() % 4) 
 			{
 			case 0: my_packet.direction = MV_UP; break;
