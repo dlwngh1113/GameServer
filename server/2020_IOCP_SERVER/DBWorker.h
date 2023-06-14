@@ -10,6 +10,7 @@ public:
 	static std::unique_ptr<sql::ResultSet> LoadPlaces();
 
 	// User
+	static std::unique_ptr<sql::ResultSet> GetOrCreateUser(char name[MAX_ID_LEN]);
 	static void AddUser(char name[MAX_ID_LEN]);
 	static void UpdateUser(std::shared_ptr<User> user);
 	static std::unique_ptr<sql::ResultSet> GetUser(char name[MAX_ID_LEN]);
