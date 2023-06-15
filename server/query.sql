@@ -74,3 +74,20 @@ BEGIN
     WHERE a.name = _name;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE smo_GetOrCreateUser(
+	_name		VARCHAR(10)
+)
+BEGIN
+	DECLARE cnt INT;
+	SET cnt = (SELECT count(*) FROM t_User WHERE name = _name);
+    
+    CASE
+		WHEN cnt <= 0 THEN CALL smo_AddUser(_name);
+    END CASE;
+    
+    SELECT * FROM t_User
+    WHERE name = _name;
+END
+DELIMITER ;
