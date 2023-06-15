@@ -85,6 +85,7 @@ BEGIN
     
     CASE
 		WHEN cnt <= 0 THEN CALL smo_AddUser(_name);
+        ELSE CALL smo_GetUser(_name);
     END CASE;
     
     SELECT * FROM t_User
