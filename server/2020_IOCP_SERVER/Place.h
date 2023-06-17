@@ -1,8 +1,9 @@
 #pragma once
 
+#include "SectorChangeInfo.h"
+
 struct BasePacket;
 class User;
-class Sector;
 
 class Place
 {
@@ -16,6 +17,7 @@ private:
 	Sector* GetSectorByPoint(short x, short y);
 
 	void SendEvent(const int nId, ClientCommon::BasePacket* packet);
+	std::unique_ptr<SectorChangeInfo> GetSectorChangeInfo(Sector* prevSector, Sector* currSector);
 public:
 	Place();
 	explicit Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);

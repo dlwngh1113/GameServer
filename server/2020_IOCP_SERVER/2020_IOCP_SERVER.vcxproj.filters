@@ -137,6 +137,9 @@
     <ClCompile Include="LoginRequestHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="SectorChangeInfo.cpp">
+      <Filter>Client\Instance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -237,6 +240,9 @@
     </ClInclude>
     <ClInclude Include="LoginRequestHandler.h">
       <Filter>Client\RequestHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="SectorChangeInfo.h">
+      <Filter>Client\Instance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

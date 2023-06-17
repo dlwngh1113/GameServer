@@ -25,7 +25,7 @@ void MetaDatas::LoadMetaDatas()
             int width = result->getInt("width");
             int height = result->getInt("height");
 
-            auto place = new Place(id, width, height, 8, 8);
+            auto place = new Place(id, width, height, 40, 40);
             AddPlace(place);
         }
     }

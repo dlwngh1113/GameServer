@@ -15,11 +15,11 @@ private:
 public:
 	Sector();
 	virtual ~Sector();
+	void Init(int nX, int nY, int nWidth, int nHeight);
 
 	void Move(User* targetUser);
 	void AddUser(User* user);
 	Sector* RemoveUser(User* user);
 
 	bool IsPointInSector(short x, short y);
-	void Init(int nX, int nY, int nWidth, int nHeight);
 };

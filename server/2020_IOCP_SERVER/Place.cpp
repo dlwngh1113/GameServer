@@ -5,15 +5,24 @@
 
 Sector* Place::GetSectorByPoint(short x, short y)
 {
-	Sector* sector = nullptr;
-	for (int i = 0; i < m_nHeightSectorSize; ++i)
-	{
-		for (int j = 0; j < m_nWidthSectorSize; ++j)
-		{
-			if (m_sectors[i][j].IsPointInSector(x, y))
-				return &m_sectors[i][j];
-		}
-	}
+	//Sector* sector = nullptr;
+	//for (int i = 0; i < m_nHeightSectorSize; ++i)
+	//{
+	//	for (int j = 0; j < m_nWidthSectorSize; ++j)
+	//	{
+	//		if (m_sectors[i][j].IsPointInSector(x, y))
+	//			return &m_sectors[i][j];
+	//	}
+	//}
+
+	//return nullptr;
+
+	int nHeightIndex = x / m_nHeightSectorSize;
+	int nWidthIndex = y / m_nWidthSectorSize;
+
+	if (0 <= nHeightIndex && nHeightIndex < m_nHeightSectorSize)
+		if (0 <= nWidthIndex && nWidthIndex < m_nWidthSectorSize)
+			return &m_sectors[x / m_nWidthSectorSize][y / m_nHeightSectorSize];
 
 	return nullptr;
 }
@@ -57,6 +66,15 @@ void Place::SendEvent(const int nId, ClientCommon::BasePacket* ev)
 		if (pair.second->GetID() != nId)
 			pair.second->SendPacket(ev);
 	m_lock.unlock();
+}
+
+std::unique_ptr<SectorChangeInfo> Place::GetSectorChangeInfo(Sector* prevSector, Sector* currSector)
+{
+	std::unique_ptr<SectorChangeInfo> sectorChangeInfo = std::make_unique<SectorChangeInfo>();
+
+	for ()
+
+	return std::move(sectorChangeInfo);
 }
 
 void Place::AddUser(std::shared_ptr<User> user)
@@ -110,7 +128,22 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 		return;
 
 	// 이동
-	
+
+	short currX{ user->GetX() }, currY{ user->GetY() };
+
+	Sector* prevSector = GetSectorByPoint(currX, currY);
+	Sector* currentSector = GetSectorByPoint(x, y);
+
+	// 현재 섹터와 이전 섹터가 다르면
+	// 없어진 섹터에는 userExit을, 새로 생긴 섹터는 userEnter를 보내줘야함
+
+	if (prevSector != currentSector)
+	{
+
+	}
+	else
+		
+
 	user->SetPosition(x, y);
 
 	// 이벤트 데이터 세팅

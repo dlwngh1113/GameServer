@@ -186,6 +186,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="SectorChangeInfo.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TeleportRequestHandler.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
@@ -227,6 +228,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Global.h" />
+    <ClInclude Include="SectorChangeInfo.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TeleportRequestHandler.h" />
     <ClInclude Include="ThreadPool.h" />
