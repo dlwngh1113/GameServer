@@ -48,5 +48,5 @@ void LoginRequestHandler::HandleRequest()
 		}
 	}
 	else
-		throw RequestHandlerException{ "해당 이름의 사용자가 없습니다." };
+		throw RequestHandlerException{ LogFile, "해당 이름의 사용자가 없습니다." };
 }

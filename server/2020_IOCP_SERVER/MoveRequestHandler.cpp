@@ -31,7 +31,7 @@ void MoveRequestHandler::HandleInGame()
 
 	Place* place = m_user->GetPlace();
 	if (place == nullptr)
-		throw RequestHandlerException{ "현재 장소가 없습니다." };
+		throw RequestHandlerException{ LogFile, "현재 장소가 없습니다." };
 
 	place->Move(m_user, x, y);
 
