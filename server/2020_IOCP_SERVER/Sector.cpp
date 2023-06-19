@@ -13,47 +13,51 @@ Sector::~Sector()
 
 void Sector::SendUserEnter(User* targetUser)
 {
-	for (const auto& user : m_users)
-	{
-		if (targetUser != user)
-		{
-			ClientCommon::UserEnterEvent ev;
-			ev.header.size = sizeof(ev);
-			ev.header.type = static_cast<short>(ServerEvent::UserEnter);
-			ev.id = targetUser->GetID();
-			strcpy_s(ev.name, targetUser->GetName());
-			ev.x = targetUser->GetX();
-			ev.y = targetUser->GetY();
+	// event 데이터 세팅
 
+	ClientCommon::UserEnterEvent ev;
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerEvent::UserEnter);
+	ev.id = targetUser->GetID();
+	strcpy_s(ev.name, targetUser->GetName());
+	ev.x = targetUser->GetX();
+	ev.y = targetUser->GetY();
+
+	// event 발송
+
+	for (const auto& user : m_users)
+		if (targetUser != user)
 			user->SendPacket(&ev);
-		}
-	}
 }
 
 void Sector::SendUserExit(User* targetUser)
 {
-	for (const auto& user : m_users)
-	{
-		if (user != targetUser)
-		{
-			ClientCommon::UserExitEvent ev;
-			ev.header.size = sizeof(ev);
-			ev.header.type = static_cast<short>(ServerEvent::UserExit);
-			ev.id = targetUser->GetID();
+	// event 데이터 세팅
 
+	ClientCommon::UserExitEvent ev;
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerEvent::UserExit);
+	ev.id = targetUser->GetID();
+
+	// 이벤트 발송
+
+	for (const auto& user : m_users)
+		if (user != targetUser)
 			user->SendPacket(&ev);
-		}
-	}
 }
 
 void Sector::Move(User* targetUser)
 {
+	// event 데이터 세팅
+
 	ClientCommon::UserMoveEvent ev;
 	ev.header.size = sizeof(ev);
 	ev.header.type = static_cast<short>(ServerEvent::UserMove);
 	ev.id = targetUser->GetID();
 	ev.x = targetUser->GetX();
 	ev.y = targetUser->GetY();
+
+	// 이벤트 발송
 
 	for (const auto& user : m_users)
 		if (user != targetUser)
@@ -82,10 +86,11 @@ void Sector::AddUser(User* user)
 
 		user->SendPacket(&ev);
 	}
+
 	SendUserEnter(user);
 }
 
-Sector* Sector::RemoveUser(User* user)
+void Sector::RemoveUser(User* user)
 {
 	if (m_users.count(user) != 0)
 	{
@@ -97,9 +102,17 @@ Sector* Sector::RemoveUser(User* user)
 		// 이벤트 발송
 		//
 
-		SendUserExit(user);
+		for (const auto& u : m_users)
+		{
+			ClientCommon::UserExitEvent ev;
+			ev.header.size = sizeof(ev);
+			ev.header.type = static_cast<short>(ServerEvent::UserExit);
+			ev.id = u->GetID();
 
-		return this;
+			user->SendPacket(&ev);
+		}
+
+		SendUserExit(user);
 	}
 }
 

@@ -22,7 +22,7 @@ public:
 
 	void Move(User* targetUser);
 	void AddUser(User* user);
-	Sector* RemoveUser(User* user);
+	void RemoveUser(User* user);
 
 	bool IsPointInSector(short x, short y);
 };
