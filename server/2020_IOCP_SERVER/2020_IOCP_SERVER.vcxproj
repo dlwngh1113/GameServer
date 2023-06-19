@@ -162,6 +162,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
+    <ClCompile Include="DBConnection.cpp" />
     <ClCompile Include="DBConnector.cpp" />
     <ClCompile Include="DBWorker.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
@@ -199,6 +200,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DBConnection.h" />
     <ClInclude Include="DBConnector.h" />
     <ClInclude Include="DBWorker.h" />
     <ClInclude Include="IFactory.h" />
