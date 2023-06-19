@@ -48,20 +48,16 @@ void Sector::SendUserExit(User* targetUser)
 
 void Sector::Move(User* targetUser)
 {
-	for (const auto& user : m_users)
-	{
-		if (user != targetUser)
-		{
-			ClientCommon::UserMoveEvent ev;
-			ev.header.size = sizeof(ev);
-			ev.header.type = static_cast<short>(ServerEvent::UserMove);
-			ev.id = targetUser->GetID();
-			ev.x = targetUser->GetX();
-			ev.y = targetUser->GetY();
+	ClientCommon::UserMoveEvent ev;
+	ev.header.size = sizeof(ev);
+	ev.header.type = static_cast<short>(ServerEvent::UserMove);
+	ev.id = targetUser->GetID();
+	ev.x = targetUser->GetX();
+	ev.y = targetUser->GetY();
 
+	for (const auto& user : m_users)
+		if (user != targetUser)
 			user->SendPacket(&ev);
-		}
-	}
 }
 
 void Sector::AddUser(User* user)

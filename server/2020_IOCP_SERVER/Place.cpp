@@ -68,11 +68,40 @@ void Place::SendEvent(const int nId, ClientCommon::BasePacket* ev)
 	m_lock.unlock();
 }
 
+void Place::GetNearSectors(Sector* sector, std::unordered_set<Sector*>& sectors)
+{
+	int minX = sector->getX() - 1 < 0 ? 0 : sector->getX() - 1;
+	int maxX = sector->getX() + 1 >= m_nWidthSectorSize  ? m_nWidthSectorSize - 1 : sector->getX() + 1;
+
+	int minY = sector->getY() - 1 < 0 ? 0 : sector->getY() - 1;
+	int maxY = sector->getY() + 1 >= m_nHeightSectorSize ? m_nHeightSectorSize : sector->getY() - 1;
+
+	for (int i = minX; i < maxX; ++i)
+		for (int j = minY; j < maxY; ++j)
+			sectors.insert(&m_sectors[i][j]);
+}
+
 std::unique_ptr<SectorChangeInfo> Place::GetSectorChangeInfo(Sector* prevSector, Sector* currSector)
 {
 	std::unique_ptr<SectorChangeInfo> sectorChangeInfo = std::make_unique<SectorChangeInfo>();
 
-	for ()
+	std::unordered_set<Sector*> prevNearSectors;
+	std::unordered_set<Sector*> currNearSectors;
+
+	// prevSector 포함 9개와 currSector 포함 9개를 가져온다
+	GetNearSectors(prevSector, prevNearSectors);
+	GetNearSectors(currSector, currNearSectors);
+
+	for (const auto& s : prevNearSectors)
+	{
+		if (currNearSectors.count(s))
+			sectorChangeInfo->notChangedSectors.insert(s);
+		else
+			sectorChangeInfo->exitedSectors.insert(s);
+	}
+	for (const auto& s : currNearSectors)
+		if (!prevNearSectors.count(s))
+			sectorChangeInfo->enteredSectors.insert(s);
 
 	return std::move(sectorChangeInfo);
 }
@@ -134,28 +163,25 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 	Sector* prevSector = GetSectorByPoint(currX, currY);
 	Sector* currentSector = GetSectorByPoint(x, y);
 
-	// 현재 섹터와 이전 섹터가 다르면
-	// 없어진 섹터에는 userExit을, 새로 생긴 섹터는 userEnter를 보내줘야함
+	user->SetPosition(x, y);
 
 	if (prevSector != currentSector)
 	{
+		auto sectorChangeInfo = GetSectorChangeInfo(prevSector, currentSector);
 
+		for (const auto& s : sectorChangeInfo->enteredSectors)
+			s->AddUser(user.get());
+		for (const auto& s : sectorChangeInfo->exitedSectors)
+			s->RemoveUser(user.get());
+		for (const auto& s : sectorChangeInfo->notChangedSectors)
+			s->Move(user.get());
 	}
 	else
-		
+	{
+		std::unordered_set<Sector*> sectors;
+		GetNearSectors(currentSector, sectors);
 
-	user->SetPosition(x, y);
-
-	// 이벤트 데이터 세팅
-
-	ClientCommon::UserMoveEvent ev;
-	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerEvent::UserMove);
-	ev.id = user->GetID();
-	ev.x = user->GetX();
-	ev.y = user->GetY();
-
-	// 발송
-
-	SendEvent(user->GetID(), &ev);
+		for (const auto& s : sectors)
+			s->Move(user.get());
+	}
 }

@@ -17,6 +17,9 @@ public:
 	virtual ~Sector();
 	void Init(int nX, int nY, int nWidth, int nHeight);
 
+	int getX() const { return m_nX / m_nWidth; }
+	int getY() const { return m_nY / m_nHeight; }
+
 	void Move(User* targetUser);
 	void AddUser(User* user);
 	Sector* RemoveUser(User* user);

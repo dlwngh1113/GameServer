@@ -17,6 +17,7 @@ private:
 	Sector* GetSectorByPoint(short x, short y);
 
 	void SendEvent(const int nId, ClientCommon::BasePacket* packet);
+	void GetNearSectors(Sector* sector, std::unordered_set<Sector*>& sectors);
 	std::unique_ptr<SectorChangeInfo> GetSectorChangeInfo(Sector* prevSector, Sector* currSector);
 public:
 	Place();
