@@ -1,5 +1,7 @@
 #pragma once
 
+#include "DBConnection.h"
+
 class DBConnector
 {
 private:
@@ -19,7 +21,8 @@ public:
 	DBConnector& operator=(const DBConnector& other) = delete;
 
 	void Initialize();
-	std::unique_ptr<sql::Connection>GetConnection();
+	std::unique_ptr<DBConnection> GetConnection();
+	void ReturnConnection(sql::Connection* conn);
 
 	static DBConnector& GetInstance()
 	{

@@ -6,9 +6,10 @@ private:
 	sql::Connection* m_connection;
 
 public:
-	DBConnection(sql::Connection*& conn);
+	DBConnection(sql::Connection* conn);
 	virtual ~DBConnection();
 
-	sql::Connection* operator->() override;
+	void SetConnection(sql::Connection* conn) { m_connection = conn; }
+	sql::Connection* GetConnection() { return m_connection; }
 };
 

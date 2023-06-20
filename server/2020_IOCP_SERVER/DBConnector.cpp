@@ -32,11 +32,26 @@ void DBConnector::Initialize()
 	}
 }
 
-std::unique_ptr<DBConnection>DBConnector::GetConnection()
+std::unique_ptr<DBConnection> DBConnector::GetConnection()
 {
-	sql::Connection* conn = m_connectionPool.front();
-	std::unique_ptr<DBConnection> conn{ m_connectionPool.front() };
-	conn->operator->()->setSchema("smo");
+	sql::Connection* con;
+	if (m_connectionPool.size())
+	{
+		con = m_connectionPool.front();
+		m_connectionPool.pop();
+	}
+	else
+	{
+		con = m_driver->connect(server, username, password);
+	}
+
+	std::unique_ptr<DBConnection> conn = std::make_unique<DBConnection>();
+	conn->SetConnection(con);
 
 	return conn;
+}
+
+void DBConnector::ReturnConnection(sql::Connection* conn)
+{
+	m_connectionPool.push(conn);
 }
