@@ -3,10 +3,12 @@
 class DBConnection
 {
 private:
-	sql::Connection* conn;
+	sql::Connection* m_connection;
 
 public:
-	DBConnection();
+	DBConnection(sql::Connection*& conn);
 	virtual ~DBConnection();
+
+	sql::Connection* operator->() override;
 };
 

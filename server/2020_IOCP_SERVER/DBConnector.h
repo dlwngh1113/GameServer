@@ -9,6 +9,7 @@ private:
 	const std::string password = "ljh915727!";
 
 	static DBConnector s_instance;
+	std::queue<sql::Connection*> m_connectionPool;
 	sql::Driver* m_driver;
 
 	DBConnector();
