@@ -12,6 +12,7 @@ private:
 
 	static DBConnector s_instance;
 	std::queue<sql::Connection*> m_connectionPool;
+	std::mutex m_lock;
 	sql::Driver* m_driver;
 
 	DBConnector();
@@ -19,8 +20,8 @@ public:
 	virtual ~DBConnector();
 	DBConnector(const DBConnector& other) = delete;
 	DBConnector& operator=(const DBConnector& other) = delete;
-
 	void Initialize();
+
 	std::unique_ptr<DBConnection> GetConnection();
 	void ReturnConnection(sql::Connection* conn);
 

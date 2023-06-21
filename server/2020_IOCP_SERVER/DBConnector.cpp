@@ -37,13 +37,16 @@ std::unique_ptr<DBConnection> DBConnector::GetConnection()
 	sql::Connection* con;
 	if (m_connectionPool.size())
 	{
+		std::lock_guard lock{ m_lock };
 		con = m_connectionPool.front();
+		con->reconnect();
 		m_connectionPool.pop();
 	}
 	else
-	{
 		con = m_driver->connect(server, username, password);
-	}
+
+	// 스키마 설정
+	con->setSchema("smo");
 
 	std::unique_ptr<DBConnection> conn = std::make_unique<DBConnection>();
 	conn->SetConnection(con);
@@ -53,5 +56,7 @@ std::unique_ptr<DBConnection> DBConnector::GetConnection()
 
 void DBConnector::ReturnConnection(sql::Connection* conn)
 {
+	m_lock.lock();
 	m_connectionPool.push(conn);
+	m_lock.unlock();
 }

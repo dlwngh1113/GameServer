@@ -45,9 +45,10 @@ ThreadPool::~ThreadPool()
 
 void ThreadPool::EnqueWork(std::function<void()>&& work)
 {
-	m_lock.lock();
-	m_works.emplace(work);
-	m_lock.unlock();
+	{
+		std::lock_guard lock{ m_lock };
+		m_works.emplace(work);
+	}
 
 	m_conditionVariable.notify_one();
 }

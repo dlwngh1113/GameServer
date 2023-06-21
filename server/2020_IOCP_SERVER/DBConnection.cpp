@@ -2,12 +2,12 @@
 #include "DBConnection.h"
 #include "DBConnector.h"
 
-DBConnection::DBConnection(sql::Connection* conn)
+DBConnection::DBConnection()
 {
-	m_connection = conn;
 }
 
 DBConnection::~DBConnection()
 {
+	m_connection->close();
 	DBConnector::GetInstance().ReturnConnection(m_connection);
 }

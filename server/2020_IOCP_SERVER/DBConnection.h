@@ -3,10 +3,10 @@
 class DBConnection
 {
 private:
-	sql::Connection* m_connection;
+	sql::Connection* m_connection{ nullptr };
 
 public:
-	DBConnection(sql::Connection* conn);
+	DBConnection();
 	virtual ~DBConnection();
 
 	void SetConnection(sql::Connection* conn) { m_connection = conn; }
