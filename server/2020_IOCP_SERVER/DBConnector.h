@@ -23,7 +23,7 @@ public:
 	void Initialize();
 
 	std::unique_ptr<DBConnection> GetConnection();
-	void ReturnConnection(sql::Connection* conn);
+	void ReturnConnection(sql::Connection*& conn);
 
 	static DBConnector& GetInstance()
 	{

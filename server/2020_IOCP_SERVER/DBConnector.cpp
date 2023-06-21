@@ -38,7 +38,7 @@ std::unique_ptr<DBConnection> DBConnector::GetConnection()
 	if (m_connectionPool.size())
 	{
 		std::lock_guard lock{ m_lock };
-		con = m_connectionPool.front();
+		con = std::move(m_connectionPool.front());
 		con->reconnect();
 		m_connectionPool.pop();
 	}
@@ -54,7 +54,7 @@ std::unique_ptr<DBConnection> DBConnector::GetConnection()
 	return conn;
 }
 
-void DBConnector::ReturnConnection(sql::Connection* conn)
+void DBConnector::ReturnConnection(sql::Connection*& conn)
 {
 	m_lock.lock();
 	m_connectionPool.push(conn);
