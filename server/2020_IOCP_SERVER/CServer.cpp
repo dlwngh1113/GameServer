@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CServer.h"
 #include "DBWorker.h"
-#include "DBConnector.h"
+#include "ConnectionPool.h"
 #include "Place.h"
 #include "MetaDatas.h"
 #include "RequestHandlerFactory.h"
@@ -27,7 +27,7 @@ void CServer::Run()
 void CServer::Initialize()
 {
 	RequestHandlerFactory::GetInstance().Initialize();
-	DBConnector::GetInstance().Initialize();
+	ConnectionPool::GetInstance().Initialize();
 	MetaDatas::GetInstance().Initialize();
 }
 

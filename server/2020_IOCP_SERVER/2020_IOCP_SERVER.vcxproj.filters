@@ -122,7 +122,7 @@
     <ClCompile Include="PlaceEnterRequestHandler.cpp">
       <Filter>Client\RequestHandlers\InGame</Filter>
     </ClCompile>
-    <ClCompile Include="DBConnector.cpp">
+    <ClCompile Include="ConnectionPool.cpp">
       <Filter>Client\System</Filter>
     </ClCompile>
     <ClCompile Include="ThreadPool.cpp">
@@ -139,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="SectorChangeInfo.cpp">
       <Filter>Client\Instance</Filter>
-    </ClCompile>
-    <ClCompile Include="DBConnection.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,7 +214,7 @@
     <ClInclude Include="PlaceEnterRequestHandler.h">
       <Filter>Client\RequestHandlers\InGame</Filter>
     </ClInclude>
-    <ClInclude Include="DBConnector.h">
+    <ClInclude Include="ConnectionPool.h">
       <Filter>Client\System</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
@@ -247,7 +244,6 @@
     <ClInclude Include="SectorChangeInfo.h">
       <Filter>Client\Instance</Filter>
     </ClInclude>
-    <ClInclude Include="DBConnection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MetaDatas.h"
 #include "Logger.h"
-#include "DBConnector.h"
 #include "DBWorker.h"
 
 MetaDatas MetaDatas::s_instance;

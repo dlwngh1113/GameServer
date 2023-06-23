@@ -2,7 +2,7 @@
 #include "ClientPeer.h"
 
 class Place;
-class DBConnector;
+class ConnectionPool;
 
 enum class LoginStatus
 {

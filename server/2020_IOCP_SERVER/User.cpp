@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "User.h"
-#include "DBConnector.h"
 #include "RequestHandlerFactory.h"
 #include "MetaDatas.h"
 #include "DBWorker.h"
