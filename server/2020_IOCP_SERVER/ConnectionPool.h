@@ -3,7 +3,7 @@
 class ConnectionPool
 {
 private:
-	const size_t m_connectionCount = 50;
+	const size_t m_connectionCount = 100;
 	const std::string server = "127.0.0.1:3306";
 	const std::string username = "root";
 	const std::string password = "ljh915727!";

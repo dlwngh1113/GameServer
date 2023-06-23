@@ -7,7 +7,7 @@
 
 std::unique_ptr<sql::ResultSet> DBWorker::LoadMetaDatas()
 {
-	auto conn = ConnectionPool::GetInstance().GetConnection();
+	sql::Connection* conn = ConnectionPool::GetInstance().GetConnection();
 	std::unique_ptr<sql::PreparedStatement>preparedStatement{ conn->prepareStatement("SELECT * FROM r_MetaDatas") };
 	
 	std::unique_ptr<sql::ResultSet> result{ preparedStatement->executeQuery() };
@@ -19,7 +19,7 @@ std::unique_ptr<sql::ResultSet> DBWorker::LoadMetaDatas()
 
 std::unique_ptr<sql::ResultSet> DBWorker::LoadPlaces()
 {
-	auto conn = ConnectionPool::GetInstance().GetConnection();
+	sql::Connection* conn = ConnectionPool::GetInstance().GetConnection();
 	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_LoadPlaces") };
 
 	std::unique_ptr<sql::ResultSet> result{ preparedStatement->executeQuery() };
@@ -31,7 +31,7 @@ std::unique_ptr<sql::ResultSet> DBWorker::LoadPlaces()
 
 std::unique_ptr<sql::ResultSet> DBWorker::GetOrCreateUser(char name[MAX_ID_LEN])
 {
-	auto conn = ConnectionPool::GetInstance().GetConnection();
+	sql::Connection* conn = ConnectionPool::GetInstance().GetConnection();
 	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_GetOrCreateUser(?)") };
 	preparedStatement->setString(1, name);
 
@@ -44,7 +44,7 @@ std::unique_ptr<sql::ResultSet> DBWorker::GetOrCreateUser(char name[MAX_ID_LEN])
 
 void DBWorker::AddUser(char name[MAX_ID_LEN])
 {
-	auto conn = ConnectionPool::GetInstance().GetConnection();
+	sql::Connection* conn = ConnectionPool::GetInstance().GetConnection();
 	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_AddUser(?)") };
 	preparedStatement->setString(1, name);
 
@@ -57,7 +57,7 @@ void DBWorker::AddUser(char name[MAX_ID_LEN])
 void DBWorker::UpdateUser(std::shared_ptr<User> user)
 {
 	int nParamIndex = 0;
-	auto conn = ConnectionPool::GetInstance().GetConnection();
+	sql::Connection* conn = ConnectionPool::GetInstance().GetConnection();
 	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_UpdateUser(?, ?, ?, ?, ?, ?, ?)") };
 
 	preparedStatement->setString(++nParamIndex, user->GetName());
@@ -78,7 +78,7 @@ void DBWorker::UpdateUser(std::shared_ptr<User> user)
 
 std::unique_ptr<sql::ResultSet> DBWorker::GetUser(char name[MAX_ID_LEN])
 {
-	auto conn = ConnectionPool::GetInstance().GetConnection();
+	sql::Connection* conn = ConnectionPool::GetInstance().GetConnection();
 	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_GetUser(?)") };
 	preparedStatement->setString(1, name);
 
