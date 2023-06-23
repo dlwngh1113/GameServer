@@ -122,7 +122,7 @@
     <ClCompile Include="PlaceEnterRequestHandler.cpp">
       <Filter>Client\RequestHandlers\InGame</Filter>
     </ClCompile>
-    <ClCompile Include="DBConnector.cpp">
+    <ClCompile Include="ConnectionPool.cpp">
       <Filter>Client\System</Filter>
     </ClCompile>
     <ClCompile Include="ThreadPool.cpp">
@@ -136,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="LoginRequestHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="SectorChangeInfo.cpp">
+      <Filter>Client\Instance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +214,7 @@
     <ClInclude Include="PlaceEnterRequestHandler.h">
       <Filter>Client\RequestHandlers\InGame</Filter>
     </ClInclude>
-    <ClInclude Include="DBConnector.h">
+    <ClInclude Include="ConnectionPool.h">
       <Filter>Client\System</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
@@ -237,6 +240,9 @@
     </ClInclude>
     <ClInclude Include="LoginRequestHandler.h">
       <Filter>Client\RequestHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="SectorChangeInfo.h">
+      <Filter>Client\Instance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

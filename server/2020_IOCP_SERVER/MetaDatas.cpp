@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MetaDatas.h"
 #include "Logger.h"
-#include "DBConnector.h"
 #include "DBWorker.h"
 
 MetaDatas MetaDatas::s_instance;
@@ -25,7 +24,7 @@ void MetaDatas::LoadMetaDatas()
             int width = result->getInt("width");
             int height = result->getInt("height");
 
-            auto place = new Place(id, width, height, 8, 8);
+            auto place = new Place(id, width, height, 40, 40);
             AddPlace(place);
         }
     }

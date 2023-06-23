@@ -5,9 +5,9 @@ RequestHandlerException::RequestHandlerException() : m_sErrorLog{},  exception()
 {
 }
 
-RequestHandlerException::RequestHandlerException(const char* sMessage, const char* sFile, const int nFileLine) : exception()
+RequestHandlerException::RequestHandlerException(const std::string& sLogFile, const char* sMessage) : exception()
 {
-    m_sErrorLog = "[" + std::string(sFile) + " : " + std::to_string(nFileLine) + "] - ";
+    m_sErrorLog = sLogFile;
     m_sErrorLog += sMessage;
 }
 

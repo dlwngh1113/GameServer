@@ -162,7 +162,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
-    <ClCompile Include="DBConnector.cpp" />
+    <ClCompile Include="ConnectionPool.cpp" />
     <ClCompile Include="DBWorker.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -186,6 +186,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="SectorChangeInfo.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TeleportRequestHandler.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
@@ -198,7 +199,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="DBConnector.h" />
+    <ClInclude Include="ConnectionPool.h" />
     <ClInclude Include="DBWorker.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
@@ -227,6 +228,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Global.h" />
+    <ClInclude Include="SectorChangeInfo.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TeleportRequestHandler.h" />
     <ClInclude Include="ThreadPool.h" />

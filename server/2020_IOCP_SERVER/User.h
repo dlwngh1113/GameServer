@@ -2,7 +2,7 @@
 #include "ClientPeer.h"
 
 class Place;
-class DBConnector;
+class ConnectionPool;
 
 enum class LoginStatus
 {
@@ -44,6 +44,10 @@ public:
 	// 로그인
 
 	void SetInfo(sql::ResultSet* result);
+
+	// 로그아웃
+
+	void Logout();
 
 	// 이동
 
