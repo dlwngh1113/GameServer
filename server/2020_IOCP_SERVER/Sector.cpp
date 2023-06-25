@@ -123,8 +123,3 @@ void Sector::Init(int nX, int nY, int nWidth, int nHeight)
 	m_nWidth = nWidth;
 	m_nHeight = nHeight;
 }
-
-bool Sector::IsPointInSector(short x, short y)
-{
-	return (((m_nX < x) && (x <= m_nX + m_nWidth)) && ((m_nY < y) && (y <= m_nY + m_nHeight)));
-}
