@@ -3,10 +3,8 @@
 class ConnectionPool
 {
 private:
-	const size_t m_connectionCount = 100;
-	const std::string server = "127.0.0.1:3306";
-	const std::string username = "root";
-	const std::string password = "ljh915727!";
+	const size_t m_connectionCount = 50;
+	sql::ConnectOptionsMap m_connectionProperties;
 
 	static ConnectionPool s_instance;
 	std::queue<sql::Connection*> m_connectionPool;
@@ -14,7 +12,10 @@ private:
 	std::condition_variable m_conditionVariable;
 	sql::Driver* m_driver;
 
+private:
 	ConnectionPool();
+	sql::Connection* CreateConnection();
+
 public:
 	virtual ~ConnectionPool();
 	ConnectionPool(const ConnectionPool& other) = delete;
