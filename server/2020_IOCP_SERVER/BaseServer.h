@@ -7,7 +7,7 @@ class BaseServer
 	SOCKET m_listenSocket;
 	OVER_EX m_acceptOver;
 
-	std::mutex clientLock;
+	std::mutex m_clientLock;
 	std::unordered_map<SOCKET, std::shared_ptr<Peer>> m_peers;
 private:
 	void Initialize();

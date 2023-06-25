@@ -45,20 +45,11 @@ sql::Connection* ConnectionPool::GetConnection()
 {
 	std::unique_lock<std::mutex> lock{ m_lock };
 
-	//while (m_connectionPool.empty())
-	//	m_conditionVariable.wait(lock);
+	while (m_connectionPool.empty())
+		m_conditionVariable.wait(lock);
 
-	//sql::Connection* conn = m_connectionPool.front();
-	//m_connectionPool.pop();
-
-	sql::Connection* conn;
-	if (!m_connectionPool.empty())
-	{
-		conn = m_connectionPool.front();
-		m_connectionPool.pop();
-	}
-	else
-		conn = m_driver->connect(m_connectionProperties);
+	sql::Connection* conn = m_connectionPool.front();
+	m_connectionPool.pop();
 
 	return conn;
 }

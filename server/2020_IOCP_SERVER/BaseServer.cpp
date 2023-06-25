@@ -73,9 +73,9 @@ void BaseServer::AddNewClient(SOCKET socket)
 	//按眉 积己 饶 包府
 	std::shared_ptr<Peer> peer = std::make_shared<Peer>(socket);
 
-	clientLock.lock();
+	m_clientLock.lock();
 	m_peers[socket] = peer;
-	clientLock.unlock();
+	m_clientLock.unlock();
 	
 	OnAccept(socket, peer.get());
 	BeginAcceptPeer();
@@ -83,9 +83,9 @@ void BaseServer::AddNewClient(SOCKET socket)
 
 void BaseServer::DisconnectClient(SOCKET socket)
 {
-	clientLock.lock();
+	m_clientLock.lock();
 	m_peers.erase(socket);
-	clientLock.unlock();
+	m_clientLock.unlock();
 
 	//LogFormat("Client Id : %d Successfully disconnected!", socket);
 
@@ -123,9 +123,10 @@ void BaseServer::Process()
 			else
 			{
 				//LogFormat("Packet from Client [%d] - ioSize: %d", ns, ioSize);
-				clientLock.lock();
-				m_peers[ns]->ProcessIO(ioSize);
-				clientLock.unlock();
+				std::lock_guard<std::mutex> lock{ m_clientLock };
+				auto peer = m_peers.find(ns);
+				if (peer != m_peers.end())
+					peer->second->ProcessIO(ioSize);
 			}
 			break;
 		case OP_MODE_SEND:
