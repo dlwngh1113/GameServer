@@ -73,9 +73,9 @@ void BaseServer::AddNewClient(SOCKET socket)
 	//按眉 积己 饶 包府
 	std::shared_ptr<Peer> peer = std::make_shared<Peer>(socket);
 
-	m_clientLock.lock();
-	m_peers[socket] = peer;
-	m_clientLock.unlock();
+	std::unique_lock<std::mutex> lock{ m_clientLock };
+	m_peers.insert(std::pair<SOCKET, std::shared_ptr<Peer>>(socket, peer));
+	lock.unlock();
 	
 	OnAccept(socket, peer.get());
 	BeginAcceptPeer();
@@ -83,9 +83,9 @@ void BaseServer::AddNewClient(SOCKET socket)
 
 void BaseServer::DisconnectClient(SOCKET socket)
 {
-	m_clientLock.lock();
+	std::unique_lock<std::mutex> lock{ m_clientLock };
 	m_peers.erase(socket);
-	m_clientLock.unlock();
+	lock.unlock();
 
 	//LogFormat("Client Id : %d Successfully disconnected!", socket);
 
@@ -106,7 +106,8 @@ void BaseServer::Process()
 		WSAOVERLAPPED* lpOver;
 		int ret = GetQueuedCompletionStatus(h_iocp, &ioSize, &iocpKey, &lpOver, INFINITE);
 		ns = static_cast<SOCKET>(iocpKey);
-		if (FALSE == ret) {
+		if (FALSE == ret)
+		{
 			//error_display("GQCS Error", WSAGetLastError());
 		}
 
