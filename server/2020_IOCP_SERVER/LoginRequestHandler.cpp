@@ -3,6 +3,7 @@
 #include "DBWorker.h"
 #include "Place.h"
 #include "User.h"
+#include "ConnectionPool.h"
 #include "Logger.h"
 
 #define STRESS_TEST
@@ -16,16 +17,18 @@ void LoginRequestHandler::HandleRequest()
 {
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
 
-	auto result =
+	auto statement =
 #ifdef STRESS_TEST
 		DBWorker::GetOrCreateUser(packet->name);
 #else
 		DBWorker::GetUser(packet->name);
 #endif // STRESS_TEST
 
-	if (result)
+	std::unique_ptr<sql::ResultSet> result{ statement->executeQuery() };
+	
+	if (result->next())
 	{
-		if (result->next())
+		do
 		{
 			m_user->SetInfo(result.get());
 
@@ -45,8 +48,13 @@ void LoginRequestHandler::HandleRequest()
 			// 발송
 
 			m_peer->SendPacket(&res);
-		}
+		} while (result->next());
 	}
 	else
 		throw RequestHandlerException{ LogFile, "해당 이름의 사용자가 없습니다." };
+
+	while (statement->getMoreResults())
+		statement->getResultSet();
+
+	ConnectionPool::GetInstance().ReleaseConnection(statement->getConnection());
 }

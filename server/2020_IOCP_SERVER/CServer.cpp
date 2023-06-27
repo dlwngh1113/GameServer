@@ -33,7 +33,12 @@ void CServer::Initialize()
 
 std::shared_ptr<User> CServer::GetUser(SOCKET key)
 {
-	return m_users[key];
+	std::lock_guard<std::mutex> lock{ m_userLock };
+	auto result = m_users.find(key);
+	if (result != m_users.end())
+		return result->second;
+
+	return nullptr;
 }
 
 void CServer::Release()
@@ -43,18 +48,16 @@ void CServer::Release()
 
 void CServer::OnAccept(const SOCKET socket, Peer* peer)
 {
-	m_userLock.lock();
+	std::lock_guard<std::mutex> lock{ m_userLock };
 	m_users[socket] = std::make_shared<User>(peer);
-	m_userLock.unlock();
 }
 
 void CServer::OnDisconnected(const SOCKET socket)
 {
-	auto toRemoveUser = m_users[socket];
+	std::lock_guard<std::mutex> lock{ m_userLock };
 
+	auto toRemoveUser = m_users[socket];
 	toRemoveUser->Logout();
 	
-	m_userLock.lock();
 	m_users.erase(socket);
-	m_userLock.unlock();
 }

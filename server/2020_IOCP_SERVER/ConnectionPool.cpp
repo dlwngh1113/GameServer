@@ -12,17 +12,26 @@ ConnectionPool::~ConnectionPool()
 {
 }
 
+sql::Connection* ConnectionPool::CreateConnection()
+{
+	sql::Connection* conn = m_driver->connect(m_connectionProperties);
+	return conn;
+}
+
 void ConnectionPool::Initialize()
 {
+	m_connectionProperties["hostName"] = "127.0.0.1";
+	m_connectionProperties["userName"] = "root";
+	m_connectionProperties["password"] = "ljh915727!";
+	m_connectionProperties["schema"] = "smo";
+	m_connectionProperties["port"] = 3306;
+
 	try
 	{
 		m_driver = get_driver_instance();
+
 		for (int i = 0; i < m_connectionCount; ++i)
-		{
-			sql::Connection* conn = m_driver->connect(server, username, password);
-			conn->setSchema("smo");
-			m_connectionPool.push(conn);
-		}
+			m_connectionPool.push(CreateConnection());
 	}
 	catch (sql::SQLException e)
 	{
@@ -35,6 +44,7 @@ void ConnectionPool::Initialize()
 sql::Connection* ConnectionPool::GetConnection()
 {
 	std::unique_lock<std::mutex> lock{ m_lock };
+
 	while (m_connectionPool.empty())
 		m_conditionVariable.wait(lock);
 

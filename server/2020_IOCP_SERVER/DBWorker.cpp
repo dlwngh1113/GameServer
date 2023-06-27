@@ -29,17 +29,13 @@ std::unique_ptr<sql::ResultSet> DBWorker::LoadPlaces()
 	return result;
 }
 
-std::unique_ptr<sql::ResultSet> DBWorker::GetOrCreateUser(char name[MAX_ID_LEN])
+std::unique_ptr<sql::PreparedStatement> DBWorker::GetOrCreateUser(char name[MAX_ID_LEN])
 {
 	sql::Connection* conn = ConnectionPool::GetInstance().GetConnection();
 	std::unique_ptr<sql::PreparedStatement> preparedStatement{ conn->prepareStatement("CALL smo_GetOrCreateUser(?)") };
 	preparedStatement->setString(1, name);
 
-	std::unique_ptr<sql::ResultSet> result{ preparedStatement->executeQuery() };
-
-	ConnectionPool::GetInstance().ReleaseConnection(conn);
-
-	return result;
+	return preparedStatement;
 }
 
 void DBWorker::AddUser(char name[MAX_ID_LEN])
