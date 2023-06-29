@@ -37,7 +37,7 @@ void LoginRequestHandler::HandleRequest()
 			ClientCommon::LoginResponse res;
 			res.header.size = sizeof(ClientCommon::LoginResponse);
 			res.header.type = static_cast<short>(ServerEvent::LoginOk);
-			res.id = m_peer->GetID();
+			res.id = m_user->GetID();
 			res.level = m_user->GetLevel();
 			res.exp = m_user->GetExp();
 			res.x = m_user->GetX();
@@ -47,7 +47,7 @@ void LoginRequestHandler::HandleRequest()
 
 			// ¹ß¼Û
 
-			m_peer->SendPacket(&res);
+			m_user->SendPacket(&res);
 		} while (result->next());
 	}
 	else

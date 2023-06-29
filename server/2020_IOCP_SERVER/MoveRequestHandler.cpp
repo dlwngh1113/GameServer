@@ -40,10 +40,10 @@ void MoveRequestHandler::HandleInGame()
 	ClientCommon::MoveResponse res;
 	res.header.size = sizeof(ClientCommon::MoveResponse);
 	res.header.type = static_cast<short>(ServerEvent::UserMove);
-	res.id = m_peer->GetID();
+	res.id = m_user->GetID();
 	res.x = m_user->GetX();
 	res.y = m_user->GetY();
 	res.move_time = packet->move_time;
 
-	m_peer->SendPacket(&res);
+	m_user->SendPacket(&res);
 }
