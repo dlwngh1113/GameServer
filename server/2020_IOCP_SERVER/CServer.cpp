@@ -49,15 +49,18 @@ void CServer::Release()
 void CServer::OnAccept(const SOCKET socket, Peer* peer)
 {
 	std::lock_guard<std::mutex> lock{ m_userLock };
-	m_users[socket] = std::make_shared<User>(peer);
+	m_users.insert(std::pair<SOCKET, std::shared_ptr<User>>(socket, std::make_shared<User>(peer)));
 }
 
 void CServer::OnDisconnected(const SOCKET socket)
 {
 	std::lock_guard<std::mutex> lock{ m_userLock };
 
-	auto toRemoveUser = m_users[socket];
-	toRemoveUser->Logout();
-	
-	m_users.erase(socket);
+	auto result = m_users.find(socket);
+	if (result != m_users.end())
+	{
+		auto toRemoveUser = result->second;
+		toRemoveUser->Logout();
+		m_users.erase(socket);
+	}
 }

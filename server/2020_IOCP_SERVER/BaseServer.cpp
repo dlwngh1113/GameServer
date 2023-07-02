@@ -84,7 +84,14 @@ void BaseServer::AddNewClient(SOCKET socket)
 void BaseServer::DisconnectClient(SOCKET socket)
 {
 	std::unique_lock<std::mutex> lock{ m_clientLock };
-	m_peers.erase(socket);
+
+	std::shared_ptr<Peer> toRemovePeer;
+	auto result = m_peers.find(socket);
+	if (result != m_peers.end())
+	{
+		toRemovePeer = result->second;
+		m_peers.erase(socket);
+	}
 	lock.unlock();
 
 	//LogFormat("Client Id : %d Successfully disconnected!", socket);

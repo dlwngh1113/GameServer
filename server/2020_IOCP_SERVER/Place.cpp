@@ -5,18 +5,6 @@
 
 Sector* Place::GetSectorByPoint(short x, short y)
 {
-	//Sector* sector = nullptr;
-	//for (int i = 0; i < m_nHeightSectorSize; ++i)
-	//{
-	//	for (int j = 0; j < m_nWidthSectorSize; ++j)
-	//	{
-	//		if (m_sectors[i][j].IsPointInSector(x, y))
-	//			return &m_sectors[i][j];
-	//	}
-	//}
-
-	//return nullptr;
-
 	int nHeightIndex = x / m_nHeightSectorSize;
 	int nWidthIndex = y / m_nWidthSectorSize;
 

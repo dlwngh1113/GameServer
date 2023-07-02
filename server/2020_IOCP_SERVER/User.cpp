@@ -35,6 +35,8 @@ void User::Logout()
 
 	if (m_status == LoginStatus::LoggedIn)
 		DBWorker::UpdateUser(shared_from_this());
+
+	m_status = LoginStatus::NotLogin;
 }
 
 void User::SetPosition(short x, short y)
