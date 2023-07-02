@@ -6,6 +6,7 @@
 #include "MetaDatas.h"
 #include "RequestHandlerFactory.h"
 #include "User.h"
+#include "Logger.h"
 
 CServer CServer::s_instance;
 
@@ -62,5 +63,6 @@ void CServer::OnDisconnected(const SOCKET socket)
 		auto toRemoveUser = result->second;
 		toRemoveUser->Logout();
 		m_users.erase(socket);
+		LogFormat("user count = %d", m_users.size());
 	}
 }

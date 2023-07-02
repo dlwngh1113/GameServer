@@ -8,7 +8,7 @@ void PlaceEnterRequestHandler::HandleInGame()
 	ClientCommon::PlaceEnterRequest* packet = reinterpret_cast<ClientCommon::PlaceEnterRequest*>(m_packet);
 	Place* place = MetaDatas::GetInstance().GetPlace(packet->placeId);
 
-	place->AddUser(m_user);
+	place->AddUser(m_user.get());
 	m_user->GetPlace() = place;
 
 	// 응답 데이터 세팅
