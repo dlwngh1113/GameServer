@@ -131,10 +131,15 @@ void BaseServer::Process()
 			else
 			{
 				//LogFormat("Packet from Client [%d] - ioSize: %d", ns, ioSize);
-				std::lock_guard<std::mutex> lock{ m_clientLock };
-				auto peer = m_peers.find(ns);
-				if (peer != m_peers.end())
-					peer->second->ProcessIO(ioSize);
+
+				std::shared_ptr<Peer> peer;
+				std::unique_lock<std::mutex> lock{ m_clientLock };
+				auto result = m_peers.find(ns);
+				if (result != m_peers.end())
+					peer = result->second;
+				lock.unlock();
+
+				peer->ProcessIO(ioSize);
 			}
 			break;
 		case OP_MODE_SEND:

@@ -11,6 +11,14 @@ Sector::~Sector()
 	m_users.clear();
 }
 
+void Sector::Init(int nX, int nY, int nWidth, int nHeight)
+{
+	m_nX = nX;
+	m_nY = nY;
+	m_nWidth = nWidth;
+	m_nHeight = nHeight;
+}
+
 void Sector::SendEvent(const std::unordered_set<User*>& users, User* userToExclude, ClientCommon::BasePacket* ev)
 {
 	for (const auto& user : users)
@@ -121,12 +129,4 @@ void Sector::RemoveUser(User* user)
 	}
 
 	SendUserExit(users, user);
-}
-
-void Sector::Init(int nX, int nY, int nWidth, int nHeight)
-{
-	m_nX = nX;
-	m_nY = nY;
-	m_nWidth = nWidth;
-	m_nHeight = nHeight;
 }
