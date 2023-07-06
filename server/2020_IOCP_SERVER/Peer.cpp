@@ -102,7 +102,7 @@ void Peer::ProcessPacket(unsigned char* data, unsigned short snSize)
 			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
 		
 		std::shared_ptr<BaseRequestHandler> handler = m_requestHandlerFactory->CreateInstance(packet->header.type);
-		handler->Initialize(shared_from_this(), packet);
+		handler->Initialize(this, packet);
 
 		Global::GetInstance().threadPool.EnqueWork([handler]() { handler->Handle(); });
 	}

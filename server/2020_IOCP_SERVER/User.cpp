@@ -23,7 +23,7 @@ void User::SetInfo(sql::ResultSet* result)
 	m_snX = result->getInt("x");
 	m_snY = result->getInt("y");
 	m_place = MetaDatas::GetInstance().GetPlace(placeId);
-	m_place->AddUser(shared_from_this());
+	m_place->AddUser(this);
 
 	m_status = LoginStatus::LoggedIn;
 }
@@ -35,6 +35,8 @@ void User::Logout()
 
 	if (m_status == LoginStatus::LoggedIn)
 		DBWorker::UpdateUser(shared_from_this());
+
+	m_status = LoginStatus::NotLogin;
 }
 
 void User::SetPosition(short x, short y)

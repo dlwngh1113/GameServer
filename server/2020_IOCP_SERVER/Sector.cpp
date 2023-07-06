@@ -11,7 +11,22 @@ Sector::~Sector()
 	m_users.clear();
 }
 
-void Sector::SendUserEnter(User* targetUser)
+void Sector::Init(int nX, int nY, int nWidth, int nHeight)
+{
+	m_nX = nX;
+	m_nY = nY;
+	m_nWidth = nWidth;
+	m_nHeight = nHeight;
+}
+
+void Sector::SendEvent(const std::unordered_set<User*>& users, User* userToExclude, ClientCommon::BasePacket* ev)
+{
+	for (const auto& user : users)
+		if (userToExclude != user)
+			user->SendPacket(ev);
+}
+
+void Sector::SendUserEnter(const std::unordered_set<User*>& users, User* targetUser)
 {
 	// event 데이터 세팅
 
@@ -23,14 +38,12 @@ void Sector::SendUserEnter(User* targetUser)
 	ev.x = targetUser->GetX();
 	ev.y = targetUser->GetY();
 
-	// event 발송
+	// 이벤트 발송
 
-	for (const auto& user : m_users)
-		if (targetUser != user)
-			user->SendPacket(&ev);
+	SendEvent(users, targetUser, &ev);
 }
 
-void Sector::SendUserExit(User* targetUser)
+void Sector::SendUserExit(const std::unordered_set<User*>& users, User* targetUser)
 {
 	// event 데이터 세팅
 
@@ -41,13 +54,15 @@ void Sector::SendUserExit(User* targetUser)
 
 	// 이벤트 발송
 
-	for (const auto& user : m_users)
-		if (user != targetUser)
-			user->SendPacket(&ev);
+	SendEvent(users, targetUser, &ev);
 }
 
 void Sector::Move(User* targetUser)
 {
+	std::unique_lock<std::mutex> lock{ m_lock };
+	std::unordered_set<User*> users{ m_users };
+	lock.unlock();
+
 	// event 데이터 세팅
 
 	ClientCommon::UserMoveEvent ev;
@@ -59,22 +74,21 @@ void Sector::Move(User* targetUser)
 
 	// 이벤트 발송
 
-	for (const auto& user : m_users)
-		if (user != targetUser)
-			user->SendPacket(&ev);
+	SendEvent(users, targetUser, &ev);
 }
 
 void Sector::AddUser(User* user)
 {
-	m_lock.lock();
+	std::unique_lock<std::mutex> lock{ m_lock };
 	m_users.insert(user);
-	m_lock.unlock();
+	std::unordered_set<User*> users = m_users;
+	lock.unlock();
 
 	//
 	// 이벤트 발송
 	//
 
-	for (const auto& u : m_users)
+	for (const auto& u : users)
 	{
 		ClientCommon::UserEnterEvent ev;
 		ev.header.size = sizeof(ev);
@@ -87,39 +101,32 @@ void Sector::AddUser(User* user)
 		user->SendPacket(&ev);
 	}
 
-	SendUserEnter(user);
+	SendUserEnter(users, user);
 }
 
 void Sector::RemoveUser(User* user)
 {
-	if (m_users.count(user) != 0)
+	if (m_users.size() <= 0)
+		return;
+
+	std::unique_lock<std::mutex> lock{ m_lock };
+	m_users.erase(user);
+	std::unordered_set<User*> users = m_users;
+	lock.unlock();
+
+	//
+	// 이벤트 발송
+	//
+
+	for (const auto& u : users)
 	{
-		m_lock.lock();
-		m_users.erase(user);
-		m_lock.unlock();
+		ClientCommon::UserExitEvent ev;
+		ev.header.size = sizeof(ev);
+		ev.header.type = static_cast<short>(ServerEvent::UserExit);
+		ev.id = u->GetID();
 
-		//
-		// 이벤트 발송
-		//
-
-		for (const auto& u : m_users)
-		{
-			ClientCommon::UserExitEvent ev;
-			ev.header.size = sizeof(ev);
-			ev.header.type = static_cast<short>(ServerEvent::UserExit);
-			ev.id = u->GetID();
-
-			user->SendPacket(&ev);
-		}
-
-		SendUserExit(user);
+		user->SendPacket(&ev);
 	}
-}
 
-void Sector::Init(int nX, int nY, int nWidth, int nHeight)
-{
-	m_nX = nX;
-	m_nY = nY;
-	m_nWidth = nWidth;
-	m_nHeight = nHeight;
+	SendUserExit(users, user);
 }

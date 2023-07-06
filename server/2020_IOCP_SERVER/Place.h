@@ -11,12 +11,11 @@ private:
 	int m_nId{ 0 };
 	int m_nWidth{ 0 }, m_nHeight{ 0 }, m_nWidthSectorSize{ 0 }, m_nHeightSectorSize{ 0 };
 	std::mutex m_lock;
-	std::unordered_map<int, std::shared_ptr<User>> m_users;
+	std::unordered_map<int, User*> m_users;
 
 	Sector** m_sectors = nullptr;
 	Sector* GetSectorByPoint(short x, short y);
 
-	void SendEvent(const int nId, ClientCommon::BasePacket* packet);
 	void GetNearSectors(Sector* sector, std::unordered_set<Sector*>& sectors);
 	std::unique_ptr<SectorChangeInfo> GetSectorChangeInfo(Sector* prevSector, Sector* currSector);
 public:
@@ -26,7 +25,7 @@ public:
 
 	int GetId() const { return m_nId; }
 
-	void AddUser(std::shared_ptr<User> user);
+	void AddUser(User* user);
 	void RemoveUser(const int nId);
-	void Move(std::shared_ptr<User> user, short x, short y);
+	void Move(User* user, short x, short y);
 };

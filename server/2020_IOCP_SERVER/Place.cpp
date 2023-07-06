@@ -5,18 +5,6 @@
 
 Sector* Place::GetSectorByPoint(short x, short y)
 {
-	//Sector* sector = nullptr;
-	//for (int i = 0; i < m_nHeightSectorSize; ++i)
-	//{
-	//	for (int j = 0; j < m_nWidthSectorSize; ++j)
-	//	{
-	//		if (m_sectors[i][j].IsPointInSector(x, y))
-	//			return &m_sectors[i][j];
-	//	}
-	//}
-
-	//return nullptr;
-
 	int nHeightIndex = x / m_nHeightSectorSize;
 	int nWidthIndex = y / m_nWidthSectorSize;
 
@@ -59,15 +47,6 @@ Place::~Place()
 		delete[] m_sectors;
 }
 
-void Place::SendEvent(const int nId, ClientCommon::BasePacket* ev)
-{
-	m_lock.lock();
-	for (const auto& pair : m_users)
-		if (pair.second->GetID() != nId)
-			pair.second->SendPacket(ev);
-	m_lock.unlock();
-}
-
 void Place::GetNearSectors(Sector* sector, std::unordered_set<Sector*>& sectors)
 {
 	int minX = sector->getX() - 1 < 0 ? 0 : sector->getX() - 1;
@@ -106,50 +85,46 @@ std::unique_ptr<SectorChangeInfo> Place::GetSectorChangeInfo(Sector* prevSector,
 	return std::move(sectorChangeInfo);
 }
 
-void Place::AddUser(std::shared_ptr<User> user)
+void Place::AddUser(User* user)
 {
 	m_lock.lock();
 	m_users.insert(std::make_pair(user->GetID(), user));
 	m_lock.unlock();
 
-	//
-	// 이벤트 데이터 세팅
-	//
+	// 섹터의 다른 유저들에게 추가된 유저 notice 
+	Sector* currentSector = GetSectorByPoint(user->GetX(), user->GetY());
+	std::unordered_set<Sector*> sectors;
+	GetNearSectors(currentSector, sectors);
 
-	ClientCommon::UserEnterEvent ev;
-	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerEvent::UserEnter);
-	ev.id = user->GetID();
-	strcpy_s(ev.name, user->GetName());
-	ev.x = user->GetX();
-	ev.y = user->GetY();
-
-	// 발송
-
-	SendEvent(user->GetID(), &ev);
+	for (const auto& s : sectors)
+		s->RemoveUser(user);
 }
 
 void Place::RemoveUser(const int nId)
 {
-	m_lock.lock();
-	m_users.erase(nId);
+	User* toRemoveUser{ nullptr };
+	std::unique_lock<std::mutex> lock{ m_lock };
+	auto result = m_users.find(nId);
+	if (result != m_users.end())
+	{
+		toRemoveUser = result->second;
+		m_users.erase(nId);
+	}
 	m_lock.unlock();
 
-	//
-	// 이벤트 데이터 세팅
-	//
+	// 섹터의 다른 유저들에게 나간 유저 notice 
+	if (toRemoveUser)
+	{
+		Sector* currentSector = GetSectorByPoint(toRemoveUser->GetX(), toRemoveUser->GetY());
+		std::unordered_set<Sector*> sectors;
+		GetNearSectors(currentSector, sectors);
 
-	ClientCommon::UserExitEvent ev;
-	ev.header.size = sizeof(ev);
-	ev.header.type = static_cast<short>(ServerEvent::UserExit);
-	ev.id = nId;
-
-	// 발송
-
-	SendEvent(nId, &ev);
+		for (const auto& s : sectors)
+			s->RemoveUser(toRemoveUser);
+	}
 }
 
-void Place::Move(std::shared_ptr<User> user, short x, short y)
+void Place::Move(User* user, short x, short y)
 {
 	if (0 > x || m_nWidth < x)
 		return;
@@ -170,11 +145,11 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 		auto sectorChangeInfo = GetSectorChangeInfo(prevSector, currentSector);
 
 		for (const auto& s : sectorChangeInfo->enteredSectors)
-			s->AddUser(user.get());
+			s->AddUser(user);
 		for (const auto& s : sectorChangeInfo->exitedSectors)
-			s->RemoveUser(user.get());
+			s->RemoveUser(user);
 		for (const auto& s : sectorChangeInfo->notChangedSectors)
-			s->Move(user.get());
+			s->Move(user);
 	}
 	else
 	{
@@ -182,6 +157,6 @@ void Place::Move(std::shared_ptr<User> user, short x, short y)
 		GetNearSectors(currentSector, sectors);
 
 		for (const auto& s : sectors)
-			s->Move(user.get());
+			s->Move(user);
 	}
 }

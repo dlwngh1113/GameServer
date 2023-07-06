@@ -17,7 +17,7 @@ void TeleportRequestHandler::HandleInGame()
 
 	// ¹ß¼Û
 
-	m_peer->SendPacket(&res);
+	m_user->SendPacket(&res);
 }
 
 std::shared_ptr<BaseRequestHandler> TeleportRequestHandler::Create()

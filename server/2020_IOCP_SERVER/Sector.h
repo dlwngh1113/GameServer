@@ -9,8 +9,9 @@ private:
 	std::unordered_set<User*> m_users;
 	std::mutex m_lock;
 
-	void SendUserEnter(User* user);
-	void SendUserExit(User* targetUser);
+	void SendEvent(const std::unordered_set<User*>& users, User* userToExclude, ClientCommon::BasePacket* ev);
+	void SendUserEnter(const std::unordered_set<User*>& users, User* user);
+	void SendUserExit(const std::unordered_set<User*>& users, User* targetUser);
 
 public:
 	Sector();
