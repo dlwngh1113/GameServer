@@ -3,6 +3,6 @@
 template <typename TKey, typename TValue>
 class IFactory
 {
-public:
-	virtual std::shared_ptr<TValue> CreateInstance(TKey key) = 0;
+protected:
+	std::unordered_map<TKey, TValue> m_creators;
 };

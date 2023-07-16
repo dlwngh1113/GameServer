@@ -1,6 +1,8 @@
 #pragma once
 #include "IHandlerFactory.h"
 
+class BaseRequestHandler;
+
 class BaseRequestHandlerFactory : public IHandlerFactory
 {
 public:

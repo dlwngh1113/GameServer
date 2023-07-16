@@ -1,16 +1,23 @@
 #pragma once
 #include "IFactory.h"
+#include "HandlerCreator.h"
 
 class BaseRequestHandler;
 
-class IHandlerFactory : public IFactory<short, BaseRequestHandler>
+class IHandlerFactory : public IFactory<short, HandlerCreator<BaseRequestHandler>>
 {
 protected:
-	std::unordered_map<short, std::shared_ptr<BaseRequestHandler>> m_handlers;
-	void AddHandler(short key, std::shared_ptr<BaseRequestHandler> value);
+	template<typename T>
+	void AddHandler(short key);
 public:
 	IHandlerFactory();
 	virtual ~IHandlerFactory();
 
-	std::shared_ptr<BaseRequestHandler> CreateInstance(short key) = 0;
+	virtual std::shared_ptr<BaseRequestHandler> CreateInstance(short key) = 0;
 };
+
+template<typename T>
+inline void IHandlerFactory::AddHandler(short key)
+{
+	m_creators.insert(key, HandlerCreator<T>{});
+}

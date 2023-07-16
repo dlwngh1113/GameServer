@@ -164,6 +164,7 @@
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
     <ClCompile Include="ConnectionPool.cpp" />
     <ClCompile Include="DBWorker.cpp" />
+    <ClCompile Include="HandlerCreator.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
@@ -201,6 +202,7 @@
     </ClInclude>
     <ClInclude Include="ConnectionPool.h" />
     <ClInclude Include="DBWorker.h" />
+    <ClInclude Include="HandlerCreator.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
     <ClInclude Include="IHandlerFactory.h" />
