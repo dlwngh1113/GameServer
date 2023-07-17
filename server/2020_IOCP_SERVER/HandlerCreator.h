@@ -17,5 +17,5 @@ public:
 template<typename T>
 inline std::shared_ptr<IRequestHandler> HandlerCreator<T>::CreateHandler()
 {
-	return std::shared_ptr<IRequestHandler>();
+	return std::shared_ptr<T>();
 }
