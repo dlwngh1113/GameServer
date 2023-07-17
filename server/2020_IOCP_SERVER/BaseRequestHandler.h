@@ -1,11 +1,11 @@
 #pragma once
-
+#include "IRequestHandler.h"
 #include "RequestHandlerException.h"
 
 class Peer;
 struct ClientCommon::BasePacket;
 
-class BaseRequestHandler
+class BaseRequestHandler : public IRequestHandler
 {
 protected:
 	Peer* m_peer;

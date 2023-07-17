@@ -250,6 +250,9 @@
     <ClInclude Include="HandlerCreator.h">
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
+    <ClInclude Include="IRequestHandler.h">
+      <Filter>Framework\RequestHandler\Handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">
