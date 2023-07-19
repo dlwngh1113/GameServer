@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Peer.h"
 #include "BaseRequestHandler.h"
-#include "IHandlerFactory.h"
+#include "BaseRequestHandlerFactory.h"
 #include "Logger.h"
 #include "CServer.h"
 
@@ -31,7 +31,7 @@ void Peer::StartRecv()
 	}
 }
 
-void Peer::Initialize(IHandlerFactory* instance)
+void Peer::Initialize(BaseRequestHandlerFactory* instance)
 {
 	m_requestHandlerFactory = instance;
 }
