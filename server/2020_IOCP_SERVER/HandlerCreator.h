@@ -1,21 +1,15 @@
 #pragma once
-#include "IRequestHandler.h"
+#include "ICreator.h"
 
-class IHandlerCreator
+template<typename THandlerType>
+class HandlerCreator : public ICreator<THandlerType>
 {
 public:
-	virtual std::shared_ptr<IRequestHandler> CreateHandler() = 0;
+	virtual std::shared_ptr<THandlerType> CreateHandler() override;
 };
 
-template<typename T>
-class HandlerCreator : public IHandlerCreator
+template<typename THandlerType>
+inline std::shared_ptr<THandlerType> HandlerCreator<THandlerType>::CreateHandler()
 {
-public:
-	virtual std::shared_ptr<IRequestHandler> CreateHandler() override;
-};
-
-template<typename T>
-inline std::shared_ptr<IRequestHandler> HandlerCreator<T>::CreateHandler()
-{
-	return std::shared_ptr<T>();
+	return std::shared_ptr<THandlerType>();
 }

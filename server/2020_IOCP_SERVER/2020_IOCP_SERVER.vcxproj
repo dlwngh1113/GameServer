@@ -203,6 +203,7 @@
     <ClInclude Include="ConnectionPool.h" />
     <ClInclude Include="DBWorker.h" />
     <ClInclude Include="HandlerCreator.h" />
+    <ClInclude Include="ICreator.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
     <ClInclude Include="IHandlerFactory.h" />
@@ -210,7 +211,6 @@
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />
     <ClInclude Include="IPeer.h" />
-    <ClInclude Include="IRequestHandler.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="LoginRequiredRequestHandler.h" />

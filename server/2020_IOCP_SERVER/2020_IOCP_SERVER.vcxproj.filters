@@ -250,8 +250,8 @@
     <ClInclude Include="HandlerCreator.h">
       <Filter>Framework\RequestHandler</Filter>
     </ClInclude>
-    <ClInclude Include="IRequestHandler.h">
-      <Filter>Framework\RequestHandler\Handler</Filter>
+    <ClInclude Include="ICreator.h">
+      <Filter>Framework\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
