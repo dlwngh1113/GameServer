@@ -13,11 +13,12 @@ public:
 	IHandlerFactory();
 	virtual ~IHandlerFactory();
 
-	virtual std::shared_ptr<BaseRequestHandler> Create(short key) = 0;
+	//virtual std::shared_ptr<BaseRequestHandler> Create(short key) = 0;
 };
 
 template<typename THandlerType>
 inline void IHandlerFactory::AddHandlerCreator(short key)
 {
-	m_creators.insert(std::make_pair(key, std::make_unique<HandlerCreator<THandlerType>>()));
+	AddCreator(key, std::make_unique<ICreator<THandlerType>>());
+	//m_creators.insert(std::make_pair(key, std::make_unique<HandlerCreator<THandlerType>>()));
 }
