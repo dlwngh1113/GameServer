@@ -8,11 +8,6 @@
 
 #define STRESS_TEST
 
-std::shared_ptr<BaseRequestHandler> LoginRequestHandler::Create()
-{
-	return std::make_shared<LoginRequestHandler>();
-}
-
 void LoginRequestHandler::HandleRequest()
 {
 	ClientCommon::LoginRequest* packet = reinterpret_cast<ClientCommon::LoginRequest*>(m_packet);
