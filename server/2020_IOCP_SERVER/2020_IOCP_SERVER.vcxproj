@@ -165,6 +165,7 @@
     <ClCompile Include="ConnectionPool.cpp" />
     <ClCompile Include="DBWorker.cpp" />
     <ClCompile Include="HandlerCreator.cpp" />
+    <ClCompile Include="IHandlerCreator.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="ICreator.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
+    <ClInclude Include="IHandlerCreator.h" />
     <ClInclude Include="IHandlerFactory.h" />
     <ClInclude Include="include\lauxlib.h" />
     <ClInclude Include="include\lua.h" />

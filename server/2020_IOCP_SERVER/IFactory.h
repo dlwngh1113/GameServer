@@ -7,28 +7,29 @@ class IFactory
 protected:
 	std::unordered_map<TKey, std::unique_ptr<ICreator<TValue>>> m_creators;
 
-protected:
-	void AddCreator(TKey key, std::unique_ptr<ICreator<TValue>> creator);
+	ICreator<TValue>* GetCreator(TKey key)
+	{
+		auto it = m_creators.find(key);
+		if (it != m_creators.end())
+			return it->second.get();
+
+		return nullptr;
+	}
+
+	void AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator);
 
 public:
 	virtual ~IFactory();
-	virtual std::shared_ptr<TValue> Create(TKey key);
 };
 
 template<typename TKey, typename TValue>
-inline void IFactory<TKey, TValue>::AddCreator(TKey key, std::unique_ptr<ICreator<TValue>> creator)
+inline void IFactory<TKey, TValue>::AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator)
 {
-	m_creators.insert(key, creator);
+	m_creators.insert(std::make_pair(key, std::move(creator)));
 }
 
 template<typename TKey, typename TValue>
 inline IFactory<TKey, TValue>::~IFactory()
 {
 	m_creators.clear();
-}
-
-template<typename TKey, typename TValue>
-inline std::shared_ptr<TValue> IFactory<TKey, TValue>::Create(TKey key)
-{
-	return m_creators[key]->Create();
 }

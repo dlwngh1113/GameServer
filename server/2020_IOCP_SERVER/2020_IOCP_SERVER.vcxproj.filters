@@ -143,6 +143,9 @@
     <ClCompile Include="HandlerCreator.cpp">
       <Filter>Framework\RequestHandler</Filter>
     </ClCompile>
+    <ClCompile Include="IHandlerCreator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -253,6 +256,7 @@
     <ClInclude Include="ICreator.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
+    <ClInclude Include="IHandlerCreator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">
