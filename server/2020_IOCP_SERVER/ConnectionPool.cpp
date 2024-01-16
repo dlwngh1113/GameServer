@@ -57,6 +57,7 @@ sql::Connection* ConnectionPool::GetConnection()
 void ConnectionPool::ReleaseConnection(sql::Connection* conn)
 {
 	std::lock_guard<std::mutex> lock{ m_lock };
+	conn->reconnect();
 	m_connectionPool.push(conn);
 	m_conditionVariable.notify_one();
 }

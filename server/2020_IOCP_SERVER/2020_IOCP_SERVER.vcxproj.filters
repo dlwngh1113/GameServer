@@ -244,6 +244,10 @@
     <ClInclude Include="SectorChangeInfo.h">
       <Filter>Client\Instance</Filter>
     </ClInclude>
+    <ClInclude Include="ICreator.h">
+      <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IHandlerCreator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

@@ -3,11 +3,6 @@
 #include "User.h"
 #include "Place.h"
 
-std::shared_ptr<BaseRequestHandler> MoveRequestHandler::Create()
-{
-	return std::make_shared<MoveRequestHandler>();
-}
-
 void MoveRequestHandler::HandleInGame()
 {
 	ClientCommon::MoveRequest* packet = reinterpret_cast<ClientCommon::MoveRequest*>(m_packet);

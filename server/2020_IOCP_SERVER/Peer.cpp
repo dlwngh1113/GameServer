@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Peer.h"
 #include "BaseRequestHandler.h"
-#include "IHandlerFactory.h"
+#include "BaseRequestHandlerFactory.h"
 #include "Logger.h"
 #include "CServer.h"
 
@@ -31,7 +31,7 @@ void Peer::StartRecv()
 	}
 }
 
-void Peer::Initialize(IHandlerFactory* instance)
+void Peer::Initialize(BaseRequestHandlerFactory* instance)
 {
 	m_requestHandlerFactory = instance;
 }
@@ -101,7 +101,7 @@ void Peer::ProcessPacket(unsigned char* data, unsigned short snSize)
 		if (m_requestHandlerFactory == nullptr)
 			throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
 		
-		std::shared_ptr<BaseRequestHandler> handler = m_requestHandlerFactory->CreateInstance(packet->header.type);
+		std::shared_ptr<BaseRequestHandler> handler = m_requestHandlerFactory->Create(packet->header.type);
 		handler->Initialize(this, packet);
 
 		Global::GetInstance().threadPool.EnqueWork([handler]() { handler->Handle(); });

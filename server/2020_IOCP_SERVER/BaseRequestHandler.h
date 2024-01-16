@@ -1,5 +1,4 @@
 #pragma once
-
 #include "RequestHandlerException.h"
 
 class Peer;
@@ -10,6 +9,7 @@ class BaseRequestHandler
 protected:
 	Peer* m_peer;
 	ClientCommon::BasePacket* m_packet;
+
 public:
 	BaseRequestHandler();
 	virtual ~BaseRequestHandler();
@@ -17,5 +17,4 @@ public:
 	void Initialize(Peer* peer, ClientCommon::BasePacket* packet);
 
 	virtual void Handle() = 0;
-	virtual std::shared_ptr<BaseRequestHandler> Create() = 0;
 };

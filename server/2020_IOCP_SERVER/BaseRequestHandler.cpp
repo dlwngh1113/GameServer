@@ -3,6 +3,8 @@
 #include "Peer.h"
 
 BaseRequestHandler::BaseRequestHandler()
+	: m_packet{ nullptr }
+	, m_peer{ nullptr }
 {
 }
 

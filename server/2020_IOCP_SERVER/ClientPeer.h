@@ -6,7 +6,7 @@ class ClientPeer
 protected:
 	Peer* m_peer;
 public:
-	explicit ClientPeer(Peer* peer, IHandlerFactory* instance);
+	explicit ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance);
 	virtual ~ClientPeer();
 
 	int GetID() const { return m_peer->GetID(); }

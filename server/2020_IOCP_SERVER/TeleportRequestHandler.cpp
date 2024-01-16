@@ -19,8 +19,3 @@ void TeleportRequestHandler::HandleInGame()
 
 	m_user->SendPacket(&res);
 }
-
-std::shared_ptr<BaseRequestHandler> TeleportRequestHandler::Create()
-{
-	return std::make_shared<TeleportRequestHandler>();
-}

@@ -20,10 +20,10 @@ RequestHandlerFactory::~RequestHandlerFactory()
 void RequestHandlerFactory::Initialize()
 {
 	Log("RequestHandlerFactory Init Started");
-	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::Login) , std::make_shared<LoginRequestHandler>());
-	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::Move), std::make_shared<MoveRequestHandler>());
-	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::Teleport), std::make_shared<TeleportRequestHandler>());
-	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::Logout), std::make_shared<LogoutRequestHandler>());
-	BaseRequestHandlerFactory::AddHandler(static_cast<short>(ClientCommand::PlaceEnter), std::make_shared<PlaceEnterRequestHandler>());
+	AddHandlerCreator<LoginRequestHandler>(static_cast<short>(ClientCommand::Login));
+	AddHandlerCreator<MoveRequestHandler>(static_cast<short>(ClientCommand::Move));
+	AddHandlerCreator<TeleportRequestHandler>(static_cast<short>(ClientCommand::Teleport));
+	AddHandlerCreator<LogoutRequestHandler>(static_cast<short>(ClientCommand::Logout));
+	AddHandlerCreator<PlaceEnterRequestHandler>(static_cast<short>(ClientCommand::PlaceEnter));
 	Log("RequestHandlerFactory Init Finished");
 }
