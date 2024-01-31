@@ -57,7 +57,7 @@ namespace JCore
 		// 패킷이 size만큼 도착한 경우
 		while (snPacketSize <= pNextRecvPos - m_pReceiveStartPtr)
 		{
-			ProcessPacket(m_pReceiveStartPtr, snPacketSize);
+			OnProcessPacket(m_pReceiveStartPtr, snPacketSize);
 
 			m_pReceiveStartPtr += snPacketSize;
 			if (m_pReceiveStartPtr < pNextRecvPos)
@@ -90,25 +90,6 @@ namespace JCore
 		m_recvOver.wsaBuf.len = MAX_BUFFER - static_cast<int>(pNextRecvPos - m_recvOver.iocpBuf);
 
 		StartRecv();
-	}
-
-	void Peer::ProcessPacket(unsigned char* data, unsigned short snSize)
-	{
-		Packet* packet = reinterpret_cast<Packet*>(data);
-		try
-		{
-			if (m_requestHandlerFactory == nullptr)
-				throw std::exception{ "RequestHandlerFactory is nullptr!" + m_socket };
-
-			std::shared_ptr<BaseRequestHandler> handler = m_requestHandlerFactory->Create(packet->header.type);
-			handler->Initialize(this, packet);
-
-			Global::GetInstance().threadPool.EnqueWork([handler]() { handler->Handle(); });
-		}
-		catch (std::exception& ex)
-		{
-			std::cout << "[Error] - " << ex.what() << std::endl;
-		}
 	}
 
 	void Peer::SendPacket(unsigned char* data, unsigned short snSize)

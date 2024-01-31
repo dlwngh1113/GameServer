@@ -16,11 +16,10 @@ namespace JCore
 		std::mutex m_lock;
 
 		unsigned char* m_pReceiveStartPtr{ NULL };
-		BaseRequestHandlerFactory* m_requestHandlerFactory = nullptr;
 
 		void StartRecv();
 		void ReceiveLeftData(unsigned char* pNextRecvPos);
-		void ProcessPacket(unsigned char* data, unsigned short snSize) override final;
+		virtual void OnProcessPacket(unsigned char* data, unsigned short snSize) = 0;
 	public:
 		explicit Peer(SOCKET socket);
 		virtual ~Peer();
