@@ -19,20 +19,13 @@ namespace JCore
 	{
 		DWORD flags = 0;
 		int ret;
-		m_lock.lock();
 		ret = WSARecv(m_socket, &m_recvOver.wsaBuf, 1, NULL, &flags, &m_recvOver.wsaOver, NULL);
-		m_lock.unlock();
 		if (SOCKET_ERROR == ret)
 		{
 			int errorNum = WSAGetLastError();
 			if (ERROR_IO_PENDING != errorNum)
 				std::cout << "[Error " << errorNum << "]\n";
 		}
-	}
-
-	void Peer::Initialize(BaseRequestHandlerFactory* instance)
-	{
-		m_requestHandlerFactory = instance;
 	}
 
 	Peer::~Peer()

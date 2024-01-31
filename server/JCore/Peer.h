@@ -26,8 +26,6 @@ namespace JCore
 
 		int GetID() const { return static_cast<int>(m_socket); }
 
-		void Initialize(BaseRequestHandlerFactory* instance);
-
 		void ProcessIO(DWORD ioSize) override final;
 		void SendPacket(unsigned char* data, unsigned short snSize) override final;
 	};
