@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseApplication.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="IPeer.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Peer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseApplication.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="OverlappedExtension.cpp" />
     <ClCompile Include="pch.cpp">
