@@ -247,7 +247,9 @@
     <ClInclude Include="ICreator.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
-    <ClInclude Include="IHandlerCreator.h" />
+    <ClInclude Include="IHandlerCreator.h">
+      <Filter>Framework\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">
