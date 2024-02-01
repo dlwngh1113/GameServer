@@ -14,9 +14,13 @@
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <windows.h>
+#include <MSWSock.h>
 
 // C++
 #include <mutex>
 #include <iostream>
+
+// STL
+#include <unordered_map>
 
 #endif //PCH_H

@@ -26,7 +26,7 @@ namespace JCore
 		void ReceiveLeftData(unsigned char* pNextRecvPos);
 
 	protected:
-		virtual void OnProcessPacket(unsigned char* data, unsigned short snSize) = 0;
+		virtual void OnProcessPacket(unsigned char* data, unsigned short snSize);
 
 	public:
 		explicit Peer(SOCKET socket);

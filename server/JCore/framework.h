@@ -6,7 +6,11 @@
 
 #define OP_RECV 0
 #define OP_SEND 1
+#define OP_ACCEPT 2
 
 #define BUF_SIZE 1024
 #define MAX_BUFFER 4096
 #define MIN_BUFFER BUF_SIZE
+#define SERVER_PORT 9000
+#define KEY_SERVER 12431
+#define MAX_THREAD_COUNT 6

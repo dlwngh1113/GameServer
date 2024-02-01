@@ -65,6 +65,10 @@ namespace JCore
 		ReceiveLeftData(pNextRecvPos);
 	}
 
+	void Peer::OnProcessPacket(unsigned char* data, unsigned short snSize)
+	{
+	}
+
 	void Peer::ReceiveLeftData(unsigned char* pNextRecvPos)
 	{
 		long long lnLeftData = pNextRecvPos - m_pReceiveStartPtr;
@@ -90,7 +94,8 @@ namespace JCore
 		try
 		{
 			//OVER EX 오브젝트 풀에서 꺼낸 후 초기화
-			OverlappedExtension* overEx = Global::GetInstance().overlappedPool.PopObject();
+			//OverlappedExtension* overEx = Global::GetInstance().overlappedPool.PopObject();
+			OverlappedExtension* overEx = new OverlappedExtension();
 			ZeroMemory(overEx, sizeof(OverlappedExtension));
 			overEx->opMode = OP_SEND;
 			overEx->wsaBuf.buf = reinterpret_cast<CHAR*>(overEx->iocpBuf);
