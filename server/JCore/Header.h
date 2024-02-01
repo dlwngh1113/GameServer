@@ -2,13 +2,13 @@
 
 namespace JCore
 {
-	struct Header
+	struct JCORE_API Header
 	{
 		short type;
 		short size;
 	};
 
-	struct Packet
+	struct JCORE_API Packet
 	{
 		Header header;
 	};
