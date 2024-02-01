@@ -33,8 +33,8 @@ namespace JCore
 		virtual void OnDisconnected(const SOCKET socket) = 0;
 
 	public:
-		BaseServer();
-		virtual ~BaseServer();
+		BaseApplication();
+		virtual ~BaseApplication();
 
 		virtual void Run();
 	};
