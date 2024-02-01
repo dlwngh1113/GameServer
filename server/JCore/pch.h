@@ -23,4 +23,11 @@
 // STL
 #include <unordered_map>
 
+// Librarys
+#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "MSWSock.lib")
+
+//
+#pragma warning(disable:4251)
+
 #endif //PCH_H

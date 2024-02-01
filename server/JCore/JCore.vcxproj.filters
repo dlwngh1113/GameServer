@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Peer">
+      <UniqueIdentifier>{17f47b05-0bae-479d-b547-2ce447383e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{3c0e6b86-a6af-4daa-9c72-838b8034ed95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -21,20 +27,20 @@
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Peer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="IPeer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="OverlappedExtension.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="IPeer.h">
+      <Filter>Peer</Filter>
+    </ClInclude>
+    <ClInclude Include="Peer.h">
+      <Filter>Peer</Filter>
+    </ClInclude>
     <ClInclude Include="BaseApplication.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,14 +50,14 @@
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Peer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="OverlappedExtension.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Peer.cpp">
+      <Filter>Peer</Filter>
+    </ClCompile>
     <ClCompile Include="BaseApplication.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Application</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
