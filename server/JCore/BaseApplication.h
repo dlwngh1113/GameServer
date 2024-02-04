@@ -1,41 +1,39 @@
 #pragma once
 #include "Peer.h"
 
-#ifdef JCORE_EXPORTS
-#define JCORE_API __declspec(dllexport)
-#else
-#define JCORE_API __declspec(dllimport)
-#endif
-
 namespace JCore
 {
-	class JCORE_API BaseApplication
+	class BOOST_SYMBOL_EXPORT BaseApplication
 	{
-		HANDLE h_iocp;
-		SOCKET m_listenSocket;
-		OverlappedExtension m_acceptOver;
+    public:
+        BaseApplication(boost::asio::io_context& io_context)
+            : m_context(io_context),
+            m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 13))
+        {
+            start_accept();
+        }
 
-		std::mutex m_clientLock;
-		std::unordered_map<SOCKET, std::shared_ptr<Peer>> m_peers;
-	private:
-		void Initialize();
-		void Listen();
-		void BeginAcceptPeer();
+    private:
+        void start_accept()
+        {
+            shared_ptr<Peer> acceptedPeer = Peer::Create(m_context);
 
-		void AddNewClient(SOCKET socket);
-		void DisconnectClient(SOCKET socket);
+            m_acceptor.async_accept(acceptedPeer->socket(),
+                bind(&tcp_server::handle_accept, this, acceptedPeer,
+                    boost::asio::placeholders::error));
+        }
 
-	protected:
-		void Process();
-		void Release();
+        void handle_accept(tcp_connection::pointer acceptedPeer,
+            const boost::system::error_code& error)
+        {
+            if (!error)
+            {
+                acceptedPeer->start();
+            }
 
-		virtual void OnAccept(const SOCKET socket, Peer* peer) = 0;
-		virtual void OnDisconnected(const SOCKET socket) = 0;
+            start_accept();
+        }
 
-	public:
-		BaseApplication();
-		virtual ~BaseApplication();
-
-		virtual void Run();
-	};
+        boost::asio::io_context& m_context;
+        boost::asio::ip::tcp::acceptor m_acceptor;
 }
