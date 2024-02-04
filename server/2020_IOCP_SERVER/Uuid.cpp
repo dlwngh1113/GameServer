@@ -1,8 +1,10 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "Uuid.h"
 
 namespace JCore
 {
+	Uuid Uuid::s_instance;
+
 	Uuid::Uuid()
 	{
 	}

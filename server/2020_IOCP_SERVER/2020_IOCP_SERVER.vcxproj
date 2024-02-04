@@ -191,6 +191,7 @@
     <ClCompile Include="TeleportRequestHandler.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="Uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseServer.h" />
@@ -235,6 +236,7 @@
     <ClInclude Include="TeleportRequestHandler.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="Uuid.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua" />

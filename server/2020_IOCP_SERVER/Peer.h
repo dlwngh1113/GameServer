@@ -1,30 +1,22 @@
 #pragma once
-#include "IPeer.h"
-#include "Global.h"
 
-class BaseRequestHandlerFactory;
-
-class Peer : public IPeer
+namespace JCore
 {
-	SOCKET m_socket{ NULL };
-	OVER_EX m_recvOver;
-	std::mutex m_lock;
+	class Peer
+	{
+	private:
+		boost::asio::ip::tcp::socket m_socket;
+		boost::uuids::uuid m_id;
 
-	unsigned char* m_pReceiveStartPtr{ NULL };
-	BaseRequestHandlerFactory* m_requestHandlerFactory = nullptr;
+	public:
+		Peer(boost::asio::io_context& context);
 
-	void StartRecv();
-	void ReceiveLeftData(unsigned char* pNextRecvPos);
-	void ProcessPacket(unsigned char* data, unsigned short snSize) override final;
-public:
-	explicit Peer(SOCKET socket);
-	virtual ~Peer();
+		const boost::uuids::uuid& id() const;
+		const boost::asio::ip::tcp::socket& socket() const;
+		boost::asio::ip::tcp::socket& socket();
 
-	int GetID() const { return static_cast<int>(m_socket); }
-
-	void Initialize(BaseRequestHandlerFactory* instance);
-	void SendPacket(ClientCommon::BasePacket * packet);
-
-	void ProcessIO(DWORD ioSize) override final;
-	void SendPacket(unsigned char* data, unsigned short snSize) override final;
-};
+		// Static Member Functions
+	public:
+		static shared_ptr<Peer> Create(boost::asio::io_context& context);
+	};
+}

@@ -140,6 +140,9 @@
     <ClCompile Include="SectorChangeInfo.cpp">
       <Filter>Client\Instance</Filter>
     </ClCompile>
+    <ClCompile Include="Uuid.cpp">
+      <Filter>Framework\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -248,6 +251,9 @@
       <Filter>Framework\Util</Filter>
     </ClInclude>
     <ClInclude Include="IHandlerCreator.h">
+      <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Uuid.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
   </ItemGroup>

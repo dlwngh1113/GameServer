@@ -2,7 +2,7 @@
 
 namespace JCore
 {
-	class Uuid
+	class BOOST_SYMBOL_EXPORT Uuid
 	{
 	private:
 		boost::uuids::random_generator m_generator;
