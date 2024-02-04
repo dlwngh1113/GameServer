@@ -19,6 +19,9 @@
     <Filter Include="Peer">
       <UniqueIdentifier>{fa966440-be19-4a6f-a65f-3377e1b4b8af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{2d528a16-c0e8-466e-b4d7-a62f41df1f98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -33,6 +36,9 @@
     <ClInclude Include="Peer.h">
       <Filter>Peer</Filter>
     </ClInclude>
+    <ClInclude Include="Uuid.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -46,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="Peer.cpp">
       <Filter>Peer</Filter>
+    </ClCompile>
+    <ClCompile Include="Uuid.cpp">
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
