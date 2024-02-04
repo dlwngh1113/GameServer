@@ -1,7 +1,7 @@
 #pragma once
 #include "RequestHandlerException.h"
 
-class Peer;
+class Core::Peer;
 struct ClientCommon::BasePacket;
 
 namespace Core
