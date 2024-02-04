@@ -145,16 +145,12 @@
   <ItemGroup>
     <ClInclude Include="BaseApplication.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Header.h" />
-    <ClInclude Include="IPeer.h" />
-    <ClInclude Include="OverlappedExtension.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Peer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseApplication.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="OverlappedExtension.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
