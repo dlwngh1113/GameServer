@@ -11,6 +11,7 @@ namespace JCore
 	public:
 		Peer(boost::asio::io_context& context);
 
+		const boost::uuids::uuid& id() const;
 		const boost::asio::ip::tcp::socket& socket() const;
 		boost::asio::ip::tcp::socket& socket();
 
