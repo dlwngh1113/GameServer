@@ -155,7 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseServer.cpp" />
+    <ClCompile Include="BaseApplication.cpp" />
     <ClCompile Include="ClientPeer.cpp" />
     <ClCompile Include="CServer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -194,7 +194,7 @@
     <ClCompile Include="Uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseServer.h" />
+    <ClInclude Include="BaseApplication.h" />
     <ClInclude Include="ClientPeer.h" />
     <ClInclude Include="CServer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

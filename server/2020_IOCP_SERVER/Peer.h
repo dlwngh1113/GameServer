@@ -1,10 +1,11 @@
 #pragma once
 
-namespace JCore
+namespace Core
 {
-	class Peer
+	class Peer : enable_shared_from_this<Peer>
 	{
 	private:
+		boost::asio::streambuf m_buffer;
 		boost::asio::ip::tcp::socket m_socket;
 		boost::uuids::uuid m_id;
 
@@ -12,8 +13,13 @@ namespace JCore
 		Peer(boost::asio::io_context& context);
 
 		const boost::uuids::uuid& id() const;
-		const boost::asio::ip::tcp::socket& socket() const;
 		boost::asio::ip::tcp::socket& socket();
+
+		void ReceivePacket();
+		void SendPacket(unsigned char* data, size_t size);
+
+	protected:
+		virtual void OnReceivedData(const boost::system::error_code& error, size_t size);
 
 		// Static Member Functions
 	public:

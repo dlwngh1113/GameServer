@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Uuid.h"
 
-namespace JCore
+namespace Core
 {
 	Uuid Uuid::s_instance;
 

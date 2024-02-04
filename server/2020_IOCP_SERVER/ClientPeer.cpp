@@ -2,16 +2,18 @@
 #include "ClientPeer.h"
 #include "BaseRequestHandlerFactory.h"
 
-ClientPeer::ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance) : m_peer{peer}
+namespace Core
 {
-	m_peer->Initialize(instance);
-}
+	ClientPeer::ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance) : m_peer{ peer }
+	{
+		m_factory = instance;
+	}
 
-ClientPeer::~ClientPeer()
-{
-}
+	ClientPeer::~ClientPeer()
+	{
+	}
 
-void ClientPeer::SendPacket(ClientCommon::BasePacket* packet)
-{
-	m_peer->SendPacket(packet);
+	void ClientPeer::SendPacket(ClientCommon::BasePacket* packet)
+	{
+	}
 }

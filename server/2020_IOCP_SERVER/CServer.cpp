@@ -10,7 +10,8 @@
 
 CServer CServer::s_instance;
 
-CServer::CServer() : BaseServer()
+CServer::CServer(boost::asio::io_context context)
+	: Core::BaseApplication(context)
 {
 	Initialize();
 }
@@ -22,7 +23,7 @@ CServer::~CServer()
 
 void CServer::Run()
 {
-	BaseServer::Run();
+	Core::BaseApplication::Run();
 }
 
 void CServer::Initialize()

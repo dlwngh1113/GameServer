@@ -1,13 +1,21 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "BaseApplication.h"
 
-namespace JCore
+namespace Core
 {
     BaseApplication::BaseApplication(boost::asio::io_context& io_context)
         : m_context(io_context)
         , m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SERVER_PORT))
     {
+    }
+
+    void BaseApplication::Run()
+    {
         StartAccept();
+    }
+
+    void BaseApplication::Initialize()
+    {
     }
 
     void BaseApplication::StartAccept()
@@ -24,6 +32,8 @@ namespace JCore
         // Successfully accpeted new peer
         if (!error)
         {
+            m_peers.insert(make_pair(acceptedPeer->id(), acceptedPeer));
+            acceptedPeer->ReceivePacket();
         }
 
         StartAccept();

@@ -1,8 +1,8 @@
 #pragma once
 
-namespace JCore
+namespace Core
 {
-	class BOOST_SYMBOL_EXPORT Uuid
+	class Uuid
 	{
 	private:
 		boost::uuids::random_generator m_generator;

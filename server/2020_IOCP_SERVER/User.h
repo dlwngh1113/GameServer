@@ -11,7 +11,7 @@ enum class LoginStatus
 	LoggedIn
 };
 
-class User : public ClientPeer, public std::enable_shared_from_this<User>
+class User : public JCore::ClientPeer, public std::enable_shared_from_this<User>
 {
 	LoginStatus m_status;
 

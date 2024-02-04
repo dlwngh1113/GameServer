@@ -1,15 +1,22 @@
 #pragma once
 #include "Peer.h"
 
-class ClientPeer
+class BaseRequestHandlerFactory;
+
+namespace Core
 {
-protected:
-	Peer* m_peer;
-public:
-	explicit ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance);
-	virtual ~ClientPeer();
+	class ClientPeer
+	{
+	protected:
+		Peer* m_peer;
+		BaseRequestHandlerFactory* m_factory;
 
-	int GetID() const { return m_peer->GetID(); }
+	public:
+		explicit ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance);
+		virtual ~ClientPeer();
 
-	void SendPacket(ClientCommon::BasePacket* packet);
-};
+		const boost::uuids::uuid& GetID() const { return m_peer->id(); }
+
+		void SendPacket(ClientCommon::BasePacket* packet);
+	};
+}

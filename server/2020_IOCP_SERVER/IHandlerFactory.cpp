@@ -2,11 +2,14 @@
 #include "IHandlerFactory.h"
 #include "BaseRequestHandler.h"
 
-IHandlerFactory::IHandlerFactory()
+namespace Core
 {
+	IHandlerFactory::IHandlerFactory()
+	{
 
-}
+	}
 
-IHandlerFactory::~IHandlerFactory()
-{
+	IHandlerFactory::~IHandlerFactory()
+	{
+	}
 }
