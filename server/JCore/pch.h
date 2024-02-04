@@ -10,11 +10,12 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
-// Windows
+#ifdef WIN32_LEAN_AND_MEAN
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <windows.h>
 #include <MSWSock.h>
+#endif // WIN32_LEAN_AND_MEAN
 
 // C++
 #include <mutex>
@@ -27,7 +28,10 @@
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "MSWSock.lib")
 
-//
-#pragma warning(disable:4251)
+// Boost/asio
+#include <boost/asio.hpp>
+#include <boost/uuid/uuid.hpp>
+
+using namespace std;
 
 #endif //PCH_H

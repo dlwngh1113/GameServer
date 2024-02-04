@@ -1,40 +1,21 @@
 #pragma once
-#include "IPeer.h"
-#include "OverlappedExtension.h"
-
-#ifdef JCORE_EXPORTS
-#define JCORE_API __declspec(dllexport)
-#else
-#define JCORE_API __declspec(dllimport)
-#endif
-
-class BaseRequestHandlerFactory;
 
 namespace JCore
 {
-	class JCORE_API Peer : public IPeer
+	class Peer
 	{
-	protected:
-		SOCKET m_socket{ NULL };
-		OverlappedExtension m_recvOver;
-		std::mutex m_lock;
-
-		unsigned char* m_pReceiveStartPtr{ NULL };
-
 	private:
-		void StartRecv();
-		void ReceiveLeftData(unsigned char* pNextRecvPos);
-
-	protected:
-		virtual void OnProcessPacket(unsigned char* data, unsigned short snSize);
+		boost::asio::ip::tcp::socket m_socket;
+		boost::uuids::uuid m_id;
 
 	public:
-		explicit Peer(SOCKET socket);
-		virtual ~Peer();
+		Peer(boost::asio::io_context& context);
 
-		int GetID() const { return static_cast<int>(m_socket); }
+		const boost::asio::ip::tcp::socket& socket() const;
+		boost::asio::ip::tcp::socket& socket();
 
-		void ProcessIO(DWORD ioSize) override final;
-		void SendPacket(unsigned char* data, unsigned short snSize) override final;
+		// Static Member Functions
+	public:
+		static shared_ptr<Peer> Create(boost::asio::io_context& context);
 	};
 }
