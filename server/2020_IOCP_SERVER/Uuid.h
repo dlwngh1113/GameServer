@@ -4,15 +4,15 @@ namespace Core
 {
 	class Uuid
 	{
-	private:
-		boost::uuids::random_generator m_generator;
-
 	public:
 		Uuid();
 		~Uuid();
 
+		// Static member variables
 	private:
-		static Uuid s_instance;
+		static boost::uuids::random_generator s_generator;
+
+		// Stataic member functions
 	public:
 		static boost::uuids::uuid New();
 		static boost::uuids::uuid Empty();

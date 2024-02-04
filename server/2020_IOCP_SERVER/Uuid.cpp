@@ -3,7 +3,7 @@
 
 namespace Core
 {
-	Uuid Uuid::s_instance;
+	boost::uuids::random_generator Uuid::s_generator;
 
 	Uuid::Uuid()
 	{
@@ -15,7 +15,7 @@ namespace Core
 
 	boost::uuids::uuid Uuid::New()
 	{
-		return s_instance.m_generator();
+		return s_generator();
 	}
 
 	boost::uuids::uuid Uuid::Empty()
