@@ -14,10 +14,6 @@ namespace Core
         StartAccept();
     }
 
-    void BaseApplication::Initialize()
-    {
-    }
-
     void BaseApplication::StartAccept()
     {
         shared_ptr<Peer> acceptedPeer = Peer::Create(m_context);

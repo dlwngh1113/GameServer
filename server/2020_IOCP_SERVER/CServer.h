@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseApplication.h"
+#include "Uuid.h"
 
 class User;
 class Core::Peer;
@@ -7,18 +8,18 @@ class Core::Peer;
 class CServer : public Core::BaseApplication
 {
 	std::mutex m_userLock;
-	std::unordered_map<SOCKET, std::shared_ptr<User>> m_users;
+	std::unordered_map<Core::Uuid, std::shared_ptr<User>> m_users;
 
 	static CServer s_instance;
 
 private:
-	virtual void Initialize() override;
+	void Initialize();
 
 protected:
 	void Release();
 
 	virtual void OnAccepted(Core::Peer* peer) override;
-	virtual void OnDisconnected(const SOCKET socket) override;
+	virtual void OnDisconnected(Core::Peer* peer) override;
 
 public:
 	CServer(boost::asio::io_context context);

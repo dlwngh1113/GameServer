@@ -7,6 +7,7 @@
 #include "RequestHandlerFactory.h"
 #include "User.h"
 #include "Logger.h"
+#include "Peer.h"
 
 CServer CServer::s_instance;
 
@@ -48,17 +49,17 @@ void CServer::Release()
 	m_users.clear();
 }
 
-void CServer::OnAccept(const SOCKET socket, Peer* peer)
+void CServer::OnAccepted(Core::Peer* peer)
 {
-	std::lock_guard<std::mutex> lock{ m_userLock };
-	m_users.insert(std::pair<SOCKET, std::shared_ptr<User>>(socket, std::make_shared<User>(peer)));
+	lock_guard<mutex> lock{ m_userLock };
+	m_users.insert(make_pair(peer->id(), make_shared<User>(peer)));
 }
 
-void CServer::OnDisconnected(const SOCKET socket)
+void CServer::OnDisconnected(Core::Peer* peer)
 {
 	std::lock_guard<std::mutex> lock{ m_userLock };
 
-	auto result = m_users.find(socket);
+	auto result = m_users.find(peer->id());
 	if (result != m_users.end())
 	{
 		auto toRemoveUser = result->second;

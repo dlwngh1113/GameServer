@@ -14,7 +14,6 @@ namespace Core
     public:
         BaseApplication(boost::asio::io_context& io_context);
         virtual void Run();
-        virtual void Initialize();
 
     private:
         void StartAccept();
@@ -22,5 +21,6 @@ namespace Core
 
     protected:
         virtual void OnAccepted(Peer* peer) = 0;
+        virtual void OnDisconnected(Peer* peer) = 0;
     };
 }

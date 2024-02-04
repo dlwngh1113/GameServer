@@ -11,7 +11,7 @@ enum class LoginStatus
 	LoggedIn
 };
 
-class User : public JCore::ClientPeer, public std::enable_shared_from_this<User>
+class User : public Core::ClientPeer, public std::enable_shared_from_this<User>
 {
 	LoginStatus m_status;
 
@@ -25,7 +25,7 @@ class User : public JCore::ClientPeer, public std::enable_shared_from_this<User>
 	Place* m_place{ nullptr };
 
 public:
-	explicit User(Peer* peer);
+	explicit User(Core::Peer* peer);
 	virtual ~User();
 
 #pragma region Properties
