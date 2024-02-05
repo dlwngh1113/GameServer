@@ -1,20 +1,24 @@
 #pragma once
 #include "RequestHandlerException.h"
 
-class Peer;
 struct ClientCommon::BasePacket;
 
-class BaseRequestHandler
+namespace Core
 {
-protected:
-	Peer* m_peer;
-	ClientCommon::BasePacket* m_packet;
+	class Peer;
 
-public:
-	BaseRequestHandler();
-	virtual ~BaseRequestHandler();
+	class BaseRequestHandler
+	{
+	protected:
+		Peer* m_peer;
+		ClientCommon::BasePacket* m_packet;
 
-	void Initialize(Peer* peer, ClientCommon::BasePacket* packet);
+	public:
+		BaseRequestHandler();
+		virtual ~BaseRequestHandler();
 
-	virtual void Handle() = 0;
-};
+		void Initialize(Peer* peer, ClientCommon::BasePacket* packet);
+
+		virtual void Handle() = 0;
+	};
+}

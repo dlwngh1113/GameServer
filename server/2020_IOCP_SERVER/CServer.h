@@ -1,34 +1,36 @@
 #pragma once
-#include "BaseServer.h"
+#include "BaseApplication.h"
+#include "Uuid.h"
 
 class User;
-class Peer;
+class Core::Peer;
 
-class CServer : public BaseServer
+class CServer : public Core::BaseApplication
 {
 	std::mutex m_userLock;
-	std::unordered_map<SOCKET, std::shared_ptr<User>> m_users;
+	std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>> m_users;
 
 	static CServer s_instance;
 
 private:
-	CServer();
 	void Initialize();
 
 protected:
 	void Release();
 
-	void OnAccept(const SOCKET socket, Peer* peer) override;
-	void OnDisconnected(const SOCKET socket) override;
+	virtual void OnAccepted(Core::Peer* peer) override;
+	virtual void OnDisconnected(Core::Peer* peer) override;
 
 public:
+	CServer();
+	CServer(boost::asio::io_context context);
 	virtual ~CServer();
 	CServer(const CServer& other) = delete;
 	CServer& operator=(const CServer& other) = delete;
 
-	void Run() override;
+	virtual void Run() override;
 
-	std::shared_ptr<User> GetUser(SOCKET key);
+	std::shared_ptr<User> GetUser(const boost::uuids::uuid& id);
 
 	static CServer& GetInstance()
 	{

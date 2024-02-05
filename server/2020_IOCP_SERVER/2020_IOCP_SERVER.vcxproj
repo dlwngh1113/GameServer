@@ -155,52 +155,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseServer.cpp" />
+    <ClCompile Include="BaseApplication.cpp" />
     <ClCompile Include="ClientPeer.cpp" />
     <ClCompile Include="CServer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BaseRequestHandlerFactory.cpp" />
-    <ClCompile Include="ConnectionPool.cpp" />
-    <ClCompile Include="DBWorker.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="LoginRequestHandler.cpp" />
-    <ClCompile Include="LoginRequiredRequestHandler.cpp" />
-    <ClCompile Include="LogoutRequestHandler.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MetaDatas.cpp" />
-    <ClCompile Include="MoveRequestHandler.cpp" />
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseRequestHandler.cpp" />
-    <ClCompile Include="Place.cpp" />
-    <ClCompile Include="PlaceEnterRequestHandler.cpp" />
     <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RequestHandlerException.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
-    <ClCompile Include="Sector.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Global.cpp" />
-    <ClCompile Include="SectorChangeInfo.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="TeleportRequestHandler.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="Uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseServer.h" />
+    <ClInclude Include="BaseApplication.h" />
     <ClInclude Include="ClientPeer.h" />
     <ClInclude Include="CServer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="ConnectionPool.h" />
-    <ClInclude Include="DBWorker.h" />
     <ClInclude Include="ICreator.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseRequestHandlerFactory.h" />
@@ -211,30 +195,18 @@
     <ClInclude Include="include\lualib.h" />
     <ClInclude Include="IPeer.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="LoginRequestHandler.h" />
-    <ClInclude Include="LoginRequiredRequestHandler.h" />
-    <ClInclude Include="LogoutRequestHandler.h" />
     <ClInclude Include="MetaDatas.h" />
-    <ClInclude Include="MoveRequestHandler.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Peer.h" />
-    <ClInclude Include="Place.h" />
     <ClInclude Include="BaseRequestHandler.h" />
-    <ClInclude Include="PlaceEnterRequestHandler.h" />
     <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RequestHandlerException.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Sector.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Global.h" />
-    <ClInclude Include="SectorChangeInfo.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TeleportRequestHandler.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="Uuid.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua" />

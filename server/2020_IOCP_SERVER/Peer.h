@@ -1,30 +1,34 @@
 #pragma once
-#include "IPeer.h"
-#include "Global.h"
 
-class BaseRequestHandlerFactory;
-
-class Peer : public IPeer
+namespace Core
 {
-	SOCKET m_socket{ NULL };
-	OVER_EX m_recvOver;
-	std::mutex m_lock;
+	class BaseApplication;
 
-	unsigned char* m_pReceiveStartPtr{ NULL };
-	BaseRequestHandlerFactory* m_requestHandlerFactory = nullptr;
+	class Peer : enable_shared_from_this<Peer>
+	{
+	private:
+		boost::asio::streambuf m_buffer;
+		boost::asio::ip::tcp::socket m_socket;
+		boost::uuids::uuid m_id;
+		BaseApplication* m_application;
 
-	void StartRecv();
-	void ReceiveLeftData(unsigned char* pNextRecvPos);
-	void ProcessPacket(unsigned char* data, unsigned short snSize) override final;
-public:
-	explicit Peer(SOCKET socket);
-	virtual ~Peer();
+	public:
+		Peer(boost::asio::io_context& context, BaseApplication* application);
 
-	int GetID() const { return static_cast<int>(m_socket); }
+		const boost::uuids::uuid& id() const;
+		boost::asio::ip::tcp::socket& socket();
 
-	void Initialize(BaseRequestHandlerFactory* instance);
-	void SendPacket(ClientCommon::BasePacket * packet);
+		void ReceiveData();
+		void SendData(unsigned char* data, size_t size);
 
-	void ProcessIO(DWORD ioSize) override final;
-	void SendPacket(unsigned char* data, unsigned short snSize) override final;
-};
+	protected:
+		virtual void OnReceiveData(const boost::system::error_code& error, size_t size);
+		
+	private:
+		void Disconnect();
+
+		// Static Member Functions
+	public:
+		static shared_ptr<Peer> Create(boost::asio::io_context& context, BaseApplication* application);
+	};
+}

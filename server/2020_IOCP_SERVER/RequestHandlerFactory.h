@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseRequestHandlerFactory.h"
 
-class RequestHandlerFactory: public BaseRequestHandlerFactory
+class RequestHandlerFactory: public Core::BaseRequestHandlerFactory
 {
 	static RequestHandlerFactory s_instance;
 public:

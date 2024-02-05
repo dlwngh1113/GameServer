@@ -3,10 +3,8 @@
 
 class User;
 
-class RequestHandler : public BaseRequestHandler
+class RequestHandler : public Core::BaseRequestHandler
 {
-protected:
-	std::shared_ptr<User> m_user = nullptr;
 public:
 	void Handle() override final;
 	virtual void HandleRequest() = 0;
