@@ -2,10 +2,10 @@
 #include "IFactory.h"
 #include "IHandlerCreator.h"
 
-class BaseRequestHandler;
-
 namespace Core
 {
+	class BaseRequestHandler; 
+	
 	class IHandlerFactory : public IFactory<short, BaseRequestHandler>
 	{
 	public:

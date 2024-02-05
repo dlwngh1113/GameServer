@@ -22,6 +22,7 @@ protected:
 	virtual void OnDisconnected(Core::Peer* peer) override;
 
 public:
+	CServer();
 	CServer(boost::asio::io_context context);
 	virtual ~CServer();
 	CServer(const CServer& other) = delete;

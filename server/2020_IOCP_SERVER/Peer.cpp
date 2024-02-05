@@ -24,7 +24,8 @@ namespace Core
 
     void Peer::ReceiveData()
     {
-        m_socket.async_receive(m_buffer, bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+        //m_socket.async_receive(m_buffer, bind(&Peer::OnReceiveData, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+        //m_socket.async_receive(m_buffer, bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
     }
     
     void Peer::OnReceiveData(const boost::system::error_code& error, size_t size)
@@ -43,13 +44,13 @@ namespace Core
 
     void Peer::Disconnect()
     {
-        m_application->RemovePeer(shared_from_this());
+        m_application->RemovePeer(m_id);
         cout << "[Debug: " << m_socket.remote_endpoint() << "] - client is disconnected\n";
     }
 
     void Peer::SendData(unsigned char* data, size_t size)
     {
-        m_socket.async_send(boost::asio::buffer(data, size), []() {});
+        //m_socket.async_send(boost::asio::buffer(data, size), [](const boost::system::error_code& error, size_t size) {});
     }
 
     shared_ptr<Peer> Peer::Create(boost::asio::io_context& context, BaseApplication* application)

@@ -18,9 +18,9 @@ namespace Core
     {
         shared_ptr<Peer> acceptedPeer = Peer::Create(m_context, this);
 
-        m_acceptor.async_accept(acceptedPeer->socket(),
-            bind(&BaseApplication::HandleAccept, this, acceptedPeer,
-                boost::asio::placeholders::error));
+        //m_acceptor.async_accept(acceptedPeer->socket(),
+        //    bind(&BaseApplication::HandleAccept, this, acceptedPeer,
+        //        boost::asio::placeholders::error));
     }
 
     void BaseApplication::HandleAccept(shared_ptr<Peer> acceptedPeer, const boost::system::error_code& error)
@@ -29,6 +29,7 @@ namespace Core
         if (!error)
         {
             AddPeer(acceptedPeer);
+            OnAccepted(acceptedPeer.get());
             acceptedPeer->ReceiveData();
         }
 
@@ -39,9 +40,9 @@ namespace Core
     // Peer
     //
 
-    void BaseApplication::RemovePeer(shared_ptr<Peer> peer)
+    void BaseApplication::RemovePeer(const boost::uuids::uuid& id)
     {
-        m_peers.erase(peer->id());
+        m_peers.erase(id);
     }
 
     void BaseApplication::AddPeer(shared_ptr<Peer> peer)

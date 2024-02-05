@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "CServer.h"
-#include "DBWorker.h"
-#include "ConnectionPool.h"
-#include "Place.h"
 #include "MetaDatas.h"
 #include "RequestHandlerFactory.h"
 #include "User.h"
@@ -10,6 +7,11 @@
 #include "Peer.h"
 
 CServer CServer::s_instance;
+
+CServer::CServer()
+	: CServer(boost::asio::io_context())
+{
+}
 
 CServer::CServer(boost::asio::io_context context)
 	: Core::BaseApplication(context)
@@ -30,7 +32,6 @@ void CServer::Run()
 void CServer::Initialize()
 {
 	RequestHandlerFactory::GetInstance().Initialize();
-	ConnectionPool::GetInstance().Initialize();
 	MetaDatas::GetInstance().Initialize();
 }
 
@@ -63,8 +64,8 @@ void CServer::OnDisconnected(Core::Peer* peer)
 	if (result != m_users.end())
 	{
 		auto toRemoveUser = result->second;
-		toRemoveUser->Logout();
-		m_users.erase(socket);
+		// [LJH_WORK]
+		//m_users.erase(socket);
 		LogFormat("user count = %d", m_users.size());
 	}
 }

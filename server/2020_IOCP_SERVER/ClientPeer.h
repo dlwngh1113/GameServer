@@ -1,10 +1,11 @@
 #pragma once
 #include "Peer.h"
 
-class BaseRequestHandlerFactory;
 
 namespace Core
 {
+	class BaseRequestHandlerFactory;
+	
 	class ClientPeer
 	{
 	protected:

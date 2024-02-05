@@ -21,12 +21,6 @@ extern "C" {
 #include <unordered_map>
 #include <unordered_set>
 
-// sql
-#include <sqlext.h>
-#include <jdbc/cppconn/driver.h>
-#include <jdbc/cppconn/exception.h>
-#include <jdbc/cppconn/prepared_statement.h>
-
 // boost
 #include <boost/asio.hpp>
 #include <boost/uuid/uuid.hpp>
@@ -35,6 +29,5 @@ extern "C" {
 using namespace std;
 
 #pragma comment(lib, "lua54.lib")
-#pragma comment(lib, "mysqlcppconn.lib")
 
 #include "../Common/Common.hpp"

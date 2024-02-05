@@ -26,7 +26,7 @@ namespace Core
     private:
         void AddPeer(shared_ptr<Peer> peer);
     public:
-        void RemovePeer(shared_ptr<Peer> peer);
+        void RemovePeer(const boost::uuids::uuid& id);
 
         //
         //

@@ -49,7 +49,6 @@ enum class ClientCommand : short
 	Attack,
 	ChattingMessageSend,
 	Teleport,
-	PlaceEnter,
 };
 
 namespace ClientCommon

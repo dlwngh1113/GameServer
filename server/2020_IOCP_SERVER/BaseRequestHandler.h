@@ -1,11 +1,12 @@
 #pragma once
 #include "RequestHandlerException.h"
 
-class Core::Peer;
 struct ClientCommon::BasePacket;
 
 namespace Core
 {
+	class Peer;
+
 	class BaseRequestHandler
 	{
 	protected:

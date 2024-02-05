@@ -23,7 +23,7 @@ namespace Core
 
 	protected:
 		virtual void OnReceiveData(const boost::system::error_code& error, size_t size);
-
+		
 	private:
 		void Disconnect();
 
