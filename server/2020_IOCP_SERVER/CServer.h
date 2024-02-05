@@ -8,7 +8,7 @@ class Core::Peer;
 class CServer : public Core::BaseApplication
 {
 	std::mutex m_userLock;
-	std::unordered_map<Core::Uuid, std::shared_ptr<User>> m_users;
+	std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>> m_users;
 
 	static CServer s_instance;
 
@@ -29,7 +29,7 @@ public:
 
 	virtual void Run() override;
 
-	std::shared_ptr<User> GetUser(SOCKET key);
+	std::shared_ptr<User> GetUser(const boost::uuids::uuid& id);
 
 	static CServer& GetInstance()
 	{

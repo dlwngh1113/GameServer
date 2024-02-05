@@ -34,10 +34,10 @@ void CServer::Initialize()
 	MetaDatas::GetInstance().Initialize();
 }
 
-std::shared_ptr<User> CServer::GetUser(SOCKET key)
+std::shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)
 {
 	std::lock_guard<std::mutex> lock{ m_userLock };
-	auto result = m_users.find(key);
+	auto result = m_users.find(id);
 	if (result != m_users.end())
 		return result->second;
 

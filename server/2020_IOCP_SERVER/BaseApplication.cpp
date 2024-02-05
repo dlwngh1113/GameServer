@@ -16,7 +16,7 @@ namespace Core
 
     void BaseApplication::StartAccept()
     {
-        shared_ptr<Peer> acceptedPeer = Peer::Create(m_context);
+        shared_ptr<Peer> acceptedPeer = Peer::Create(m_context, this);
 
         m_acceptor.async_accept(acceptedPeer->socket(),
             bind(&BaseApplication::HandleAccept, this, acceptedPeer,
@@ -28,10 +28,24 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
-            m_peers.insert(make_pair(acceptedPeer->id(), acceptedPeer));
-            acceptedPeer->ReceivePacket();
+            AddPeer(acceptedPeer);
+            acceptedPeer->ReceiveData();
         }
 
         StartAccept();
+    }
+
+    //
+    // Peer
+    //
+
+    void BaseApplication::RemovePeer(shared_ptr<Peer> peer)
+    {
+        m_peers.erase(peer->id());
+    }
+
+    void BaseApplication::AddPeer(shared_ptr<Peer> peer)
+    {
+        m_peers.insert(make_pair(peer->id(), peer));
     }
 }

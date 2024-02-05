@@ -1,11 +1,13 @@
 ﻿#include "stdafx.h"
 #include "Peer.h"
 #include "Uuid.h"
+#include "BaseApplication.h"
 
 namespace Core
 {
-    Peer::Peer(boost::asio::io_context& context)
-        : m_socket(context)
+    Peer::Peer(boost::asio::io_context& context, BaseApplication* application)
+        : m_application(application)
+        , m_socket(context)
         , m_id(Uuid::New())
     {
     }
@@ -20,26 +22,38 @@ namespace Core
         return m_socket;
     }
 
-    void Peer::ReceivePacket()
+    void Peer::ReceiveData()
     {
-        m_socket.async_receive(m_buffer, bind(&Peer::OnReceivedData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+        m_socket.async_receive(m_buffer, bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
     }
     
-    void Peer::OnReceivedData(const boost::system::error_code& error, size_t size)
+    void Peer::OnReceiveData(const boost::system::error_code& error, size_t size)
     {
         if (error.failed())
-            cout << "[Error] " << error.message() << endl;
-
-        ReceivePacket();
+        {
+            // Disconnect peer
+            Disconnect();
+        }
+        else
+        {
+            // Process received data
+            ReceiveData();
+        }
     }
 
-    void Peer::SendPacket(unsigned char* data, size_t size)
+    void Peer::Disconnect()
+    {
+        m_application->RemovePeer(shared_from_this());
+        cout << "[Debug: " << m_socket.remote_endpoint() << "] - client is disconnected\n";
+    }
+
+    void Peer::SendData(unsigned char* data, size_t size)
     {
         m_socket.async_send(boost::asio::buffer(data, size), []() {});
     }
 
-    shared_ptr<Peer> Peer::Create(boost::asio::io_context& context)
+    shared_ptr<Peer> Peer::Create(boost::asio::io_context& context, BaseApplication* application)
     {
-        return make_shared<Peer>(context);
+        return make_shared<Peer>(context, application);
     }
 }

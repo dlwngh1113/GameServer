@@ -19,6 +19,19 @@ namespace Core
         void StartAccept();
         void HandleAccept(shared_ptr<Peer> acceptedPeer, const boost::system::error_code& error);
 
+        //
+        // Peer
+        //
+
+    private:
+        void AddPeer(shared_ptr<Peer> peer);
+    public:
+        void RemovePeer(shared_ptr<Peer> peer);
+
+        //
+        //
+        //
+
     protected:
         virtual void OnAccepted(Peer* peer) = 0;
         virtual void OnDisconnected(Peer* peer) = 0;
