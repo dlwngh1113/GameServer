@@ -17,7 +17,7 @@ namespace Core
 
     private:
         void StartAccept();
-        void HandleAccept(shared_ptr<Peer> acceptedPeer, const boost::system::error_code& error);
+        void HandleAccept(const boost::system::error_code& error, shared_ptr<Peer> acceptedPeer);
 
         //
         // Peer

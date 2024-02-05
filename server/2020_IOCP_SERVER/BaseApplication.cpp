@@ -18,12 +18,10 @@ namespace Core
     {
         shared_ptr<Peer> acceptedPeer = Peer::Create(m_context, this);
 
-        //m_acceptor.async_accept(acceptedPeer->socket(),
-        //    bind(&BaseApplication::HandleAccept, this, acceptedPeer,
-        //        boost::asio::placeholders::error));
+        m_acceptor.async_accept(&BaseApplication::HandleAccept);
     }
 
-    void BaseApplication::HandleAccept(shared_ptr<Peer> acceptedPeer, const boost::system::error_code& error)
+    void BaseApplication::HandleAccept(const boost::system::error_code& error, shared_ptr<Peer> acceptedPeer)
     {
         // Successfully accpeted new peer
         if (!error)

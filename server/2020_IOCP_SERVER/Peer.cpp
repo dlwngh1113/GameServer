@@ -24,7 +24,7 @@ namespace Core
 
     void Peer::ReceiveData()
     {
-        //m_socket.async_receive(m_buffer, bind(&Peer::OnReceiveData, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+        m_socket.async_receive(m_buffer, &Peer::OnReceiveData);
         //m_socket.async_receive(m_buffer, bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
     }
     
@@ -50,7 +50,7 @@ namespace Core
 
     void Peer::SendData(unsigned char* data, size_t size)
     {
-        //m_socket.async_send(boost::asio::buffer(data, size), [](const boost::system::error_code& error, size_t size) {});
+        m_socket.async_send(boost::asio::buffer(data, size), [](const boost::system::error_code& error, size_t size) {});
     }
 
     shared_ptr<Peer> Peer::Create(boost::asio::io_context& context, BaseApplication* application)
