@@ -29,6 +29,8 @@ namespace Core
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
             acceptedPeer->ReceiveData();
+
+            cout << acceptedSocket->remote_endpoint() << " is connected!\n";
         }
 
         StartAccept();
