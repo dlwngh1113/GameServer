@@ -5,9 +5,9 @@
 
 namespace Core
 {
-    Peer::Peer(boost::asio::io_context& context, BaseApplication* application)
+    Peer::Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept
         : m_application(application)
-        , m_socket(context)
+        , m_socket(move(socket))
         , m_id(Uuid::New())
     {
     }
@@ -24,11 +24,11 @@ namespace Core
 
     void Peer::ReceiveData()
     {
-        m_socket.async_receive(m_buffer, &Peer::OnReceiveData);
-        //m_socket.async_receive(m_buffer, bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+        boost::asio::async_read(m_socket, m_buffer,
+            bind(&Peer::OnReceiveData, shared_from_this(), placeholders::_1, placeholders::_2));
     }
     
-    void Peer::OnReceiveData(const boost::system::error_code& error, size_t size)
+    void Peer::OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred)
     {
         if (error.failed())
         {
@@ -50,11 +50,15 @@ namespace Core
 
     void Peer::SendData(unsigned char* data, size_t size)
     {
-        m_socket.async_send(boost::asio::buffer(data, size), [](const boost::system::error_code& error, size_t size) {});
+        boost::asio::async_write(m_socket, boost::asio::buffer(data, size),
+            [](const boost::system::error_code& error, size_t bytesTransferred) {});
     }
 
-    shared_ptr<Peer> Peer::Create(boost::asio::io_context& context, BaseApplication* application)
+    shared_ptr<Peer> Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application)
     {
-        return make_shared<Peer>(context, application);
+        shared_ptr<Peer> inst = make_shared<Peer>(move(socket), application);
+        inst->ReceiveData();
+
+        return inst;
     }
 }

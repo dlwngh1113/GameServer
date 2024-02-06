@@ -182,7 +182,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="2020_IOCP_SERVER.rc">
+    <ResourceCompile Include="Server.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
