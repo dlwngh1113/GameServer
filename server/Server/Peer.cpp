@@ -56,6 +56,9 @@ namespace Core
 
     shared_ptr<Peer> Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application)
     {
-        return make_shared<Peer>(move(socket), application);
+        shared_ptr<Peer> inst = make_shared<Peer>(move(socket), application);
+        inst->ReceiveData();
+
+        return inst;
     }
 }

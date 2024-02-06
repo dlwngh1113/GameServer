@@ -53,7 +53,8 @@ void CServer::Release()
 void CServer::OnAccepted(Core::Peer* peer)
 {
 	lock_guard<mutex> lock{ m_userLock };
-	m_users.insert(make_pair(peer->id(), make_shared<User>(peer)));
+	shared_ptr<User> inst = make_shared<User>(peer);
+	m_users.insert(make_pair(inst->id(), inst));
 }
 
 void CServer::OnDisconnected(Core::Peer* peer)
@@ -64,8 +65,7 @@ void CServer::OnDisconnected(Core::Peer* peer)
 	if (result != m_users.end())
 	{
 		auto toRemoveUser = result->second;
-		// [LJH_WORK]
-		//m_users.erase(socket);
+		m_users.erase(result);
 		LogFormat("user count = %d", m_users.size());
 	}
 }

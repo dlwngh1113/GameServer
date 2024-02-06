@@ -28,7 +28,6 @@ namespace Core
             shared_ptr<Peer> acceptedPeer = Peer::Create(move(*acceptedSocket), this);
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
-            acceptedPeer->ReceiveData();
 
             cout << acceptedSocket->remote_endpoint() << " is connected!\n";
         }
