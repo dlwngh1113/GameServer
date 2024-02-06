@@ -17,7 +17,7 @@ namespace Core
 
     private:
         void StartAccept();
-        void HandleAccept(const boost::system::error_code& error, shared_ptr<Peer> acceptedPeer);
+        void OnAccept(const boost::system::error_code& error, shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket);
 
         //
         // Peer

@@ -13,7 +13,7 @@ namespace Core
 		BaseApplication* m_application;
 
 	public:
-		Peer(boost::asio::io_context& context, BaseApplication* application);
+		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
 
 		const boost::uuids::uuid& id() const;
 		boost::asio::ip::tcp::socket& socket();
@@ -22,13 +22,13 @@ namespace Core
 		void SendData(unsigned char* data, size_t size);
 
 	protected:
-		virtual void OnReceiveData(const boost::system::error_code& error, size_t size);
+		virtual void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
 		
 	private:
 		void Disconnect();
 
 		// Static Member Functions
 	public:
-		static shared_ptr<Peer> Create(boost::asio::io_context& context, BaseApplication* application);
+		static shared_ptr<Peer> Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application);
 	};
 }
