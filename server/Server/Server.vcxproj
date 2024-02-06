@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a4e3278d-71c6-4e6c-b8c1-8a3731ef0047}</ProjectGuid>
+    <ProjectGuid>{34899277-860B-4638-A777-881BBB732027}</ProjectGuid>
     <RootNamespace>My2020IOCPSERVER</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Server</ProjectName>
