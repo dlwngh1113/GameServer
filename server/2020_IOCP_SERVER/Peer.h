@@ -1,4 +1,5 @@
 #pragma once
+#include "Uuid.h"
 
 namespace Core
 {

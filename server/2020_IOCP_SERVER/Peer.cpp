@@ -5,7 +5,7 @@
 
 namespace Core
 {
-    Peer::Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application)
+    Peer::Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept
         : m_application(application)
         , m_socket(move(socket))
         , m_id(Uuid::New())
