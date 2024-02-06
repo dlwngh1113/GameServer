@@ -24,6 +24,7 @@
     <ProjectGuid>{a4e3278d-71c6-4e6c-b8c1-8a3731ef0047}</ProjectGuid>
     <RootNamespace>My2020IOCPSERVER</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Server</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -212,7 +213,7 @@
     <None Include="monster.lua" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="2020_IOCP_SERVER.rc" />
+    <ResourceCompile Include="Server.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
