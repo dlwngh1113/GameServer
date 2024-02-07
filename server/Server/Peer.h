@@ -8,8 +8,12 @@ namespace Core
 	class Peer : enable_shared_from_this<Peer>
 	{
 	private:
-		boost::asio::streambuf m_buffer;
 		boost::asio::ip::tcp::socket m_socket;
+
+		boost::array<char, MAX_BUFFER> m_processBuffer;
+		size_t m_bufferOffset;
+		boost::asio::streambuf m_buffer;
+
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
 
@@ -26,6 +30,7 @@ namespace Core
 		virtual void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
 		
 	private:
+		void ReceiveLeftData(char* pNextRecvPos);
 		void Disconnect();
 
 		// Static Member Functions
