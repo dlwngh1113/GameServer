@@ -28,10 +28,8 @@ namespace Core
 			std::shared_ptr<BaseRequestHandler> handler = m_factory->Create(header->type);
 			handler->Initialize(this, header);
 
-			// add to thread work
-			
+			// add to thread worker
 			boost::asio::post(BaseApplication::threads(), [handler]() {handler->Handle(); });
-			//Global::GetInstance().threadPool.EnqueWork([handler]() { handler->Handle(); });
 		}
 		catch (std::exception& ex)
 		{

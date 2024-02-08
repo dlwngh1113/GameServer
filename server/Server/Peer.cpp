@@ -34,15 +34,19 @@ namespace Core
     {
         if (!error.failed())
         {
+            // If buffer is full, move buffer to bigger size
+            if (m_bufferOffset + bytesTransferred >= m_processBuffer.size())
+                m_processBuffer.resize(m_bufferOffset + bytesTransferred);
+
             // Process received data
-            char* currentReceivePtr = m_processBuffer.data() + m_bufferOffset;
-            memcpy_s(currentReceivePtr, m_processBuffer.size() - m_bufferOffset, m_buffer.data().data(), bytesTransferred);
+            char* currentReceivePtr = m_processBuffer.data();
+            memcpy_s(currentReceivePtr + m_bufferOffset, m_processBuffer.size() - m_bufferOffset, m_buffer.data().data(), bytesTransferred);
 
             char* nextRecvPtr = currentReceivePtr + bytesTransferred;
 
             ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(currentReceivePtr);
             short packetType = header->type;
-            size_t packetSize = header->size;
+            short packetSize = header->size;
 
             // 패킷이 size만큼 도착한 경우
             while (packetSize <= nextRecvPtr - currentReceivePtr)
@@ -71,17 +75,10 @@ namespace Core
     void Peer::ReceiveLeftData(char* currentReceivePtr, char* nextRecvPtr)
     {
         long long lnLeftData = nextRecvPtr - currentReceivePtr;
-
-        if ((MAX_BUFFER - (nextRecvPtr - m_processBuffer.data())) < MIN_BUFFER)
-        {
-            // 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-            memcpy(m_processBuffer.data(), currentReceivePtr, lnLeftData);
-            currentReceivePtr = m_processBuffer.data();
-            nextRecvPtr = currentReceivePtr + lnLeftData;
-        }
+        memcpy_s(m_processBuffer.data(), m_processBuffer.size(), currentReceivePtr, lnLeftData);
 
         // 데이터를 받을 버퍼 세팅
-        currentReceivePtr = nextRecvPtr;
+        m_bufferOffset = lnLeftData;
 
         ReceiveData();
     }
