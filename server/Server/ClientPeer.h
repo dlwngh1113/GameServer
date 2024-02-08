@@ -1,7 +1,6 @@
 #pragma once
 #include "Peer.h"
 
-
 namespace Core
 {
 	class BaseRequestHandlerFactory;
@@ -18,6 +17,7 @@ namespace Core
 
 		const boost::uuids::uuid& GetID() const { return m_peer->id(); }
 
-		void SendPacket(ClientCommon::BasePacket* packet);
+		virtual void ProcessPacket(char* data, size_t size);
+		void SendPacket(char* data, size_t size);
 	};
 }

@@ -7,6 +7,7 @@ namespace Core
     {
     private:
         boost::asio::io_context& m_context;
+        boost::asio::thread_pool m_threads;
         boost::asio::ip::tcp::acceptor m_acceptor;
 
         unordered_map<boost::uuids::uuid, shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;

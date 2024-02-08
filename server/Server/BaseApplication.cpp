@@ -5,6 +5,7 @@ namespace Core
 {
     BaseApplication::BaseApplication(boost::asio::io_context& io_context)
         : m_context(io_context)
+        , m_threads(MAX_THREAD_COUNT)
         , m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SERVER_PORT))
     {
     }
