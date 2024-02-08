@@ -3,11 +3,18 @@
 
 namespace Core
 {
+    boost::asio::thread_pool BaseApplication::s_threads(MAX_THREAD_COUNT);
+
     BaseApplication::BaseApplication(boost::asio::io_context& io_context)
         : m_context(io_context)
-        , m_threads(MAX_THREAD_COUNT)
         , m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SERVER_PORT))
     {
+    }
+
+    void BaseApplication::Shutdown()
+    {
+        s_threads.join();
+        m_context.stop();
     }
 
     void BaseApplication::Run()

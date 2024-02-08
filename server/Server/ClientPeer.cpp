@@ -2,6 +2,7 @@
 #include "ClientPeer.h"
 #include "BaseRequestHandlerFactory.h"
 #include "BaseRequestHandler.h"
+#include "BaseApplication.h"
 
 namespace Core
 {
@@ -28,7 +29,9 @@ namespace Core
 			handler->Initialize(this, header);
 
 			// add to thread work
-			Global::GetInstance().threadPool.EnqueWork([handler]() { handler->Handle(); });
+			
+			boost::asio::post(BaseApplication::threads(), [handler]() {handler->Handle(); });
+			//Global::GetInstance().threadPool.EnqueWork([handler]() { handler->Handle(); });
 		}
 		catch (std::exception& ex)
 		{
