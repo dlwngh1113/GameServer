@@ -39,10 +39,10 @@ namespace Core
 
         // Static member variables
     private:
-        static boost::asio::thread_pool s_threads;
+        //static boost::asio::thread_pool s_threads;
 
         // Static member functions
     public:
-        static boost::asio::thread_pool& threads() { return s_threads; };
+        //static boost::asio::thread_pool& threads() { return s_threads; };
     };
 }

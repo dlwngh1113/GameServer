@@ -29,7 +29,7 @@ namespace Core
 			handler->Initialize(this, header);
 
 			// add to thread worker
-			boost::asio::post(BaseApplication::threads(), [handler]() {handler->Handle(); });
+			boost::asio::dispatch(m_peer->socket().get_executor(), [handler]() {handler->Handle(); });
 		}
 		catch (std::exception& ex)
 		{
