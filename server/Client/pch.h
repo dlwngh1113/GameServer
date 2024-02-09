@@ -21,6 +21,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
 
+// boost library
+#include <boost/asio.hpp>
+
 // Common
 #include "../Common/Common.hpp"
 

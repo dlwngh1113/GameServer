@@ -6,14 +6,14 @@
 NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
+	: m_socket(m_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v4::from_string("127.0.0.1"), SERVER_PORT))
 {
 	HandlerFactory::GetInstance().Init();
 }
 
 NetworkManager::~NetworkManager()
 {
-	if (m_tcpSocket != NULL)
-		SDLNet_TCP_Close(m_tcpSocket);
+	m_socket.close();
 }
 
 bool NetworkManager::Initialize()
@@ -24,46 +24,30 @@ bool NetworkManager::Initialize()
 		return false;
 	}
 
-	// SocketSet 추가
-	m_socketSet = SDLNet_AllocSocketSet(1);
-
-	// Socket 연결
-	IPaddress ipAddress;
-	SDLNet_ResolveHost(&ipAddress, "127.0.0.1", SERVER_PORT);
-	m_tcpSocket = SDLNet_TCP_Open(&ipAddress);
-	if (m_tcpSocket == NULL)
-	{
-		std::cerr << "서버에 연결할 수 없습니다!\n";
-		return false;
-	}
-
-	// SocketSet에 추가
-	SDLNet_TCP_AddSocket(m_socketSet, m_tcpSocket);
-
 	return true;
 }
 
 void NetworkManager::Service()
 {
-	if (SDLNet_CheckSockets(m_socketSet, 0) > 0)
-		ReceivePacket();
+	ReceivePacket();
 }
 
 void NetworkManager::ReceivePacket()
 {
-	int nRececeiveSize = 0;
-	nRececeiveSize = SDLNet_TCP_Recv(m_tcpSocket, m_pReceiveStartPtr, MAX_BUFFER);
+	m_socket.async_receive(boost::asio::buffer(m_dataBuffer),
+		bind(&NetworkManager::OnReceivePacket, this, placeholders::_1, placeholders::_2));
+}
 
-	if (nRececeiveSize <= 0)
+void NetworkManager::OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred)
+{
+	if (bytesTransferred <= 0)
 	{
 		std::cerr << "서버로부터 연결이 끊겼습니다.";
 		return;
 	}
 
-	m_pNextReceivePtr = m_pReceiveStartPtr + nRececeiveSize;
-
 	// 헤더보다 작은 사이즈의 패킷일 경우 계속 recv
-	if (nRececeiveSize < sizeof(ClientCommon::Header))
+	if (bytesTransferred < sizeof(ClientCommon::Header))
 	{
 		ReceiveLeftData();
 		return;
@@ -108,7 +92,7 @@ void NetworkManager::ReceiveLeftData()
 
 void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 {
-	ClientCommon::BasePacket* packet = reinterpret_cast<ClientCommon::BasePacket*>(data);
+	ClientCommon::Packet* packet = reinterpret_cast<ClientCommon::Packet*>(data);
 	
 	ServerEvent cmd = static_cast<ServerEvent>(packet->header.type);
 	try
@@ -126,5 +110,5 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 
 void NetworkManager::SendPacket(unsigned char* packet, short snSize)
 {
-	SDLNet_TCP_Send(m_tcpSocket, packet, snSize);
+	m_socket.async_send(boost::asio::buffer(packet, snSize), [](const boost::system::error_code& error, size_t bytesTransferred) {});
 }

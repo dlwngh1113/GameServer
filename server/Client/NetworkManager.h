@@ -3,18 +3,16 @@
 class NetworkManager
 {
 	static NetworkManager s_instance;
-	SDLNet_SocketSet m_socketSet{ nullptr };
-	TCPsocket m_tcpSocket{ NULL };
+	boost::asio::io_context m_context;
+	boost::asio::ip::tcp::socket m_socket;
 
-	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
-	unsigned char m_packetBuffer[MAX_BUFFER]{ NULL };
-	unsigned char* m_pReceiveStartPtr{ m_dataBuffer };
-	unsigned char* m_pNextReceivePtr{ m_dataBuffer };
+	char m_dataBuffer[MAX_BUFFER]{ NULL };
 
 private:
 	NetworkManager();
 	void ReceiveLeftData();
 	void ProcessPacket(unsigned char* data, short snSize);
+	void OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred);
 
 public:
 	virtual ~NetworkManager();

@@ -12,6 +12,7 @@ namespace Core
         , m_id(Uuid::New())
         , m_application(application)
     {
+        m_processBuffer.resize(MAX_BUFFER);
     }
     
     const boost::uuids::uuid& Peer::id() const

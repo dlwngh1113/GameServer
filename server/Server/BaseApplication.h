@@ -7,13 +7,14 @@ namespace Core
     {
     private:
         boost::asio::io_context m_context;
+        vector<boost::asio::io_context> m_workers;
         boost::asio::ip::tcp::acceptor m_acceptor;
 
         unordered_map<boost::uuids::uuid, shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;
 
     public:
         BaseApplication();
-        void Shutdown();
+        virtual void Shutdown();
         virtual void Run();
 
     private:
@@ -39,10 +40,10 @@ namespace Core
 
         // Static member variables
     private:
-        //static boost::asio::thread_pool s_threads;
+        static boost::asio::thread_pool s_threads;
 
         // Static member functions
     public:
-        //static boost::asio::thread_pool& threads() { return s_threads; };
+        static boost::asio::thread_pool& threads() { return s_threads; };
     };
 }
