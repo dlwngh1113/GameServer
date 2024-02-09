@@ -22,8 +22,15 @@ namespace Core
 
     void Peer::ReceiveData()
     {
-        boost::asio::async_read(m_socket, m_buffer,
-            bind(&Peer::OnReceiveData, shared_from_this(), placeholders::_1, placeholders::_2));
+        try
+        {
+            boost::asio::async_read(m_socket, m_buffer,
+                bind(&Peer::OnReceiveData, shared_from_this(), placeholders::_1, placeholders::_2));
+        }
+        catch (exception& ex)
+        {
+            cout << ex.what() << endl;
+        }
     }
     
     void Peer::OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred)

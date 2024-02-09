@@ -5,7 +5,7 @@ namespace Core
 {
 	class BaseApplication;
 
-	class Peer : enable_shared_from_this<Peer>
+	class Peer final : enable_shared_from_this<Peer>
 	{
 	private:
 		using ProcessPacketEvent = function<void(char*, size_t)>;
@@ -32,7 +32,7 @@ namespace Core
 		void SendData(char* data, size_t size);
 
 	protected:
-		virtual void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
+		void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
 		
 	private:
 		void ReceiveLeftData(char* currentReceivePtr, char* nextRecvPtr);
