@@ -27,7 +27,6 @@ namespace Core
 		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
 
 		const boost::uuids::uuid& id() const;
-		boost::asio::ip::tcp::socket& socket();
 
 		void ReceiveData();
 		void SendData(char* data, size_t size);

@@ -20,11 +20,6 @@ namespace Core
         return m_id;
     }
 
-    boost::asio::ip::tcp::socket& Peer::socket()
-    {
-        return m_socket;
-    }
-
     void Peer::ReceiveData()
     {
         boost::asio::async_read(m_socket, m_buffer,

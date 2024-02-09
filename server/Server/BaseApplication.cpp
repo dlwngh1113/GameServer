@@ -10,10 +10,11 @@ namespace Core
     {
     }
 
-    void BaseApplication::Shutdown()
+    BaseApplication::~BaseApplication()
     {
         s_threads.join();
         m_context.stop();
+        m_acceptor.close();
     }
 
     void BaseApplication::Run()
@@ -34,11 +35,11 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
+            cout << acceptedSocket->remote_endpoint() << " is connected!\n";
+
             shared_ptr<Peer> acceptedPeer = Peer::Create(move(*acceptedSocket), this);
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
-
-            cout << acceptedPeer->socket().remote_endpoint() << " is connected!\n";
         }
 
         StartAccept();

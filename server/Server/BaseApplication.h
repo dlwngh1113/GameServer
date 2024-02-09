@@ -7,14 +7,13 @@ namespace Core
     {
     private:
         boost::asio::io_context m_context;
-        vector<boost::asio::io_context> m_workers;
         boost::asio::ip::tcp::acceptor m_acceptor;
 
         unordered_map<boost::uuids::uuid, shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;
 
     public:
         BaseApplication();
-        virtual void Shutdown();
+        ~BaseApplication();
         virtual void Run();
 
     private:
