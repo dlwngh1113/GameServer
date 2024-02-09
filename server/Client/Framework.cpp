@@ -24,8 +24,6 @@ Framework::Framework()
     if (!NetworkManager::GetInstance().Initialize())
         Release();
 
-    PacketSender::GetInstance().SendLogin("dlwngh");
-
     SDL_SetWindowTitle(m_window, "SMO");
 
     m_renderer = Renderer::GetInstance().GetRenderer();

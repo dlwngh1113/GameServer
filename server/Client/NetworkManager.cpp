@@ -53,41 +53,41 @@ void NetworkManager::OnReceivePacket(const boost::system::error_code& error, siz
 		return;
 	}
 
-	// 패킷의 종류에 따라 처리
-	ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
-	short snPacketType = header->type;
-	short snPacketSize = header->size;
+	//// 패킷의 종류에 따라 처리
+	//ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
+	//short snPacketType = header->type;
+	//short snPacketSize = header->size;
 
-	// size만큼 패킷이 온 경우
-	while (snPacketSize <= m_pNextReceivePtr - m_pReceiveStartPtr)
-	{
-		ProcessPacket(m_pReceiveStartPtr, snPacketSize);
+	//// size만큼 패킷이 온 경우
+	//while (snPacketSize <= m_pNextReceivePtr - m_pReceiveStartPtr)
+	//{
+	//	ProcessPacket(m_pReceiveStartPtr, snPacketSize);
 
-		m_pReceiveStartPtr += snPacketSize;
-		if (m_pReceiveStartPtr < m_pNextReceivePtr)
-		{
-			header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
-			snPacketSize = header->size;
-		}
-		else
-			break;
-	}
+	//	m_pReceiveStartPtr += snPacketSize;
+	//	if (m_pReceiveStartPtr < m_pNextReceivePtr)
+	//	{
+	//		header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
+	//		snPacketSize = header->size;
+	//	}
+	//	else
+	//		break;
+	//}
 }
 
 void NetworkManager::ReceiveLeftData()
 {
-	long long lnLeftData = m_pNextReceivePtr - m_pReceiveStartPtr;
+	//long long lnLeftData = m_pNextReceivePtr - m_pReceiveStartPtr;
 
-	if ((MAX_BUFFER - (m_pNextReceivePtr - m_dataBuffer)) < MIN_BUFFER)
-	{
-		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-		memcpy(m_dataBuffer, m_pReceiveStartPtr, lnLeftData);
-		m_pReceiveStartPtr = m_dataBuffer;
-		m_pNextReceivePtr = m_pReceiveStartPtr + lnLeftData;
-	}
+	//if ((MAX_BUFFER - (m_pNextReceivePtr - m_dataBuffer)) < MIN_BUFFER)
+	//{
+	//	// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
+	//	memcpy(m_dataBuffer, m_pReceiveStartPtr, lnLeftData);
+	//	m_pReceiveStartPtr = m_dataBuffer;
+	//	m_pNextReceivePtr = m_pReceiveStartPtr + lnLeftData;
+	//}
 
-	// 데이터를 받을 버퍼 세팅
-	m_pReceiveStartPtr = m_pNextReceivePtr;
+	//// 데이터를 받을 버퍼 세팅
+	//m_pReceiveStartPtr = m_pNextReceivePtr;
 }
 
 void NetworkManager::ProcessPacket(unsigned char* data, short snSize)

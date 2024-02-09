@@ -32,9 +32,3 @@ void Player::Render(SDL_Renderer* renderer)
 {
 	SDL_RenderCopy(renderer, m_texture, &m_resourcePosition, &m_position);
 }
-
-void Player::Move(int nX, int nY)
-{
-	m_position.x = nX * TILE_SIZE;
-	m_position.y = nY * TILE_SIZE;
-}
