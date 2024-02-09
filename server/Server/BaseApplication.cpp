@@ -20,6 +20,7 @@ namespace Core
     void BaseApplication::Run()
     {
         StartAccept();
+        m_context.run();
     }
 
     void BaseApplication::StartAccept()
