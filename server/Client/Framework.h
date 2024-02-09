@@ -21,6 +21,7 @@ private:
 public:
     virtual ~Framework();
 
+    void Initialize();
     void Run();
     void Release();
     void ChangeScene(Scene* scene);

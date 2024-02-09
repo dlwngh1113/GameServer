@@ -6,7 +6,8 @@
 NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
-	: m_socket(m_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v4::from_string("127.0.0.1"), SERVER_PORT))
+	: m_socket(m_context)
+	, m_resolver(m_context)
 {
 	HandlerFactory::GetInstance().Init();
 }
@@ -18,13 +19,25 @@ NetworkManager::~NetworkManager()
 
 bool NetworkManager::Initialize()
 {
-	if (SDLNet_Init() < 0)
-	{
-		std::cout << "SDLNet_Init Error: " << SDL_GetError() << std::endl;
-		return false;
-	}
+	//m_resolver.async_resolve(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT),
+	//	[](const boost::system::error_code& error, boost::asio::ip::tcp::resolver::iterator it) {
+	//		if (!error) {
+	//			boost::asio::ip::tcp::endpoint endpoint = *it;
+	//			NetworkManager::GetInstance().StartConnect(endpoint);
+	//		}
+	//		else {
+	//			std::cerr << "Error resolving address: " << error.message() << std::endl;
+	//		}
+	//	});
+
+	m_socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
 
 	return true;
+}
+
+void NetworkManager::StartConnect(boost::asio::ip::tcp::endpoint endpoint)
+{
+	m_socket.async_connect(endpoint, [](const boost::system::error_code& error) {});
 }
 
 void NetworkManager::Service()

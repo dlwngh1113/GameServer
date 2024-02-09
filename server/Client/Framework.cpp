@@ -21,13 +21,16 @@ Framework::Framework()
         exit(0);
     }
 
-    if (!NetworkManager::GetInstance().Initialize())
-        Release();
-
     SDL_SetWindowTitle(m_window, "SMO");
 
     m_renderer = Renderer::GetInstance().GetRenderer();
     m_scene = new Scene;
+}
+
+void Framework::Initialize()
+{
+    if (!NetworkManager::GetInstance().Initialize())
+        Release();
 }
 
 Framework::~Framework()

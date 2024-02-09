@@ -6,6 +6,8 @@
 
 int SDL_main(int argc, char* argv[])
 {
+	Framework::GetInstance().Initialize();
 	Framework::GetInstance().Run();
+
 	return 0;
 }
