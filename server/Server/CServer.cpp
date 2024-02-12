@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CServer.h"
 #include "MetaDatas.h"
-#include "RequestHandlerFactory.h"
+#include "CommandHandlerFactory.h"
 #include "User.h"
 #include "Logger.h"
 #include "Peer.h"
@@ -26,7 +26,7 @@ void CServer::Run()
 
 void CServer::Initialize()
 {
-	RequestHandlerFactory::GetInstance().Initialize();
+	CommandHandlerFactory::GetInstance().Initialize();
 	MetaDatas::GetInstance().Initialize();
 }
 

@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseRequestHandler.h"
+#include "BaseCommandHandler.h"
 
 class User;
 
-class RequestHandler : public Core::BaseRequestHandler
+class CommandHandler : public Core::BaseCommandHandler
 {
 public:
 	void Handle() override final;

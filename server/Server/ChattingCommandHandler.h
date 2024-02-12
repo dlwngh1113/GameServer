@@ -1,7 +1,7 @@
 #pragma once
-#include "RequestHandler.h"
+#include "CommandHandler.h"
 
-class ChattingCommandHandler : public RequestHandler
+class ChattingCommandHandler : public CommandHandler
 {
 public:
 	virtual void HandleRequest() override;

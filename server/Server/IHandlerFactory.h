@@ -4,15 +4,15 @@
 
 namespace Core
 {
-	class BaseRequestHandler; 
+	class BaseCommandHandler; 
 	
-	class IHandlerFactory : public IFactory<short, BaseRequestHandler>
+	class IHandlerFactory : public IFactory<short, BaseCommandHandler>
 	{
 	public:
 		IHandlerFactory();
 		virtual ~IHandlerFactory();
 
-		virtual shared_ptr<BaseRequestHandler> Create(short type) = 0;
+		virtual shared_ptr<BaseCommandHandler> Create(short type) = 0;
 
 		template<typename T>
 		void AddHandlerCreator(short key);
@@ -21,6 +21,6 @@ namespace Core
 	template<typename T>
 	inline void IHandlerFactory::AddHandlerCreator(short key)
 	{
-		AddCreator(key, make_unique<ProductCreator<BaseRequestHandler, T>>());
+		AddCreator(key, make_unique<ProductCreator<BaseCommandHandler, T>>());
 	}
 }

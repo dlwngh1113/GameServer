@@ -2,8 +2,8 @@
 #include "Peer.h"
 #include "Uuid.h"
 #include "BaseApplication.h"
-#include "BaseRequestHandlerFactory.h"
-#include "BaseRequestHandler.h"
+#include "BaseCommandHandlerFactory.h"
+#include "BaseCommandHandler.h"
 
 namespace Core
 {
@@ -14,7 +14,7 @@ namespace Core
         , m_id(Uuid::New())
         , m_application(application)
     {
-        m_processBuffer.resize(MAX_BUFFER);
+        m_processBuffer.resize(MAX_BUFFER, '\0');
     }
     
     const boost::uuids::uuid& Peer::id() const
@@ -41,11 +41,11 @@ namespace Core
         {
             // If buffer is full, move buffer to bigger size
             if (m_bufferOffset + bytesTransferred >= m_processBuffer.size())
-                m_processBuffer.resize(m_bufferOffset + bytesTransferred);
+                m_processBuffer.resize(m_bufferOffset + bytesTransferred, '\0');
 
             // Process received data
             char* currentReceivePtr = m_processBuffer.data();
-            memcpy_s(currentReceivePtr + m_bufferOffset, m_processBuffer.size() - m_bufferOffset, m_buffer.data().data(), bytesTransferred);
+            memcpy_s(currentReceivePtr + m_bufferOffset, m_processBuffer.size() - m_bufferOffset, m_buffer.data().data(), m_buffer.size());
 
             char* nextRecvPtr = currentReceivePtr + bytesTransferred;
 
@@ -83,10 +83,10 @@ namespace Core
         try
         {
             if (m_factory == nullptr)
-                throw exception{ "RequestHandlerFactory is nullptr!" /* + m_peer->id()*/ };
+                throw exception{ "CommandHandlerFactory is nullptr!" /* + m_peer->id()*/ };
 
             cout << header->type << endl;
-            shared_ptr<BaseRequestHandler> handler = m_factory->Create(header->type);
+            shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
             handler->Initialize(shared_from_this(), header);
 
             // add to thread worker

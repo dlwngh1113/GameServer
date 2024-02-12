@@ -3,7 +3,7 @@
 
 namespace Core
 {
-	class BaseRequestHandlerFactory;
+	class BaseCommandHandlerFactory;
 	
 	class ClientPeer
 	{
@@ -11,7 +11,7 @@ namespace Core
 		Peer* m_peer;
 
 	public:
-		explicit ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance);
+		explicit ClientPeer(Peer* peer, BaseCommandHandlerFactory* instance);
 		virtual ~ClientPeer();
 
 		const boost::uuids::uuid& GetID() const { return m_peer->id(); }

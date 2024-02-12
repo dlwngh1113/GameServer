@@ -1,19 +1,19 @@
 #pragma once
-#include "RequestHandlerException.h"
+#include "CommandHandlerException.h"
 
 namespace Core
 {
 	class Peer;
 
-	class BaseRequestHandler
+	class BaseCommandHandler
 	{
 	protected:
 		shared_ptr<Peer> m_peer;
 		ClientCommon::Header* m_header;
 
 	public:
-		BaseRequestHandler();
-		virtual ~BaseRequestHandler();
+		BaseCommandHandler();
+		virtual ~BaseCommandHandler();
 
 		void Initialize(shared_ptr<Peer> peer, ClientCommon::Header* header);
 

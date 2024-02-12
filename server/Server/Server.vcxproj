@@ -166,7 +166,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="BaseRequestHandlerFactory.cpp" />
+    <ClCompile Include="BaseCommandHandlerFactory.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp">
@@ -174,10 +174,10 @@
     </ClCompile>
     <ClCompile Include="MetaDatas.cpp" />
     <ClCompile Include="Peer.cpp" />
-    <ClCompile Include="BaseRequestHandler.cpp" />
-    <ClCompile Include="RequestHandler.cpp" />
-    <ClCompile Include="RequestHandlerException.cpp" />
-    <ClCompile Include="RequestHandlerFactory.cpp" />
+    <ClCompile Include="BaseCommandHandler.cpp" />
+    <ClCompile Include="CommandHandler.cpp" />
+    <ClCompile Include="CommandHandlerException.cpp" />
+    <ClCompile Include="CommandHandlerFactory.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="Uuid.cpp" />
@@ -192,7 +192,7 @@
     </ClInclude>
     <ClInclude Include="ICreator.h" />
     <ClInclude Include="IFactory.h" />
-    <ClInclude Include="BaseRequestHandlerFactory.h" />
+    <ClInclude Include="BaseCommandHandlerFactory.h" />
     <ClInclude Include="IHandlerCreator.h" />
     <ClInclude Include="IHandlerFactory.h" />
     <ClInclude Include="include\lauxlib.h" />
@@ -202,10 +202,10 @@
     <ClInclude Include="MetaDatas.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Peer.h" />
-    <ClInclude Include="BaseRequestHandler.h" />
-    <ClInclude Include="RequestHandler.h" />
-    <ClInclude Include="RequestHandlerException.h" />
-    <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="BaseCommandHandler.h" />
+    <ClInclude Include="CommandHandler.h" />
+    <ClInclude Include="CommandHandlerException.h" />
+    <ClInclude Include="CommandHandlerFactory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="User.h" />

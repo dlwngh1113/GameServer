@@ -4,7 +4,7 @@
 namespace Core
 {
 	class BaseApplication;
-	class BaseRequestHandlerFactory;
+	class BaseCommandHandlerFactory;
 
 	class Peer final : public enable_shared_from_this<Peer>
 	{
@@ -17,7 +17,7 @@ namespace Core
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
-		BaseRequestHandlerFactory* m_factory;
+		BaseCommandHandlerFactory* m_factory;
 
 	public:
 		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
@@ -25,7 +25,7 @@ namespace Core
 		const boost::uuids::uuid& id() const;
 
 		void SendData(char* data, size_t size);
-		void SetFactory(BaseRequestHandlerFactory* factory) { m_factory = factory; }
+		void SetFactory(BaseCommandHandlerFactory* factory) { m_factory = factory; }
 
 	protected:
 		void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);

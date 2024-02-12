@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "ClientPeer.h"
-#include "BaseRequestHandlerFactory.h"
-#include "BaseRequestHandler.h"
+#include "BaseCommandHandlerFactory.h"
+#include "BaseCommandHandler.h"
 #include "BaseApplication.h"
 
 namespace Core
 {
-	ClientPeer::ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance)
+	ClientPeer::ClientPeer(Peer* peer, BaseCommandHandlerFactory* instance)
 		: m_peer(peer)
 	{
 		m_peer->SetFactory(instance);
