@@ -179,7 +179,6 @@
     <ClCompile Include="RequestHandlerException.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="Uuid.cpp" />
   </ItemGroup>
@@ -209,7 +208,6 @@
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Uuid.h" />
   </ItemGroup>
