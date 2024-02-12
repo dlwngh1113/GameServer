@@ -21,15 +21,16 @@ Framework::Framework()
         exit(0);
     }
 
-    if (!NetworkManager::GetInstance().Initialize())
-        Release();
-
-    PacketSender::GetInstance().SendLogin("dlwngh");
-
     SDL_SetWindowTitle(m_window, "SMO");
 
     m_renderer = Renderer::GetInstance().GetRenderer();
-    m_scene = new Scene;
+    m_scene = make_unique<Scene>();
+}
+
+void Framework::Initialize()
+{
+    if (!NetworkManager::GetInstance().Initialize())
+        Release();
 }
 
 Framework::~Framework()
@@ -41,18 +42,17 @@ void Framework::Release()
 {
     SDL_DestroyWindow(m_window);
     SDL_Quit();
-    if (m_scene)
-        delete m_scene;
 }
 
 void Framework::ChangeScene(Scene* scene)
 {
-    Scene* currentScene = m_scene;
-
-    m_scene = scene;
+    if (scene == nullptr)
+        return;
     
-    if (currentScene)
-        delete currentScene;
+    if (m_scene.get() == scene)
+        return;
+
+    m_scene.reset(scene);
 }
 
 void Framework::ShowError(const char* message)

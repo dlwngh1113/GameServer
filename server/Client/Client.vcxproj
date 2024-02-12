@@ -174,11 +174,9 @@
     <ClInclude Include="Handler.h" />
     <ClInclude Include="HandlerFactory.h" />
     <ClInclude Include="Handlers.h" />
-    <ClInclude Include="LoginHandler.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MaptoolScene.h" />
     <ClInclude Include="MovableObject.h" />
-    <ClInclude Include="MoveHandler.h" />
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Object.h" />
@@ -196,10 +194,8 @@
     <ClCompile Include="CMapLoader.cpp" />
     <ClCompile Include="Handler.cpp" />
     <ClCompile Include="HandlerFactory.cpp" />
-    <ClCompile Include="LoginHandler.cpp" />
     <ClCompile Include="MaptoolScene.cpp" />
     <ClCompile Include="MovableObject.cpp" />
-    <ClCompile Include="MoveHandler.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Object.cpp" />

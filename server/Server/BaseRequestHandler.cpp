@@ -5,7 +5,7 @@
 namespace Core
 {
 	BaseRequestHandler::BaseRequestHandler()
-		: m_packet{ nullptr }
+		: m_header{ nullptr }
 		, m_peer{ nullptr }
 	{
 	}
@@ -14,9 +14,9 @@ namespace Core
 	{
 	}
 
-	void BaseRequestHandler::Initialize(Peer* peer, ClientCommon::BasePacket* packet)
+	void BaseRequestHandler::Initialize(ClientPeer* peer, ClientCommon::Header* header)
 	{
 		m_peer = peer;
-		m_packet = packet;
+		m_header = header;
 	}
 }

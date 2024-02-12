@@ -12,4 +12,3 @@ public:
 public:
 	static OtherPlayer* Create(int nId);
 };
-

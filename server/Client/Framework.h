@@ -10,7 +10,7 @@ private:
     SDL_Window* m_window{ nullptr };
     SDL_Renderer* m_renderer{ nullptr };
 
-    Scene* m_scene{ nullptr };
+    unique_ptr<Scene> m_scene{ nullptr };
 
     void Render();
     void Update();
@@ -21,6 +21,7 @@ private:
 public:
     virtual ~Framework();
 
+    void Initialize();
     void Run();
     void Release();
     void ChangeScene(Scene* scene);
@@ -28,7 +29,7 @@ public:
     void ShowError(const char* message);
 
 public:
-    Scene* GetScene() { return m_scene; }
+    Scene* GetScene() { return m_scene.get(); }
 
     static Framework& GetInstance() { return s_instance; }
 };

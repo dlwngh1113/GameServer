@@ -109,7 +109,7 @@ void DisconnectClient(int ci)
 	// cout << "Client [" << ci << "] Disconnected!\n";
 }
 
-void SendPacket(int cl, BasePacket* packet)
+void SendPacket(int cl, Packet* packet)
 {
 	int psize = packet->header.size;
 	int ptype = packet->header.type;
@@ -132,54 +132,54 @@ void SendPacket(int cl, BasePacket* packet)
 
 void ProcessPacket(int ci, unsigned char packet[])
 {
-	BasePacket* p = reinterpret_cast<BasePacket*>(packet);
+	Packet* p = reinterpret_cast<Packet*>(packet);
 	ServerEvent evt = static_cast<ServerEvent>(p->header.type);
 
 	switch (evt) {
-	case ServerEvent::UserMove:
-	{
-		MoveResponse* move_packet = reinterpret_cast<MoveResponse*>(packet);
-		if (move_packet->id < MAX_CLIENTS)
-		{
-			int my_id = client_map[move_packet->id];
-			if (-1 != my_id) 
-			{
-				g_clients[my_id].x = move_packet->x;
-				g_clients[my_id].y = move_packet->y;
-			}
-			if (ci == my_id)
-			{
-				if (0 != move_packet->move_time)
-				{
-					auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - move_packet->move_time;
+	//case ServerEvent::UserMove:
+	//{
+	//	MoveResponse* move_packet = reinterpret_cast<MoveResponse*>(packet);
+	//	if (move_packet->id < MAX_CLIENTS)
+	//	{
+	//		int my_id = client_map[move_packet->id];
+	//		if (-1 != my_id) 
+	//		{
+	//			g_clients[my_id].x = move_packet->x;
+	//			g_clients[my_id].y = move_packet->y;
+	//		}
+	//		if (ci == my_id)
+	//		{
+	//			if (0 != move_packet->move_time)
+	//			{
+	//				auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - move_packet->move_time;
 
-					if (global_delay < d_ms) global_delay++;
-					else if (global_delay > d_ms) global_delay--;
-				}
-			}
-		}
-	}
-					   break;
-	case ServerEvent::UserEnter: break;
-	case ServerEvent::UserExit: break;
-	case ServerEvent::LoginOk:
-	{
-		g_clients[ci].connected = true;
-		active_clients++;
-		LoginResponse* login_packet = reinterpret_cast<LoginResponse*>(packet);
-		int my_id = ci;
-		client_map[login_packet->id] = my_id;
-		g_clients[my_id].id = login_packet->id;
-		g_clients[my_id].x = login_packet->x;
-		g_clients[my_id].y = login_packet->y;
+	//				if (global_delay < d_ms) global_delay++;
+	//				else if (global_delay > d_ms) global_delay--;
+	//			}
+	//		}
+	//	}
+	//}
+	//				   break;
+	//case ServerEvent::UserEnter: break;
+	//case ServerEvent::UserExit: break;
+	//case ServerEvent::LoginOk:
+	//{
+	//	g_clients[ci].connected = true;
+	//	active_clients++;
+	//	LoginResponse* login_packet = reinterpret_cast<LoginResponse*>(packet);
+	//	int my_id = ci;
+	//	client_map[login_packet->id] = my_id;
+	//	g_clients[my_id].id = login_packet->id;
+	//	g_clients[my_id].x = login_packet->x;
+	//	g_clients[my_id].y = login_packet->y;
 
-		TeleportRequest t_packet;
-		t_packet.x = rand() % WORLD_WIDTH;
-		t_packet.y = rand() % WORLD_HEIGHT;
-		t_packet.header.size = sizeof(t_packet);
-		t_packet.header.type = static_cast<short>(ClientCommand::Teleport);
-		SendPacket(my_id, &t_packet);
-	}
+	//	TeleportRequest t_packet;
+	//	t_packet.x = rand() % WORLD_WIDTH;
+	//	t_packet.y = rand() % WORLD_HEIGHT;
+	//	t_packet.header.size = sizeof(t_packet);
+	//	t_packet.header.type = static_cast<short>(ClientCommand::Teleport);
+	//	SendPacket(my_id, &t_packet);
+	//}
 	break;
 	//case SC_PACKET_CHAT:
 	//	break;
@@ -233,7 +233,7 @@ void Worker_Thread()
 				}
 				else
 				{
-					BasePacket* bp = reinterpret_cast<BasePacket*>(buf);
+					Packet* bp = reinterpret_cast<Packet*>(buf);
 					psize = bp->header.size;
 
 					if (io_size + pr_size >= psize)
@@ -361,13 +361,13 @@ void Adjust_Number_Of_Client()
 	DWORD recv_flag = 0;
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(g_clients[num_connections].client_socket), g_hiocp, num_connections, 0);
 
-	LoginRequest l_packet;
+	//LoginRequest l_packet;
 
-	int temp = num_connections;
-	l_packet.header.size = sizeof(l_packet);
-	l_packet.header.type = static_cast<short>(ClientCommand::Login);
-	sprintf_s(l_packet.name, "%d", temp);
-	SendPacket(num_connections, &l_packet);
+	//int temp = num_connections;
+	//l_packet.header.size = sizeof(l_packet);
+	//l_packet.header.type = static_cast<short>(ClientCommand::Login);
+	//sprintf_s(l_packet.name, "%d", temp);
+	//SendPacket(num_connections, &l_packet);
 
 
 	int ret = WSARecv(g_clients[num_connections].client_socket, &g_clients[num_connections].recv_over.wsabuf, 1,
@@ -386,6 +386,17 @@ fail_to_connect:
 	return;
 }
 
+string GenerateRandomString()
+{
+	string s;
+	s.resize(MAX_STR_LEN);
+
+	for (int i = 0; i < MAX_STR_LEN; ++i)
+		s[i] = rand();
+
+	return s;
+}
+
 void Test_Thread()
 {
 	while (true) 
@@ -398,18 +409,13 @@ void Test_Thread()
 			if (false == g_clients[i].connected) continue;
 			if (g_clients[i].last_move_time + 1s > high_resolution_clock::now()) continue;
 			g_clients[i].last_move_time = high_resolution_clock::now();
-			MoveRequest my_packet;
-			my_packet.header.size = sizeof(my_packet);
-			my_packet.header.type = static_cast<short>(ClientCommand::Move);
-			switch (rand() % 4) 
-			{
-			case 0: my_packet.direction = MV_UP; break;
-			case 1: my_packet.direction = MV_DOWN; break;
-			case 2: my_packet.direction = MV_LEFT; break;
-			case 3: my_packet.direction = MV_RIGHT; break;
-			}
-			my_packet.move_time = static_cast<unsigned>(duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count());
-			SendPacket(i, &my_packet);
+
+			ChattingPacket packet;
+			packet.message = GenerateRandomString();
+			packet.header.type = static_cast<short>(ClientCommand::Chatting);
+			packet.header.size = sizeof(Header) + packet.message.size();
+
+			SendPacket(i, &packet);
 		}
 	}
 }

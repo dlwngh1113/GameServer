@@ -23,8 +23,6 @@ void HandlerFactory::AddHandler(ServerEvent evt, Handler* handler)
 
 void HandlerFactory::Init()
 {
-	AddHandler(ServerEvent::LoginOk, new LoginHandler);
-	AddHandler(ServerEvent::UserMove, new MoveHandler);
 }
 
 Handler* HandlerFactory::GetHandler(ServerEvent evt)

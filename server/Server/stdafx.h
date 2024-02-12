@@ -25,8 +25,7 @@ extern "C" {
 #include <boost/asio.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
-
-using namespace std;
+#include <boost/array.hpp>
 
 #pragma comment(lib, "lua54.lib")
 
