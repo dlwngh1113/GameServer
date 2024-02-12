@@ -2,12 +2,12 @@
 
 namespace Core
 {
-	template<typename TProduct>
+	template<typename TBase>
 	class ICreator
 	{
 	public:
 		virtual ~ICreator() {}
-		virtual std::shared_ptr<TProduct> Create() = 0;
+		virtual std::shared_ptr<TBase> Create() = 0;
 	};
 
 	template<typename TBase, typename TProduct>
