@@ -1,8 +1,5 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-#include <WinSock2.h>
-#include <winsock.h>
-#include <Windows.h>
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -13,11 +10,11 @@
 #include <queue>
 #include <array>
 #include <memory>
+#include <boost/asio.hpp>
 
 using namespace std;
 using namespace chrono;
-
-extern HWND		hWnd;
+using namespace boost::asio::ip;
 
 const static int MAX_TEST = 10000;
 const static int MAX_CLIENTS = MAX_TEST * 2;
@@ -30,20 +27,9 @@ const static int MAX_BUFF_SIZE = 255;
 
 using namespace ClientCommon;
 
-HANDLE g_hiocp;
-
 enum OPTYPE { OP_SEND, OP_RECV, OP_DO_MOVE };
 
 high_resolution_clock::time_point last_connect_time;
-
-struct OverlappedEx
-{
-	WSAOVERLAPPED over;
-	WSABUF wsabuf;
-	unsigned char IOCP_buf[MAX_BUFF_SIZE];
-	OPTYPE event_type;
-	int event_target;
-};
 
 struct CLIENT
 {
@@ -52,14 +38,16 @@ struct CLIENT
 	int y;
 	atomic_bool connected;
 
-	SOCKET client_socket;
-	OverlappedEx recv_over;
+	tcp::socket client_socket;
 	unsigned char packet_buf[MAX_PACKET_SIZE];
 	int prev_packet_data;
 	int curr_packet_size;
 	high_resolution_clock::time_point last_move_time;
 };
 
+boost::asio::io_context g_context;
+tcp::resolver g_resolver;
+tcp::resolver::query g_query(tcp::v4(), "127.0.0.1:3500");
 array<int, MAX_CLIENTS> client_map;
 array<CLIENT, MAX_CLIENTS> g_clients;
 atomic_int num_connections;
@@ -93,7 +81,6 @@ void error_display(const char* msg, int err_no)
 	std::cout << msg;
 	std::wcout << L"에러" << lpMsgBuf << std::endl;
 
-	MessageBox(hWnd, lpMsgBuf, L"ERROR", 0);
 	LocalFree(lpMsgBuf);
 	// while (true);
 }
@@ -103,7 +90,7 @@ void DisconnectClient(int ci)
 	bool status = true;
 	if (true == atomic_compare_exchange_strong(&g_clients[ci].connected, &status, false))
 	{
-		closesocket(g_clients[ci].client_socket);
+		g_clients[ci].client_socket.close();
 		active_clients--;
 	}
 	// cout << "Client [" << ci << "] Disconnected!\n";
@@ -113,21 +100,11 @@ void SendPacket(int cl, Packet* packet)
 {
 	int psize = packet->header.size;
 	int ptype = packet->header.type;
-	OverlappedEx* over = new OverlappedEx;
-	over->event_type = OP_SEND;
-	memcpy(over->IOCP_buf, packet, psize);
-	ZeroMemory(&over->over, sizeof(over->over));
-	over->wsabuf.buf = reinterpret_cast<CHAR*>(over->IOCP_buf);
-	over->wsabuf.len = psize;
-	int ret = WSASend(g_clients[cl].client_socket, &over->wsabuf, 1, NULL, 0,
-		&over->over, NULL);
-	if (0 != ret) 
-	{
-		int err_no = WSAGetLastError();
-		if (WSA_IO_PENDING != err_no)
-			error_display("Error in SendPacket:", err_no);
-	}
-	// std::cout << "Send Packet [" << ptype << "] To Client : " << cl << std::endl;
+
+	char buffer[MAX_BUFFER];
+	memcpy(buffer, packet, psize);
+	boost::asio::async_write(g_clients[cl].client_socket, boost::asio::buffer(buffer),
+		[](const boost::system::error_code& error, size_t bytes) {});
 }
 
 void ProcessPacket(int ci, unsigned char packet[])
@@ -185,7 +162,7 @@ void ProcessPacket(int ci, unsigned char packet[])
 	//	break;
 	//case SC_PACKET_STAT_CHANGE:
 	//	break;
-	default: MessageBox(hWnd, L"Unknown Packet Type", L"ERROR", 0);
+	default:
 		while (true);
 	}
 }
@@ -218,49 +195,47 @@ void Worker_Thread()
 		}
 		if (OP_RECV == over->event_type) 
 		{
-			//std::cout << "RECV from Client :" << ci;
-			//std::cout << "  IO_SIZE : " << io_size << std::endl;
-			unsigned char* buf = g_clients[ci].recv_over.IOCP_buf;
-			unsigned psize = g_clients[ci].curr_packet_size;
-			unsigned pr_size = g_clients[ci].prev_packet_data;
-			while (io_size > 0) 
-			{
-				if (io_size < sizeof(Header))
-				{
-					memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
-					pr_size += io_size;
-					io_size = 0;
-				}
-				else
-				{
-					Packet* bp = reinterpret_cast<Packet*>(buf);
-					psize = bp->header.size;
+			//unsigned char* buf = g_clients[ci].recv_over.IOCP_buf;
+			//unsigned psize = g_clients[ci].curr_packet_size;
+			//unsigned pr_size = g_clients[ci].prev_packet_data;
+			//while (io_size > 0) 
+			//{
+			//	if (io_size < sizeof(Header))
+			//	{
+			//		memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
+			//		pr_size += io_size;
+			//		io_size = 0;
+			//	}
+			//	else
+			//	{
+			//		Packet* bp = reinterpret_cast<Packet*>(buf);
+			//		psize = bp->header.size;
 
-					if (io_size + pr_size >= psize)
-					{
-						// 지금 패킷 완성 가능
-						unsigned char packet[MAX_PACKET_SIZE];
-						memcpy(packet, g_clients[ci].packet_buf, pr_size);
-						memcpy(packet + pr_size, buf, psize - pr_size);
-						ProcessPacket(static_cast<int>(ci), packet);
-						io_size -= psize - pr_size;
-						buf += psize - pr_size;
-						psize = 0; pr_size = 0;
-					}
-					else
-					{
-						memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
-						pr_size += io_size;
-						io_size = 0;
-					}
-				}
-			}
-			g_clients[ci].curr_packet_size = psize;
-			g_clients[ci].prev_packet_data = pr_size;
-			DWORD recv_flag = 0;
-			int ret = WSARecv(g_clients[ci].client_socket,
-				&g_clients[ci].recv_over.wsabuf, 1,
-				NULL, &recv_flag, &g_clients[ci].recv_over.over, NULL);
+			//		if (io_size + pr_size >= psize)
+			//		{
+			//			// 지금 패킷 완성 가능
+			//			unsigned char packet[MAX_PACKET_SIZE];
+			//			memcpy(packet, g_clients[ci].packet_buf, pr_size);
+			//			memcpy(packet + pr_size, buf, psize - pr_size);
+			//			ProcessPacket(static_cast<int>(ci), packet);
+			//			io_size -= psize - pr_size;
+			//			buf += psize - pr_size;
+			//			psize = 0; pr_size = 0;
+			//		}
+			//		else
+			//		{
+			//			memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
+			//			pr_size += io_size;
+			//			io_size = 0;
+			//		}
+			//	}
+			//}
+			//g_clients[ci].curr_packet_size = psize;
+			//g_clients[ci].prev_packet_data = pr_size;
+			//DWORD recv_flag = 0;
+			//int ret = WSARecv(g_clients[ci].client_socket,
+			//	&g_clients[ci].recv_over.wsabuf, 1,
+			//	NULL, &recv_flag, &g_clients[ci].recv_over.over, NULL);
 			if (SOCKET_ERROR == ret) 
 			{
 				int err_no = WSAGetLastError();
@@ -296,6 +271,32 @@ void Worker_Thread()
 constexpr int DELAY_LIMIT = 100;
 constexpr int DELAY_LIMIT2 = 150;
 constexpr int ACCEPT_DELY = 50;
+
+void OnReceive(const boost::system::error_code& error, size_t bytes)
+{
+	if (!error)
+	{
+		// packet process
+
+
+		boost::asio::async_read(g_clients[num_connections].client_socket, boost::asio::buffer(g_clients[num_connections].packet_buf, MAX_BUFFER),
+			[](const boost::system::error_code& error, size_t bytes) {});
+	}
+	else
+	{
+		DisconnectClient(client_id);
+		--num_connections;
+	}
+}
+
+void OnConnect(const boost::system::error_code& error, const tcp::endpoint& endpoint)
+{
+	g_clients[num_connections].curr_packet_size = 0;
+	g_clients[num_connections].prev_packet_data = 0;
+
+	boost::asio::async_read(g_clients[num_connections].client_socket, boost::asio::buffer(g_clients[num_connections].packet_buf, MAX_BUFFER),
+		[](const boost::system::error_code& error, size_t bytes) {});
+}
 
 void Adjust_Number_Of_Client()
 {
@@ -337,52 +338,15 @@ void Adjust_Number_Of_Client()
 
 	increasing = true;
 	last_connect_time = high_resolution_clock::now();
-	g_clients[num_connections].client_socket = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
+	g_clients[num_connections].client_socket = tcp::socket(g_context);
 
-	SOCKADDR_IN ServerAddr;
-	ZeroMemory(&ServerAddr, sizeof(SOCKADDR_IN));
-	ServerAddr.sin_family = AF_INET;
-	ServerAddr.sin_port = htons(SERVER_PORT);
-	ServerAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-
-	int Result = WSAConnect(g_clients[num_connections].client_socket, (sockaddr*)&ServerAddr, sizeof(ServerAddr), NULL, NULL, NULL, NULL);
-	if (0 != Result)
-		error_display("WSAConnect : ", GetLastError());
-
-	g_clients[num_connections].curr_packet_size = 0;
-	g_clients[num_connections].prev_packet_data = 0;
-	ZeroMemory(&g_clients[num_connections].recv_over, sizeof(g_clients[num_connections].recv_over));
-	g_clients[num_connections].recv_over.event_type = OP_RECV;
-	g_clients[num_connections].recv_over.wsabuf.buf =
-		reinterpret_cast<CHAR*>(g_clients[num_connections].recv_over.IOCP_buf);
-	g_clients[num_connections].recv_over.wsabuf.len = sizeof(g_clients[num_connections].recv_over.IOCP_buf);
-
-	DWORD recv_flag = 0;
-	CreateIoCompletionPort(reinterpret_cast<HANDLE>(g_clients[num_connections].client_socket), g_hiocp, num_connections, 0);
-
-	//LoginRequest l_packet;
-
-	//int temp = num_connections;
-	//l_packet.header.size = sizeof(l_packet);
-	//l_packet.header.type = static_cast<short>(ClientCommand::Login);
-	//sprintf_s(l_packet.name, "%d", temp);
-	//SendPacket(num_connections, &l_packet);
-
-
-	int ret = WSARecv(g_clients[num_connections].client_socket, &g_clients[num_connections].recv_over.wsabuf, 1,
-		NULL, &recv_flag, &g_clients[num_connections].recv_over.over, NULL);
-	if (SOCKET_ERROR == ret) 
-	{
-		int err_no = WSAGetLastError();
-		if (err_no != WSA_IO_PENDING)
+	g_resolver.async_resolve(g_query, [](const boost::system::error_code& error, tcp::resolver::results_type results)
 		{
-			error_display("RECV ERROR", err_no);
-			goto fail_to_connect;
-		}
-	}
+			if (!error)
+				boost::asio::async_connect(g_clients[num_connections].client_socket, results, OnConnect);
+		});
+
 	num_connections++;
-fail_to_connect:
 	return;
 }
 
@@ -432,15 +396,15 @@ void InitializeNetwork()
 	num_connections = 0;
 	last_connect_time = high_resolution_clock::now();
 
-	WSADATA	wsadata;
-	WSAStartup(MAKEWORD(2, 2), &wsadata);
-
-	g_hiocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, NULL, 0);
+	g_resolver = tcp::resolver(g_context);
 
 	for (int i = 0; i < 6; ++i)
 		worker_threads.push_back(new std::thread{ Worker_Thread });
 
 	test_thread = thread{ Test_Thread };
+
+	g_context.run();
+
 }
 
 void ShutdownNetwork()
