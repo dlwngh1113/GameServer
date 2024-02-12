@@ -3,7 +3,7 @@
 template <typename T>
 class ObjectPool
 {
-	std::mutex m_lock;
+	mutex m_lock;
 	Concurrency::concurrent_queue<T*> m_pool;
 public:
 	explicit ObjectPool(int size);

@@ -14,7 +14,7 @@ namespace Core
 	{
 	}
 
-	void BaseRequestHandler::Initialize(ClientPeer* peer, ClientCommon::Header* header)
+	void BaseRequestHandler::Initialize(shared_ptr<Peer> peer, ClientCommon::Header* header)
 	{
 		m_peer = peer;
 		m_header = header;

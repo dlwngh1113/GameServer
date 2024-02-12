@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseApplication.cpp" />
+    <ClCompile Include="ChattingCommandHandler.cpp" />
     <ClCompile Include="ClientPeer.cpp" />
     <ClCompile Include="CServer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseApplication.h" />
+    <ClInclude Include="ChattingCommandHandler.h" />
     <ClInclude Include="ClientPeer.h" />
     <ClInclude Include="CServer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -197,7 +199,6 @@
     <ClInclude Include="include\lauxlib.h" />
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />
-    <ClInclude Include="IPeer.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MetaDatas.h" />
     <ClInclude Include="ObjectPool.h" />

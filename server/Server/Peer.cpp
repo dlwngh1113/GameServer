@@ -2,6 +2,8 @@
 #include "Peer.h"
 #include "Uuid.h"
 #include "BaseApplication.h"
+#include "BaseRequestHandlerFactory.h"
+#include "BaseRequestHandler.h"
 
 namespace Core
 {
@@ -72,6 +74,27 @@ namespace Core
         {
             // Disconnect peer
             Disconnect();
+        }
+    }
+
+    void Peer::ProcessPacket(char* data, size_t size)
+    {
+        ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(data);
+        try
+        {
+            if (m_factory == nullptr)
+                throw exception{ "RequestHandlerFactory is nullptr!" /* + m_peer->id()*/ };
+
+            cout << header->type << endl;
+            shared_ptr<BaseRequestHandler> handler = m_factory->Create(header->type);
+            handler->Initialize(shared_from_this(), header);
+
+            // add to thread worker
+            boost::asio::dispatch(BaseApplication::threads(), [handler]() {handler->Handle(); });
+        }
+        catch (exception& ex)
+        {
+            cout << "[Error] - " << ex.what() << endl;
         }
     }
 

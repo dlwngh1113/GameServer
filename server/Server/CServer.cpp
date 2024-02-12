@@ -30,9 +30,9 @@ void CServer::Initialize()
 	MetaDatas::GetInstance().Initialize();
 }
 
-std::shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)
+shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)
 {
-	std::lock_guard<std::mutex> lock{ m_userLock };
+	lock_guard<mutex> lock{ m_userLock };
 	auto result = m_users.find(id);
 	if (result != m_users.end())
 		return result->second;
@@ -54,7 +54,7 @@ void CServer::OnAccepted(Core::Peer* peer)
 
 void CServer::OnDisconnected(Core::Peer* peer)
 {
-	std::lock_guard<std::mutex> lock{ m_userLock };
+	lock_guard<mutex> lock{ m_userLock };
 
 	auto result = m_users.find(peer->id());
 	if (result != m_users.end())

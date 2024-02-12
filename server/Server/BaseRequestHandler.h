@@ -3,19 +3,19 @@
 
 namespace Core
 {
-	class ClientPeer;
+	class Peer;
 
 	class BaseRequestHandler
 	{
 	protected:
-		ClientPeer* m_peer;
+		shared_ptr<Peer> m_peer;
 		ClientCommon::Header* m_header;
 
 	public:
 		BaseRequestHandler();
 		virtual ~BaseRequestHandler();
 
-		void Initialize(ClientPeer* peer, ClientCommon::Header* header);
+		void Initialize(shared_ptr<Peer> peer, ClientCommon::Header* header);
 
 		virtual void Handle() = 0;
 	};

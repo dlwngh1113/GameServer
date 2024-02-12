@@ -7,13 +7,13 @@ namespace Core
 	{
 	public:
 		virtual ~ICreator() {}
-		virtual std::shared_ptr<TBase> Create() = 0;
+		virtual shared_ptr<TBase> Create() = 0;
 	};
 
 	template<typename TBase, typename TProduct>
 	class ProductCreator : public ICreator<TBase>
 	{
 	public:
-		virtual std::shared_ptr<TBase> Create() { return std::make_shared<TProduct>(); }
+		virtual shared_ptr<TBase> Create() { return make_shared<TProduct>(); }
 	};
 }

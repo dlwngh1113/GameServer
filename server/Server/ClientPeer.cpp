@@ -7,34 +7,13 @@
 namespace Core
 {
 	ClientPeer::ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance)
-		: m_peer{ peer }
+		: m_peer(peer)
 	{
-		m_factory = instance;
-		m_peer->ProcessPacket = [this](char* data, size_t size) { this->ProcessPacket(data, size); };
+		m_peer->SetFactory(instance);
 	}
 
 	ClientPeer::~ClientPeer()
 	{
-	}
-
-	void ClientPeer::ProcessPacket(char* data, size_t size)
-	{
-		ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(data);
-		try
-		{
-			if (m_factory == nullptr)
-				throw std::exception{ "RequestHandlerFactory is nullptr!" /* + m_peer->id()*/ };
-
-			std::shared_ptr<BaseRequestHandler> handler = m_factory->Create(header->type);
-			handler->Initialize(this, header);
-
-			// add to thread worker
-			boost::asio::dispatch(BaseApplication::threads(), [handler]() {handler->Handle(); });
-		}
-		catch (std::exception& ex)
-		{
-			std::cout << "[Error] - " << ex.what() << std::endl;
-		}
 	}
 
 	void ClientPeer::SendPacket(char* data, size_t size)

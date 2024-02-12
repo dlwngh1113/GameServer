@@ -9,7 +9,6 @@ namespace Core
 	{
 	protected:
 		Peer* m_peer;
-		BaseRequestHandlerFactory* m_factory;
 
 	public:
 		explicit ClientPeer(Peer* peer, BaseRequestHandlerFactory* instance);
@@ -17,7 +16,6 @@ namespace Core
 
 		const boost::uuids::uuid& GetID() const { return m_peer->id(); }
 
-		virtual void ProcessPacket(char* data, size_t size);
 		void SendPacket(char* data, size_t size);
 	};
 }

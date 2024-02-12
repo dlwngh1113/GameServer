@@ -7,7 +7,7 @@ namespace Core
 	class IFactory
 	{
 	protected:
-		std::unordered_map<TKey, std::unique_ptr<ICreator<TValue>>> m_creators;
+		unordered_map<TKey, unique_ptr<ICreator<TValue>>> m_creators;
 
 		ICreator<TValue>* GetCreator(TKey key)
 		{
@@ -18,16 +18,16 @@ namespace Core
 			return nullptr;
 		}
 
-		void AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator);
+		void AddCreator(TKey key, unique_ptr<ICreator<TValue>>&& creator);
 
 	public:
 		virtual ~IFactory();
 	};
 
 	template<typename TKey, typename TValue>
-	inline void IFactory<TKey, TValue>::AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator)
+	inline void IFactory<TKey, TValue>::AddCreator(TKey key, unique_ptr<ICreator<TValue>>&& creator)
 	{
-		m_creators.insert(std::make_pair(key, std::move(creator)));
+		m_creators.insert(make_pair(key, move(creator)));
 	}
 
 	template<typename TKey, typename TValue>

@@ -3,7 +3,7 @@
 
 class ConnectionPool;
 
-class User : public Core::ClientPeer, public std::enable_shared_from_this<User>
+class User : public Core::ClientPeer, public enable_shared_from_this<User>
 {
 	boost::uuids::uuid m_id;
 public:

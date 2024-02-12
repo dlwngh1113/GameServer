@@ -4,12 +4,10 @@
 namespace Core
 {
 	class BaseApplication;
+	class BaseRequestHandlerFactory;
 
 	class Peer final : public enable_shared_from_this<Peer>
 	{
-	private:
-		using ProcessPacketEvent = function<void(char*, size_t)>;
-
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
@@ -19,9 +17,7 @@ namespace Core
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
-
-	public:
-		ProcessPacketEvent ProcessPacket;
+		BaseRequestHandlerFactory* m_factory;
 
 	public:
 		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
@@ -29,12 +25,14 @@ namespace Core
 		const boost::uuids::uuid& id() const;
 
 		void SendData(char* data, size_t size);
+		void SetFactory(BaseRequestHandlerFactory* factory) { m_factory = factory; }
 
 	protected:
 		void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
 		
 	private:
 		void ReceiveData();
+		void ProcessPacket(char* data, size_t size);
 		void ReceiveLeftData(char* currentReceivePtr, char* nextRecvPtr);
 		void Disconnect();
 

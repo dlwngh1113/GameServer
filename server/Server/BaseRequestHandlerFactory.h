@@ -9,7 +9,7 @@ namespace Core
 		BaseRequestHandlerFactory();
 		virtual ~BaseRequestHandlerFactory();
 
-		virtual std::shared_ptr<BaseRequestHandler> Create(short type) override;
+		virtual shared_ptr<BaseRequestHandler> Create(short type) override;
 		virtual void Initialize() = 0;
 	};
 }
