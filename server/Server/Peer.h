@@ -28,13 +28,13 @@ namespace Core
 
 		const boost::uuids::uuid& id() const;
 
-		void ReceiveData();
 		void SendData(char* data, size_t size);
 
 	protected:
 		void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
 		
 	private:
+		void ReceiveData();
 		void ReceiveLeftData(char* currentReceivePtr, char* nextRecvPtr);
 		void Disconnect();
 
