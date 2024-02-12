@@ -5,7 +5,7 @@ namespace Core
 {
 	class BaseApplication;
 
-	class Peer final : enable_shared_from_this<Peer>
+	class Peer final : public enable_shared_from_this<Peer>
 	{
 	private:
 		using ProcessPacketEvent = function<void(char*, size_t)>;

@@ -94,14 +94,20 @@ namespace Core
 
     void Peer::SendData(char* data, size_t size)
     {
-        boost::asio::async_write(m_socket, boost::asio::buffer(data, size),
-            [](const boost::system::error_code& error, size_t bytesTransferred) {});
+        try
+        {
+            boost::asio::async_write(m_socket, boost::asio::buffer(data, size),
+                [](const boost::system::error_code& error, size_t bytesTransferred) {});
+        }
+        catch (exception& ex)
+        {
+            cout << ex.what() << endl;
+        }
     }
 
-    shared_ptr<Peer> Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application)
+    shared_ptr<Peer> Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application )
     {
         shared_ptr<Peer> inst = make_shared<Peer>(move(socket), application);
-        inst->ReceiveData();
 
         return inst;
     }

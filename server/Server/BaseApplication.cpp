@@ -26,8 +26,6 @@ namespace Core
 
     void BaseApplication::StartAccept()
     {
-        //shared_ptr<boost::asio::ip::tcp::socket> socket = make_shared<boost::asio::ip::tcp::socket>(m_context);
-        //m_acceptor.async_accept(bind(&BaseApplication::OnAccept, this, placeholders::_1, socket));
         m_acceptor.async_accept(bind(&BaseApplication::OnAccept, this, placeholders::_1, placeholders::_2));
     }
 
@@ -41,6 +39,8 @@ namespace Core
             shared_ptr<Peer> acceptedPeer = Peer::Create(move(acceptedSocket), this);
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
+
+            acceptedPeer->ReceiveData();
         }
 
         StartAccept();
