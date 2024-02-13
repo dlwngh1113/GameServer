@@ -10,9 +10,10 @@ namespace Core
     Peer::Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept
         : m_socket(move(socket))
         , m_bufferOffset(0)
-        , m_buffer(MAX_BUFFER)
+        , m_buffer(m_data, MAX_BUFFER)
         , m_id(Uuid::New())
         , m_application(application)
+        , m_factory(nullptr)
     {
         m_processBuffer.resize(MAX_BUFFER, '\0');
     }
@@ -26,7 +27,7 @@ namespace Core
     {
         try
         {
-            boost::asio::async_read(m_socket, m_buffer,
+            boost::asio::async_read(m_socket, boost::asio::buffer(m_buffer),
                 bind(&Peer::OnReceiveData, shared_from_this(), placeholders::_1, placeholders::_2));
         }
         catch (exception& ex)
@@ -39,15 +40,11 @@ namespace Core
     {
         if (!error.failed())
         {
-            // If buffer is full, move buffer to bigger size
-            if (m_bufferOffset + bytesTransferred >= m_processBuffer.size())
-                m_processBuffer.resize(m_bufferOffset + bytesTransferred, '\0');
-
             // Process received data
-            char* currentReceivePtr = m_processBuffer.data();
-            memcpy_s(currentReceivePtr + m_bufferOffset, m_processBuffer.size() - m_bufferOffset, m_buffer.data().data(), m_buffer.size());
+            unsigned char* currentReceivePtr = m_processBuffer.data();
+            memcpy_s(currentReceivePtr + m_bufferOffset, m_processBuffer.size() - m_bufferOffset, m_buffer.data(), m_buffer.size());
 
-            char* nextRecvPtr = currentReceivePtr + bytesTransferred;
+            unsigned char* nextRecvPtr = currentReceivePtr + bytesTransferred;
 
             ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(currentReceivePtr);
             short packetType = header->type;
@@ -77,20 +74,19 @@ namespace Core
         }
     }
 
-    void Peer::ProcessPacket(char* data, size_t size)
+    void Peer::ProcessPacket(unsigned char* data, size_t size)
     {
         ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(data);
         try
         {
             if (m_factory == nullptr)
-                throw exception{ "CommandHandlerFactory is nullptr!" /* + m_peer->id()*/ };
+                throw exception{ "CommandHandlerFactory is nullptr!" };
 
-            cout << header->type << endl;
             shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
             handler->Initialize(shared_from_this(), header);
 
-            // add to thread worker
-            boost::asio::dispatch(BaseApplication::threads(), [handler]() {handler->Handle(); });
+            // add to worker thread
+            boost::asio::dispatch(BaseApplication::threads(), [handler]() { handler->Handle(); });
         }
         catch (exception& ex)
         {
@@ -98,7 +94,7 @@ namespace Core
         }
     }
 
-    void Peer::ReceiveLeftData(char* currentReceivePtr, char* nextRecvPtr)
+    void Peer::ReceiveLeftData(unsigned char* currentReceivePtr, volatile unsigned char* nextRecvPtr)
     {
         long long lnLeftData = nextRecvPtr - currentReceivePtr;
         memcpy_s(m_processBuffer.data(), m_processBuffer.size(), currentReceivePtr, lnLeftData);

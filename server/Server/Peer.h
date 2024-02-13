@@ -11,9 +11,10 @@ namespace Core
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		vector<char> m_processBuffer;
+		vector<unsigned char> m_processBuffer;
+		unsigned char m_data[MAX_BUFFER];
 		size_t m_bufferOffset;
-		boost::asio::streambuf m_buffer;
+		boost::asio::mutable_buffer m_buffer;
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
@@ -32,8 +33,8 @@ namespace Core
 		
 	private:
 		void ReceiveData();
-		void ProcessPacket(char* data, size_t size);
-		void ReceiveLeftData(char* currentReceivePtr, char* nextRecvPtr);
+		void ProcessPacket(unsigned char* data, size_t size);
+		void ReceiveLeftData(unsigned char* currentReceivePtr, volatile unsigned char* nextRecvPtr);
 		void Disconnect();
 
 		// Static Member Functions
