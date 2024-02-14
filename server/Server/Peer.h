@@ -33,7 +33,7 @@ namespace Core
 	private:
 		void ReceiveData();
 		void ProcessPacket(unsigned char* data, size_t size);
-		void ReceiveLeftData(unsigned char* currentReceivePtr, volatile unsigned char* nextRecvPtr);
+		void ReceiveLeftData(unsigned char* nextRecvPtr);
 		void Disconnect();
 
 		// Static Member Functions
