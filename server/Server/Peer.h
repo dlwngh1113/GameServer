@@ -12,8 +12,7 @@ namespace Core
 		boost::asio::ip::tcp::socket m_socket;
 
 		vector<unsigned char> m_processBuffer;
-		unsigned char m_data[MAX_BUFFER];
-		size_t m_bufferOffset;
+		unsigned char m_data[MAX_BUFFER]{};
 		boost::asio::mutable_buffer m_buffer;
 
 		boost::uuids::uuid m_id;
