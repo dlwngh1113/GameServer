@@ -18,14 +18,8 @@
     <Filter Include="Framework\Util">
       <UniqueIdentifier>{eae973cc-60ba-42f3-9124-492e0bb7aa6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\RequestHandler">
-      <UniqueIdentifier>{99d36e55-ac47-47b2-b680-1ade2a7ac04a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework\Util\Log">
       <UniqueIdentifier>{2e7dfe01-8f01-45ea-b7e3-94ed68db3807}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Framework\RequestHandler\Handler">
-      <UniqueIdentifier>{afa4b1ce-d91f-4894-8d98-11f6728ab8ce}</UniqueIdentifier>
     </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{2a4ac455-56ed-4fbe-bba8-bfcbb9d0e003}</UniqueIdentifier>
@@ -44,6 +38,12 @@
     </Filter>
     <Filter Include="Framework\Application">
       <UniqueIdentifier>{ebc97cb8-3d29-4562-838c-66f57404cb2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\CommandHandler">
+      <UniqueIdentifier>{99d36e55-ac47-47b2-b680-1ade2a7ac04a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\CommandHandler\Handler">
+      <UniqueIdentifier>{afa4b1ce-d91f-4894-8d98-11f6728ab8ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -65,13 +65,13 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Framework\Util\Log</Filter>
     </ClCompile>
-    <ClCompile Include="BaseRequestHandlerFactory.cpp">
-      <Filter>Framework\RequestHandler</Filter>
+    <ClCompile Include="BaseCommandHandlerFactory.cpp">
+      <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
-    <ClCompile Include="BaseRequestHandler.cpp">
-      <Filter>Framework\RequestHandler\Handler</Filter>
+    <ClCompile Include="BaseCommandHandler.cpp">
+      <Filter>Framework\CommandHandler\Handler</Filter>
     </ClCompile>
-    <ClCompile Include="RequestHandlerFactory.cpp">
+    <ClCompile Include="CommandHandlerFactory.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
     <ClCompile Include="User.cpp">
@@ -81,22 +81,22 @@
       <Filter>Framework\Peer</Filter>
     </ClCompile>
     <ClCompile Include="IHandlerFactory.cpp">
-      <Filter>Framework\RequestHandler</Filter>
+      <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
-    <ClCompile Include="RequestHandler.cpp">
+    <ClCompile Include="CommandHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
     <ClCompile Include="MetaDatas.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadPool.cpp">
-      <Filter>Framework\Util\Pool</Filter>
-    </ClCompile>
-    <ClCompile Include="RequestHandlerException.cpp">
-      <Filter>Framework\RequestHandler</Filter>
+    <ClCompile Include="CommandHandlerException.cpp">
+      <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
     <ClCompile Include="Uuid.cpp">
       <Filter>Framework\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ChattingCommandHandler.cpp">
+      <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,25 +112,22 @@
     <ClInclude Include="ClientPeer.h">
       <Filter>Framework\Peer</Filter>
     </ClInclude>
-    <ClInclude Include="IPeer.h">
-      <Filter>Framework\Peer</Filter>
-    </ClInclude>
     <ClInclude Include="BaseApplication.h">
       <Filter>Framework\Application</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Framework\Util\Log</Filter>
     </ClInclude>
-    <ClInclude Include="BaseRequestHandlerFactory.h">
-      <Filter>Framework\RequestHandler</Filter>
+    <ClInclude Include="BaseCommandHandlerFactory.h">
+      <Filter>Framework\CommandHandler</Filter>
     </ClInclude>
-    <ClInclude Include="BaseRequestHandler.h">
-      <Filter>Framework\RequestHandler\Handler</Filter>
+    <ClInclude Include="BaseCommandHandler.h">
+      <Filter>Framework\CommandHandler\Handler</Filter>
     </ClInclude>
     <ClInclude Include="IFactory.h">
-      <Filter>Framework\RequestHandler</Filter>
+      <Filter>Framework\CommandHandler</Filter>
     </ClInclude>
-    <ClInclude Include="RequestHandlerFactory.h">
+    <ClInclude Include="CommandHandlerFactory.h">
       <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
     <ClInclude Include="User.h">
@@ -139,19 +136,16 @@
     <ClInclude Include="Peer.h">
       <Filter>Framework\Peer</Filter>
     </ClInclude>
-    <ClInclude Include="RequestHandler.h">
+    <ClInclude Include="CommandHandler.h">
       <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
     <ClInclude Include="IHandlerFactory.h">
-      <Filter>Framework\RequestHandler</Filter>
+      <Filter>Framework\CommandHandler</Filter>
     </ClInclude>
     <ClInclude Include="MetaDatas.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
-      <Filter>Framework\Util\Pool</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadPool.h">
       <Filter>Framework\Util\Pool</Filter>
     </ClInclude>
     <ClInclude Include="CServer.h">
@@ -163,8 +157,8 @@
     <ClInclude Include="stdafx.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="RequestHandlerException.h">
-      <Filter>Framework\RequestHandler</Filter>
+    <ClInclude Include="CommandHandlerException.h">
+      <Filter>Framework\CommandHandler</Filter>
     </ClInclude>
     <ClInclude Include="ICreator.h">
       <Filter>Framework\Util</Filter>
@@ -174,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="Uuid.h">
       <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ChattingCommandHandler.h">
+      <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

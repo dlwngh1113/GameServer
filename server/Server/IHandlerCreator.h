@@ -8,6 +8,6 @@ namespace Core
 	{
 	public:
 		virtual ~IHandlerCreator() {}
-		virtual std::shared_ptr<THandlerType> Create() = 0;
+		virtual shared_ptr<THandlerType> Create() = 0;
 	};
 }

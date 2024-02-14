@@ -4,38 +4,36 @@
 namespace Core
 {
 	class BaseApplication;
+	class BaseCommandHandlerFactory;
 
 	class Peer final : public enable_shared_from_this<Peer>
 	{
 	private:
-		using ProcessPacketEvent = function<void(char*, size_t)>;
-
-	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		vector<char> m_processBuffer;
-		size_t m_bufferOffset;
-		boost::asio::streambuf m_buffer;
+		vector<unsigned char> m_processBuffer;
+		unsigned char m_data[MAX_BUFFER]{};
+		boost::asio::mutable_buffer m_buffer;
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
-
-	public:
-		ProcessPacketEvent ProcessPacket;
+		BaseCommandHandlerFactory* m_factory;
 
 	public:
 		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
 
 		const boost::uuids::uuid& id() const;
 
-		void ReceiveData();
 		void SendData(char* data, size_t size);
+		void SetFactory(BaseCommandHandlerFactory* factory) { m_factory = factory; }
 
 	protected:
 		void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
 		
 	private:
-		void ReceiveLeftData(char* currentReceivePtr, char* nextRecvPtr);
+		void ReceiveData();
+		void ProcessPacket(unsigned char* data, size_t size);
+		void ReceiveLeftData(unsigned char* nextRecvPtr);
 		void Disconnect();
 
 		// Static Member Functions

@@ -4,13 +4,13 @@
 
 namespace Core
 {
-	class RequestHandlerException : public std::exception
+	class CommandHandlerException : public std::exception
 	{
 		std::string m_sErrorLog;
 	public:
-		explicit RequestHandlerException();
-		explicit RequestHandlerException(const std::string& sLogFile, const char* sMessage);
-		virtual ~RequestHandlerException();
+		explicit CommandHandlerException();
+		explicit CommandHandlerException(const std::string& sLogFile, const char* sMessage);
+		virtual ~CommandHandlerException();
 
 		_NODISCARD virtual const char* what() const override;
 	};

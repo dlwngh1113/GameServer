@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "RequestHandler.h"
+#include "CommandHandler.h"
 #include "CServer.h"
 
-void RequestHandler::Handle()
+void CommandHandler::Handle()
 {
 	HandleRequest();
 }

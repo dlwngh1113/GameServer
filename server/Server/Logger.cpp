@@ -3,11 +3,11 @@
 
 HANDLE Logger::s_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-void Logger::Error(std::wstring message)
+void Logger::Error(wstring message)
 {
 	SetConsoleTextAttribute(s_ConsoleHandle, 12);
 
-	std::wcout << "[Error] : " << message << std::endl;
+	wcout << "[Error] : " << message << endl;
 }
 
 void Logger::Info(const char* fmt, ...)
