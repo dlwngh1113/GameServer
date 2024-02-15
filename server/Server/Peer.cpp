@@ -42,37 +42,6 @@ namespace Core
     {
         if (!error.failed())
         {
-            /*
-            unsigned char* pNextRecvPos = m_pReceiveStartPtr + ioSize;
-
-            if (ioSize < sizeof(Header))
-            {
-                ReceiveLeftData(pNextRecvPos);
-                return;
-            }
-
-            Header* header = reinterpret_cast<Header*>(m_pReceiveStartPtr);
-            short snPacketType = header->type;
-            short snPacketSize = header->size;
-
-            // 패킷이 size만큼 도착한 경우
-            while (snPacketSize <= pNextRecvPos - m_pReceiveStartPtr)
-            {
-                OnProcessPacket(m_pReceiveStartPtr, snPacketSize);
-
-                m_pReceiveStartPtr += snPacketSize;
-                if (m_pReceiveStartPtr < pNextRecvPos)
-                {
-                    header = reinterpret_cast<Header*>(m_pReceiveStartPtr);
-                    snPacketSize = header->size;
-                }
-                else
-                    break;
-            }
-
-            ReceiveLeftData(pNextRecvPos);
-            */
-
             unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
             unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
 
