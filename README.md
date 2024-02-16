@@ -8,7 +8,7 @@ boost/asio로 제작한 간단한 서버입니다.
 ## Framework
 
 ### 서버
-  - BaseServer 상속
+  - BaseApplication 상속
   
   - 서버에 접속한 클라이언트들을 관리합니다.
   
@@ -21,10 +21,14 @@ boost/asio로 제작한 간단한 서버입니다.
   - 서버에 접속한 클라이언트 인스턴스입니다.
   
   - 데이터 패킷의 수신, 발신을 할 수 있는 멤버 변수를 갖고 있습니다.
+  
+  - boost::asio::thread_pool을 사용하여 스레드에서 명령을 처리합니다.
 
 ### 핸들러팩토리
-  - BaseRequestHandlerFactory 상속
+  - BaseCommandHandlerFactory 상속
   
   - Singletone 패턴으로 제작 후 클라이언트 생성 시 파라미터로 전달해야 합니다.
   
   - 클라이언트에서 온 패킷을 O(1)에 처리할 수 있도록 Init에서 미리 Handler 인스턴스를 등록해야 합니다.
+  
+  - handler 타입의 shared_ptr를 반환할 수 있도록 템플릿을 사용했습니다.
