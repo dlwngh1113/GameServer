@@ -27,6 +27,11 @@ extern "C" {
 #include <boost/uuid/random_generator.hpp>
 #include <boost/array.hpp>
 
+// mysql
+#include <jdbc/cppconn/driver.h>
+#include <jdbc/cppconn/resultset.h>
+
 #pragma comment(lib, "lua54.lib")
+#pragma comment(lib, "mysqlcppconn.lib")
 
 #include "../Common/Common.hpp"
