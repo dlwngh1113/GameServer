@@ -3,6 +3,7 @@
 
 namespace Core
 {
+	DataBase DataBase::s_instance;
 	namespace
 	{
 		static constexpr string kHostAddress("127.0.0.1:3306");
@@ -20,13 +21,15 @@ namespace Core
 	void DataBase::Initialize()
 	{
 		cerr << __FUNCTION__ << " Started\n" << endl;
+
 		unique_ptr<sql::Connection> connection = nullptr;
 		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
 		{
-			connection = make_unique<sql::Connection>(m_driver->connect(kHostAddress, kUserName, kPassword));
+			connection.reset(m_driver->connect(kHostAddress, kUserName, kPassword));
 			connection->setSchema(kSchema);
 			m_connections.emplace_back(move(connection));
 		}
+
 		cerr << __FUNCTION__ << " Finished\n" << endl;
 
 		Migrate();
@@ -43,13 +46,15 @@ namespace Core
 	void DataBase::Migrate()
 	{
 		cerr << __FUNCTION__ << " Started\n" << endl;
+
 		sql::Connection* connection = GetConnection();
 
 		try
 		{
 			// Begin transaction
 			connection->setAutoCommit(false);
-			unique_ptr<sql::Statement> statement = make_unique<sql::Statement>(connection->createStatement());
+			unique_ptr<sql::Statement> statement = nullptr;
+			statement.reset(connection->createStatement());
 
 			statement->executeQuery("CREATE SCHEMA IF NOT EXISTS `DnD`");
 			statement->executeQuery("USE `DnD`");
@@ -64,9 +69,10 @@ namespace Core
 			cerr << "SQLState: " << ex.getSQLState() << endl;
 			cerr << "ErrorCode: " << ex.getErrorCode() << endl;
 
-			if (connection != nullptr)
+			if (connection)
 				connection->rollback();
 		}
+
 		cerr << __FUNCTION__ << " Finished\n" << endl;
 	}
 }
