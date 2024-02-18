@@ -45,6 +45,9 @@
     <Filter Include="Framework\CommandHandler\Handler">
       <UniqueIdentifier>{afa4b1ce-d91f-4894-8d98-11f6728ab8ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\System">
+      <UniqueIdentifier>{60604c26-dfec-4105-93fc-89196d00cb70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -97,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="ChattingCommandHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataBase.cpp">
+      <Filter>Framework\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="ChattingCommandHandler.h">
       <Filter>Client\RequestHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataBase.h">
+      <Filter>Framework\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
