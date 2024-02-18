@@ -6,12 +6,17 @@ namespace Core
 	{
 		sql::Driver* m_driver;
 		vector<unique_ptr<sql::Connection>> m_connections;
+		int m_connectionIndex;
 
 	public:
 		DataBase();
 
+	private:
+		void Migrate();
+
 	public:
 		void Initialize();
+		sql::Connection* GetConnection();
 
 		//
 		//

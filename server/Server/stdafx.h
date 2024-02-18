@@ -31,6 +31,8 @@ extern "C" {
 // mysql
 #include <jdbc/cppconn/driver.h>
 #include <jdbc/cppconn/resultset.h>
+#include <jdbc/cppconn/statement.h>
+#include <jdbc/cppconn/prepared_statement.h>
 
 #pragma comment(lib, "lua54.lib")
 #pragma comment(lib, "mysqlcppconn.lib")
