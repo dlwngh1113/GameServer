@@ -20,7 +20,7 @@ namespace Core
 
 	void DataBase::Initialize()
 	{
-		cerr << __FUNCTION__ << " Started\n" << endl;
+		cerr << __FUNCTION__ << " Started\n";
 
 		unique_ptr<sql::Connection> connection = nullptr;
 		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
@@ -30,7 +30,7 @@ namespace Core
 			m_connections.emplace_back(move(connection));
 		}
 
-		cerr << __FUNCTION__ << " Finished\n" << endl;
+		cerr << __FUNCTION__ << " Finished\n";
 
 		Migrate();
 	}
@@ -45,7 +45,7 @@ namespace Core
 
 	void DataBase::Migrate()
 	{
-		cerr << __FUNCTION__ << " Started\n" << endl;
+		cerr << __FUNCTION__ << " Started\n";
 
 		sql::Connection* connection = GetConnection();
 
@@ -53,12 +53,11 @@ namespace Core
 		{
 			// Begin transaction
 			connection->setAutoCommit(false);
+
 			unique_ptr<sql::Statement> statement = nullptr;
 			statement.reset(connection->createStatement());
 
-			statement->executeQuery("CREATE SCHEMA IF NOT EXISTS `DnD`");
-			statement->executeQuery("USE `DnD`");
-			statement->executeQuery("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(36) PRIMARY KEY NOT NULL, `name` NVARCHAR(24) NOT NULL DEFAULT '')");
+			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(36) PRIMARY KEY NOT NULL, `name` NVARCHAR(24) NOT NULL DEFAULT '');");
 
 			// Commit transaction
 			connection->commit();
@@ -73,6 +72,6 @@ namespace Core
 				connection->rollback();
 		}
 
-		cerr << __FUNCTION__ << " Finished\n" << endl;
+		cerr << __FUNCTION__ << " Finished\n";
 	}
 }
