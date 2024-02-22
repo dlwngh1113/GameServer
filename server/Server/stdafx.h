@@ -27,6 +27,7 @@ extern "C" {
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/array.hpp>
+#include <boost/json.hpp>
 
 // mysql
 #include <jdbc/cppconn/driver.h>
