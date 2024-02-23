@@ -28,6 +28,8 @@ extern "C" {
 #include <boost/uuid/random_generator.hpp>
 #include <boost/array.hpp>
 #include <boost/json.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
 // mysql
 #include <jdbc/cppconn/driver.h>

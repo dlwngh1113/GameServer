@@ -104,6 +104,9 @@
     <ClCompile Include="JsonUtil.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Json.cpp">
+      <Filter>Framework\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -179,6 +182,9 @@
       <Filter>Framework\System</Filter>
     </ClInclude>
     <ClInclude Include="JsonUtil.h">
+      <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Json.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
   </ItemGroup>

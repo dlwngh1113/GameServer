@@ -169,6 +169,7 @@
     <ClCompile Include="BaseCommandHandlerFactory.cpp" />
     <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
+    <ClCompile Include="Json.cpp" />
     <ClCompile Include="JsonUtil.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp">
@@ -200,6 +201,7 @@
     <ClInclude Include="include\lauxlib.h" />
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />
+    <ClInclude Include="Json.h" />
     <ClInclude Include="JsonUtil.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="ObjectPool.h" />
