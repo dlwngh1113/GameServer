@@ -3,7 +3,7 @@
 class Json
 {
 private:
-	string m_data;
+	boost::json::value m_value;
 
 public:
 	Json(const char* fileName);
