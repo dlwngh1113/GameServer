@@ -59,6 +59,5 @@ void CServer::OnDisconnected(Core::Peer* peer)
 	{
 		auto toRemoveUser = result->second;
 		m_users.erase(result);
-		LogFormat("user count = %d", m_users.size());
 	}
 }

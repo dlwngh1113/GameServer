@@ -169,8 +169,12 @@
     <ClCompile Include="BaseCommandHandlerFactory.cpp" />
     <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
-    <ClCompile Include="Json.cpp" />
-    <ClCompile Include="JsonUtil.cpp" />
+    <ClCompile Include="Json.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="JsonUtil.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -201,8 +205,12 @@
     <ClInclude Include="include\lauxlib.h" />
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />
-    <ClInclude Include="Json.h" />
-    <ClInclude Include="JsonUtil.h" />
+    <ClInclude Include="Json.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="JsonUtil.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Logger.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Peer.h" />

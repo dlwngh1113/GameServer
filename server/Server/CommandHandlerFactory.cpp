@@ -15,7 +15,7 @@ CommandHandlerFactory::~CommandHandlerFactory()
 
 void CommandHandlerFactory::Initialize()
 {
-	Log("CommandHandlerFactory Init Started");
+	Logger::instance().Log("CommandHandlerFactory Init Started");
 	AddHandlerCreator<ChattingCommandHandler>(static_cast<short>(ClientCommand::Chatting));
-	Log("CommandHandlerFactory Init Finished");
+	Logger::instance().Log("CommandHandlerFactory Init Finished");
 }

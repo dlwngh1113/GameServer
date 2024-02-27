@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "User.h"
 #include "CommandHandlerFactory.h"
-#include "MetaDatas.h"
 #include "Uuid.h"
 
 User::User(Core::Peer* peer)
