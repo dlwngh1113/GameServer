@@ -9,7 +9,10 @@ Player::Player()
 	surface = SDL_LoadBMP("players.bmp");
 
 	if (!surface)
+	{
 		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
+		return;
+	}
 
 	m_resourcePosition = surface->clip_rect;
 	m_resourcePosition.w -= 32;
