@@ -3,7 +3,10 @@
 class Logger
 {
 private:
-	queue<string> m_messages;
+	concurrency::concurrent_queue<string> m_messages;
+
+public:
+	Logger();
 
 public:
 	void Log(const char* message);

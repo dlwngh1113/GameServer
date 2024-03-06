@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DataBase.h"
+#include "Logger.h"
 
 namespace Core
 {
@@ -20,7 +21,7 @@ namespace Core
 
 	void DataBase::Initialize()
 	{
-		cerr << __FUNCTION__ << " Started\n";
+		Logger::instance().Log("Database Initialize Started!");
 
 		unique_ptr<sql::Connection> connection = nullptr;
 		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
@@ -30,7 +31,7 @@ namespace Core
 			m_connections.emplace_back(move(connection));
 		}
 
-		cerr << __FUNCTION__ << " Finished\n";
+		Logger::instance().Log("Database Initialize finished!");
 
 		Migrate();
 	}
@@ -45,7 +46,7 @@ namespace Core
 
 	void DataBase::Migrate()
 	{
-		cerr << __FUNCTION__ << " Started\n";
+		Logger::instance().Log("Database Migration Started!");
 
 		sql::Connection* connection = GetConnection();
 
@@ -72,6 +73,6 @@ namespace Core
 				connection->rollback();
 		}
 
-		cerr << __FUNCTION__ << " Finished\n";
+		Logger::instance().Log("Database Migration Started!");
 	}
 }
