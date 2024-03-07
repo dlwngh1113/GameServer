@@ -4,6 +4,7 @@
 #include "BaseApplication.h"
 #include "BaseCommandHandlerFactory.h"
 #include "BaseCommandHandler.h"
+#include "Logger.h"
 
 namespace Core
 {
@@ -95,7 +96,7 @@ namespace Core
         }
         catch (exception& ex)
         {
-            cout << "[Error] - " << ex.what() << endl;
+            Logger::instance().Log(format("[Error] - {}", ex.what()));
         }
     }
 
@@ -120,7 +121,7 @@ namespace Core
     void Peer::Disconnect()
     {
         m_application->RemovePeer(m_id);
-        cout << "[Debug: " << m_socket.remote_endpoint() << "] - client is disconnected\n";
+        Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
     }
 
     void Peer::SendData(char* data, size_t size)

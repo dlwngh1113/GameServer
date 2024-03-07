@@ -1,8 +1,6 @@
 #pragma once
 #include "BaseCommandHandler.h"
 
-class User;
-
 class CommandHandler : public Core::BaseCommandHandler
 {
 public:
