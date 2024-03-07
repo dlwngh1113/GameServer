@@ -89,9 +89,6 @@
     <ClCompile Include="CommandHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="MetaDatas.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="CommandHandlerException.cpp">
       <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
@@ -147,9 +144,6 @@
     </ClInclude>
     <ClInclude Include="IHandlerFactory.h">
       <Filter>Framework\CommandHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="MetaDatas.h">
-      <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>Framework\Util\Pool</Filter>

@@ -1,12 +1,22 @@
 #pragma once
 
-#define LogFormat(fmt, ...) Logger::Info(fmt, ##__VA_ARGS__)
-#define Log(arg) wcout << arg << endl;
-
 class Logger
 {
-	static HANDLE s_ConsoleHandle;
+private:
+	concurrency::concurrent_queue<string> m_messages;
+
 public:
-	static void Error(wstring message);
-	static void Info(const char* fmt, ...);
+	Logger();
+
+public:
+	void Log(const char* message);
+	void Log(const string& message);
+
+	// Static member variables
+private:
+	static Logger s_instance;
+
+	// Static member functions
+public:
+	static Logger& instance() { return s_instance; }
 };

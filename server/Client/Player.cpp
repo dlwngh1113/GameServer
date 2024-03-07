@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
-#include "Renderer.h"
 #include "PacketSender.h"
+#include "Framework.h"
 
 Player::Player()
 {
@@ -9,12 +9,15 @@ Player::Player()
 	surface = SDL_LoadBMP("players.bmp");
 
 	if (!surface)
+	{
 		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
+		return;
+	}
 
 	m_resourcePosition = surface->clip_rect;
 	m_resourcePosition.w -= 32;
 
-	m_texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetRenderer(), surface);
+	m_texture = SDL_CreateTextureFromSurface(Framework::GetInstance().renderer(), surface);
 
 	SDL_FreeSurface(surface);
 }

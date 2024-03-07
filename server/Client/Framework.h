@@ -21,6 +21,10 @@ private:
 public:
     virtual ~Framework();
 
+public:
+    SDL_Renderer* renderer() { return m_renderer; }
+
+public:
     void Initialize();
     void Run();
     void Release();

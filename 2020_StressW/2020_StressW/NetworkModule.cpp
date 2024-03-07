@@ -10,7 +10,9 @@
 #include <queue>
 #include <array>
 #include <memory>
+#include <unordered_map>
 #include <boost/asio.hpp>
+#include <boost/uuid/uuid.hpp>
 
 using namespace std;
 using namespace chrono;
@@ -48,8 +50,8 @@ struct CLIENT
 boost::asio::io_context g_context;
 tcp::resolver g_resolver;
 tcp::resolver::query g_query(tcp::v4(), "127.0.0.1:3500");
-array<int, MAX_CLIENTS> client_map;
 array<CLIENT, MAX_CLIENTS> g_clients;
+unordered_map<boost::uuids::uuid, shared_ptr<CLIENT>> s_clients;
 atomic_int num_connections;
 atomic_int client_to_close;
 atomic_int active_clients;
@@ -101,9 +103,10 @@ void SendPacket(int cl, Packet* packet)
 	int psize = packet->header.size;
 	int ptype = packet->header.type;
 
-	char buffer[MAX_BUFFER];
-	memcpy(buffer, packet, psize);
-	boost::asio::async_write(g_clients[cl].client_socket, boost::asio::buffer(buffer),
+	string p;
+	p.resize(psize);
+	memcpy(&p[0], packet, psize);
+	boost::asio::async_write(g_clients[cl].client_socket, boost::asio::buffer(p),
 		[](const boost::system::error_code& error, size_t bytes) {});
 }
 
@@ -167,107 +170,6 @@ void ProcessPacket(int ci, unsigned char packet[])
 	}
 }
 
-void Worker_Thread()
-{
-	while (true)
-	{
-		DWORD io_size;
-		unsigned long long ci;
-		OverlappedEx* over;
-		BOOL ret = GetQueuedCompletionStatus(g_hiocp, &io_size, &ci,
-			reinterpret_cast<LPWSAOVERLAPPED*>(&over), INFINITE);
-		// std::cout << "GQCS :";
-		int client_id = static_cast<int>(ci);
-		if (FALSE == ret) 
-		{
-			int err_no = WSAGetLastError();
-			if (64 == err_no) DisconnectClient(client_id);
-			else
-			{
-				// error_display("GQCS : ", WSAGetLastError());
-				DisconnectClient(client_id);
-			}
-			if (OP_SEND == over->event_type) delete over;
-		}
-		if (0 == io_size) {
-			DisconnectClient(client_id);
-			continue;
-		}
-		if (OP_RECV == over->event_type) 
-		{
-			//unsigned char* buf = g_clients[ci].recv_over.IOCP_buf;
-			//unsigned psize = g_clients[ci].curr_packet_size;
-			//unsigned pr_size = g_clients[ci].prev_packet_data;
-			//while (io_size > 0) 
-			//{
-			//	if (io_size < sizeof(Header))
-			//	{
-			//		memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
-			//		pr_size += io_size;
-			//		io_size = 0;
-			//	}
-			//	else
-			//	{
-			//		Packet* bp = reinterpret_cast<Packet*>(buf);
-			//		psize = bp->header.size;
-
-			//		if (io_size + pr_size >= psize)
-			//		{
-			//			// 지금 패킷 완성 가능
-			//			unsigned char packet[MAX_PACKET_SIZE];
-			//			memcpy(packet, g_clients[ci].packet_buf, pr_size);
-			//			memcpy(packet + pr_size, buf, psize - pr_size);
-			//			ProcessPacket(static_cast<int>(ci), packet);
-			//			io_size -= psize - pr_size;
-			//			buf += psize - pr_size;
-			//			psize = 0; pr_size = 0;
-			//		}
-			//		else
-			//		{
-			//			memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
-			//			pr_size += io_size;
-			//			io_size = 0;
-			//		}
-			//	}
-			//}
-			//g_clients[ci].curr_packet_size = psize;
-			//g_clients[ci].prev_packet_data = pr_size;
-			//DWORD recv_flag = 0;
-			//int ret = WSARecv(g_clients[ci].client_socket,
-			//	&g_clients[ci].recv_over.wsabuf, 1,
-			//	NULL, &recv_flag, &g_clients[ci].recv_over.over, NULL);
-			if (SOCKET_ERROR == ret) 
-			{
-				int err_no = WSAGetLastError();
-				if (err_no != WSA_IO_PENDING)
-				{
-					//error_display("RECV ERROR", err_no);
-					DisconnectClient(client_id);
-				}
-			}
-		}
-		else if (OP_SEND == over->event_type) 
-		{
-			if (io_size != over->wsabuf.len)
-			{
-				// std::cout << "Send Incomplete Error!\n";
-				DisconnectClient(client_id);
-			}
-			delete over;
-		}
-		else if (OP_DO_MOVE == over->event_type)
-		{
-			// Not Implemented Yet
-			delete over;
-		}
-		else
-		{
-			std::cout << "Unknown GQCS event!\n";
-			while (true);
-		}
-	}
-}
-
 constexpr int DELAY_LIMIT = 100;
 constexpr int DELAY_LIMIT2 = 150;
 constexpr int ACCEPT_DELY = 50;
@@ -277,7 +179,47 @@ void OnReceive(const boost::system::error_code& error, size_t bytes)
 	if (!error)
 	{
 		// packet process
+			unsigned char* buf = g_clients[ci].recv_over.IOCP_buf;
+			unsigned psize = g_clients[ci].curr_packet_size;
+			unsigned pr_size = g_clients[ci].prev_packet_data;
+			while (io_size > 0) 
+			{
+				if (io_size < sizeof(Header))
+				{
+					memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
+					pr_size += io_size;
+					io_size = 0;
+				}
+				else
+				{
+					Packet* bp = reinterpret_cast<Packet*>(buf);
+					psize = bp->header.size;
 
+					if (io_size + pr_size >= psize)
+					{
+						// 지금 패킷 완성 가능
+						unsigned char packet[MAX_PACKET_SIZE];
+						memcpy(packet, g_clients[ci].packet_buf, pr_size);
+						memcpy(packet + pr_size, buf, psize - pr_size);
+						ProcessPacket(static_cast<int>(ci), packet);
+						io_size -= psize - pr_size;
+						buf += psize - pr_size;
+						psize = 0; pr_size = 0;
+					}
+					else
+					{
+						memcpy(g_clients[ci].packet_buf + pr_size, buf, io_size);
+						pr_size += io_size;
+						io_size = 0;
+					}
+				}
+			}
+			g_clients[ci].curr_packet_size = psize;
+			g_clients[ci].prev_packet_data = pr_size;
+			DWORD recv_flag = 0;
+			int ret = WSARecv(g_clients[ci].client_socket,
+				&g_clients[ci].recv_over.wsabuf, 1,
+				NULL, &recv_flag, &g_clients[ci].recv_over.over, NULL);
 
 		boost::asio::async_read(g_clients[num_connections].client_socket, boost::asio::buffer(g_clients[num_connections].packet_buf, MAX_BUFFER),
 			[](const boost::system::error_code& error, size_t bytes) {});
@@ -338,6 +280,7 @@ void Adjust_Number_Of_Client()
 
 	increasing = true;
 	last_connect_time = high_resolution_clock::now();
+	g_clients[num_connections].id = num_connections;
 	g_clients[num_connections].client_socket = tcp::socket(g_context);
 
 	g_resolver.async_resolve(g_query, [](const boost::system::error_code& error, tcp::resolver::results_type results)
@@ -392,7 +335,6 @@ void InitializeNetwork()
 		cl.id = INVALID_ID;
 	}
 
-	for (auto& cl : client_map) cl = -1;
 	num_connections = 0;
 	last_connect_time = high_resolution_clock::now();
 

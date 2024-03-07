@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "CServer.h"
-#include "MetaDatas.h"
 #include "CommandHandlerFactory.h"
 #include "User.h"
 #include "Logger.h"
@@ -27,7 +26,6 @@ void CServer::Run()
 void CServer::Initialize()
 {
 	CommandHandlerFactory::GetInstance().Initialize();
-	MetaDatas::GetInstance().Initialize();
 }
 
 shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)
@@ -61,6 +59,5 @@ void CServer::OnDisconnected(Core::Peer* peer)
 	{
 		auto toRemoveUser = result->second;
 		m_users.erase(result);
-		LogFormat("user count = %d", m_users.size());
 	}
 }

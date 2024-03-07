@@ -1,22 +1,27 @@
 #include "stdafx.h"
 #include "Logger.h"
+#include "BaseApplication.h"
 
-HANDLE Logger::s_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+Logger Logger::s_instance;
 
-void Logger::Error(wstring message)
+Logger::Logger()
 {
-	SetConsoleTextAttribute(s_ConsoleHandle, 12);
-
-	wcout << "[Error] : " << message << endl;
+	boost::asio::dispatch(Core::BaseApplication::threads(), [this]() {
+		while (true)
+		{
+			string message;
+			if (m_messages.try_pop(message))
+				cerr << message << endl;
+		}
+		});
 }
 
-void Logger::Info(const char* fmt, ...)
+void Logger::Log(const char* message)
 {
-	SetConsoleTextAttribute(s_ConsoleHandle, 15);
+	m_messages.push(message);
+}
 
-	va_list ap;
-	va_start(ap, fmt);
-	vprintf(fmt, ap);
-	va_end(ap);
-	printf("\n");
+void Logger::Log(const string& message)
+{
+	m_messages.push(message);
 }

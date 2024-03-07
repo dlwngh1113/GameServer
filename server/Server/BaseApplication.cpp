@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BaseApplication.h"
+#include "DataBase.h"
 
 namespace Core
 {
@@ -19,6 +20,8 @@ namespace Core
 
     void BaseApplication::Run()
     {
+        DataBase::instance().Initialize();
+
         StartAccept();
 
         m_context.run();

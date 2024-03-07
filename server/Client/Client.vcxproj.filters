@@ -58,9 +58,6 @@
     <ClInclude Include="MovableObject.h">
       <Filter>Framework\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Framework\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -119,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="MovableObject.cpp">
       <Filter>Framework\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Framework\Camera</Filter>
     </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
       <Filter>소스 파일\Network</Filter>

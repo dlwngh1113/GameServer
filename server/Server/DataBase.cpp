@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "DataBase.h"
+#include "Logger.h"
 
 namespace Core
 {
+	DataBase DataBase::s_instance;
 	namespace
 	{
 		static constexpr string kHostAddress("127.0.0.1:3306");
@@ -19,15 +21,17 @@ namespace Core
 
 	void DataBase::Initialize()
 	{
-		cerr << __FUNCTION__ << " Started\n" << endl;
+		Logger::instance().Log("Database Initialize Started!");
+
 		unique_ptr<sql::Connection> connection = nullptr;
 		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
 		{
-			connection = make_unique<sql::Connection>(m_driver->connect(kHostAddress, kUserName, kPassword));
+			connection.reset(m_driver->connect(kHostAddress, kUserName, kPassword));
 			connection->setSchema(kSchema);
 			m_connections.emplace_back(move(connection));
 		}
-		cerr << __FUNCTION__ << " Finished\n" << endl;
+
+		Logger::instance().Log("Database Initialize finished!");
 
 		Migrate();
 	}
@@ -42,18 +46,19 @@ namespace Core
 
 	void DataBase::Migrate()
 	{
-		cerr << __FUNCTION__ << " Started\n" << endl;
+		Logger::instance().Log("Database Migration Started!");
+
 		sql::Connection* connection = GetConnection();
 
 		try
 		{
 			// Begin transaction
 			connection->setAutoCommit(false);
-			unique_ptr<sql::Statement> statement = make_unique<sql::Statement>(connection->createStatement());
 
-			statement->executeQuery("CREATE SCHEMA IF NOT EXISTS `DnD`");
-			statement->executeQuery("USE `DnD`");
-			statement->executeQuery("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(36) PRIMARY KEY NOT NULL, `name` NVARCHAR(24) NOT NULL DEFAULT '')");
+			unique_ptr<sql::Statement> statement = nullptr;
+			statement.reset(connection->createStatement());
+
+			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(36) PRIMARY KEY NOT NULL, `name` NVARCHAR(24) NOT NULL DEFAULT '');");
 
 			// Commit transaction
 			connection->commit();
@@ -64,9 +69,10 @@ namespace Core
 			cerr << "SQLState: " << ex.getSQLState() << endl;
 			cerr << "ErrorCode: " << ex.getErrorCode() << endl;
 
-			if (connection != nullptr)
+			if (connection)
 				connection->rollback();
 		}
-		cerr << __FUNCTION__ << " Finished\n" << endl;
+
+		Logger::instance().Log("Database Migration Started!");
 	}
 }
