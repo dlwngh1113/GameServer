@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "Peer.h"
-#include "Uuid.h"
 #include "BaseApplication.h"
 #include "BaseCommandHandlerFactory.h"
 #include "BaseCommandHandler.h"

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "ClientPeer.h"
 #include "BaseCommandHandlerFactory.h"
-#include "BaseCommandHandler.h"
-#include "BaseApplication.h"
 
 namespace Core
 {
