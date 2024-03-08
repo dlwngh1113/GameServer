@@ -34,7 +34,7 @@ namespace Core
         }
         catch (exception& ex)
         {
-            cout << ex.what() << endl;
+            Logger::instance().Log(ex.what());
         }
     }
     
@@ -132,7 +132,7 @@ namespace Core
         }
         catch (exception& ex)
         {
-            cout << ex.what() << endl;
+            Logger::instance().Log(ex.what());
         }
     }
 

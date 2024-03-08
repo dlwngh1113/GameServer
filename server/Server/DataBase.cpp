@@ -65,9 +65,7 @@ namespace Core
 		}
 		catch (sql::SQLException& ex)
 		{
-			cerr << "SQLException: " << ex.what() << endl;
-			cerr << "SQLState: " << ex.getSQLState() << endl;
-			cerr << "ErrorCode: " << ex.getErrorCode() << endl;
+			Logger::instance().Log(format("SQLException: {}\nSQLState: {}\nErrorCode: {}", ex.what(), ex.getSQLState(), ex.getErrorCode());
 
 			if (connection)
 				connection->rollback();
