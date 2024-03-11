@@ -7,6 +7,8 @@ namespace Core
 		: m_offset(0)
 	{
 		m_data.reserve(MAX_BUFFER);
+
+		this->operator<<((short)0)->operator<<((size_t)0);
 	}
 
 	boost::asio::mutable_buffer Packet::Serialize()
