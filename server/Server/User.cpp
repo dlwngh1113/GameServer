@@ -4,7 +4,7 @@
 #include "Uuid.h"
 
 User::User(Core::Peer* peer)
-	: ClientPeer(peer, &CommandHandlerFactory::GetInstance())
+	: ClientPeer(peer, &CommandHandlerFactory::instance())
 	, m_id(Core::Uuid::New())
 {
 }
