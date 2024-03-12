@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BaseApplication.h"
 #include "DataBase.h"
+#include "Logger.h"
 
 namespace Core
 {
@@ -37,7 +38,7 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
-            cout << acceptedSocket.remote_endpoint() << " is connected!\n";
+            Logger::instance().Log(format("{} is connected!", acceptedSocket.remote_endpoint().address().to_string()));
 
             shared_ptr<Peer> acceptedPeer = Peer::Create(move(acceptedSocket), this);
             AddPeer(acceptedPeer);

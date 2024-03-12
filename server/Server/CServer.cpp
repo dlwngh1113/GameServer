@@ -25,7 +25,7 @@ void CServer::Run()
 
 void CServer::Initialize()
 {
-	CommandHandlerFactory::GetInstance().Initialize();
+	CommandHandlerFactory::instance().Initialize();
 }
 
 shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "BaseCommandHandler.h"
-#include "Peer.h"
 
 namespace Core
 {

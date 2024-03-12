@@ -1,6 +1,5 @@
 #pragma once
 #include "IFactory.h"
-#include "IHandlerCreator.h"
 
 namespace Core
 {

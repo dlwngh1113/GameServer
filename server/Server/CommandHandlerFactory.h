@@ -9,7 +9,7 @@ public:
 	virtual ~CommandHandlerFactory();
 
 	virtual void Initialize() override;
-	static CommandHandlerFactory& GetInstance()
+	static CommandHandlerFactory& instance()
 	{
 		return s_instance;
 	}
