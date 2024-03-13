@@ -14,7 +14,11 @@ namespace Common
 	{
 	protected:
 		short m_type;
+		short m_offset;
 		vector<unsigned char> m_buffer;
+
+	public:
+		Packet();
 
 	public:
 		void Serialize();
