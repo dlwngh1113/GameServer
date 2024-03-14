@@ -10,8 +10,6 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 #ifdef _WIN32
 	#ifdef COMMON_LIB_EXPORTS
 		#define COMMON_LIB_API __declspec(dllexport)
