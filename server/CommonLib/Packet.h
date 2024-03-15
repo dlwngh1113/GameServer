@@ -19,13 +19,15 @@ namespace Common
 
 	public:
 		explicit Packet();
+		explicit Packet(short type, const unsigned char* ptr);
 
 	public:
 		virtual std::string Serialize() final;
-		virtual void Deserialize();
+		virtual void Deserialize() final;
 
 	protected:
 		virtual void SerializeInternal() = 0;
+		virtual void DeserializeInternal() = 0;
 
 		template <typename T>
 		Packet& operator<<(const T& val);
