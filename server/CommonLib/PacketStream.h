@@ -12,7 +12,6 @@ namespace Common
 		explicit PacketStream();
 		explicit PacketStream(const unsigned char* data, size_t size);
 
-	public:
 		template <typename T>
 		PacketStream& operator<<(const T& val);
 

@@ -9,7 +9,7 @@ namespace Common
 		std::string message;
 
 	protected:
-		virtual void SerializeInternal() override;
-		virtual void DeserializeInternal() override;
+		virtual void SerializeInternal(PacketStream& ps) override;
+		virtual void DeserializeInternal(PacketStream& ps) override;
 	};
 }

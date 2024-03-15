@@ -3,19 +3,14 @@
 
 namespace Common
 {
-	Packet::Packet()
-		: m_type(0)
-	{
-	}
-
-	Packet::Packet(short type, const unsigned char* ptr)
+	Packet::Packet(short type)
 		: m_type(type)
 	{
 	}
 
-	std::string Packet::Serialize()
+	std::string Packet::Serialize(PacketStream& ps)
 	{
-		SerializeInternal();
+		SerializeInternal(ps);
 
 		Header header;
 		header.type = m_type;
@@ -27,11 +22,11 @@ namespace Common
 		return std::string(m_buffer.begin(), m_buffer.end());
 	}
 
-	void Packet::Deserialize()
+	void Packet::Deserialize(PacketStream& ps)
 	{
 		Header header;
 		this->operator>>(header);
 
-		DeserializeInternal();
+		DeserializeInternal(ps);
 	}
 }

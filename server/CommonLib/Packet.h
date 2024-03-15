@@ -1,4 +1,5 @@
 #pragma once
+#include "PacketStream.h"
 
 namespace Common
 {
@@ -16,15 +17,14 @@ namespace Common
 		short m_type;
 
 	public:
-		explicit Packet();
-		explicit Packet(short type, const unsigned char* ptr);
+		explicit Packet(short type);
 
 	public:
-		virtual std::string Serialize() final;
-		virtual void Deserialize() final;
+		virtual std::string Serialize(PacketStream& ps) final;
+		virtual void Deserialize(PacketStream& ps) final;
 
 	protected:
-		virtual void SerializeInternal() = 0;
-		virtual void DeserializeInternal() = 0;
+		virtual void SerializeInternal(PacketStream& ps) = 0;
+		virtual void DeserializeInternal(PacketStream& ps) = 0;
 	};
 }
