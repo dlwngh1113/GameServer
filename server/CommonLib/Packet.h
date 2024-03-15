@@ -14,8 +14,6 @@ namespace Common
 	{
 	protected:
 		short m_type;
-		short m_offset;
-		std::vector<unsigned char> m_buffer;
 
 	public:
 		explicit Packet();
@@ -28,17 +26,5 @@ namespace Common
 	protected:
 		virtual void SerializeInternal() = 0;
 		virtual void DeserializeInternal() = 0;
-
-		template <typename T>
-		Packet& operator<<(const T& val);
-
-		template <>
-		Packet& operator<<<std::string>(const std::string& val);
-
-		template <typename T>
-		Packet& operator>>(T& val);
-
-		template <>
-		Packet& operator>><std::string>(std::string & val);
 	};
 }
