@@ -3,14 +3,6 @@
 
 namespace Common
 {
-#pragma pack(push, 1)
-	struct Header
-	{
-		short type;
-		short size;
-	};
-#pragma pack(pop)
-
 	class Packet
 	{
 	protected:

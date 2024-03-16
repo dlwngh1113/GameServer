@@ -12,20 +12,13 @@ namespace Common
 	{
 		SerializeInternal(ps);
 
-		Header header;
-		header.type = m_type;
-		header.size = static_cast<short>(sizeof(Header) + m_buffer.size());
-
-		unsigned char* ptr = reinterpret_cast<unsigned char*>(&header);
-		m_buffer.insert(m_buffer.begin(), ptr, ptr + sizeof(header));
-
-		return std::string(m_buffer.begin(), m_buffer.end());
+		return ps.GetData(m_type);
 	}
 
 	void Packet::Deserialize(PacketStream& ps)
 	{
 		Header header;
-		this->operator>>(header);
+		ps >> header;
 
 		DeserializeInternal(ps);
 	}

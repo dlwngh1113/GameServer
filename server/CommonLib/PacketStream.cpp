@@ -14,6 +14,18 @@ namespace Common
 	{
 	}
 
+	std::string PacketStream::GetData(short type)
+	{
+		Header header;
+		header.type = type;
+		header.size = static_cast<short>(sizeof(Header) + m_buffer.size());
+
+		unsigned char* ptr = reinterpret_cast<unsigned char*>(&header);
+		m_buffer.insert(m_buffer.begin(), ptr, ptr + sizeof(header));
+
+		return std::string(m_buffer.begin(), m_buffer.end());
+	}
+
 	template <typename T>
 	PacketStream& PacketStream::operator<<(const T& val)
 	{
