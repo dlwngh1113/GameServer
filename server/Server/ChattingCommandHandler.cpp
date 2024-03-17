@@ -4,5 +4,10 @@
 
 void ChattingCommandHandler::HandleRequest()
 {
-	ClientCommon::ChattingPacket* packet = reinterpret_cast<ClientCommon::ChattingPacket*>(m_header);
+	Common::ChattingPacket packet;
+	Common::PacketStream ps(reinterpret_cast<unsigned char*>(m_header), m_header->size);
+	packet.Deserialize(ps);
+
+	cerr << packet.message << endl;
+
 }

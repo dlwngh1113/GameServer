@@ -45,13 +45,13 @@ namespace Core
             unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
             unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
 
-            if (bytesTransferred < sizeof(ClientCommon::Header))
+            if (bytesTransferred < sizeof(Common::Header))
             {
                 ReceiveLeftData(pNextRecvPos);
                 return;
             }
 
-            ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(currentBufferPos);
+            Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
@@ -63,7 +63,7 @@ namespace Core
                 currentBufferPos += snPacketSize;
                 if (currentBufferPos < pNextRecvPos)
                 {
-                    header = reinterpret_cast<ClientCommon::Header*>(currentBufferPos);
+                    header = reinterpret_cast<Common::Header*>(currentBufferPos);
                     snPacketSize = header->size;
                 }
                 else
@@ -81,7 +81,7 @@ namespace Core
 
     void Peer::ProcessPacket(unsigned char* data, size_t size)
     {
-        ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(data);
+        Common::Header* header = reinterpret_cast<Common::Header*>(data);
         try
         {
             if (m_factory == nullptr)
@@ -121,6 +121,19 @@ namespace Core
     {
         m_application->RemovePeer(m_id);
         Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
+    }
+
+    void Peer::SendData(std::string data)
+    {
+        try
+        {
+            boost::asio::async_write(m_socket, boost::asio::buffer(data),
+                [](const boost::system::error_code& error, size_t bytesTransferred) {});
+        }
+        catch (exception& ex)
+        {
+            Logger::instance().Log(ex.what());
+        }
     }
 
     void Peer::SendData(char* data, size_t size)
