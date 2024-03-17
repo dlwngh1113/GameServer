@@ -36,5 +36,7 @@ extern "C" {
 
 #pragma comment(lib, "lua54.lib")
 #pragma comment(lib, "mysqlcppconn.lib")
+#pragma comment(lib, "CommonLib.lib")
 
 #include "../Common/Common.hpp"
+#include "../CommonLib/ChattingPacket.h"

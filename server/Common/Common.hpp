@@ -41,10 +41,5 @@ namespace ClientCommon
 	{
 		Header header;
 	};
-
-	struct ChattingPacket : Packet
-	{
-		string message;
-	};
 #pragma pack(pop)
 }
