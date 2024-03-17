@@ -1,9 +1,8 @@
 #pragma once
+#include "Peer.h"
 
 namespace Core
 {
-	class Peer;
-
 	class BaseCommandHandler
 	{
 	protected:

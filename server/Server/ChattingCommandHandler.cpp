@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ChattingCommandHandler.h"
 #include "Logger.h"
-#include "Peer.h"
 
 void ChattingCommandHandler::HandleRequest()
 {
