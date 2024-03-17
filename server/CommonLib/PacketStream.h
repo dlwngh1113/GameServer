@@ -1,16 +1,17 @@
 #pragma once
+#include "Define.h"
 
 namespace Common
 {
 #pragma pack(push, 1)
-	struct Header
+	struct COMMON_LIB_API Header
 	{
 		short type;
 		short size;
 	};
 #pragma pack(pop)
 
-	class PacketStream
+	class COMMON_LIB_API PacketStream
 	{
 	private:
 		short m_offset;

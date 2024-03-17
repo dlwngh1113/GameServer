@@ -10,14 +10,6 @@
 #include <vector>
 #include <string>
 
-#ifdef _WIN32
-	#ifdef COMMON_LIB_EXPORTS
-		#define COMMON_LIB_API __declspec(dllexport)
-	#else
-		#define COMMON_LIB_API __declspec(dllimport)
-	#endif
-#else
-	#define COMMON_LIB_API
-#endif
+#pragma warning(disable: 4251)
 
 #endif //PCH_H

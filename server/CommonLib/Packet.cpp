@@ -18,7 +18,7 @@ namespace Common
 	void Packet::Deserialize(PacketStream& ps)
 	{
 		Header header;
-		ps >> header;
+		ps >> header.type >> header.size;
 
 		DeserializeInternal(ps);
 	}

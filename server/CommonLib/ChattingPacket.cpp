@@ -3,13 +3,18 @@
 
 namespace Common
 {
-	void ChattingPacket::SerializeInternal()
+	ChattingPacket::ChattingPacket()
+		: Packet(0)
 	{
-
 	}
 
-	void ChattingPacket::DeserializeInternal()
+	void ChattingPacket::SerializeInternal(PacketStream& ps)
 	{
+		ps << message;
+	}
 
+	void ChattingPacket::DeserializeInternal(PacketStream& ps)
+	{
+		ps >> message;
 	}
 }

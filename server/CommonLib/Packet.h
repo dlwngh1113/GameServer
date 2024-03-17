@@ -1,9 +1,10 @@
 #pragma once
+#include "Define.h"
 #include "PacketStream.h"
 
 namespace Common
 {
-	class Packet
+	class COMMON_LIB_API Packet
 	{
 	protected:
 		short m_type;
