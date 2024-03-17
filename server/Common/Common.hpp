@@ -17,29 +17,3 @@ constexpr int MAX_THREAD_COUNT = 6;
 // IO ¼¼ÆÃ
 constexpr int MAX_BUFFER = 4096;
 constexpr int MIN_BUFFER = 1024;
-
-enum class ServerEvent : short
-{
-};
-
-enum class ClientCommand : short
-{
-	Chatting
-};
-
-namespace ClientCommon
-{
-#pragma pack(push, 1)
-
-	struct Header
-	{
-		short type;
-		short size;
-	};
-
-	struct Packet
-	{
-		Header header;
-	};
-#pragma pack(pop)
-}

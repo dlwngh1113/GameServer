@@ -10,7 +10,7 @@ namespace Common
 		short m_type;
 
 	public:
-		explicit Packet(short type);
+		explicit Packet(Command type);
 
 	public:
 		virtual std::string Serialize(PacketStream& ps) final;

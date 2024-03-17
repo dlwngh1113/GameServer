@@ -13,7 +13,7 @@ namespace Core
 	{
 	}
 
-	void BaseCommandHandler::Initialize(shared_ptr<Peer> peer, ClientCommon::Header* header)
+	void BaseCommandHandler::Initialize(shared_ptr<Peer> peer, Common::Header* header)
 	{
 		m_peer = peer;
 		m_header = header;

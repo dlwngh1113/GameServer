@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ChattingCommandHandler.h"
 #include "Logger.h"
+#include "Peer.h"
 
 void ChattingCommandHandler::HandleRequest()
 {
@@ -9,4 +10,5 @@ void ChattingCommandHandler::HandleRequest()
 	packet.Deserialize(ps);
 
 	cerr << packet.message << endl;
+
 }

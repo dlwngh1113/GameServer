@@ -8,13 +8,13 @@ namespace Core
 	{
 	protected:
 		shared_ptr<Peer> m_peer;
-		ClientCommon::Header* m_header;
+		Common::Header* m_header;
 
 	public:
 		BaseCommandHandler();
 		virtual ~BaseCommandHandler();
 
-		void Initialize(shared_ptr<Peer> peer, ClientCommon::Header* header);
+		void Initialize(shared_ptr<Peer> peer, Common::Header* header);
 
 		virtual void Handle() = 0;
 	};

@@ -4,7 +4,7 @@
 namespace Common
 {
 	ChattingPacket::ChattingPacket()
-		: Packet(0)
+		: Packet(Command::Chatting)
 	{
 	}
 
