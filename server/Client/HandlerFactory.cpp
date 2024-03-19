@@ -16,7 +16,7 @@ HandlerFactory::~HandlerFactory()
 	m_handlers.clear();
 }
 
-void HandlerFactory::AddHandler(ServerEvent evt, Handler* handler)
+void HandlerFactory::AddHandler(Event evt, Handler* handler)
 {
 	m_handlers[evt] = handler;
 }
@@ -25,7 +25,7 @@ void HandlerFactory::Init()
 {
 }
 
-Handler* HandlerFactory::GetHandler(ServerEvent evt)
+Handler* HandlerFactory::GetHandler(Event evt)
 {
 	Handler* handler = nullptr;
 

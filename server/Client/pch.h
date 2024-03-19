@@ -24,6 +24,11 @@
 // boost library
 #include <boost/asio.hpp>
 
+// CommonLib
+#include "../CommonLib/Packets.h"
+
+#pragma comment(lib, "CommonLib.lib")
+
 // Common
 #include "../Common/Common.hpp"
 

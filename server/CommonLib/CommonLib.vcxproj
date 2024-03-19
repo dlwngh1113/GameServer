@@ -145,6 +145,7 @@
     <ClInclude Include="ChattingPacket.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Packet.h" />
+    <ClInclude Include="Packets.h" />
     <ClInclude Include="PacketStream.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

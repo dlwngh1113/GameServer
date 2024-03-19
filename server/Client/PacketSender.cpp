@@ -4,10 +4,8 @@
 
 PacketSender PacketSender::s_instance;
 
-void PacketSender::Send(ClientCommon::Packet* packet)
+void PacketSender::Send(Common::Packet* packet)
 {
-	unsigned char* data = reinterpret_cast<unsigned char*>(packet);
-	Send(data, packet->header.size);
 }
 
 void PacketSender::Send(unsigned char* packet, short snSize)
