@@ -60,7 +60,7 @@ void NetworkManager::OnReceivePacket(const boost::system::error_code& error, siz
 	}
 
 	// 헤더보다 작은 사이즈의 패킷일 경우 계속 recv
-	if (bytesTransferred < sizeof(ClientCommon::Header))
+	if (bytesTransferred < sizeof(Common::Header))
 	{
 		ReceiveLeftData();
 		return;
@@ -105,20 +105,20 @@ void NetworkManager::ReceiveLeftData()
 
 void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 {
-	ClientCommon::Packet* packet = reinterpret_cast<ClientCommon::Packet*>(data);
+	Common::Packet* packet = reinterpret_cast<Common::Packet*>(data);
 	
-	ServerEvent cmd = static_cast<ServerEvent>(packet->header.type);
-	try
-	{
-		Handler* handler = HandlerFactory::GetInstance().GetHandler(cmd);
-		handler->Init(data, snSize);
-		handler->Handle();
-		delete handler;
-	}
-	catch (std::exception& ex)
-	{
-		Framework::GetInstance().ShowError(ex.what());
-	}
+	//Event cmd = static_cast<Event>(packet->header.type);
+	//try
+	//{
+	//	Handler* handler = HandlerFactory::GetInstance().GetHandler(cmd);
+	//	handler->Init(data, snSize);
+	//	handler->Handle();
+	//	delete handler;
+	//}
+	//catch (std::exception& ex)
+	//{
+	//	Framework::GetInstance().ShowError(ex.what());
+	//}
 }
 
 void NetworkManager::SendPacket(unsigned char* packet, short snSize)
