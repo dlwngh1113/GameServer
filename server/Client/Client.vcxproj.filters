@@ -35,6 +35,12 @@
     <Filter Include="Framework\Scene">
       <UniqueIdentifier>{fa7db335-1417-4871-89d1-8aebaa8f54fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\UI">
+      <UniqueIdentifier>{846965d4-a173-47bc-ba25-2fbfa9c3421c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\System">
+      <UniqueIdentifier>{702d6966-e3a9-4487-ad52-64547e6fad2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -54,9 +60,6 @@
     </ClInclude>
     <ClInclude Include="MaptoolScene.h">
       <Filter>소스 파일\Maptool</Filter>
-    </ClInclude>
-    <ClInclude Include="MovableObject.h">
-      <Filter>Framework\Object</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>소스 파일</Filter>
@@ -81,6 +84,15 @@
     </ClInclude>
     <ClInclude Include="Handlers.h">
       <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="UIBase.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,9 +120,6 @@
     <ClCompile Include="MaptoolScene.cpp">
       <Filter>소스 파일\Maptool</Filter>
     </ClCompile>
-    <ClCompile Include="MovableObject.cpp">
-      <Filter>Framework\Object</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
@@ -128,6 +137,15 @@
     </ClCompile>
     <ClCompile Include="HandlerFactory.cpp">
       <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="UIBase.cpp">
+      <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

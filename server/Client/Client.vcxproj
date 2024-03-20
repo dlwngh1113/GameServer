@@ -174,16 +174,18 @@
     <ClInclude Include="Handler.h" />
     <ClInclude Include="HandlerFactory.h" />
     <ClInclude Include="Handlers.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MaptoolScene.h" />
-    <ClInclude Include="MovableObject.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PacketSender.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="UIBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -191,12 +193,13 @@
     <ClCompile Include="CMapLoader.cpp" />
     <ClCompile Include="Handler.cpp" />
     <ClCompile Include="HandlerFactory.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="MaptoolScene.cpp" />
-    <ClCompile Include="MovableObject.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PacketSender.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="main.cpp" />
@@ -206,6 +209,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UIBase.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
