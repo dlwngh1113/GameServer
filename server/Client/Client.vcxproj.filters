@@ -5,15 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Maptool">
-      <UniqueIdentifier>{3add47ea-3b1a-406f-abac-8f3e4e22ae9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maptool\Loader">
-      <UniqueIdentifier>{01d700a6-a784-474f-a743-f2407632ac37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maptool\Tile">
-      <UniqueIdentifier>{e7c41056-9886-4260-a44a-f9315468f55e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework">
       <UniqueIdentifier>{b31e3d74-f249-4db3-b116-d68021f00c3f}</UniqueIdentifier>
     </Filter>
@@ -52,15 +43,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Framework\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="MapLoader.h">
-      <Filter>소스 파일\Maptool\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>소스 파일\Maptool\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="MaptoolScene.h">
-      <Filter>소스 파일\Maptool</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -94,6 +76,21 @@
     <ClInclude Include="Renderer.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Framework\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,15 +107,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Framework\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="CMapLoader.cpp">
-      <Filter>소스 파일\Maptool\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>소스 파일\Maptool\Tile</Filter>
-    </ClCompile>
-    <ClCompile Include="MaptoolScene.cpp">
-      <Filter>소스 파일\Maptool</Filter>
     </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
       <Filter>소스 파일\Network</Filter>
@@ -146,6 +134,21 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Framework\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
