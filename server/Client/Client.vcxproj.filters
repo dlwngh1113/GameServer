@@ -5,15 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Maptool">
-      <UniqueIdentifier>{3add47ea-3b1a-406f-abac-8f3e4e22ae9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maptool\Loader">
-      <UniqueIdentifier>{01d700a6-a784-474f-a743-f2407632ac37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maptool\Tile">
-      <UniqueIdentifier>{e7c41056-9886-4260-a44a-f9315468f55e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework">
       <UniqueIdentifier>{b31e3d74-f249-4db3-b116-d68021f00c3f}</UniqueIdentifier>
     </Filter>
@@ -26,14 +17,20 @@
     <Filter Include="소스 파일\Network">
       <UniqueIdentifier>{6ef7c37e-ac97-46c5-8e63-2af93862dff3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene">
-      <UniqueIdentifier>{fa7db335-1417-4871-89d1-8aebaa8f54fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Player">
       <UniqueIdentifier>{ddd5fd3a-109a-42f8-a01b-a4fba5c26f6d}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Network\Handler">
       <UniqueIdentifier>{7176e739-e14b-44f1-84d3-3cc4e342a16e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Scene">
+      <UniqueIdentifier>{fa7db335-1417-4871-89d1-8aebaa8f54fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\UI">
+      <UniqueIdentifier>{846965d4-a173-47bc-ba25-2fbfa9c3421c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\System">
+      <UniqueIdentifier>{702d6966-e3a9-4487-ad52-64547e6fad2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,18 +42,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Framework\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="MapLoader.h">
-      <Filter>소스 파일\Maptool\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>소스 파일\Maptool\Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="MaptoolScene.h">
-      <Filter>소스 파일\Maptool</Filter>
-    </ClInclude>
-    <ClInclude Include="MovableObject.h">
-      <Filter>Framework\Object</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>소스 파일</Filter>
@@ -70,14 +55,8 @@
     <ClInclude Include="Player.h">
       <Filter>소스 파일\Player</Filter>
     </ClInclude>
-    <ClInclude Include="MyPlayer.h">
-      <Filter>소스 파일\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="OtherPlayer.h">
-      <Filter>소스 파일\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>소스 파일\Scene</Filter>
+      <Filter>Framework\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Handler.h">
       <Filter>소스 파일\Network\Handler</Filter>
@@ -87,6 +66,30 @@
     </ClInclude>
     <ClInclude Include="Handlers.h">
       <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="UIBase.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Framework\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,41 +108,47 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Framework\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="CMapLoader.cpp">
-      <Filter>소스 파일\Maptool\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>소스 파일\Maptool\Tile</Filter>
-    </ClCompile>
-    <ClCompile Include="MaptoolScene.cpp">
-      <Filter>소스 파일\Maptool</Filter>
-    </ClCompile>
-    <ClCompile Include="MovableObject.cpp">
-      <Filter>Framework\Object</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
     <ClCompile Include="PacketSender.cpp">
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
-    <ClCompile Include="MyPlayer.cpp">
-      <Filter>소스 파일\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\Player</Filter>
     </ClCompile>
-    <ClCompile Include="OtherPlayer.cpp">
-      <Filter>소스 파일\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>소스 파일\Scene</Filter>
+      <Filter>Framework\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Handler.cpp">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
     <ClCompile Include="HandlerFactory.cpp">
       <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="UIBase.cpp">
+      <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Framework\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

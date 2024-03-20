@@ -1,15 +1,17 @@
 #pragma once
 
-class Object
+namespace ClientFramework
 {
-protected:
-	SDL_Rect m_position{ NULL };
-	SDL_Rect m_resourcePosition{ NULL };
+	class Object
+	{
+	protected:
+		SDL_FRect m_rect;
 
-public:
-	Object();
-	virtual ~Object();
+	public:
+		Object();
 
-	virtual void Update(float flElapsedTime) = 0;
-	virtual void Render(SDL_Renderer* renderer) = 0;
-};
+	public:
+		virtual void Render() const = 0;
+		virtual void UpdateFrame() = 0;
+	};
+}

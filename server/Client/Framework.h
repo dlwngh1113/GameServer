@@ -1,39 +1,42 @@
 #pragma once
+#include "Scene.h"
 
-class Scene;
-
-class Framework
+namespace ClientFramework
 {
-private:
-    static Framework s_instance;
+	class Framework
+	{
+	protected:
+		SDL_Window* m_window;
 
-    SDL_Window* m_window{ nullptr };
-    SDL_Renderer* m_renderer{ nullptr };
+		// Current scene
+		unique_ptr<Scene> m_scene;
 
-    unique_ptr<Scene> m_scene{ nullptr };
+		// EventType, Callback
+		unordered_map<Uint32, function<void(const SDL_Event&)>> m_events;
 
-    void Render();
-    void Update();
+	public:
+		Framework();
 
-private:
-    Framework();
+	public:
+		Scene* scene() { return m_scene.get(); }
 
-public:
-    virtual ~Framework();
+	public:
+		void Initialize();
+		void Run();
+		void Release();
 
-public:
-    SDL_Renderer* renderer() { return m_renderer; }
+		bool LoadScene(unique_ptr<Scene> scene);
 
-public:
-    void Initialize();
-    void Run();
-    void Release();
-    void ChangeScene(Scene* scene);
+	private:
+		void InitializeSDL();
+		void InitializeEvents();
 
-    void ShowError(const char* message);
+		// Static Member Variables
+	private:
+		static Framework s_instance;
 
-public:
-    Scene* GetScene() { return m_scene.get(); }
-
-    static Framework& GetInstance() { return s_instance; }
-};
+		// Static Member Functions
+	public:
+		static Framework& instance() { return s_instance; }
+	};
+}
