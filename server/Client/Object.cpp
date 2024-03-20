@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Object.h"
 
-Object::Object()
+namespace ClientFramework
 {
-}
-
-Object::~Object()
-{
+	Object::Object()
+		: m_rect()
+	{
+	}
 }

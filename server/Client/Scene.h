@@ -1,28 +1,25 @@
 #pragma once
+#include "Object.h"
+#include "Player.h"
+#include "UIBase.h"
 
-class Object;
-class MyPlayer;
-class OtherPlayer;
-
-class Scene
+namespace ClientFramework
 {
-protected:
-	MyPlayer* m_myPlayer{ nullptr };
-	std::vector<OtherPlayer*> m_otherPlayers;
+	class Scene
+	{
+	protected:
+		unique_ptr<Player> m_player;
+		vector<unique_ptr<Object>> m_objects;
+		unique_ptr<UIBase> m_window;
 
-public:
-	Scene();
-	virtual ~Scene();
+	public:
+		Scene();
 
-	virtual void Render(SDL_Renderer* renderer);
-	virtual void Update();
-	virtual void OnEvent(SDL_Event& evt);
+	public:
+		virtual void Initialize();
+		virtual void Render();
+		virtual void UpdateFrame();
 
-public:
-	void SetPlayer(MyPlayer* player) { m_myPlayer = player; }
-	MyPlayer* GetPlayer() const { return m_myPlayer; }
-
-	void AddOtherPlayer(OtherPlayer* otherPlayer);
-	OtherPlayer* GetOtherPlayer(int nId);
-	void RemoveOtherPlayer(OtherPlayer* otherPlayer);
-};
+		void AddObject(unique_ptr<Object> object);
+	};
+}
