@@ -6,8 +6,8 @@ namespace Common
 {
 	class COMMON_LIB_API Packet
 	{
-	protected:
-		short m_type;
+	public:
+		short type;
 
 	public:
 		explicit Packet(Command type);

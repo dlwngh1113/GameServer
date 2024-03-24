@@ -4,7 +4,7 @@
 namespace Common
 {
 	Packet::Packet(Command type)
-		: m_type((short)type)
+		: type((short)type)
 	{
 	}
 
@@ -12,7 +12,7 @@ namespace Common
 	{
 		SerializeInternal(ps);
 
-		return ps.GetData(m_type);
+		return ps.GetData(type);
 	}
 
 	void Packet::Deserialize(PacketStream& ps)
