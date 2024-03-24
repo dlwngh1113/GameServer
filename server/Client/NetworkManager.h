@@ -5,12 +5,13 @@ class NetworkManager
 	boost::asio::io_context m_context;
 	boost::asio::ip::tcp::resolver m_resolver;
 	boost::asio::ip::tcp::socket m_socket;
+	boost::asio::mutable_buffer m_buffer;
 
-	char m_dataBuffer[MAX_BUFFER]{ NULL };
+	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
 
 private:
 	NetworkManager();
-	void ReceiveLeftData();
+	void ReceiveLeftData(unsigned char* nextRecvPtr);
 	void ProcessPacket(unsigned char* data, short snSize);
 	void OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred);
 
