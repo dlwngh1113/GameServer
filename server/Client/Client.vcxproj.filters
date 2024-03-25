@@ -91,6 +91,12 @@
     <ClInclude Include="Window.h">
       <Filter>Framework\Object</Filter>
     </ClInclude>
+    <ClInclude Include="ICreator.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="IFactory.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

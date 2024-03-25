@@ -27,7 +27,7 @@ void HandlerFactory::Init()
 
 Handler* HandlerFactory::GetHandler(Event evt)
 {
-	Handler* handler = nullptr;
+	shared_ptr<Handler> handler = nullptr;
 
 	if (m_handlers.count(evt) == 0)
 		throw std::exception{ "handler 가 존재하지 않습니다.\n" };

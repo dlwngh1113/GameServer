@@ -1,14 +1,17 @@
 #pragma once
 
+#include "IFactory.h"
 #include "Handler.h"
 
-class HandlerFactory
+class HandlerFactory : public IFactory<Event, Handler>
 {
+private:
 	HandlerFactory();
 	static HandlerFactory s_instance;
+
 protected:
-	std::unordered_map<Event, Handler*> m_handlers;
-	void AddHandler(Event evt, Handler* handler);
+	template <typename T>
+	void AddHandler(Event evt, T handler);
 
 public:
 	virtual ~HandlerFactory();

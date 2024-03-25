@@ -175,6 +175,8 @@
     <ClInclude Include="Handler.h" />
     <ClInclude Include="HandlerFactory.h" />
     <ClInclude Include="Handlers.h" />
+    <ClInclude Include="ICreator.h" />
+    <ClInclude Include="IFactory.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="NetworkManager.h" />
