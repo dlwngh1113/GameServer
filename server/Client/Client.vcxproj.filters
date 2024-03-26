@@ -97,6 +97,9 @@
     <ClInclude Include="IFactory.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="BaseHandler.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Framework\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseHandler.cpp">
+      <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
