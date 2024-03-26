@@ -1,24 +1,28 @@
 #pragma once
 
 #include "IFactory.h"
-#include "Handler.h"
+#include "BaseHandler.h"
 
-class HandlerFactory : public IFactory<Event, Handler>
+class HandlerFactory : public IFactory<Event, BaseHandler>
 {
-private:
-	HandlerFactory();
-	static HandlerFactory s_instance;
-
-protected:
-	template <typename T>
-	void AddHandler(Event evt, T handler);
-
 public:
+	HandlerFactory();
 	virtual ~HandlerFactory();
 
-	void Init();
-	Handler* GetHandler(Event evt);
+	virtual shared_ptr<BaseHandler> Create(Event key);
 
-	static HandlerFactory& GetInstance() { return s_instance; }
+	template<typename T>
+	void AddHandlerCreator(Event key);
+
+private:
+	static HandlerFactory s_instance;
+
+public:
+	static HandlerFactory instance() { return s_instance; }
 };
 
+template<typename T>
+inline void HandlerFactory::AddHandlerCreator(Event key)
+{
+	AddCreator(key, make_unique<ProductCreator<BaseHandler, T>>());
+}

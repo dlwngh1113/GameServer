@@ -1,7 +1,5 @@
 #pragma once
 
-struct BasePacket;
-
 class PacketSender
 {
 	static PacketSender s_instance;

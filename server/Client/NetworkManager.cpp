@@ -10,7 +10,7 @@ NetworkManager::NetworkManager()
 	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
 {
-	HandlerFactory::GetInstance().Init();
+	HandlerFactory::instance();
 }
 
 NetworkManager::~NetworkManager()
@@ -116,10 +116,9 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	Event cmd = static_cast<Event>(packet->type);
 	try
 	{
-		Handler* handler = HandlerFactory::GetInstance().GetHandler(cmd);
-		handler->Init(data, snSize);
+		std::shared_ptr<BaseHandler> handler = HandlerFactory::instance().Create(cmd);
+		handler->Initialize(data, snSize);
 		handler->Handle();
-		delete handler;
 	}
 	catch (std::exception& ex)
 	{
