@@ -178,6 +178,7 @@
     <ClInclude Include="Handlers.h" />
     <ClInclude Include="ICreator.h" />
     <ClInclude Include="IFactory.h" />
+    <ClInclude Include="IHandlerFactory.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="NetworkManager.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Handler.cpp" />
     <ClCompile Include="HandlerFactory.cpp" />
+    <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
