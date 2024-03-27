@@ -174,11 +174,19 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Handler.h" />
-    <ClInclude Include="HandlerFactory.h" />
+    <ClInclude Include="HandlerFactory.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Handlers.h" />
-    <ClInclude Include="ICreator.h" />
-    <ClInclude Include="IFactory.h" />
-    <ClInclude Include="IHandlerFactory.h" />
+    <ClInclude Include="ICreator.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="IFactory.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="IHandlerFactory.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Image.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="NetworkManager.h" />
@@ -199,8 +207,12 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Handler.cpp" />
-    <ClCompile Include="HandlerFactory.cpp" />
-    <ClCompile Include="IHandlerFactory.cpp" />
+    <ClCompile Include="HandlerFactory.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="IHandlerFactory.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="NetworkManager.cpp" />

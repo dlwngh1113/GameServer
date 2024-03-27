@@ -116,9 +116,9 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	Event cmd = static_cast<Event>(packet->type);
 	try
 	{
-		std::shared_ptr<BaseHandler> handler = HandlerFactory::instance().Create(cmd);
-		handler->Initialize(data, snSize);
-		handler->Handle();
+		//std::shared_ptr<BaseHandler> handler = HandlerFactory::instance().Create(cmd);
+		//handler->Initialize(data, snSize);
+		//handler->Handle();
 	}
 	catch (std::exception& ex)
 	{

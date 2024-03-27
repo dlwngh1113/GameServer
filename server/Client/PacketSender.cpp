@@ -4,10 +4,6 @@
 
 PacketSender PacketSender::s_instance;
 
-void PacketSender::Send(Common::Packet* packet)
-{
-}
-
 void PacketSender::Send(unsigned char* packet, short snSize)
 {
 	NetworkManager::GetInstance().SendPacket(packet, snSize);

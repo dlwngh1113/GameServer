@@ -1,18 +1,12 @@
 #pragma once
 
-#include "IFactory.h"
+#include "IHandlerFactory.h"
 #include "BaseHandler.h"
 
-class HandlerFactory : public IFactory<Event, BaseHandler>
+class HandlerFactory : public IHandlerFactory
 {
 public:
-	HandlerFactory();
-	virtual ~HandlerFactory();
-
-	virtual shared_ptr<BaseHandler> Create(Event key);
-
-	template<typename T>
-	void AddHandlerCreator(Event key);
+	virtual std::shared_ptr<BaseHandler> Create(Event key) override;
 
 private:
 	static HandlerFactory s_instance;
@@ -20,9 +14,3 @@ private:
 public:
 	static HandlerFactory instance() { return s_instance; }
 };
-
-template<typename T>
-inline void HandlerFactory::AddHandlerCreator(Event key)
-{
-	AddCreator(key, make_unique<ProductCreator<BaseHandler, T>>());
-}
