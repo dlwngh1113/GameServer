@@ -13,6 +13,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include <fstream>
 #include <exception>
 #include <unordered_map>

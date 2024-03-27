@@ -8,8 +8,9 @@ NetworkManager NetworkManager::s_instance;
 NetworkManager::NetworkManager()
 	: m_socket(m_context)
 	, m_resolver(m_context)
+	, m_buffer(m_dataBuffer, MAX_BUFFER)
 {
-	HandlerFactory::GetInstance().Init();
+	HandlerFactory::instance();
 }
 
 NetworkManager::~NetworkManager()
@@ -47,7 +48,7 @@ void NetworkManager::Service()
 
 void NetworkManager::ReceivePacket()
 {
-	m_socket.async_receive(boost::asio::buffer(m_dataBuffer),
+	m_socket.async_receive(boost::asio::buffer(m_buffer),
 		bind(&NetworkManager::OnReceivePacket, this, placeholders::_1, placeholders::_2));
 }
 
@@ -59,66 +60,70 @@ void NetworkManager::OnReceivePacket(const boost::system::error_code& error, siz
 		return;
 	}
 
-	// 헤더보다 작은 사이즈의 패킷일 경우 계속 recv
+	unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
+	unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
+
 	if (bytesTransferred < sizeof(Common::Header))
 	{
-		ReceiveLeftData();
+		ReceiveLeftData(pNextRecvPos);
 		return;
 	}
 
-	//// 패킷의 종류에 따라 처리
-	//ClientCommon::Header* header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
-	//short snPacketType = header->type;
-	//short snPacketSize = header->size;
+	Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
+	short snPacketType = header->type;
+	short snPacketSize = header->size;
 
-	//// size만큼 패킷이 온 경우
-	//while (snPacketSize <= m_pNextReceivePtr - m_pReceiveStartPtr)
-	//{
-	//	ProcessPacket(m_pReceiveStartPtr, snPacketSize);
+	// 패킷이 size만큼 도착한 경우
+	while (snPacketSize <= pNextRecvPos - currentBufferPos)
+	{
+		ProcessPacket(currentBufferPos, snPacketSize);
 
-	//	m_pReceiveStartPtr += snPacketSize;
-	//	if (m_pReceiveStartPtr < m_pNextReceivePtr)
-	//	{
-	//		header = reinterpret_cast<ClientCommon::Header*>(m_pReceiveStartPtr);
-	//		snPacketSize = header->size;
-	//	}
-	//	else
-	//		break;
-	//}
+		currentBufferPos += snPacketSize;
+		if (currentBufferPos < pNextRecvPos)
+		{
+			header = reinterpret_cast<Common::Header*>(currentBufferPos);
+			snPacketSize = header->size;
+		}
+		else
+			break;
+	}
+
+	ReceiveLeftData(pNextRecvPos);
 }
 
-void NetworkManager::ReceiveLeftData()
+void NetworkManager::ReceiveLeftData(unsigned char* nextRecvPtr)
 {
-	//long long lnLeftData = m_pNextReceivePtr - m_pReceiveStartPtr;
+	unsigned char* currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
+	long long lnLeftData = nextRecvPtr - currentReceivePos;
 
-	//if ((MAX_BUFFER - (m_pNextReceivePtr - m_dataBuffer)) < MIN_BUFFER)
-	//{
-	//	// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-	//	memcpy(m_dataBuffer, m_pReceiveStartPtr, lnLeftData);
-	//	m_pReceiveStartPtr = m_dataBuffer;
-	//	m_pNextReceivePtr = m_pReceiveStartPtr + lnLeftData;
-	//}
+	if ((MAX_BUFFER - (nextRecvPtr - currentReceivePos)) < MIN_BUFFER)
+	{
+		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
+		memcpy(m_dataBuffer, currentReceivePos, lnLeftData);
+		m_buffer = boost::asio::mutable_buffer(m_dataBuffer, MAX_BUFFER);
+		nextRecvPtr = m_dataBuffer + lnLeftData;
+	}
 
-	//// 데이터를 받을 버퍼 세팅
-	//m_pReceiveStartPtr = m_pNextReceivePtr;
+	m_buffer = boost::asio::mutable_buffer(nextRecvPtr, MAX_BUFFER - lnLeftData);
+
+	ReceivePacket();
 }
 
 void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 {
 	Common::Packet* packet = reinterpret_cast<Common::Packet*>(data);
 	
-	//Event cmd = static_cast<Event>(packet->header.type);
-	//try
-	//{
-	//	Handler* handler = HandlerFactory::GetInstance().GetHandler(cmd);
-	//	handler->Init(data, snSize);
-	//	handler->Handle();
-	//	delete handler;
-	//}
-	//catch (std::exception& ex)
-	//{
-	//	Framework::GetInstance().ShowError(ex.what());
-	//}
+	Event cmd = static_cast<Event>(packet->type);
+	try
+	{
+		//std::shared_ptr<BaseHandler> handler = HandlerFactory::instance().Create(cmd);
+		//handler->Initialize(data, snSize);
+		//handler->Handle();
+	}
+	catch (std::exception& ex)
+	{
+		cerr << ex.what() << endl;
+	}
 }
 
 void NetworkManager::SendPacket(unsigned char* packet, short snSize)

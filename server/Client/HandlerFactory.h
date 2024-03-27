@@ -1,21 +1,16 @@
 #pragma once
 
-#include "Handler.h"
+#include "IHandlerFactory.h"
+#include "BaseHandler.h"
 
-class HandlerFactory
+class HandlerFactory : public IHandlerFactory
 {
-	HandlerFactory();
+public:
+	virtual std::shared_ptr<BaseHandler> Create(Event key) override;
+
+private:
 	static HandlerFactory s_instance;
-protected:
-	std::unordered_map<Event, Handler*> m_handlers;
-	void AddHandler(Event evt, Handler* handler);
 
 public:
-	virtual ~HandlerFactory();
-
-	void Init();
-	Handler* GetHandler(Event evt);
-
-	static HandlerFactory& GetInstance() { return s_instance; }
+	static HandlerFactory instance() { return s_instance; }
 };
-

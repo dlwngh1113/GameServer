@@ -1,13 +1,10 @@
 #pragma once
 
-struct BasePacket;
-
 class PacketSender
 {
 	static PacketSender s_instance;
 
 private:
-	static void Send(Common::Packet* packet);
 	static void Send(unsigned char* packet, short snSize);
 
 public:

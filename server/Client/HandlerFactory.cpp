@@ -4,37 +4,12 @@
 
 HandlerFactory HandlerFactory::s_instance;
 
-HandlerFactory::HandlerFactory()
+shared_ptr<BaseHandler> HandlerFactory::Create(Event evt)
 {
-}
+	ICreator<BaseHandler>* creator = GetCreator(evt);
 
-HandlerFactory::~HandlerFactory()
-{
-	for (auto& pair : m_handlers)
-		delete pair.second;
+	if (creator == nullptr)
+		throw std::exception{ "creator 가 존재하지 않습니다.\n" };
 
-	m_handlers.clear();
-}
-
-void HandlerFactory::AddHandler(Event evt, Handler* handler)
-{
-	m_handlers[evt] = handler;
-}
-
-void HandlerFactory::Init()
-{
-}
-
-Handler* HandlerFactory::GetHandler(Event evt)
-{
-	Handler* handler = nullptr;
-
-	if (m_handlers.count(evt) == 0)
-		throw std::exception{ "handler 가 존재하지 않습니다.\n" };
-
-	handler = m_handlers[evt]->Create();
-	if (handler == nullptr)
-		throw std::exception{ "Handler Create 함수가 존재하지 않습니다.\n" };
-
-	return handler;
+	return creator->Create();
 }
