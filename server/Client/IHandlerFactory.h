@@ -13,7 +13,7 @@ public:
 
 	template<typename T>
 	void AddHandlerCreator(Event key);
-};
+}; 
 
 template<typename T>
 inline void IHandlerFactory::AddHandlerCreator(Event key)
