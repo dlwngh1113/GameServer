@@ -8,6 +8,6 @@ void ChattingCommandHandler::HandleRequest()
 	Common::PacketStream ps(reinterpret_cast<unsigned char*>(m_header), m_header->size);
 	packet.Deserialize(ps);
 
-	cerr << packet.message << endl;
+	std::cerr << packet.message << std::endl;
 
 }

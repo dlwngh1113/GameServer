@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 
-using namespace std;
-
 //
 constexpr int MAX_STR_LEN = 100;
 constexpr int MAX_ID_LEN = 10;

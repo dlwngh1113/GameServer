@@ -11,7 +11,7 @@ namespace Core
 		IHandlerFactory();
 		virtual ~IHandlerFactory();
 
-		virtual shared_ptr<BaseCommandHandler> Create(short type) = 0;
+		virtual std::shared_ptr<BaseCommandHandler> Create(short type) = 0;
 
 		template<typename T>
 		void AddHandlerCreator(short key);
@@ -20,6 +20,6 @@ namespace Core
 	template<typename T>
 	inline void IHandlerFactory::AddHandlerCreator(short key)
 	{
-		AddCreator(key, make_unique<ProductCreator<BaseCommandHandler, T>>());
+		AddCreator(key, std::make_unique<ProductCreator<BaseCommandHandler, T>>());
 	}
 }

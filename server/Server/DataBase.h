@@ -5,7 +5,7 @@ namespace Core
 	class DataBase final
 	{
 		sql::Driver* m_driver;
-		vector<unique_ptr<sql::Connection>> m_connections;
+		std::vector<std::unique_ptr<sql::Connection>> m_connections;
 		int m_connectionIndex;
 
 	public:

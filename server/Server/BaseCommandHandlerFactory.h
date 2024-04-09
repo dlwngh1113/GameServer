@@ -9,7 +9,7 @@ namespace Core
 		BaseCommandHandlerFactory();
 		virtual ~BaseCommandHandlerFactory();
 
-		virtual shared_ptr<BaseCommandHandler> Create(short type) override;
+		virtual std::shared_ptr<BaseCommandHandler> Create(short type) override;
 		virtual void Initialize() = 0;
 	};
 }

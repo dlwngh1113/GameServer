@@ -28,9 +28,9 @@ void CServer::Initialize()
 	CommandHandlerFactory::instance().Initialize();
 }
 
-shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)
+std::shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)
 {
-	lock_guard<mutex> lock{ m_userLock };
+	std::lock_guard<std::mutex> lock{ m_userLock };
 	auto result = m_users.find(id);
 	if (result != m_users.end())
 		return result->second;
@@ -45,14 +45,14 @@ void CServer::Release()
 
 void CServer::OnAccepted(Core::Peer* peer)
 {
-	lock_guard<mutex> lock{ m_userLock };
-	shared_ptr<User> inst = make_shared<User>(peer);
-	m_users.insert(make_pair(inst->id(), inst));
+	std::lock_guard<std::mutex> lock{ m_userLock };
+	std::shared_ptr<User> inst = make_shared<User>(peer);
+	m_users.insert(std::make_pair(inst->id(), inst));
 }
 
 void CServer::OnDisconnected(Core::Peer* peer)
 {
-	lock_guard<mutex> lock{ m_userLock };
+	std::lock_guard<std::mutex> lock{ m_userLock };
 
 	auto result = m_users.find(peer->id());
 	if (result != m_users.end())
