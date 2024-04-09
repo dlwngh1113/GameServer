@@ -198,7 +198,6 @@
     <ClInclude Include="ICreator.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseCommandHandlerFactory.h" />
-    <ClInclude Include="IHandlerCreator.h" />
     <ClInclude Include="IHandlerFactory.h" />
     <ClInclude Include="include\lauxlib.h" />
     <ClInclude Include="include\lua.h" />
