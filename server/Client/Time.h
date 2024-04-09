@@ -5,7 +5,7 @@ namespace ClientFramework
 	class Time
 	{
 	private:
-		chrono::steady_clock::time_point m_prevUpdateTime;
+		std::chrono::steady_clock::time_point m_prevUpdateTime;
 		float m_deltaTime;
 
 	public:

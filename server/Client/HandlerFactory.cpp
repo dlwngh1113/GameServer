@@ -4,7 +4,7 @@
 
 HandlerFactory HandlerFactory::s_instance;
 
-shared_ptr<BaseHandler> HandlerFactory::Create(Event evt)
+std::shared_ptr<BaseHandler> HandlerFactory::Create(Event evt)
 {
 	ICreator<BaseHandler>* creator = GetCreator(evt);
 

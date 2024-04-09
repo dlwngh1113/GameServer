@@ -6,10 +6,10 @@ namespace ClientFramework
 	{
 	private:
 		// keycode, state
-		unordered_map<SDL_Keycode, Uint32> m_keyState;
+		std::unordered_map<SDL_Keycode, Uint32> m_keyState;
 
 		// button, state
-		unordered_map<Uint8, Uint32> m_mouseState;
+		std::unordered_map<Uint8, Uint32> m_mouseState;
 
 		// Mouse x, y
 		SDL_Point m_mousePosition;

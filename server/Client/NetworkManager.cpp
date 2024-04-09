@@ -49,7 +49,7 @@ void NetworkManager::Service()
 void NetworkManager::ReceivePacket()
 {
 	m_socket.async_receive(boost::asio::buffer(m_buffer),
-		bind(&NetworkManager::OnReceivePacket, this, placeholders::_1, placeholders::_2));
+		bind(&NetworkManager::OnReceivePacket, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void NetworkManager::OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred)
@@ -122,7 +122,7 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	}
 	catch (std::exception& ex)
 	{
-		cerr << ex.what() << endl;
+		std::cerr << ex.what() << std::endl;
 	}
 }
 

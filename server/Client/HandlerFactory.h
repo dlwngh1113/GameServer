@@ -6,6 +6,8 @@
 class HandlerFactory : public IHandlerFactory
 {
 public:
+	virtual ~HandlerFactory() {}
+
 	virtual std::shared_ptr<BaseHandler> Create(Event key) override;
 
 private:

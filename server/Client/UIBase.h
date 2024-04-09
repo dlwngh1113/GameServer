@@ -7,7 +7,7 @@ namespace ClientFramework
 	protected:
 		SDL_Rect m_rect;
 		UIBase* m_parent;
-		vector<unique_ptr<UIBase>> m_children;
+		std::vector<std::unique_ptr<UIBase>> m_children;
 
 	public:
 		UIBase();
@@ -38,7 +38,7 @@ namespace ClientFramework
 	template<typename T>
 	inline T* UIBase::CreateChild()
 	{
-		m_children.emplace_back(make_unique<T>());
+		m_children.emplace_back(std::make_unique<T>());
 		T* child = (T*)m_children.back().get();
 		child->m_parent = this;
 		child->Initialize();

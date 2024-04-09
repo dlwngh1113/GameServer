@@ -3,19 +3,19 @@
 
 namespace ClientFramework
 {
-	static const string ResourceDirectory{ "../Resources/" };
+	static const std::string ResourceDirectory{ "../Resources/" };
 
 	class Resource
 	{
 	private:
-		unordered_map<string, unique_ptr<Asset>> m_assets;
+		std::unordered_map<std::string, std::unique_ptr<Asset>> m_assets;
 
 	public:
 		void LoadAssets();
-		Asset* GetAsset(const string& sFilename);
+		Asset* GetAsset(const std::string& sFilename);
 
 	private:
-		void AddAsset(unique_ptr<Asset> asset);
+		void AddAsset(std::unique_ptr<Asset> asset);
 
 		// Static Member Variables
 	private:
