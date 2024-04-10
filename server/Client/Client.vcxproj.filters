@@ -58,15 +58,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Framework\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Handler.h">
-      <Filter>소스 파일\Network\Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="HandlerFactory.h">
-      <Filter>소스 파일\Network\Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="Handlers.h">
-      <Filter>소스 파일\Network\Handler</Filter>
-    </ClInclude>
     <ClInclude Include="UIBase.h">
       <Filter>Framework\UI</Filter>
     </ClInclude>
@@ -91,18 +82,19 @@
     <ClInclude Include="Window.h">
       <Filter>Framework\Object</Filter>
     </ClInclude>
-    <ClInclude Include="ICreator.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="IFactory.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="BaseHandler.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="IHandlerFactory.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="ICreator.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="IFactory.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="HandlerFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,12 +123,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Framework\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Handler.cpp">
-      <Filter>소스 파일\Network\Handler</Filter>
-    </ClCompile>
-    <ClCompile Include="HandlerFactory.cpp">
-      <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
     <ClCompile Include="UIBase.cpp">
       <Filter>Framework\UI</Filter>
@@ -167,6 +153,9 @@
     </ClCompile>
     <ClCompile Include="IHandlerFactory.cpp">
       <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="HandlerFactory.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

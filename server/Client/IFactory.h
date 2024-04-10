@@ -4,9 +4,6 @@
 template <typename TKey, typename TValue>
 class IFactory
 {
-public:
-	virtual ~IFactory();
-
 protected:
 	std::unordered_map<TKey, std::unique_ptr<ICreator<TValue>>> m_creators;
 
@@ -19,13 +16,16 @@ protected:
 		return nullptr;
 	}
 
-	void AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator);
+	void AddCreator(TKey key, std::unique_ptr<ICreator<TValue>> && creator);
+
+public:
+	virtual ~IFactory();
 };
 
 template<typename TKey, typename TValue>
 inline void IFactory<TKey, TValue>::AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator)
 {
-	m_creators.insert(std::make_pair(key, move(creator)));
+	m_creators.insert(std::make_pair(key, std::move(creator)));
 }
 
 template<typename TKey, typename TValue>

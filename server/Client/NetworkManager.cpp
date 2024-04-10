@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "NetworkManager.h"
-#include "HandlerFactory.h"
 #include "Framework.h"
 
 NetworkManager NetworkManager::s_instance;
@@ -10,7 +9,6 @@ NetworkManager::NetworkManager()
 	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
 {
-	HandlerFactory::instance();
 }
 
 NetworkManager::~NetworkManager()
