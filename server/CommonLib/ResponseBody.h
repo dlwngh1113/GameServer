@@ -3,10 +3,10 @@
 
 namespace Common
 {
-	class ResponseBody : public Packet
+	class COMMON_LIB_API ResponseBody : public Packet
 	{
-	private:
-		char m_type;
+	protected:
+		short m_code;
 		std::string m_message;
 
 	protected:

@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ChattingPacket.h" />
+    <ClInclude Include="CommandBody.h" />
     <ClInclude Include="ResponseBody.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Packet.h" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChattingPacket.cpp" />
+    <ClCompile Include="CommandBody.cpp" />
     <ClCompile Include="ResponseBody.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="PacketStream.cpp" />
