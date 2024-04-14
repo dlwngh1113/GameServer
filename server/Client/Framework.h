@@ -9,10 +9,10 @@ namespace ClientFramework
 		SDL_Window* m_window;
 
 		// Current scene
-		unique_ptr<Scene> m_scene;
+		std::unique_ptr<Scene> m_scene;
 
 		// EventType, Callback
-		unordered_map<Uint32, function<void(const SDL_Event&)>> m_events;
+		std::unordered_map<Uint32, std::function<void(const SDL_Event&)>> m_events;
 
 	public:
 		Framework();
@@ -25,7 +25,7 @@ namespace ClientFramework
 		void Run();
 		void Release();
 
-		bool LoadScene(unique_ptr<Scene> scene);
+		bool LoadScene(std::unique_ptr<Scene> scene);
 
 	private:
 		void InitializeSDL();

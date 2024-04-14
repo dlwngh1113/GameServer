@@ -163,9 +163,6 @@
     <ClInclude Include="ICreator.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
-    <ClInclude Include="IHandlerCreator.h">
-      <Filter>Framework\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Uuid.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>

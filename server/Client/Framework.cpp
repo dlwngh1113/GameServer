@@ -62,7 +62,7 @@ namespace ClientFramework
 		exit(0);
 	}
 
-	bool Framework::LoadScene(unique_ptr<Scene> scene)
+	bool Framework::LoadScene(std::unique_ptr<Scene> scene)
 	{
 		if (scene == nullptr)
 			return false;
@@ -70,7 +70,7 @@ namespace ClientFramework
 		if (scene == m_scene)
 			return false;
 
-		m_scene = move(scene);
+		m_scene = std::move(scene);
 		m_scene->Initialize();
 
 		return true;
@@ -81,7 +81,7 @@ namespace ClientFramework
 		// SDL √ ±‚»≠
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		{
-			cout << "SDL Initialization Fail: " << SDL_GetError() << endl;
+			std::cout << "SDL Initialization Fail: " << SDL_GetError() << std::endl;
 			SDL_Quit();
 		}
 
@@ -94,13 +94,13 @@ namespace ClientFramework
 
 		if (!m_window)
 		{
-			cout << "SDL Initialization Fail: " << SDL_GetError() << endl;
+			std::cout << "SDL Initialization Fail: " << SDL_GetError() << std::endl;
 			SDL_Quit();
 		}
 
 		if (!Renderer::instance().Create(m_window))
 		{
-			cout << "Renderer Creation Faild\n";
+			std::cout << "Renderer Creation Faild\n";
 			Release();
 		}
 	}

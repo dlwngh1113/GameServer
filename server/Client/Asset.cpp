@@ -3,7 +3,7 @@
 
 namespace ClientFramework
 {
-	void Asset::setFilename(const string& sFilename)
+	void Asset::setFilename(const std::string& sFilename)
 	{
 		m_sFilename = sFilename;
 

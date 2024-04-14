@@ -8,9 +8,9 @@ namespace ClientFramework
 	class Scene
 	{
 	protected:
-		unique_ptr<Player> m_player;
-		vector<unique_ptr<Object>> m_objects;
-		unique_ptr<UIBase> m_window;
+		std::unique_ptr<Player> m_player;
+		std::vector<std::unique_ptr<Object>> m_objects;
+		std::unique_ptr<UIBase> m_window;
 
 	public:
 		Scene();
@@ -20,6 +20,6 @@ namespace ClientFramework
 		virtual void Render();
 		virtual void UpdateFrame();
 
-		void AddObject(unique_ptr<Object> object);
+		void AddObject(std::unique_ptr<Object> object);
 	};
 }

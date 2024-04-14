@@ -7,10 +7,10 @@ namespace Core
 	DataBase DataBase::s_instance;
 	namespace
 	{
-		static constexpr string kHostAddress("127.0.0.1:3306");
-		static constexpr string kUserName("root");
-		static constexpr string kPassword("ljh915727!");
-		static constexpr string kSchema("dnd");
+		static constexpr std::string kHostAddress("127.0.0.1:3306");
+		static constexpr std::string kUserName("root");
+		static constexpr std::string kPassword("ljh915727!");
+		static constexpr std::string kSchema("dnd");
 	}
 
 	DataBase::DataBase()
@@ -23,12 +23,12 @@ namespace Core
 	{
 		Logger::instance().Log("Database Initialize Started!");
 
-		unique_ptr<sql::Connection> connection = nullptr;
+		std::unique_ptr<sql::Connection> connection = nullptr;
 		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
 		{
 			connection.reset(m_driver->connect(kHostAddress, kUserName, kPassword));
 			connection->setSchema(kSchema);
-			m_connections.emplace_back(move(connection));
+			m_connections.emplace_back(std::move(connection));
 		}
 
 		Logger::instance().Log("Database Initialize finished!");
@@ -55,7 +55,7 @@ namespace Core
 			// Begin transaction
 			connection->setAutoCommit(false);
 
-			unique_ptr<sql::Statement> statement = nullptr;
+			std::unique_ptr<sql::Statement> statement = nullptr;
 			statement.reset(connection->createStatement());
 
 			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(36) PRIMARY KEY NOT NULL, `name` NVARCHAR(24) NOT NULL DEFAULT '');");

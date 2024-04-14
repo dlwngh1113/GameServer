@@ -3,14 +3,14 @@
 class Logger
 {
 private:
-	concurrency::concurrent_queue<string> m_messages;
+	concurrency::concurrent_queue<std::string> m_messages;
 
 public:
 	Logger();
 
 public:
 	void Log(const char* message);
-	void Log(const string& message);
+	void Log(const std::string& message);
 
 	// Static member variables
 private:

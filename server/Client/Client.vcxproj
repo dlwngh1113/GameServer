@@ -155,7 +155,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>C:\Users\dlwng\Desktop\게임서버\IOCP_SERVER\server\ClientCommon;C:\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
@@ -170,23 +170,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Asset.h" />
-    <ClInclude Include="BaseHandler.h" />
+    <ClInclude Include="BaseHandler.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="Handler.h" />
-    <ClInclude Include="HandlerFactory.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Handlers.h" />
-    <ClInclude Include="ICreator.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="IFactory.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="IHandlerFactory.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="HandlerFactory.h" />
+    <ClInclude Include="ICreator.h" />
+    <ClInclude Include="IFactory.h" />
+    <ClInclude Include="IHandlerFactory.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="NetworkManager.h" />
@@ -203,16 +195,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
-    <ClCompile Include="BaseHandler.cpp" />
+    <ClCompile Include="BaseHandler.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="Handler.cpp" />
-    <ClCompile Include="HandlerFactory.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="IHandlerFactory.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="HandlerFactory.cpp" />
+    <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="NetworkManager.cpp" />

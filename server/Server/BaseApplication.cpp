@@ -30,7 +30,7 @@ namespace Core
 
     void BaseApplication::StartAccept()
     {
-        m_acceptor.async_accept(bind(&BaseApplication::OnAccept, this, placeholders::_1, placeholders::_2));
+        m_acceptor.async_accept(bind(&BaseApplication::OnAccept, this, std::placeholders::_1, std::placeholders::_2));
     }
 
     void BaseApplication::OnAccept(const boost::system::error_code& error, boost::asio::ip::tcp::socket acceptedSocket)
@@ -40,7 +40,7 @@ namespace Core
         {
             Logger::instance().Log(format("{} is connected!", acceptedSocket.remote_endpoint().address().to_string()));
 
-            shared_ptr<Peer> acceptedPeer = Peer::Create(move(acceptedSocket), this);
+            std::shared_ptr<Peer> acceptedPeer = Peer::Create(std::move(acceptedSocket), this);
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
         }
@@ -57,8 +57,8 @@ namespace Core
         m_peers.erase(id);
     }
 
-    void BaseApplication::AddPeer(shared_ptr<Peer> peer)
+    void BaseApplication::AddPeer(std::shared_ptr<Peer> peer)
     {
-        m_peers.insert(make_pair(peer->id(), peer));
+        m_peers.insert(std::make_pair(peer->id(), peer));
     }
 }

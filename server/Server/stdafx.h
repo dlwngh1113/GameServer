@@ -39,4 +39,4 @@ extern "C" {
 #pragma comment(lib, "CommonLib.lib")
 
 #include "../Common/Common.hpp"
-#include "../CommonLib/ChattingPacket.h"
+#include "../CommonLib/ChattingCommandBody.h"

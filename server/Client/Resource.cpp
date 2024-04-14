@@ -8,18 +8,18 @@ namespace ClientFramework
 
 	void Resource::LoadAssets()
 	{
-		unique_ptr<Image> image = make_unique<Image>();
+		std::unique_ptr<Image> image = std::make_unique<Image>();
 		image->setFilename(ResourceDirectory + "test.bmp");
 
 		AddAsset(move(image));
 	}
 
-	void Resource::AddAsset(unique_ptr<Asset> asset)
+	void Resource::AddAsset(std::unique_ptr<Asset> asset)
 	{
-		m_assets.insert(make_pair(asset->filename(), move(asset)));
+		m_assets.insert(std::make_pair(asset->filename(), move(asset)));
 	}
 
-	Asset* Resource::GetAsset(const string& sFilename)
+	Asset* Resource::GetAsset(const std::string& sFilename)
 	{
 		auto iter = m_assets.find(sFilename);
 		if (iter != m_assets.end())

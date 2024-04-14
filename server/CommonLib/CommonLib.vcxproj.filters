@@ -21,7 +21,7 @@
     <ClInclude Include="Packet.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ChattingPacket.h">
+    <ClInclude Include="ChattingCommandBody.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="PacketStream.h">
@@ -33,6 +33,12 @@
     <ClInclude Include="Packets.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ResponseBody.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandBody.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -41,10 +47,16 @@
     <ClCompile Include="Packet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ChattingPacket.cpp">
+    <ClCompile Include="ChattingCommandBody.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="PacketStream.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ResponseBody.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandBody.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

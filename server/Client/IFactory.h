@@ -16,11 +16,20 @@ protected:
 		return nullptr;
 	}
 
-	void AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator);
+	void AddCreator(TKey key, std::unique_ptr<ICreator<TValue>> && creator);
+
+public:
+	virtual ~IFactory();
 };
 
 template<typename TKey, typename TValue>
 inline void IFactory<TKey, TValue>::AddCreator(TKey key, std::unique_ptr<ICreator<TValue>>&& creator)
 {
 	m_creators.insert(std::make_pair(key, std::move(creator)));
+}
+
+template<typename TKey, typename TValue>
+inline IFactory<TKey, TValue>::~IFactory()
+{
+	m_creators.clear();
 }

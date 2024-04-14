@@ -10,10 +10,6 @@
 		#define COMMON_LIB_API
 #endif
 
-enum class Response : short
-{
-};
-
 enum class Command : short
 {
 	Chatting

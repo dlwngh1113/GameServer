@@ -1,8 +1,8 @@
 #pragma once
 #include "IFactory.h"
 
-class BaseHandler;
-
+class BaseHandler; 
+	
 class IHandlerFactory : public IFactory<Event, BaseHandler>
 {
 public:

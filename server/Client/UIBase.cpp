@@ -11,7 +11,7 @@ namespace ClientFramework
 
 	void UIBase::Initialize()
 	{
-		for (unique_ptr<UIBase>& child : m_children)
+		for (std::unique_ptr<UIBase>& child : m_children)
 		{
 			child->Initialize();
 		}
@@ -19,7 +19,7 @@ namespace ClientFramework
 
 	void UIBase::Render()
 	{
-		for (unique_ptr<UIBase>& child : m_children)
+		for (std::unique_ptr<UIBase>& child : m_children)
 		{
 			child->Render();
 		}
@@ -27,7 +27,7 @@ namespace ClientFramework
 
 	void UIBase::UpdateFrame()
 	{
-		for (unique_ptr<UIBase>& child : m_children)
+		for (std::unique_ptr<UIBase>& child : m_children)
 		{
 			child->UpdateFrame();
 		}

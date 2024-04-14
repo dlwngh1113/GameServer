@@ -6,12 +6,12 @@ namespace Core
 	class BaseApplication;
 	class BaseCommandHandlerFactory;
 
-	class Peer final : public enable_shared_from_this<Peer>
+	class Peer final : public std::enable_shared_from_this<Peer>
 	{
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		vector<unsigned char> m_processBuffer;
+		std::vector<unsigned char> m_processBuffer;
 		unsigned char m_data[MAX_BUFFER]{};
 		boost::asio::mutable_buffer m_buffer;
 
@@ -39,6 +39,6 @@ namespace Core
 
 		// Static Member Functions
 	public:
-		static shared_ptr<Peer> Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application);
+		static std::shared_ptr<Peer> Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application);
 	};
 }

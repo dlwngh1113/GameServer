@@ -8,7 +8,7 @@
 namespace Core
 {
     Peer::Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept
-        : m_socket(move(socket))
+        : m_socket(std::move(socket))
         , m_buffer(m_data, MAX_BUFFER)
         , m_id(Uuid::New())
         , m_application(application)
@@ -32,7 +32,7 @@ namespace Core
             m_socket.async_receive(boost::asio::buffer(m_buffer),
                 bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
         }
-        catch (exception& ex)
+        catch (std::exception& ex)
         {
             Logger::instance().Log(ex.what());
         }
@@ -85,17 +85,17 @@ namespace Core
         try
         {
             if (m_factory == nullptr)
-                throw exception{ "CommandHandlerFactory is nullptr!" };
+                throw std::exception{ "CommandHandlerFactory is nullptr!" };
 
-            shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
+            std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
             handler->Initialize(shared_from_this(), header);
 
             // add to worker thread
             boost::asio::dispatch(BaseApplication::threads(), [handler]() { handler->Handle(); });
         }
-        catch (exception& ex)
+        catch (std::exception& ex)
         {
-            Logger::instance().Log(format("[Error] - {}", ex.what()));
+            Logger::instance().Log(std::format("[Error] - {}", ex.what()));
         }
     }
 
@@ -130,7 +130,7 @@ namespace Core
             boost::asio::async_write(m_socket, boost::asio::buffer(data),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }
-        catch (exception& ex)
+        catch (std::exception& ex)
         {
             Logger::instance().Log(ex.what());
         }
@@ -143,15 +143,15 @@ namespace Core
             boost::asio::async_write(m_socket, boost::asio::buffer(data, size),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }
-        catch (exception& ex)
+        catch (std::exception& ex)
         {
             Logger::instance().Log(ex.what());
         }
     }
 
-    shared_ptr<Peer> Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application )
+    std::shared_ptr<Peer> Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application )
     {
-        shared_ptr<Peer> inst = make_shared<Peer>(move(socket), application);
+        std::shared_ptr<Peer> inst = std::make_shared<Peer>(std::move(socket), application);
         inst->ReceiveData();
 
         return inst;

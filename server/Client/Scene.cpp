@@ -13,7 +13,7 @@ namespace ClientFramework
 
     void Scene::Initialize()
     {
-        m_window = make_unique<Window>();
+        m_window = std::make_unique<Window>();
     }
 
     void Scene::Render()
@@ -46,8 +46,8 @@ namespace ClientFramework
             m_window->UpdateFrame();
     }
 
-    void Scene::AddObject(unique_ptr<Object> object)
+    void Scene::AddObject(std::unique_ptr<Object> object)
     {
-        m_objects.emplace_back(move(object));
+        m_objects.emplace_back(std::move(object));
     }
 }
