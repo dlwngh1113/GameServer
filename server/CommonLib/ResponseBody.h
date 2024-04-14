@@ -12,5 +12,8 @@ namespace Common
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;
 		virtual void DeserializeInternal(PacketStream& ps) override;
+
+	public:
+		explicit ResponseBody(Command type);
 	};
 }

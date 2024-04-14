@@ -12,4 +12,9 @@ namespace Common
 	{
 		ps >> m_code >> m_message;
 	}
+	
+	ResponseBody::ResponseBody(Command type)
+		: Packet(type)
+	{
+	}
 }

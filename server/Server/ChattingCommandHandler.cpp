@@ -4,7 +4,7 @@
 
 void ChattingCommandHandler::HandleRequest()
 {
-	Common::ChattingPacket packet;
+	Common::ChattingCommandBody packet;
 	Common::PacketStream ps(reinterpret_cast<unsigned char*>(m_header), m_header->size);
 	packet.Deserialize(ps);
 
