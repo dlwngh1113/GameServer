@@ -1,7 +1,13 @@
 #include "pch.h"
 #include "HandlerFactory.h"
 
-//HandlerFactory HandlerFactory::s_instance;
+HandlerFactory::HandlerFactory()
+{
+}
+
+HandlerFactory::~HandlerFactory()
+{
+}
 
 std::shared_ptr<BaseHandler> HandlerFactory::Create(Event type)
 {
