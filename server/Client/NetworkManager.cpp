@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NetworkManager.h"
 #include "Framework.h"
+#include "BaseHandler.h"
 
 NetworkManager NetworkManager::s_instance;
 
@@ -8,6 +9,7 @@ NetworkManager::NetworkManager()
 	: m_socket(m_context)
 	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
+	, m_factory(std::make_unique<HandlerFactory>())
 {
 }
 
@@ -114,9 +116,9 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	Event cmd = static_cast<Event>(packet->type);
 	try
 	{
-		//std::shared_ptr<BaseHandler> handler = HandlerFactory::instance().Create(cmd);
-		//handler->Initialize(data, snSize);
-		//handler->Handle();
+		std::shared_ptr<BaseHandler> handler = m_factory->Create(cmd);
+		handler->Initialize(data, snSize);
+		handler->Handle();
 	}
 	catch (std::exception& ex)
 	{

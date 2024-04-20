@@ -22,3 +22,7 @@ std::shared_ptr<BaseHandler> HandlerFactory::Create(Event type)
 
 	return handler;
 }
+
+void HandlerFactory::Initialize()
+{
+}

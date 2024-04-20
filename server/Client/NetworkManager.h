@@ -1,4 +1,5 @@
 #pragma once
+#include "HandlerFactory.h"
 
 class NetworkManager
 {
@@ -8,6 +9,8 @@ class NetworkManager
 	boost::asio::mutable_buffer m_buffer;
 
 	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
+
+	std::unique_ptr<HandlerFactory> m_factory;
 
 private:
 	NetworkManager();

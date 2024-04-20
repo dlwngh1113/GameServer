@@ -8,4 +8,5 @@ public:
 	virtual ~HandlerFactory();
 
 	virtual std::shared_ptr<BaseHandler> Create(Event type) override;
+	void Initialize();
 };
