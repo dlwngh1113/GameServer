@@ -94,7 +94,12 @@
     <ClInclude Include="IFactory.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="HandlerFactory.h" />
+    <ClInclude Include="HandlerFactory.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="ChattingCommandHandler.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -155,7 +160,10 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="HandlerFactory.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="ChattingCommandHandler.cpp">
+      <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
