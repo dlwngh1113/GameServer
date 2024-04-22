@@ -51,6 +51,9 @@
     <ClInclude Include="EventBody.h">
       <Filter>Body\Event</Filter>
     </ClInclude>
+    <ClInclude Include="ChattingEventBody.h">
+      <Filter>Body\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -72,6 +75,9 @@
       <Filter>Body\Command</Filter>
     </ClCompile>
     <ClCompile Include="EventBody.cpp">
+      <Filter>Body\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ChattingEventBody.cpp">
       <Filter>Body\Event</Filter>
     </ClCompile>
   </ItemGroup>
