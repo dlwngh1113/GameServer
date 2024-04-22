@@ -13,15 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Body">
+      <UniqueIdentifier>{5ed2293d-bc20-4a0e-bfc5-38b397fe33a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Body\Event">
+      <UniqueIdentifier>{61b0efcc-26ed-41f4-b1f8-75982d803d7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Body\Command">
+      <UniqueIdentifier>{6dd4662a-707f-443b-af75-7a5439e14cfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Packet.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ChattingCommandBody.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="PacketStream.h">
@@ -33,14 +39,17 @@
     <ClInclude Include="Packets.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ResponseBody.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="ChattingCommandBody.h">
+      <Filter>Body\Command</Filter>
     </ClInclude>
     <ClInclude Include="CommandBody.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Body\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ResponseBody.h">
+      <Filter>Body\Command</Filter>
     </ClInclude>
     <ClInclude Include="EventBody.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Body\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,20 +59,20 @@
     <ClCompile Include="Packet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ChattingCommandBody.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="PacketStream.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ResponseBody.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="ChattingCommandBody.cpp">
+      <Filter>Body\Command</Filter>
     </ClCompile>
     <ClCompile Include="CommandBody.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Body\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ResponseBody.cpp">
+      <Filter>Body\Command</Filter>
     </ClCompile>
     <ClCompile Include="EventBody.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Body\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
