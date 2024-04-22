@@ -3,8 +3,8 @@
 
 namespace Common
 {
-	Packet::Packet(Command type)
-		: type((short)type)
+	Packet::Packet(short type)
+		: type(type)
 	{
 	}
 

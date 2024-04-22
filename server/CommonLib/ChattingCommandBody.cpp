@@ -18,6 +18,10 @@ namespace Common
 		ps >> message;
 	}
 	
+	//
+	//
+	//
+
 	ChattingResponseBody::ChattingResponseBody()
 		: ResponseBody(Command::Chatting)
 	{

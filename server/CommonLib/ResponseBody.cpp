@@ -3,6 +3,11 @@
 
 namespace Common
 {
+	ResponseBody::ResponseBody(Command type)
+		: Packet((short)type)
+	{
+	}
+	
 	void ResponseBody::SerializeInternal(PacketStream& ps)
 	{
 		ps << m_code << m_message;
@@ -11,10 +16,5 @@ namespace Common
 	void ResponseBody::DeserializeInternal(PacketStream& ps)
 	{
 		ps >> m_code >> m_message;
-	}
-	
-	ResponseBody::ResponseBody(Command type)
-		: Packet(type)
-	{
 	}
 }

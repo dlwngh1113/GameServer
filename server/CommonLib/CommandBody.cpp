@@ -4,7 +4,7 @@
 namespace Common
 {
 	CommandBody::CommandBody(Command type)
-		: Packet(type)
+		: Packet((short)type)
 	{
 	}
 }
