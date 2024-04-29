@@ -3,5 +3,5 @@
 
 int main()
 {
-	CServer::GetInstance().Run();
+	CServer::instance().Run();
 }

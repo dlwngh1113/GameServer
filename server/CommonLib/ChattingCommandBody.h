@@ -20,6 +20,7 @@ namespace Common
 	class COMMON_LIB_API ChattingResponseBody : public ResponseBody
 	{
 	public:
+		std::string message;
 		explicit ChattingResponseBody();
 
 	protected:

@@ -29,9 +29,11 @@ namespace Common
 	
 	void ChattingResponseBody::SerializeInternal(PacketStream& ps)
 	{
+		ps << message;
 	}
 	
 	void ChattingResponseBody::DeserializeInternal(PacketStream& ps)
 	{
+		ps >> message;
 	}
 }
