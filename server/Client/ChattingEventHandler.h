@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseHandler.h"
 
-class ChattingCommandHandler : public BaseHandler
+class ChattingEventHandler : public BaseHandler
 {
 public:
 	virtual void Handle() override;

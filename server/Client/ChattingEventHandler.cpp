@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "ChattingCommandHandler.h"
+#include "ChattingEventHandler.h"
 
-void ChattingCommandHandler::Handle()
+void ChattingEventHandler::Handle()
 {
 	Common::ChattingResponseBody* resBody = reinterpret_cast<Common::ChattingResponseBody*>(m_packet);
 }

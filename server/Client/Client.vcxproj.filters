@@ -97,7 +97,7 @@
     <ClInclude Include="HandlerFactory.h">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClInclude>
-    <ClInclude Include="ChattingCommandHandler.h">
+    <ClInclude Include="ChattingEventHandler.h">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClInclude>
   </ItemGroup>
@@ -162,7 +162,7 @@
     <ClCompile Include="HandlerFactory.cpp">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
-    <ClCompile Include="ChattingCommandHandler.cpp">
+    <ClCompile Include="ChattingEventHandler.cpp">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
   </ItemGroup>
