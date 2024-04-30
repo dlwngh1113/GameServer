@@ -100,6 +100,9 @@
     <ClInclude Include="ChattingEventHandler.h">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClInclude>
+    <ClInclude Include="EventHandlers.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

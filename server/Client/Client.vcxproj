@@ -175,6 +175,7 @@
     </ClInclude>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChattingEventHandler.h" />
+    <ClInclude Include="EventHandlers.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="HandlerFactory.h" />
     <ClInclude Include="ICreator.h" />

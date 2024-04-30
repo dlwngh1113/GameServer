@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "HandlerFactory.h"
+#include "EventHandlers.h"
 
 HandlerFactory::HandlerFactory()
 {
@@ -25,4 +26,5 @@ std::shared_ptr<BaseHandler> HandlerFactory::Create(Event type)
 
 void HandlerFactory::Initialize()
 {
+	AddHandlerCreator<ChattingEventHandler>(Event::Chatting);
 }
