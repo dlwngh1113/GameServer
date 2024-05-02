@@ -27,6 +27,7 @@ public:
 	virtual void Run() override;
 
 	std::shared_ptr<User> GetUser(const boost::uuids::uuid& id);
+	const std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>, Core::uuid_hash, Core::uuid_equal>& users() const { return m_users; }
 
 private:
 	static CServer s_instance;

@@ -14,6 +14,14 @@ namespace Core
 	{
 	}
 
+	void ClientPeer::SendPacket(Common::Packet* packet)
+	{
+		Common::PacketStream ps;
+		std::string data = packet->Serialize(ps);
+
+		m_peer->SendData(data.data(), data.size());
+	}
+
 	void ClientPeer::SendPacket(char* data, size_t size)
 	{
 		m_peer->SendData(data, size);
