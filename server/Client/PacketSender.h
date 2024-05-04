@@ -8,6 +8,6 @@ private:
 	static void Send(unsigned char* packet, short snSize);
 
 public:
-	static PacketSender& GetInstance() { return s_instance; }
+	static PacketSender& instance() { return s_instance; }
 };
 

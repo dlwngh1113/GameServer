@@ -34,9 +34,6 @@ private:
 
 public:
 	// Static member functions
-	static NetworkManager& GetInstance()
-	{
-		return s_instance;
-	}
+	static NetworkManager& instance() { return s_instance; }
 };
 
