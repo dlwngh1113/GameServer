@@ -11,6 +11,7 @@ namespace ClientFramework
 
 	public:
 		UIBase();
+		virtual ~UIBase();
 
 	public:
 		virtual void Initialize();

@@ -85,6 +85,12 @@ namespace ClientFramework
 			SDL_Quit();
 		}
 
+		if (TTF_Init() < 0)
+		{
+			std::cout << "SDL Font Initialization Fail: " << SDL_GetError() << std::endl;
+			SDL_Quit();
+		}
+
 		// 윈도우 창 생성
 		m_window = SDL_CreateWindow("SDL2 Window",
 			SDL_WINDOWPOS_UNDEFINED,

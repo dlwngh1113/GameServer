@@ -21,6 +21,7 @@
 // SDL library
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
+#include <SDL2/SDL_ttf.h>
 
 // boost library
 #include <boost/asio.hpp>
@@ -29,6 +30,7 @@
 #include "../CommonLib/Packets.h"
 
 #pragma comment(lib, "CommonLib.lib")
+#pragma comment(lib, "SDL2_ttf.lib")
 
 // Common
 #include "../Common/Common.hpp"
