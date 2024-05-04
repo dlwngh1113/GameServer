@@ -4,6 +4,7 @@
 #include "Key.h"
 #include "Time.h"
 #include "Resource.h"
+#include "NetworkManager.h"
 
 namespace ClientFramework
 {
@@ -12,6 +13,7 @@ namespace ClientFramework
 	Framework::Framework()
 		: m_scene(nullptr)
 		, m_window(nullptr)
+		, m_windowSize{ 1280, 720 }
 	{
 
 	}
@@ -24,6 +26,9 @@ namespace ClientFramework
 		// 리소스 로드
 
 		Resource::instance().LoadAssets();
+
+		// 네트워크 연결
+		NetworkManager::GetInstance().Initialize();
 	}
 
 	void Framework::Run()
@@ -91,6 +96,8 @@ namespace ClientFramework
 			SDL_Quit();
 		}
 
+		atexit([]() { Framework::instance().Release(); });
+
 		// 윈도우 창 생성
 		m_window = SDL_CreateWindow("SDL2 Window",
 			SDL_WINDOWPOS_UNDEFINED,
@@ -101,13 +108,13 @@ namespace ClientFramework
 		if (!m_window)
 		{
 			std::cout << "SDL Initialization Fail: " << SDL_GetError() << std::endl;
-			SDL_Quit();
+			exit(0);
 		}
 
 		if (!Renderer::instance().Create(m_window))
 		{
 			std::cout << "Renderer Creation Faild\n";
-			Release();
+			exit(0);
 		}
 	}
 

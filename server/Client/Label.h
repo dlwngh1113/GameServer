@@ -18,5 +18,6 @@ namespace ClientFramework
     public:
         virtual void Initialize() override;
         void Render(SDL_Renderer* renderer);
+        void SetText(const std::string& text);
     };
 }

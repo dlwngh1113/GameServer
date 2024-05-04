@@ -47,4 +47,16 @@ namespace ClientFramework
 	{
 		SDL_RenderCopy(renderer, m_texture, NULL, &m_rect);
 	}
+
+	void Label::SetText(const std::string& text)
+	{
+		SDL_Surface* prevSurface = m_surface;
+		m_surface = TTF_RenderText_Blended(m_font, text.c_str(), m_color);
+		
+		SDL_Texture* prevTexture = m_texture;
+		m_texture = SDL_CreateTextureFromSurface(Renderer::instance().renderer(), m_surface);
+
+		SDL_FreeSurface(prevSurface);
+		SDL_DestroyTexture(prevTexture);
+	}
 }
