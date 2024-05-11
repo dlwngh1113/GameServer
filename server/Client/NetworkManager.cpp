@@ -10,6 +10,7 @@ NetworkManager::NetworkManager()
 	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
 	, m_factory(std::make_unique<HandlerFactory>())
+	, m_packetId(0)
 {
 }
 
@@ -126,7 +127,20 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	}
 }
 
-void NetworkManager::SendPacket(unsigned char* packet, short snSize)
+void NetworkManager::SendPacket(Common::Packet&& packet)
+{
+	// Increase packet id
+	packet.id = ++m_packetId;
+
+	// Serialize packet
+	Common::PacketStream ps;
+	std::string data = packet.Serialize(ps);
+
+	m_sendedPackets.insert(std::make_pair(packet.id + 1, packet));
+	SendPacket(data.data(), data.size());
+}
+
+void NetworkManager::SendPacket(char* packet, short snSize)
 {
 	m_socket.async_send(boost::asio::buffer(packet, snSize), [](const boost::system::error_code& error, size_t bytesTransferred) {});
 }

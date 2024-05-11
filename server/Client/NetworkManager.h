@@ -7,10 +7,12 @@ class NetworkManager
 	boost::asio::ip::tcp::resolver m_resolver;
 	boost::asio::ip::tcp::socket m_socket;
 	boost::asio::mutable_buffer m_buffer;
+	short m_packetId;
 
 	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
 
 	std::unique_ptr<HandlerFactory> m_factory;
+	std::unordered_map<short, Common::Packet> m_sendedPackets; 
 
 private:
 	NetworkManager();
@@ -26,7 +28,8 @@ public:
 	bool Initialize();
 	void Service();
 	void ReceivePacket();
-	void SendPacket(unsigned char* packet, short snSize);
+	void SendPacket(Common::Packet&& packet);
+	void SendPacket(char* packet, short snSize);
 
 private:
 	// Static member variables
