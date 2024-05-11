@@ -49,9 +49,6 @@
     <ClInclude Include="NetworkManager.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
-    <ClInclude Include="PacketSender.h">
-      <Filter>소스 파일\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>소스 파일\Player</Filter>
     </ClInclude>
@@ -124,9 +121,6 @@
       <Filter>Framework\Camera</Filter>
     </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
-      <Filter>소스 파일\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketSender.cpp">
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
