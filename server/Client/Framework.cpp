@@ -35,12 +35,14 @@ namespace ClientFramework
 	{
 		// 메시지 루프
 		SDL_Event event;
+		SDL_Point windowSize;
+
 		while (1)
 		{
 			while (SDL_PollEvent(&event))
 			{
 				if (event.type == SDL_QUIT)
-					Release();
+					exit(0);
 
 				auto result = m_events.find(event.type);
 				if (result != m_events.end())
@@ -51,6 +53,11 @@ namespace ClientFramework
 			{
 				m_scene->UpdateFrame();
 				m_scene->Render();
+
+				SDL_GetWindowSize(m_window, &windowSize.x, &windowSize.y);
+
+				if (windowSize.x == m_windowSize.x && windowSize.y == m_windowSize.y)
+					m_scene->OnWindowSizeChanged(windowSize.x, windowSize.y);
 			}
 
 			Time::instance().UpdateFrame();
@@ -87,13 +94,13 @@ namespace ClientFramework
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		{
 			std::cout << "SDL Initialization Fail: " << SDL_GetError() << std::endl;
-			SDL_Quit();
+			exit(0);
 		}
 
 		if (TTF_Init() < 0)
 		{
 			std::cout << "SDL Font Initialization Fail: " << SDL_GetError() << std::endl;
-			SDL_Quit();
+			exit(0);
 		}
 
 		atexit([]() { Framework::instance().Release(); });
@@ -102,7 +109,7 @@ namespace ClientFramework
 		m_window = SDL_CreateWindow("SDL2 Window",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
-			1280, 720,
+			m_windowSize.x, m_windowSize.y,
 			SDL_WINDOW_SHOWN);
 
 		if (!m_window)

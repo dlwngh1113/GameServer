@@ -21,5 +21,11 @@ namespace ClientFramework
 		virtual void UpdateFrame();
 
 		void AddObject(std::unique_ptr<Object> object);
+
+		void OnWindowSizeChanged(int width, int height);
+
+		// Static member functions
+	public:
+		static Scene* currentScene();
 	};
 }
