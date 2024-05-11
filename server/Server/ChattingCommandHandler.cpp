@@ -19,6 +19,7 @@ void ChattingCommandHandler::HandleRequest()
 	Common::ChattingResponseBody resBody;
 	resBody.type = (short)Event::Chatting;
 	resBody.message = packet.message;
+	resBody.id = packet.id;
 	for (const auto& user : CServer::instance().users())
 	{
 		user.second->SendPacket(&resBody);

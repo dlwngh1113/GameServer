@@ -28,7 +28,7 @@ namespace ClientFramework
 		Resource::instance().LoadAssets();
 
 		// 네트워크 연결
-		NetworkManager::instance().Initialize();
+		//NetworkManager::instance().Initialize();
 	}
 
 	void Framework::Run()

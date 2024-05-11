@@ -8,6 +8,7 @@ namespace Common
 	{
 	public:
 		short type;
+		short id;
 
 	public:
 		explicit Packet(short type);

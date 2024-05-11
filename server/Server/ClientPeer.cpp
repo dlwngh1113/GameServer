@@ -16,6 +16,10 @@ namespace Core
 
 	void ClientPeer::SendPacket(Common::Packet* packet)
 	{
+		// Increase packet id
+		packet->id++;
+
+		// Serialize packet
 		Common::PacketStream ps;
 		std::string data = packet->Serialize(ps);
 
