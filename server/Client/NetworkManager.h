@@ -12,7 +12,7 @@ class NetworkManager
 	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
 
 	std::unique_ptr<HandlerFactory> m_factory;
-	std::unordered_map<short, Common::Packet> m_sendedPackets; 
+	std::unordered_map<short, std::shared_ptr<Common::Packet>> m_sendedPackets; 
 
 private:
 	NetworkManager();
@@ -28,7 +28,7 @@ public:
 	bool Initialize();
 	void Service();
 	void ReceivePacket();
-	void SendPacket(Common::Packet&& packet);
+	void SendPacket(std::shared_ptr<Common::Packet> packet);
 	void SendPacket(char* packet, short snSize);
 
 private:

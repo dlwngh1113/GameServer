@@ -127,16 +127,16 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	}
 }
 
-void NetworkManager::SendPacket(Common::Packet&& packet)
+void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
 {
 	// Increase packet id
-	packet.id = ++m_packetId;
+	packet->id = ++m_packetId;
 
 	// Serialize packet
 	Common::PacketStream ps;
-	std::string data = packet.Serialize(ps);
+	std::string data = packet->Serialize(ps);
 
-	m_sendedPackets.insert(std::make_pair(packet.id + 1, packet));
+	m_sendedPackets.insert(std::make_pair(packet->id + 1, packet));
 	SendPacket(data.data(), data.size());
 }
 
