@@ -9,6 +9,10 @@ namespace ClientFramework
 	{
 	}
 
+	UIBase::~UIBase()
+	{
+	}
+
 	void UIBase::Initialize()
 	{
 		for (std::unique_ptr<UIBase>& child : m_children)

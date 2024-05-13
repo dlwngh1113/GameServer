@@ -1,7 +1,14 @@
 #include "pch.h"
 #include "HandlerFactory.h"
+#include "EventHandlers.h"
 
-//HandlerFactory HandlerFactory::s_instance;
+HandlerFactory::HandlerFactory()
+{
+}
+
+HandlerFactory::~HandlerFactory()
+{
+}
 
 std::shared_ptr<BaseHandler> HandlerFactory::Create(Event type)
 {
@@ -15,4 +22,9 @@ std::shared_ptr<BaseHandler> HandlerFactory::Create(Event type)
 		throw std::exception{ "핸들러가 없습니다." };
 
 	return handler;
+}
+
+void HandlerFactory::Initialize()
+{
+	AddHandlerCreator<ChattingEventHandler>(Event::Chatting);
 }

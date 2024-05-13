@@ -18,6 +18,10 @@ namespace Common
 		ps >> message;
 	}
 	
+	//
+	//
+	//
+
 	ChattingResponseBody::ChattingResponseBody()
 		: ResponseBody(Command::Chatting)
 	{
@@ -25,9 +29,11 @@ namespace Common
 	
 	void ChattingResponseBody::SerializeInternal(PacketStream& ps)
 	{
+		ps << message;
 	}
 	
 	void ChattingResponseBody::DeserializeInternal(PacketStream& ps)
 	{
+		ps >> message;
 	}
 }

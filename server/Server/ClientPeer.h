@@ -16,6 +16,7 @@ namespace Core
 
 		const boost::uuids::uuid& GetID() const { return m_peer->id(); }
 
+		void SendPacket(Common::Packet* packet);
 		void SendPacket(char* data, size_t size);
 	};
 }

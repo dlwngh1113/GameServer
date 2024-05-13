@@ -8,9 +8,10 @@ namespace Common
 	{
 	public:
 		short type;
+		short id;
 
 	public:
-		explicit Packet(Command type);
+		explicit Packet(short type);
 
 	public:
 		virtual std::string Serialize(PacketStream& ps) final;

@@ -3,8 +3,8 @@
 
 namespace Common
 {
-	Packet::Packet(Command type)
-		: type((short)type)
+	Packet::Packet(short type)
+		: type(type)
 	{
 	}
 
@@ -12,13 +12,15 @@ namespace Common
 	{
 		SerializeInternal(ps);
 
+		ps << id;
+
 		return ps.GetData(type);
 	}
 
 	void Packet::Deserialize(PacketStream& ps)
 	{
 		Header header;
-		ps >> header.type >> header.size;
+		ps >> header.type >> header.size >> id;
 
 		DeserializeInternal(ps);
 	}

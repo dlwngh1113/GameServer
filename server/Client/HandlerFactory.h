@@ -4,11 +4,9 @@
 class HandlerFactory : public IHandlerFactory
 {
 public:
-	virtual std::shared_ptr<BaseHandler> Create(Event type) override;
+	HandlerFactory();
+	virtual ~HandlerFactory();
 
-//private:
-//	static HandlerFactory s_instance;
-//
-//public:
-//	static HandlerFactory instance() { return s_instance; }
+	virtual std::shared_ptr<BaseHandler> Create(Event type) override;
+	void Initialize();
 };

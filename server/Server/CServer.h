@@ -9,8 +9,6 @@ class CServer : public Core::BaseApplication
 	std::mutex m_userLock;
 	std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>, Core::uuid_hash, Core::uuid_equal> m_users;
 
-	static CServer s_instance;
-
 private:
 	void Initialize();
 
@@ -29,9 +27,11 @@ public:
 	virtual void Run() override;
 
 	std::shared_ptr<User> GetUser(const boost::uuids::uuid& id);
+	const std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>, Core::uuid_hash, Core::uuid_equal>& users() const { return m_users; }
 
-	static CServer& GetInstance()
-	{
-		return s_instance;
-	}
+private:
+	static CServer s_instance;
+
+public:
+	static CServer& instance() { return s_instance; }
 };

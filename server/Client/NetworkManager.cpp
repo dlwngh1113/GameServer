@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NetworkManager.h"
 #include "Framework.h"
+#include "BaseHandler.h"
 
 NetworkManager NetworkManager::s_instance;
 
@@ -8,6 +9,8 @@ NetworkManager::NetworkManager()
 	: m_socket(m_context)
 	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
+	, m_factory(std::make_unique<HandlerFactory>())
+	, m_packetId(0)
 {
 }
 
@@ -114,9 +117,9 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	Event cmd = static_cast<Event>(packet->type);
 	try
 	{
-		//std::shared_ptr<BaseHandler> handler = HandlerFactory::instance().Create(cmd);
-		//handler->Initialize(data, snSize);
-		//handler->Handle();
+		std::shared_ptr<BaseHandler> handler = m_factory->Create(cmd);
+		handler->Initialize(data, snSize);
+		handler->Handle();
 	}
 	catch (std::exception& ex)
 	{
@@ -124,7 +127,20 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	}
 }
 
-void NetworkManager::SendPacket(unsigned char* packet, short snSize)
+void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
+{
+	// Increase packet id
+	packet->id = ++m_packetId;
+
+	// Serialize packet
+	Common::PacketStream ps;
+	std::string data = packet->Serialize(ps);
+
+	m_sendedPackets.insert(std::make_pair(packet->id + 1, packet));
+	SendPacket(data.data(), data.size());
+}
+
+void NetworkManager::SendPacket(char* packet, short snSize)
 {
 	m_socket.async_send(boost::asio::buffer(packet, snSize), [](const boost::system::error_code& error, size_t bytesTransferred) {});
 }

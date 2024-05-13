@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Renderer.h"
 #include "Window.h"
+#include "Framework.h"
 
 namespace ClientFramework
 {
@@ -49,5 +50,19 @@ namespace ClientFramework
     void Scene::AddObject(std::unique_ptr<Object> object)
     {
         m_objects.emplace_back(std::move(object));
+    }
+
+    void Scene::OnWindowSizeChanged(int width, int height)
+    {
+
+    }
+
+    //
+    // Static member functions
+    //
+
+    Scene* Scene::currentScene()
+    {
+        return Framework::instance().scene(); 
     }
 }

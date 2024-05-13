@@ -49,9 +49,6 @@
     <ClInclude Include="NetworkManager.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
-    <ClInclude Include="PacketSender.h">
-      <Filter>소스 파일\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>소스 파일\Player</Filter>
     </ClInclude>
@@ -94,7 +91,18 @@
     <ClInclude Include="IFactory.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="HandlerFactory.h" />
+    <ClInclude Include="HandlerFactory.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="ChattingEventHandler.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandlers.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,9 +121,6 @@
       <Filter>Framework\Camera</Filter>
     </ClCompile>
     <ClCompile Include="NetworkManager.cpp">
-      <Filter>소스 파일\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketSender.cpp">
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -155,7 +160,13 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="HandlerFactory.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="ChattingEventHandler.cpp">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Framework\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

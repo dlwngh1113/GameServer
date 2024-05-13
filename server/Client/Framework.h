@@ -7,6 +7,7 @@ namespace ClientFramework
 	{
 	protected:
 		SDL_Window* m_window;
+		SDL_Point m_windowSize;
 
 		// Current scene
 		std::unique_ptr<Scene> m_scene;
