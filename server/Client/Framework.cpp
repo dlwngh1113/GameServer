@@ -56,7 +56,7 @@ namespace ClientFramework
 
 				SDL_GetWindowSize(m_window, &windowSize.x, &windowSize.y);
 
-				if (windowSize.x == m_windowSize.x && windowSize.y == m_windowSize.y)
+				if (windowSize.x != m_windowSize.x || windowSize.y != m_windowSize.y)
 					m_scene->OnWindowSizeChanged(windowSize.x, windowSize.y);
 			}
 

@@ -10,7 +10,7 @@ namespace ClientFramework
 		, m_texture(nullptr)
 		, m_color()
 	{
-		m_font = TTF_OpenFont(".\Wave.ttf", 16);
+		m_font = TTF_OpenFont("./Wave.ttf", 16);
 		if (m_font == nullptr)
 			std::cerr << "Font didn't load\n";
 

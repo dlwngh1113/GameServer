@@ -32,7 +32,7 @@ bool NetworkManager::Initialize()
 	//		}
 	//	});
 
-	m_socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
+	StartConnect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
 
 	return true;
 }
@@ -137,7 +137,7 @@ void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
 	std::string data = packet->Serialize(ps);
 
 	m_sendedPackets.insert(std::make_pair(packet->id + 1, packet));
-	SendPacket(data.data(), data.size());
+	SendPacket(data.data(), (short)data.size());
 }
 
 void NetworkManager::SendPacket(char* packet, short snSize)
