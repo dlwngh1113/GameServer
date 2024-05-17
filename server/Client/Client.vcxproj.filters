@@ -103,6 +103,9 @@
     <ClInclude Include="Label.h">
       <Filter>Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -166,6 +169,9 @@
       <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
     <ClCompile Include="Label.cpp">
+      <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
       <Filter>Framework\UI</Filter>
     </ClCompile>
   </ItemGroup>
