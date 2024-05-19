@@ -106,6 +106,9 @@
     <ClInclude Include="UIManager.h">
       <Filter>Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -173,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>Framework\System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
