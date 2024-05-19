@@ -5,7 +5,7 @@ namespace ClientFramework
 {
 	enum class UIType
 	{
-
+		WndChatting,
 	};
 
 	class UIManager
@@ -15,5 +15,13 @@ namespace ClientFramework
 
 	public:
 		UIBase* GetUI(UIType type);
+
+		// Static member variables
+	private:
+		static UIManager s_instance;
+
+		// Static member functions
+	public:
+		static UIManager& instance() { return s_instance; }
 	};
 }

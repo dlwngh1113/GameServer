@@ -3,6 +3,8 @@
 
 namespace ClientFramework
 {
+	UIManager UIManager::s_instance;
+
 	UIBase* UIManager::GetUI(UIType type)
 	{
 		auto it = m_uiControls.find(type);
