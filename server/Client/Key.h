@@ -1,8 +1,9 @@
 #pragma once
+#include "Singleton.h"
 
 namespace ClientFramework
 {
-	class Key
+	class Key : public Singleton<Key>
 	{
 	private:
 		// keycode, state
@@ -44,13 +45,5 @@ namespace ClientFramework
 
 		// Return true if given mouse button is up
 		bool IsMouseButtonUp(const Uint8& button);
-
-		// Static Member Variables
-	private:
-		static Key s_instance;
-
-		// Static Member Funtions
-	public:
-		static Key& instance() { return s_instance; }
 	};
 }

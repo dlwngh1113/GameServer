@@ -1,9 +1,10 @@
 #pragma once
 #include "Scene.h"
+#include "Singleton.h"
 
 namespace ClientFramework
 {
-	class Framework
+	class Framework : public Singleton<Framework>
 	{
 	protected:
 		SDL_Window* m_window;
@@ -31,13 +32,5 @@ namespace ClientFramework
 	private:
 		void InitializeSDL();
 		void InitializeEvents();
-
-		// Static Member Variables
-	private:
-		static Framework s_instance;
-
-		// Static Member Functions
-	public:
-		static Framework& instance() { return s_instance; }
 	};
 }

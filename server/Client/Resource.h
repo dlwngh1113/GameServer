@@ -1,11 +1,12 @@
 #pragma once
 #include "Asset.h"
+#include "Singleton.h"
 
 namespace ClientFramework
 {
 	static const std::string ResourceDirectory{ "../Resources/" };
 
-	class Resource
+	class Resource : public Singleton<Resource>
 	{
 	private:
 		std::unordered_map<std::string, std::unique_ptr<Asset>> m_assets;
@@ -16,13 +17,5 @@ namespace ClientFramework
 
 	private:
 		void AddAsset(std::unique_ptr<Asset> asset);
-
-		// Static Member Variables
-	private:
-		static Resource s_instance;
-
-		// Static Member Functions
-	public:
-		static Resource& instance() { return s_instance; }
 	};
 }

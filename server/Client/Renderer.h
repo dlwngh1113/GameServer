@@ -1,8 +1,9 @@
 #pragma once
+#include "Singleton.h"
 
 namespace ClientFramework
 {
-	class Renderer
+	class Renderer : public Singleton<Renderer>
 	{
 	private:
 		SDL_Renderer* m_renderer;
@@ -16,13 +17,5 @@ namespace ClientFramework
 	public:
 		bool Create(SDL_Window* window);
 		void Release();
-
-		// Static Member Variables
-	private:
-		static Renderer s_instance;
-
-		// Static Member Functions
-	public:
-		static Renderer& instance() { return s_instance; }
 	};
 }

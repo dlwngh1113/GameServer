@@ -1,7 +1,8 @@
 #pragma once
 #include "HandlerFactory.h"
+#include "Singleton.h"
 
-class NetworkManager
+class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 {
 	boost::asio::io_context m_context;
 	boost::asio::ip::tcp::resolver m_resolver;
@@ -14,8 +15,10 @@ class NetworkManager
 	std::unique_ptr<HandlerFactory> m_factory;
 	std::unordered_map<short, std::shared_ptr<Common::Packet>> m_sendedPackets; 
 
-private:
+public:
 	NetworkManager();
+
+private:
 	void ReceiveLeftData(unsigned char* nextRecvPtr);
 	void ProcessPacket(unsigned char* data, short snSize);
 	void OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred);
@@ -30,13 +33,5 @@ public:
 	void ReceivePacket();
 	void SendPacket(std::shared_ptr<Common::Packet> packet);
 	void SendPacket(char* packet, short snSize);
-
-private:
-	// Static member variables
-	static NetworkManager s_instance;
-
-public:
-	// Static member functions
-	static NetworkManager& instance() { return s_instance; }
 };
 
