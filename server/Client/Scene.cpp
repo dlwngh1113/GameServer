@@ -15,6 +15,7 @@ namespace ClientFramework
     void Scene::Initialize()
     {
         m_window = std::make_unique<Window>();
+        m_player = std::make_unique<Player>();
     }
 
     void Scene::Render()
