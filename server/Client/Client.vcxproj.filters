@@ -76,9 +76,6 @@
     <ClInclude Include="Time.h">
       <Filter>Framework\System</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Framework\Object</Filter>
-    </ClInclude>
     <ClInclude Include="BaseHandler.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -108,6 +105,9 @@
     </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +156,6 @@
     <ClCompile Include="Time.cpp">
       <Filter>Framework\System</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Framework\Object</Filter>
-    </ClCompile>
     <ClCompile Include="BaseHandler.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -179,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="Singleton.cpp">
       <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Framework\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

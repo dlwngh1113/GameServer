@@ -1,11 +1,12 @@
 #pragma once
-#include "Label.h"
+#include "UIBase.h"
 #include "Singleton.h"
 
 namespace ClientFramework
 {
 	enum class UIType
 	{
+		Window,
 		WndChatting,
 	};
 
@@ -15,7 +16,8 @@ namespace ClientFramework
 		std::unordered_map<UIType, std::unique_ptr<UIBase>> m_uiControls;
 
 	private:
-		void AddUI(std::unique_ptr<UIBase> ui, UIType type);
+		template <typename T>
+		void AddUI(UIType type);
 
 	public:
 		void Initialize();
