@@ -19,9 +19,8 @@ namespace ClientFramework
 	{
 		auto iter = m_keyState.find(code);
 		if (iter != m_keyState.end())
-		{
 			return iter->second == SDL_KEYDOWN;
-		}
+
 		return false;
 	}
 
@@ -29,9 +28,7 @@ namespace ClientFramework
 	{
 		auto iter = m_keyState.find(code);
 		if (iter != m_keyState.end())
-		{
 			return iter->second == SDL_KEYUP;
-		}
 
 		return false;
 	}
@@ -57,9 +54,7 @@ namespace ClientFramework
 	{
 		auto iter = m_mouseState.find(button);
 		if (iter != m_mouseState.end())
-		{
 			return iter->second == SDL_MOUSEBUTTONDOWN;
-		}
 
 		return false;
 	}
@@ -68,9 +63,7 @@ namespace ClientFramework
 	{
 		auto iter = m_mouseState.find(button);
 		if (iter != m_mouseState.end())
-		{
 			return iter->second == SDL_MOUSEBUTTONUP;
-		}
 
 		return false;
 	}
