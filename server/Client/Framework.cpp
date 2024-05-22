@@ -24,11 +24,14 @@ namespace ClientFramework
 		InitializeEvents();
 
 		// 리소스 로드
-
 		Resource::instance().LoadAssets();
 
 		// 네트워크 연결
 		NetworkManager::instance().Initialize();
+
+		// Scene 추가
+		m_scene = std::make_unique<Scene>();
+		m_scene->Initialize();
 	}
 
 	void Framework::Run()

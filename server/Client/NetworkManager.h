@@ -32,6 +32,6 @@ public:
 	void Service();
 	void ReceivePacket();
 	void SendPacket(std::shared_ptr<Common::Packet> packet);
-	void SendPacket(char* packet, short snSize);
+	void SendPacket(const std::string& data);
 };
 

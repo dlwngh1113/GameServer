@@ -137,10 +137,10 @@ void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
 	std::string data = packet->Serialize(ps);
 
 	m_sendedPackets.insert(std::make_pair(packet->id + 1, packet));
-	SendPacket(data.data(), (short)data.size());
+	SendPacket(data);
 }
 
-void NetworkManager::SendPacket(char* packet, short snSize)
+void NetworkManager::SendPacket(const std::string& data)
 {
-	m_socket.async_send(boost::asio::buffer(packet, snSize), [](const boost::system::error_code& error, size_t bytesTransferred) {});
+	m_socket.async_send(boost::asio::buffer(data), [](const boost::system::error_code& error, size_t bytesTransferred) {});
 }
