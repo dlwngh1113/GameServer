@@ -12,15 +12,13 @@ namespace Common
 	{
 		SerializeInternal(ps);
 
-		ps << id;
-
-		return ps.GetData(type);
+		return ps.GetData(id, type);
 	}
 
 	void Packet::Deserialize(PacketStream& ps)
 	{
 		Header header;
-		ps >> header.type >> header.size >> id;
+		ps >> header.type >> header.id >> header.size;
 
 		DeserializeInternal(ps);
 	}

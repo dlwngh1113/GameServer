@@ -14,10 +14,11 @@ namespace Common
 	{
 	}
 
-	std::string PacketStream::GetData(short type)
+	std::string PacketStream::GetData(short id, short type)
 	{
 		Header header;
 		header.type = type;
+		header.id = id;
 		header.size = static_cast<short>(sizeof(Header) + m_buffer.size());
 
 		unsigned char* ptr = reinterpret_cast<unsigned char*>(&header);
