@@ -13,6 +13,7 @@ namespace Core
         , m_id(Uuid::New())
         , m_application(application)
         , m_factory(nullptr)
+        , m_currentReceivePos(m_data)
     {
         m_processBuffer.resize(MAX_BUFFER, '\0');
     }
@@ -42,8 +43,8 @@ namespace Core
     {
         if (!error.failed())
         {
-            unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
-            unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
+            m_currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
+            unsigned char* pNextRecvPos = m_currentReceivePos + bytesTransferred;
 
             if (bytesTransferred < sizeof(Common::Header))
             {
@@ -51,19 +52,19 @@ namespace Core
                 return;
             }
 
-            Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
+            Common::Header* header = reinterpret_cast<Common::Header*>(m_currentReceivePos);
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
             // 패킷이 size만큼 도착한 경우
-            while (snPacketSize <= pNextRecvPos - currentBufferPos)
+            while (snPacketSize <= pNextRecvPos - m_currentReceivePos)
             {
-                ProcessPacket(currentBufferPos, snPacketSize);
+                ProcessPacket(m_currentReceivePos, snPacketSize);
 
-                currentBufferPos += snPacketSize;
-                if (currentBufferPos < pNextRecvPos)
+                m_currentReceivePos += snPacketSize;
+                if (m_currentReceivePos < pNextRecvPos)
                 {
-                    header = reinterpret_cast<Common::Header*>(currentBufferPos);
+                    header = reinterpret_cast<Common::Header*>(m_currentReceivePos);
                     snPacketSize = header->size;
                 }
                 else
@@ -101,13 +102,12 @@ namespace Core
 
     void Peer::ReceiveLeftData(unsigned char* nextRecvPtr)
     {
-        unsigned char* currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
-        long long lnLeftData = nextRecvPtr - currentReceivePos;
+        long long lnLeftData = nextRecvPtr - m_currentReceivePos;
 
-        if ((MAX_BUFFER - (nextRecvPtr - currentReceivePos)) < MIN_BUFFER)
+        if ((MAX_BUFFER - (nextRecvPtr - m_currentReceivePos)) < MIN_BUFFER)
         {
             // 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-            memcpy(m_data, currentReceivePos, lnLeftData);
+            memcpy(m_data, m_currentReceivePos, lnLeftData);
             m_buffer = boost::asio::mutable_buffer(m_data, MAX_BUFFER);
             nextRecvPtr = m_data + lnLeftData;
         }

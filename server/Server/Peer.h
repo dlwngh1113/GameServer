@@ -14,6 +14,7 @@ namespace Core
 		std::vector<unsigned char> m_processBuffer;
 		unsigned char m_data[MAX_BUFFER]{};
 		boost::asio::mutable_buffer m_buffer;
+		unsigned char* m_currentReceivePos;
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
