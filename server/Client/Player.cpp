@@ -10,7 +10,7 @@ namespace ClientFramework
 		if (Key::instance().IsKeyDown(SDLK_w))
 		{
 			auto body = std::make_shared<Common::ChattingCommandBody>();
-			body->message = "Hello World";
+			body->message = "Hello";
 			body->type = (short)Command::Chatting;
 
 			NetworkManager::instance().SendPacket(body);
