@@ -7,7 +7,7 @@
 void ChattingCommandHandler::HandleRequest()
 {
 	Common::ChattingCommandBody packet;
-	Common::PacketStream ps(reinterpret_cast<unsigned char*>(m_header), m_header->size);
+	Common::PacketStream ps(&m_data[0], m_data.size());
 	packet.Deserialize(ps);
 
 	std::cerr << packet.message << std::endl;

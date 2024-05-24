@@ -43,8 +43,8 @@ namespace Core
     {
         if (!error.failed())
         {
-            m_currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
-            unsigned char* pNextRecvPos = m_currentReceivePos + bytesTransferred;
+            unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
+            unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
 
             if (bytesTransferred < sizeof(Common::Header))
             {
@@ -52,19 +52,19 @@ namespace Core
                 return;
             }
 
-            Common::Header* header = reinterpret_cast<Common::Header*>(m_currentReceivePos);
+            Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
             // 패킷이 size만큼 도착한 경우
-            while (snPacketSize <= pNextRecvPos - m_currentReceivePos)
+            while (snPacketSize <= pNextRecvPos - currentBufferPos)
             {
-                ProcessPacket(m_currentReceivePos, snPacketSize);
+                ProcessPacket(currentBufferPos, snPacketSize);
 
-                m_currentReceivePos += snPacketSize;
-                if (m_currentReceivePos < pNextRecvPos)
+                currentBufferPos += snPacketSize;
+                if (currentBufferPos < pNextRecvPos)
                 {
-                    header = reinterpret_cast<Common::Header*>(m_currentReceivePos);
+                    header = reinterpret_cast<Common::Header*>(currentBufferPos);
                     snPacketSize = header->size;
                 }
                 else
@@ -89,7 +89,7 @@ namespace Core
                 throw std::exception{ "CommandHandlerFactory is nullptr!" };
 
             std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
-            handler->Initialize(shared_from_this(), header);
+            handler->Initialize(shared_from_this(), data, size);
 
             // add to worker thread
             boost::asio::dispatch(BaseApplication::threads(), [handler]() { handler->Handle(); });
@@ -102,12 +102,13 @@ namespace Core
 
     void Peer::ReceiveLeftData(unsigned char* nextRecvPtr)
     {
-        long long lnLeftData = nextRecvPtr - m_currentReceivePos;
+        unsigned char* currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
+        long long lnLeftData = nextRecvPtr - currentReceivePos;
 
-        if ((MAX_BUFFER - (nextRecvPtr - m_currentReceivePos)) < MIN_BUFFER)
+        if ((MAX_BUFFER - (nextRecvPtr - currentReceivePos)) < MIN_BUFFER)
         {
             // 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-            memcpy(m_data, m_currentReceivePos, lnLeftData);
+            memcpy(m_data, currentReceivePos, lnLeftData);
             m_buffer = boost::asio::mutable_buffer(m_data, MAX_BUFFER);
             nextRecvPtr = m_data + lnLeftData;
         }
