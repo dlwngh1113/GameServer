@@ -12,6 +12,7 @@ class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 
 	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
 
+	std::chrono::seconds m_lastSendTime;
 	std::unique_ptr<HandlerFactory> m_factory;
 	std::unordered_map<short, std::shared_ptr<Common::Packet>> m_sendedPackets; 
 

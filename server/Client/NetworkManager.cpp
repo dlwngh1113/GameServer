@@ -2,6 +2,7 @@
 #include "NetworkManager.h"
 #include "Framework.h"
 #include "BaseHandler.h"
+#include "Time.h"
 
 NetworkManager NetworkManager::s_instance;
 
@@ -9,6 +10,7 @@ NetworkManager::NetworkManager()
 	: m_socket(m_context)
 	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
+	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
 	, m_packetId(0)
 {
@@ -143,20 +145,25 @@ void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
 	Common::PacketStream ps;
 	std::string data = packet->Serialize(ps);
 
-	std::cout << std::format("[packet attributes] packet id = {}, string size = {}, string = {}", packet->id, ((Common::ChattingCommandBody*)(packet.get()))->message.size(), ((Common::ChattingCommandBody*)(packet.get()))->message) << std::endl;
-
 	m_sendedPackets.insert(std::make_pair(packet->id + 1, packet));
 	SendPacket(data);
 }
 
 void NetworkManager::SendPacket(const std::string& data)
 {
+	std::chrono::seconds now(std::chrono::time_point_cast<std::chrono::seconds>(std::chrono::system_clock::now()).time_since_epoch());
+	if (m_lastSendTime.count() + 1 > now.count())
+		return;
+
 	try
 	{
+		std::cout << std::format("[data attributes] data size = {}, data = {}", data.size(), data) << std::endl;
 		m_socket.async_send(boost::asio::buffer(data), [](const boost::system::error_code& error, size_t bytesTransferred) {});
 	}
 	catch (std::exception& ex)
 	{
 		std::cout << ex.what() << std::endl;
 	}
+
+	m_lastSendTime = now;
 }
