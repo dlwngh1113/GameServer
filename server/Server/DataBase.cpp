@@ -23,17 +23,17 @@ namespace Core
 	{
 		Logger::instance().Log("Database Initialize Started!");
 
-		std::unique_ptr<sql::Connection> connection = nullptr;
-		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
-		{
-			connection.reset(m_driver->connect(kHostAddress, kUserName, kPassword));
-			connection->setSchema(kSchema);
-			m_connections.emplace_back(std::move(connection));
-		}
+		//std::unique_ptr<sql::Connection> connection = nullptr;
+		//for (int i = 0; i < MAX_THREAD_COUNT; ++i)
+		//{
+		//	connection.reset(m_driver->connect(kHostAddress, kUserName, kPassword));
+		//	connection->setSchema(kSchema);
+		//	m_connections.emplace_back(std::move(connection));
+		//}
 
 		Logger::instance().Log("Database Initialize finished!");
 
-		Migrate();
+		//Migrate();
 	}
 
 	sql::Connection* DataBase::GetConnection()

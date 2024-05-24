@@ -2,6 +2,7 @@
 #include "NetworkManager.h"
 #include "Framework.h"
 #include "BaseHandler.h"
+#include "Time.h"
 
 NetworkManager NetworkManager::s_instance;
 
@@ -9,6 +10,7 @@ NetworkManager::NetworkManager()
 	: m_socket(m_context)
 	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
+	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
 	, m_packetId(0)
 {
@@ -32,7 +34,7 @@ bool NetworkManager::Initialize()
 	//		}
 	//	});
 
-	m_socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
+	StartConnect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
 
 	return true;
 }
@@ -49,8 +51,15 @@ void NetworkManager::Service()
 
 void NetworkManager::ReceivePacket()
 {
-	m_socket.async_receive(boost::asio::buffer(m_buffer),
-		bind(&NetworkManager::OnReceivePacket, this, std::placeholders::_1, std::placeholders::_2));
+	try
+	{
+		m_socket.async_receive(boost::asio::buffer(m_buffer),
+			bind(&NetworkManager::OnReceivePacket, this, std::placeholders::_1, std::placeholders::_2));
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
 }
 
 void NetworkManager::OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred)
@@ -137,10 +146,24 @@ void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
 	std::string data = packet->Serialize(ps);
 
 	m_sendedPackets.insert(std::make_pair(packet->id + 1, packet));
-	SendPacket(data.data(), data.size());
+	SendPacket(data);
 }
 
-void NetworkManager::SendPacket(char* packet, short snSize)
+void NetworkManager::SendPacket(const std::string& data)
 {
-	m_socket.async_send(boost::asio::buffer(packet, snSize), [](const boost::system::error_code& error, size_t bytesTransferred) {});
+	std::chrono::seconds now(std::chrono::time_point_cast<std::chrono::seconds>(std::chrono::system_clock::now()).time_since_epoch());
+	if (m_lastSendTime.count() + 1 > now.count())
+		return;
+
+	try
+	{
+		std::cout << std::format("[data attributes] data size = {}, data = {}", data.size(), data) << std::endl;
+		m_socket.async_send(boost::asio::buffer(data), [](const boost::system::error_code& error, size_t bytesTransferred) {});
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+
+	m_lastSendTime = now;
 }

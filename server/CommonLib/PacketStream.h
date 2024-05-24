@@ -7,6 +7,7 @@ namespace Common
 	struct COMMON_LIB_API Header
 	{
 		short type;
+		short id;
 		short size;
 	};
 #pragma pack(pop)
@@ -21,7 +22,7 @@ namespace Common
 		explicit PacketStream();
 		explicit PacketStream(const unsigned char* data, size_t size);
 
-		std::string GetData(short type);
+		std::string GetData(short id, short type);
 
 		template <typename T>
 		PacketStream& operator<<(const T& val);

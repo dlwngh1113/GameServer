@@ -1,8 +1,9 @@
 #pragma once
+#include "Singleton.h"
 
 namespace ClientFramework
 {
-	class Time
+	class Time : public Singleton<Time>
 	{
 	private:
 		std::chrono::steady_clock::time_point m_prevUpdateTime;
@@ -14,13 +15,5 @@ namespace ClientFramework
 	public:
 		void UpdateFrame();
 		float deltaTime() const { return m_deltaTime; }
-
-		// Static Member Variables
-	private:
-		static Time s_instance;
-
-		// Static Member Functions
-	public:
-		static Time& instance() { return s_instance; }
 	};
 }

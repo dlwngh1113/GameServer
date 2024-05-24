@@ -13,6 +13,7 @@ namespace Core
         , m_id(Uuid::New())
         , m_application(application)
         , m_factory(nullptr)
+        , m_currentReceivePos(m_data)
     {
         m_processBuffer.resize(MAX_BUFFER, '\0');
     }
@@ -55,6 +56,8 @@ namespace Core
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
+            Logger::instance().Log(std::format("[Before while loop] packet type = {}, packet size = {}", header->type, header->size));
+
             // 패킷이 size만큼 도착한 경우
             while (snPacketSize <= pNextRecvPos - currentBufferPos)
             {
@@ -65,6 +68,7 @@ namespace Core
                 {
                     header = reinterpret_cast<Common::Header*>(currentBufferPos);
                     snPacketSize = header->size;
+                    Logger::instance().Log(std::format("[In if loop] packet type = {}, packet size = {}", header->type, header->size));
                 }
                 else
                     break;
@@ -88,7 +92,7 @@ namespace Core
                 throw std::exception{ "CommandHandlerFactory is nullptr!" };
 
             std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
-            handler->Initialize(shared_from_this(), header);
+            handler->Initialize(shared_from_this(), data, size);
 
             // add to worker thread
             boost::asio::dispatch(BaseApplication::threads(), [handler]() { handler->Handle(); });

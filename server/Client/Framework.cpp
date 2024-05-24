@@ -24,11 +24,14 @@ namespace ClientFramework
 		InitializeEvents();
 
 		// 리소스 로드
-
-		Resource::instance().LoadAssets();
+		//Resource::instance().LoadAssets();
 
 		// 네트워크 연결
 		NetworkManager::instance().Initialize();
+
+		// Scene 추가
+		m_scene = std::make_unique<Scene>();
+		m_scene->Initialize();
 	}
 
 	void Framework::Run()
@@ -56,7 +59,7 @@ namespace ClientFramework
 
 				SDL_GetWindowSize(m_window, &windowSize.x, &windowSize.y);
 
-				if (windowSize.x == m_windowSize.x && windowSize.y == m_windowSize.y)
+				if (windowSize.x != m_windowSize.x || windowSize.y != m_windowSize.y)
 					m_scene->OnWindowSizeChanged(windowSize.x, windowSize.y);
 			}
 

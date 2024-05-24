@@ -23,6 +23,8 @@ namespace Core
     {
         DataBase::instance().Initialize();
 
+        Logger::instance().Log("Server is running...");
+
         StartAccept();
 
         m_context.run();

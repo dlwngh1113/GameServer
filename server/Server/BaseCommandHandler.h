@@ -7,13 +7,13 @@ namespace Core
 	{
 	protected:
 		std::shared_ptr<Peer> m_peer;
-		Common::Header* m_header;
+		std::vector<unsigned char> m_data;
 
 	public:
 		BaseCommandHandler();
 		virtual ~BaseCommandHandler();
 
-		void Initialize(std::shared_ptr<Peer> peer, Common::Header* header);
+		void Initialize(std::shared_ptr<Peer> peer, unsigned char* data, size_t size);
 
 		virtual void Handle() = 0;
 	};

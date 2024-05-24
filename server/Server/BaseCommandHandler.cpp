@@ -4,8 +4,7 @@
 namespace Core
 {
 	BaseCommandHandler::BaseCommandHandler()
-		: m_header{ nullptr }
-		, m_peer{ nullptr }
+		: m_peer{ nullptr }
 	{
 	}
 
@@ -13,9 +12,10 @@ namespace Core
 	{
 	}
 
-	void BaseCommandHandler::Initialize(std::shared_ptr<Peer> peer, Common::Header* header)
+	void BaseCommandHandler::Initialize(std::shared_ptr<Peer> peer, unsigned char* data, size_t size)
 	{
 		m_peer = peer;
-		m_header = header;
+		m_data.resize(size);
+		memcpy_s(&m_data[0], m_data.size(), data, size);
 	}
 }

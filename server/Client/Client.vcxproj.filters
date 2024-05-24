@@ -76,9 +76,6 @@
     <ClInclude Include="Time.h">
       <Filter>Framework\System</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Framework\Object</Filter>
-    </ClInclude>
     <ClInclude Include="BaseHandler.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -101,6 +98,15 @@
       <Filter>소스 파일\Network\Handler</Filter>
     </ClInclude>
     <ClInclude Include="Label.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
       <Filter>Framework\UI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -150,9 +156,6 @@
     <ClCompile Include="Time.cpp">
       <Filter>Framework\System</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Framework\Object</Filter>
-    </ClCompile>
     <ClCompile Include="BaseHandler.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -166,6 +169,15 @@
       <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
     <ClCompile Include="Label.cpp">
+      <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>Framework\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
       <Filter>Framework\UI</Filter>
     </ClCompile>
   </ItemGroup>
