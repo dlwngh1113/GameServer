@@ -49,8 +49,15 @@ void NetworkManager::Service()
 
 void NetworkManager::ReceivePacket()
 {
-	m_socket.async_receive(boost::asio::buffer(m_buffer),
-		bind(&NetworkManager::OnReceivePacket, this, std::placeholders::_1, std::placeholders::_2));
+	try
+	{
+		m_socket.async_receive(boost::asio::buffer(m_buffer),
+			bind(&NetworkManager::OnReceivePacket, this, std::placeholders::_1, std::placeholders::_2));
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
 }
 
 void NetworkManager::OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred)
@@ -142,5 +149,12 @@ void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
 
 void NetworkManager::SendPacket(const std::string& data)
 {
-	m_socket.async_send(boost::asio::buffer(data), [](const boost::system::error_code& error, size_t bytesTransferred) {});
+	try
+	{
+		m_socket.async_send(boost::asio::buffer(data), [](const boost::system::error_code& error, size_t bytesTransferred) {});
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
 }
