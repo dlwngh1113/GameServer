@@ -143,6 +143,8 @@ void NetworkManager::SendPacket(std::shared_ptr<Common::Packet> packet)
 	Common::PacketStream ps;
 	std::string data = packet->Serialize(ps);
 
+	std::cout << std::format("[packet attributes] packet id = {}, string size = {}, string = {}", packet->id, ((Common::ChattingCommandBody*)(packet.get()))->message.size(), ((Common::ChattingCommandBody*)(packet.get()))->message) << std::endl;
+
 	m_sendedPackets.insert(std::make_pair(packet->id + 1, packet));
 	SendPacket(data);
 }

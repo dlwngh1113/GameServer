@@ -11,7 +11,6 @@ namespace ClientFramework
 		{
 			auto body = std::make_shared<Common::ChattingCommandBody>();
 			body->message = "Hello";
-			body->type = (short)Command::Chatting;
 
 			NetworkManager::instance().SendPacket(body);
 		}

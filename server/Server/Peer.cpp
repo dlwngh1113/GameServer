@@ -56,6 +56,8 @@ namespace Core
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
+            Logger::instance().Log(std::format("[Before while loop] packet type = {}, packet size = {}", header->type, header->size));
+
             // 패킷이 size만큼 도착한 경우
             while (snPacketSize <= pNextRecvPos - currentBufferPos)
             {
@@ -66,6 +68,7 @@ namespace Core
                 {
                     header = reinterpret_cast<Common::Header*>(currentBufferPos);
                     snPacketSize = header->size;
+                    Logger::instance().Log(std::format("[In if loop] packet type = {}, packet size = {}", header->type, header->size));
                 }
                 else
                     break;

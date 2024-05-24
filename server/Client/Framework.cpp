@@ -24,7 +24,7 @@ namespace ClientFramework
 		InitializeEvents();
 
 		// 리소스 로드
-		Resource::instance().LoadAssets();
+		//Resource::instance().LoadAssets();
 
 		// 네트워크 연결
 		NetworkManager::instance().Initialize();
