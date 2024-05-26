@@ -51,12 +51,16 @@ namespace Core
                 ReceiveLeftData(pNextRecvPos);
                 return;
             }
+            
+            Common::PacketStream ps(currentBufferPos, bytesTransferred);
+            
+            // PacketStream을 사용해서 패킷 재조립 진행
 
             Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
-            Logger::instance().Log(std::format("[Before while loop] packet type = {}, packet size = {}", header->type, header->size));
+            Logger::instance().Log(std::format("[Before while loop] bytesTransferred {} packet type = {}, packet size = {}", bytesTransferred, header->type, header->size));
 
             // 패킷이 size만큼 도착한 경우
             while (snPacketSize <= pNextRecvPos - currentBufferPos)
