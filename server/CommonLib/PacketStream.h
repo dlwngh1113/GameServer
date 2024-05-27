@@ -7,8 +7,8 @@ namespace Common
 	struct COMMON_LIB_API Header
 	{
 		short type;
-		short id;
 		short size;
+		short id;
 	};
 #pragma pack(pop)
 
