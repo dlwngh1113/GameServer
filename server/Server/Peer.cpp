@@ -51,10 +51,6 @@ namespace Core
                 ReceiveLeftData(pNextRecvPos);
                 return;
             }
-            
-            Common::PacketStream ps(currentBufferPos, bytesTransferred);
-            
-            // PacketStream을 사용해서 패킷 재조립 진행
 
             Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
             short snPacketType = header->type;
