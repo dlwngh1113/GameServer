@@ -8,6 +8,7 @@ namespace Core
     private:
         boost::asio::io_context m_context;
         boost::asio::ip::tcp::acceptor m_acceptor;
+        boost::asio::thread_pool m_threads;
 
         std::unordered_map<boost::uuids::uuid, std::shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;
 
@@ -37,12 +38,7 @@ namespace Core
         virtual void OnAccepted(Peer* peer) = 0;
         virtual void OnDisconnected(Peer* peer) = 0;
 
-        // Static member variables
-    private:
-        static boost::asio::thread_pool s_threads;
-
-        // Static member functions
     public:
-        static boost::asio::thread_pool& threads() { return s_threads; };
+        boost::asio::thread_pool& threads() { return m_threads; };
     };
 }

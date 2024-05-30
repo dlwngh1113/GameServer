@@ -68,11 +68,12 @@ namespace Core
                 {
                     header = reinterpret_cast<Common::Header*>(currentBufferPos);
                     snPacketSize = header->size;
-                    Logger::instance().Log(std::format("[In if loop] packet type = {}, packet size = {}", header->type, header->size));
                 }
                 else
                     break;
             }
+
+            std::cout << __LINE__ << std::endl;
 
             ReceiveLeftData(pNextRecvPos);
         }
@@ -107,17 +108,21 @@ namespace Core
     {
         unsigned char* currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
         long long lnLeftData = nextRecvPtr - currentReceivePos;
+        std::cout << __LINE__ << std::endl;
 
         if ((MAX_BUFFER - (nextRecvPtr - currentReceivePos)) < MIN_BUFFER)
         {
+            std::cout << __LINE__ << std::endl;
             // 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
             memcpy(m_data, currentReceivePos, lnLeftData);
             m_buffer = boost::asio::mutable_buffer(m_data, MAX_BUFFER);
             nextRecvPtr = m_data + lnLeftData;
         }
+        std::cout << __LINE__ << std::endl;
 
         m_buffer = boost::asio::mutable_buffer(nextRecvPtr, MAX_BUFFER - lnLeftData);
 
+        std::cout << __LINE__ << std::endl;
         ReceiveData();
     }
 

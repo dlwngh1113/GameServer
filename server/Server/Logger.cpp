@@ -5,15 +5,23 @@
 Logger Logger::s_instance;
 
 Logger::Logger()
+	: m_thread([this]() { LogOnConsole(); })
 {
-	boost::asio::dispatch(Core::BaseApplication::threads(), [this]() {
-		while (true)
-		{
-			std::string message;
-			if (m_messages.try_pop(message))
-				std::cerr << message << std::endl;
-		}
-		});
+}
+
+Logger::~Logger()
+{
+	m_thread.join();
+}
+
+void Logger::LogOnConsole()
+{
+	while (true)
+	{
+		std::string message;
+		if (m_messages.try_pop(message))
+			std::cerr << message << std::endl;
+	}
 }
 
 void Logger::Log(const char* message)
