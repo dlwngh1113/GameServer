@@ -95,7 +95,7 @@ namespace Core
             handler->Initialize(shared_from_this(), data, size);
 
             // add to worker thread
-            boost::asio::dispatch(BaseApplication::threads(), [handler]() { handler->Handle(); });
+            boost::asio::dispatch(m_application->threads(), [handler]() { handler->Handle(); });
         }
         catch (std::exception& ex)
         {
