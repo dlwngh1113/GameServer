@@ -63,7 +63,7 @@ namespace Common
 		this->operator>>(size);
 
 		val.resize(size);
-		memcpy_s(&val[0], size, (m_buffer.data() + m_offset), size);
+		memcpy_s(&val[0], size, m_buffer.data() + m_offset, size);
 
 		m_offset += size;
 
