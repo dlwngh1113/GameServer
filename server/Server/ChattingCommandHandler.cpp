@@ -7,10 +7,10 @@
 void ChattingCommandHandler::HandleRequest()
 {
 	Common::ChattingCommandBody packet;
-	Common::PacketStream ps(&m_data[0], m_data.size());
+	Common::PacketStream ps(m_data.data(), m_data.size());
 	packet.Deserialize(ps);
 
-	std::cerr << packet.message << std::endl;
+	Logger::instance().Log(packet.message);
 
 	//
 	// 이벤트 발송

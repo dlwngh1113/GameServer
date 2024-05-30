@@ -16,6 +16,6 @@ namespace Core
 	{
 		m_peer = peer;
 		m_data.resize(size);
-		memcpy_s(&m_data[0], m_data.size(), data, size);
+		memcpy_s(m_data.data(), m_data.size(), data, size);
 	}
 }

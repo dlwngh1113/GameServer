@@ -56,7 +56,7 @@ namespace Core
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
-            Logger::instance().Log(std::format("[Before while loop] packet type = {}, packet size = {}", header->type, header->size));
+            Logger::instance().Log(std::format("[Before while loop] bytesTransferred {} packet type = {}, packet size = {}\n", bytesTransferred, header->type, header->size));
 
             // 패킷이 size만큼 도착한 경우
             while (snPacketSize <= pNextRecvPos - currentBufferPos)
@@ -68,7 +68,6 @@ namespace Core
                 {
                     header = reinterpret_cast<Common::Header*>(currentBufferPos);
                     snPacketSize = header->size;
-                    Logger::instance().Log(std::format("[In if loop] packet type = {}, packet size = {}", header->type, header->size));
                 }
                 else
                     break;
@@ -95,7 +94,7 @@ namespace Core
             handler->Initialize(shared_from_this(), data, size);
 
             // add to worker thread
-            boost::asio::dispatch(BaseApplication::threads(), [handler]() { handler->Handle(); });
+            boost::asio::dispatch(m_application->threads(), [handler]() { handler->Handle(); });
         }
         catch (std::exception& ex)
         {
