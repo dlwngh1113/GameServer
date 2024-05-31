@@ -11,4 +11,6 @@ void ChattingEventHandler::Handle()
 
 	Label* chatting = (Label*)UIManager::instance().GetUI(UIType::WndChatting);
 	chatting->SetText(resBody->message);
+
+	std::cout << resBody->message << std::endl;
 }
