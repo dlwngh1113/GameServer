@@ -7,10 +7,12 @@ using namespace ClientFramework;
 
 void ChattingEventHandler::Handle()
 {
-	Common::ChattingResponseBody* resBody = reinterpret_cast<Common::ChattingResponseBody*>(m_packet);
+	Common::ChattingResponseBody resBody;
+	Common::PacketStream ps(m_packet, m_packetSize);
+	resBody.Deserialize(ps);
 
 	Label* chatting = (Label*)UIManager::instance().GetUI(UIType::WndChatting);
-	chatting->SetText(resBody->message);
+	chatting->SetText(resBody.message);
 
-	std::cout << resBody->message << std::endl;
+	std::cout << resBody.message << std::endl;
 }

@@ -40,3 +40,4 @@ extern "C" {
 
 #include "../Common/Common.hpp"
 #include "../CommonLib/ChattingCommandBody.h"
+#include "../CommonLib/ChattingEventBody.h"

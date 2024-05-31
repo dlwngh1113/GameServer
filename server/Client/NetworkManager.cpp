@@ -23,17 +23,6 @@ NetworkManager::~NetworkManager()
 
 bool NetworkManager::Initialize()
 {
-	//m_resolver.async_resolve(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT),
-	//	[](const boost::system::error_code& error, boost::asio::ip::tcp::resolver::iterator it) {
-	//		if (!error) {
-	//			boost::asio::ip::tcp::endpoint endpoint = *it;
-	//			NetworkManager::GetInstance().StartConnect(endpoint);
-	//		}
-	//		else {
-	//			std::cerr << "Error resolving address: " << error.message() << std::endl;
-	//		}
-	//	});
-
 	StartConnect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
 
 	return true;
@@ -121,9 +110,9 @@ void NetworkManager::ReceiveLeftData(unsigned char* nextRecvPtr)
 
 void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 {
-	Common::Packet* packet = reinterpret_cast<Common::Packet*>(data);
+	Common::Header* header = reinterpret_cast<Common::Header*>(data);
 	
-	Event cmd = static_cast<Event>(packet->type);
+	Event cmd = static_cast<Event>(header->type);
 	try
 	{
 		std::shared_ptr<BaseHandler> handler = m_factory->Create(cmd);
@@ -157,7 +146,6 @@ void NetworkManager::SendPacket(const std::string& data)
 
 	try
 	{
-		std::cout << std::format("[data attributes] data size = {}, data = {}", data.size(), data) << std::endl;
 		m_socket.async_send(boost::asio::buffer(data), [](const boost::system::error_code& error, size_t bytesTransferred) {});
 	}
 	catch (std::exception& ex)

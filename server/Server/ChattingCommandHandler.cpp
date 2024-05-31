@@ -16,12 +16,11 @@ void ChattingCommandHandler::HandleRequest()
 	// 이벤트 발송
 	//
 
-	Common::ChattingResponseBody resBody;
-	resBody.type = (short)Event::Chatting;
-	resBody.message = packet.message;
-	resBody.id = packet.id;
+	Common::ChattingEventBody body;
+	body.message = packet.message;
+	body.id = packet.id;
 	for (const auto& user : CServer::instance().users())
 	{
-		user.second->SendPacket(&resBody);
+		user.second->SendPacket(&body);
 	}
 }
