@@ -10,8 +10,6 @@ void ChattingCommandHandler::HandleRequest()
 	Common::PacketStream ps(m_data.data(), m_data.size());
 	packet.Deserialize(ps);
 
-	Logger::instance().Log(packet.message);
-
 	//
 	// 이벤트 발송
 	//
@@ -21,6 +19,7 @@ void ChattingCommandHandler::HandleRequest()
 	body.id = packet.id;
 	for (const auto& user : CServer::instance().users())
 	{
+		std::cout << user.second->id() << std::endl;
 		user.second->SendPacket(&body);
 	}
 }

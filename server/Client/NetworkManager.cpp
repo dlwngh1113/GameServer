@@ -30,14 +30,15 @@ bool NetworkManager::Initialize()
 
 void NetworkManager::StartConnect(boost::asio::ip::tcp::endpoint endpoint)
 {
-	m_socket.async_connect(endpoint, [this](const boost::system::error_code& error) {
-		Service();
+	m_socket.async_connect(endpoint, [](const boost::system::error_code& error) {
+		NetworkManager::instance().Service();
 		});
 }
 
 void NetworkManager::Service()
 {
 	ReceivePacket();
+	std::cout << "context is running\n";
 	m_context.run();
 }
 
@@ -46,7 +47,7 @@ void NetworkManager::ReceivePacket()
 	try
 	{
 		m_socket.async_receive(boost::asio::buffer(m_buffer),
-			bind(&NetworkManager::OnReceivePacket, this, std::placeholders::_1, std::placeholders::_2));
+			bind(&NetworkManager::OnReceivePacket, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 	}
 	catch (std::exception& ex)
 	{

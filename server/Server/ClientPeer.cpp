@@ -23,7 +23,7 @@ namespace Core
 		Common::PacketStream ps;
 		std::string data = packet->Serialize(ps);
 
-		m_peer->SendData(data.data(), data.size());
+		m_peer->SendData(data);
 	}
 
 	void ClientPeer::SendPacket(char* data, size_t size)
