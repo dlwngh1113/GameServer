@@ -30,12 +30,15 @@ bool NetworkManager::Initialize()
 
 void NetworkManager::StartConnect(boost::asio::ip::tcp::endpoint endpoint)
 {
-	m_socket.async_connect(endpoint, [](const boost::system::error_code& error) {});
+	m_socket.async_connect(endpoint, [this](const boost::system::error_code& error) {
+		Service();
+		});
 }
 
 void NetworkManager::Service()
 {
 	ReceivePacket();
+	m_context.run();
 }
 
 void NetworkManager::ReceivePacket()
