@@ -8,7 +8,6 @@ NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
 	: m_socket(m_context)
-	, m_resolver(m_context)
 	, m_buffer(m_dataBuffer, MAX_BUFFER)
 	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
@@ -30,15 +29,20 @@ bool NetworkManager::Initialize()
 
 void NetworkManager::StartConnect(boost::asio::ip::tcp::endpoint endpoint)
 {
-	m_socket.async_connect(endpoint, [](const boost::system::error_code& error) {
-		NetworkManager::instance().Service();
+	m_socket.async_connect(endpoint, [this](const boost::system::error_code& error) {
+		std::cout << "Executed connecting\n";
+		if (!error)
+		{
+			std::cout << "StartConnect finished\n";
+			Service();
+		}
 		});
 }
 
 void NetworkManager::Service()
 {
-	ReceivePacket();
 	std::cout << "context is running\n";
+	ReceivePacket();
 	m_context.run();
 }
 
