@@ -9,6 +9,7 @@ namespace Core
         boost::asio::io_context m_context;
         boost::asio::ip::tcp::acceptor m_acceptor;
         boost::asio::thread_pool m_threads;
+        std::mutex m_lock;
 
         std::unordered_map<boost::uuids::uuid, std::shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;
 
@@ -27,8 +28,10 @@ namespace Core
 
     private:
         void AddPeer(std::shared_ptr<Peer> peer);
+        void RemovePeer(std::shared_ptr<Peer> peer);
+        std::shared_ptr<Peer> GetPeer(const boost::uuids::uuid& id);
     public:
-        void RemovePeer(const boost::uuids::uuid& id);
+        void DisconnectPeer(const boost::uuids::uuid& id);
 
         //
         //

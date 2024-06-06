@@ -44,7 +44,7 @@ void NetworkManager::StartConnect(boost::asio::ip::tcp::endpoint endpoint)
 
 void NetworkManager::Service()
 {
-	std::cout << "context is running\n";
+	//std::cout << "context is running\n";
 	ReceivePacket();
 	//m_context.run();
 }

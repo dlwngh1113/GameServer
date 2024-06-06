@@ -53,13 +53,35 @@ namespace Core
     // Peer
     //
 
-    void BaseApplication::RemovePeer(const boost::uuids::uuid& id)
+    void BaseApplication::DisconnectPeer(const boost::uuids::uuid& id)
     {
-        m_peers.erase(id);
+        std::shared_ptr<Peer> peer = GetPeer(id);
+        if (peer)
+        {
+            RemovePeer(peer);
+            OnDisconnected(peer.get());
+        }
+    }
+
+    std::shared_ptr<Peer> BaseApplication::GetPeer(const boost::uuids::uuid& id)
+    {
+        std::lock_guard<std::mutex> lock{ m_lock };
+        auto it = m_peers.find(id);
+        if (it != m_peers.end())
+            return it->second;
+
+        return nullptr;
+    }
+
+    void BaseApplication::RemovePeer(std::shared_ptr<Peer> peer)
+    {
+        std::lock_guard<std::mutex> lock{ m_lock };
+        m_peers.erase(peer->id());
     }
 
     void BaseApplication::AddPeer(std::shared_ptr<Peer> peer)
     {
+        std::lock_guard<std::mutex> lock{ m_lock };
         m_peers.insert(std::make_pair(peer->id(), peer));
     }
 }

@@ -120,7 +120,7 @@ namespace Core
 
     void Peer::Disconnect()
     {
-        m_application->RemovePeer(m_id);
+        m_application->DisconnectPeer(m_id);
         Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
     }
 
