@@ -5,7 +5,6 @@
 class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 {
 	boost::asio::io_context m_context;
-	boost::asio::ip::tcp::resolver m_resolver;
 	boost::asio::ip::tcp::socket m_socket;
 	boost::asio::mutable_buffer m_buffer;
 	short m_packetId;

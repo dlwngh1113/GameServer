@@ -56,8 +56,6 @@ namespace Core
             short snPacketType = header->type;
             short snPacketSize = header->size;
 
-            Logger::instance().Log(std::format("[Before while loop] bytesTransferred {} packet type = {}, packet size = {}\n", bytesTransferred, header->type, header->size));
-
             // 패킷이 size만큼 도착한 경우
             while (snPacketSize <= pNextRecvPos - currentBufferPos)
             {
@@ -122,15 +120,17 @@ namespace Core
 
     void Peer::Disconnect()
     {
-        m_application->RemovePeer(m_id);
+        m_application->DisconnectPeer(m_id);
         Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
     }
 
-    void Peer::SendData(std::string data)
+    void Peer::SendData(const std::string& data)
     {
         try
         {
-            boost::asio::async_write(m_socket, boost::asio::buffer(data),
+            //boost::asio::async_write(m_socket, boost::asio::buffer(data),
+            //    [](const boost::system::error_code& error, size_t bytesTransferred) {});
+            m_socket.async_send(boost::asio::buffer(data),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }
         catch (std::exception& ex)
@@ -143,7 +143,9 @@ namespace Core
     {
         try
         {
-            boost::asio::async_write(m_socket, boost::asio::buffer(data, size),
+            //boost::asio::async_write(m_socket, boost::asio::buffer(data, size),
+            //    [](const boost::system::error_code& error, size_t bytesTransferred) {});
+            m_socket.async_send(boost::asio::buffer(data, size),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }
         catch (std::exception& ex)

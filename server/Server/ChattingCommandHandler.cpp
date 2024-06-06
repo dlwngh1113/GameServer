@@ -10,18 +10,16 @@ void ChattingCommandHandler::HandleRequest()
 	Common::PacketStream ps(m_data.data(), m_data.size());
 	packet.Deserialize(ps);
 
-	Logger::instance().Log(packet.message);
-
 	//
 	// 이벤트 발송
 	//
 
-	//Common::ChattingResponseBody resBody;
-	//resBody.type = (short)Event::Chatting;
-	//resBody.message = packet.message;
-	//resBody.id = packet.id;
-	//for (const auto& user : CServer::instance().users())
-	//{
-	//	user.second->SendPacket(&resBody);
-	//}
+	Common::ChattingEventBody body;
+	body.message = packet.message;
+	body.id = packet.id;
+	for (const auto& user : CServer::instance().users())
+	{
+		std::cout << user.second->id() << std::endl;
+		user.second->SendPacket(&body);
+	}
 }

@@ -85,6 +85,8 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>../../extlib/include;$(IncludePath)</IncludePath>
     <LibraryPath>../../extlib/libx64;$(LibraryPath)</LibraryPath>
+    <CopyLocalProjectReference>true</CopyLocalProjectReference>
+    <CopyCppRuntimeToOutputDir>false</CopyCppRuntimeToOutputDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -159,6 +161,9 @@
       </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(SolutionDir)\..\extlib\libx64\*.dll" "$(TargetDir)" /Y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseApplication.cpp" />
