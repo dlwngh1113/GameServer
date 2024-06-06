@@ -17,12 +17,15 @@ NetworkManager::NetworkManager()
 
 NetworkManager::~NetworkManager()
 {
+	//m_context.stop();
 	m_socket.close();
 }
 
 bool NetworkManager::Initialize()
 {
-	StartConnect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
+	//StartConnect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
+	m_socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
+	Service();
 
 	return true;
 }
@@ -43,7 +46,7 @@ void NetworkManager::Service()
 {
 	std::cout << "context is running\n";
 	ReceivePacket();
-	m_context.run();
+	//m_context.run();
 }
 
 void NetworkManager::ReceivePacket()

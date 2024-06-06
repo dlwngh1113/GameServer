@@ -63,6 +63,7 @@ namespace ClientFramework
 					m_scene->OnWindowSizeChanged(windowSize.x, windowSize.y);
 			}
 
+			NetworkManager::instance().Service();
 			Time::instance().UpdateFrame();
 		}
 	}
