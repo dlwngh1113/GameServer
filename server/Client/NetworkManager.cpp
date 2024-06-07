@@ -7,8 +7,8 @@
 NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
-	: m_socket(m_context)
-	, m_buffer(m_dataBuffer, MAX_BUFFER)
+	: m_socket(nullptr)
+	, m_currentBufferPos(m_dataBuffer)
 	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
 	, m_packetId(0)
@@ -18,60 +18,56 @@ NetworkManager::NetworkManager()
 NetworkManager::~NetworkManager()
 {
 	//m_context.stop();
-	m_socket.close();
 }
 
 bool NetworkManager::Initialize()
 {
-	//StartConnect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
-	m_socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::make_address_v4("127.0.0.1"), SERVER_PORT));
-	Service();
+	IPaddress serverIp;
+	SDLNet_ResolveHost(&serverIp, "127.0.0.1", SERVER_PORT);
 
-	return true;
+	m_socketSet = SDLNet_AllocSocketSet(1);
+
+	m_socket = SDLNet_TCP_Open(&serverIp);
+	if (m_socket)
+		SDLNet_TCP_AddSocket(m_socketSet, m_socket);
+
+	return m_socket != nullptr;
 }
 
 void NetworkManager::StartConnect(boost::asio::ip::tcp::endpoint endpoint)
 {
-	m_socket.async_connect(endpoint, [this](const boost::system::error_code& error) {
-		std::cout << "Executed connecting\n";
-		if (!error)
-		{
-			std::cout << "StartConnect finished\n";
-			Service();
-		}
-		});
 }
 
 void NetworkManager::Service()
 {
-	//std::cout << "context is running\n";
 	ReceivePacket();
-	//m_context.run();
 }
 
 void NetworkManager::ReceivePacket()
 {
-	try
+	if (SDLNet_CheckSockets(m_socketSet, 0))
 	{
-		m_socket.async_receive(boost::asio::buffer(m_buffer),
-			bind(&NetworkManager::OnReceivePacket, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-	}
-	catch (std::exception& ex)
-	{
-		std::cout << ex.what() << std::endl;
+		try
+		{
+			int bytesTransferred = SDLNet_TCP_Recv(m_socket, m_currentBufferPos, MAX_BUFFER);
+			if (bytesTransferred > 0)
+				OnReceivePacket(bytesTransferred);
+			else
+			{
+				std::cerr << "서버로부터 연결이 끊겼습니다.";
+				return;
+			}
+		}
+		catch (std::exception& ex)
+		{
+			std::cerr << ex.what() << std::endl;
+		}
 	}
 }
 
-void NetworkManager::OnReceivePacket(const boost::system::error_code& error, size_t bytesTransferred)
+void NetworkManager::OnReceivePacket(int bytesTransferred)
 {
-	if (bytesTransferred <= 0)
-	{
-		std::cerr << "서버로부터 연결이 끊겼습니다.";
-		return;
-	}
-
-	unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
-	unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
+	unsigned char* pNextRecvPos = m_currentBufferPos + bytesTransferred;
 
 	if (bytesTransferred < sizeof(Common::Header))
 	{
@@ -79,19 +75,19 @@ void NetworkManager::OnReceivePacket(const boost::system::error_code& error, siz
 		return;
 	}
 
-	Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
+	Common::Header* header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
 	short snPacketType = header->type;
 	short snPacketSize = header->size;
 
 	// 패킷이 size만큼 도착한 경우
-	while (snPacketSize <= pNextRecvPos - currentBufferPos)
+	while (snPacketSize <= pNextRecvPos - m_currentBufferPos)
 	{
-		ProcessPacket(currentBufferPos, snPacketSize);
+		ProcessPacket(m_currentBufferPos, snPacketSize);
 
-		currentBufferPos += snPacketSize;
-		if (currentBufferPos < pNextRecvPos)
+		m_currentBufferPos += snPacketSize;
+		if (m_currentBufferPos < pNextRecvPos)
 		{
-			header = reinterpret_cast<Common::Header*>(currentBufferPos);
+			header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
 			snPacketSize = header->size;
 		}
 		else
@@ -103,18 +99,16 @@ void NetworkManager::OnReceivePacket(const boost::system::error_code& error, siz
 
 void NetworkManager::ReceiveLeftData(unsigned char* nextRecvPtr)
 {
-	unsigned char* currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
-	long long lnLeftData = nextRecvPtr - currentReceivePos;
+	long long lnLeftData = nextRecvPtr - m_currentBufferPos;
 
-	if ((MAX_BUFFER - (nextRecvPtr - currentReceivePos)) < MIN_BUFFER)
+	if ((MAX_BUFFER - (nextRecvPtr - m_currentBufferPos)) < MIN_BUFFER)
 	{
 		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-		memcpy(m_dataBuffer, currentReceivePos, lnLeftData);
-		m_buffer = boost::asio::mutable_buffer(m_dataBuffer, MAX_BUFFER);
+		memcpy(m_dataBuffer, m_currentBufferPos, lnLeftData);
 		nextRecvPtr = m_dataBuffer + lnLeftData;
 	}
 
-	m_buffer = boost::asio::mutable_buffer(nextRecvPtr, MAX_BUFFER - lnLeftData);
+	m_currentBufferPos = nextRecvPtr;
 
 	ReceivePacket();
 }
@@ -157,7 +151,7 @@ void NetworkManager::SendPacket(const std::string& data)
 
 	try
 	{
-		m_socket.async_send(boost::asio::buffer(data), [](const boost::system::error_code& error, size_t bytesTransferred) {});
+		SDLNet_TCP_Send(m_socket, data.data(), data.size());
 	}
 	catch (std::exception& ex)
 	{
