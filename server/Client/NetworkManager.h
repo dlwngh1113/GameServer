@@ -7,6 +7,8 @@ class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 	TCPsocket m_socket;
 	SDLNet_SocketSet m_socketSet;
 	short m_packetId;
+	std::thread m_thread;
+	std::atomic_bool m_flag;
 
 	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
 	unsigned char* m_currentBufferPos{ nullptr };
@@ -22,8 +24,6 @@ private:
 	void ReceiveLeftData(unsigned char* nextRecvPtr);
 	void ProcessPacket(unsigned char* data, short snSize);
 	void OnReceivePacket(int bytesTransferred);
-
-	void StartConnect(boost::asio::ip::tcp::endpoint endpoint);
 
 public:
 	virtual ~NetworkManager();

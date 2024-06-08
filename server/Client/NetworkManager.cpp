@@ -8,6 +8,7 @@ NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
 	: m_socket(nullptr)
+	, m_flag(true)
 	, m_currentBufferPos(m_dataBuffer)
 	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
@@ -17,7 +18,7 @@ NetworkManager::NetworkManager()
 
 NetworkManager::~NetworkManager()
 {
-	//m_context.stop();
+	m_flag = false;
 }
 
 bool NetworkManager::Initialize()
@@ -29,38 +30,46 @@ bool NetworkManager::Initialize()
 
 	m_socket = SDLNet_TCP_Open(&serverIp);
 	if (m_socket)
+	{
 		SDLNet_TCP_AddSocket(m_socketSet, m_socket);
+		m_thread = std::thread{ &NetworkManager::ReceivePacket, this };
+		m_thread.detach();
+	}
+	
+	//
+	// Initialize Handler Factory
+	//
+
+	m_factory->Initialize();
 
 	return m_socket != nullptr;
 }
 
-void NetworkManager::StartConnect(boost::asio::ip::tcp::endpoint endpoint)
-{
-}
-
 void NetworkManager::Service()
 {
-	ReceivePacket();
 }
 
 void NetworkManager::ReceivePacket()
 {
-	if (SDLNet_CheckSockets(m_socketSet, 0))
+	while (m_flag)
 	{
-		try
+		if (SDLNet_CheckSockets(m_socketSet, 0) > 0)
 		{
-			int bytesTransferred = SDLNet_TCP_Recv(m_socket, m_currentBufferPos, MAX_BUFFER);
-			if (bytesTransferred > 0)
-				OnReceivePacket(bytesTransferred);
-			else
+			try
 			{
-				std::cerr << "서버로부터 연결이 끊겼습니다.";
-				return;
+				int bytesTransferred = SDLNet_TCP_Recv(m_socket, m_currentBufferPos, MAX_BUFFER);
+				if (bytesTransferred > 0)
+					OnReceivePacket(bytesTransferred);
+				else
+				{
+					std::cerr << "서버로부터 연결이 끊겼습니다.";
+					return;
+				}
 			}
-		}
-		catch (std::exception& ex)
-		{
-			std::cerr << ex.what() << std::endl;
+			catch (std::exception& ex)
+			{
+				std::cerr << ex.what() << std::endl;
+			}
 		}
 	}
 }
@@ -109,8 +118,6 @@ void NetworkManager::ReceiveLeftData(unsigned char* nextRecvPtr)
 	}
 
 	m_currentBufferPos = nextRecvPtr;
-
-	ReceivePacket();
 }
 
 void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
