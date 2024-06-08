@@ -1,20 +1,26 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Renderer.h"
+#include "Label.h"
 #include "Window.h"
 #include "Framework.h"
+#include "UIManager.h"
 
 namespace ClientFramework
 {
     Scene::Scene()
         : m_player(nullptr)
         , m_window(nullptr)
+        , m_label(nullptr)
     {
     }
 
     void Scene::Initialize()
     {
-        m_window = std::make_unique<Window>();
+        m_window = (Window*)UIManager::instance().GetUI(UIType::Window);
+        m_label = m_window->CreateChild<Label>();
+        m_label->SetParentPosition(0, 0);
+        m_label->SetSize(200, 20);
         m_player = std::make_unique<Player>();
     }
 
@@ -31,7 +37,7 @@ namespace ClientFramework
             m_player->Render();
 
         if (m_window)
-            m_window->Render();
+            m_window->Render(pRenderer);
 
         SDL_RenderPresent(pRenderer);
     }

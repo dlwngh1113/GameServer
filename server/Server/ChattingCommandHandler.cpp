@@ -19,7 +19,6 @@ void ChattingCommandHandler::HandleRequest()
 	body.id = packet.id;
 	for (const auto& user : CServer::instance().users())
 	{
-		std::cout << user.second->id() << std::endl;
 		user.second->SendPacket(&body);
 	}
 }

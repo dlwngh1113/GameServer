@@ -1,16 +1,19 @@
 #pragma once
 #include "Object.h"
 #include "Player.h"
-#include "UIBase.h"
 
 namespace ClientFramework
 {
+	class Window;
+	class Label;
+
 	class Scene
 	{
 	protected:
 		std::unique_ptr<Player> m_player;
 		std::vector<std::unique_ptr<Object>> m_objects;
-		std::unique_ptr<UIBase> m_window;
+		Window* m_window;
+		Label* m_label;
 
 	public:
 		Scene();
@@ -23,6 +26,8 @@ namespace ClientFramework
 		void AddObject(std::unique_ptr<Object> object);
 
 		void OnWindowSizeChanged(int width, int height);
+
+		Label* GetLabel() { return m_label; }
 
 		// Static member functions
 	public:

@@ -10,7 +10,7 @@ namespace ClientFramework
 		, m_texture(nullptr)
 		, m_color()
 	{
-		m_font = TTF_OpenFont("./Wave.ttf", 16);
+		m_font = TTF_OpenFont("./Wavve.ttf", 16);
 		if (m_font == nullptr)
 			std::cerr << "Font didn't load\n";
 
@@ -45,7 +45,7 @@ namespace ClientFramework
 
 	void Label::Render(SDL_Renderer* renderer)
 	{
-		SDL_RenderCopy(renderer, m_texture, NULL, &m_rect);
+		SDL_RenderCopy(renderer, m_texture, NULL, NULL);
 	}
 
 	void Label::SetText(const std::string& text)

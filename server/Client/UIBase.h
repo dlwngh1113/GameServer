@@ -13,9 +13,12 @@ namespace ClientFramework
 		UIBase();
 		virtual ~UIBase();
 
+	protected:
+		void OnRender(SDL_Renderer* renderer);
+
 	public:
 		virtual void Initialize();
-		virtual void Render();
+		virtual void Render(SDL_Renderer* renderer);
 		virtual void UpdateFrame();
 
 		void ScrollWheel(const SDL_MouseWheelEvent& evt);
@@ -30,6 +33,7 @@ namespace ClientFramework
 	public:
 		void SetParentPosition(int x, int y);
 		void SetSize(int width, int height);
+		void SetParent(UIBase* parent) { m_parent = parent; }
 
 	public:
 		template<typename T>

@@ -7,5 +7,8 @@ namespace ClientFramework
 	{
 	public:
 		Window();
+
+	public:
+		virtual void Render(SDL_Renderer* renderer) override;
 	};
 }

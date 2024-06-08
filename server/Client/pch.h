@@ -17,6 +17,7 @@
 #include <fstream>
 #include <exception>
 #include <unordered_map>
+#include <concurrent_queue.h>
 
 // SDL library
 #include <SDL2/SDL.h>
