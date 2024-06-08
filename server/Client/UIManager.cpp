@@ -12,9 +12,16 @@ namespace ClientFramework
 	{
 		auto it = m_uiControls.find(type);
 		if (it != m_uiControls.end())
+		{
 			it->second = std::make_unique<T>();
+			it->second->Initialize();
+		}
 		else
-			m_uiControls.insert(std::make_pair(type, std::make_unique<T>()));
+		{
+			std::unique_ptr<UIBase> ui(std::make_unique<T>());
+			ui->Initialize();
+			m_uiControls.insert(std::make_pair(type, std::move(ui)));
+		}
 	}
 
 	void UIManager::Initialize()

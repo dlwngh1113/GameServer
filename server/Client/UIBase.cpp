@@ -21,11 +21,15 @@ namespace ClientFramework
 		}
 	}
 
-	void UIBase::Render()
+	void UIBase::Render(SDL_Renderer* renderer)
+	{
+	}
+
+	void UIBase::OnRender(SDL_Renderer* renderer)
 	{
 		for (std::unique_ptr<UIBase>& child : m_children)
 		{
-			child->Render();
+			child->Render(renderer);
 		}
 	}
 

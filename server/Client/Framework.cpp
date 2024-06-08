@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "Resource.h"
 #include "NetworkManager.h"
+#include "UIManager.h"
 
 namespace ClientFramework
 {
@@ -24,7 +25,10 @@ namespace ClientFramework
 		InitializeEvents();
 
 		// 리소스 로드
-		//Resource::instance().LoadAssets();
+		Resource::instance().LoadAssets();
+
+		// UIManager
+		UIManager::instance().Initialize();
 
 		// 네트워크 연결
 		if (!NetworkManager::instance().Initialize())
