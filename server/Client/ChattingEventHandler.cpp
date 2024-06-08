@@ -11,8 +11,8 @@ void ChattingEventHandler::Handle()
 	Common::PacketStream ps(m_packet, m_packetSize);
 	resBody.Deserialize(ps);
 
-	Label* chatting = (Label*)UIManager::instance().GetUI(UIType::WndChatting);
-	chatting->SetText(resBody.message);
+	//Label* chatting = (Label*)UIManager::instance().GetUI(UIType::WndChatting);
+	//chatting->SetText(resBody.message);
 
 	std::cout << resBody.message << std::endl;
 }

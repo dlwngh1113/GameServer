@@ -8,7 +8,6 @@ class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 	SDLNet_SocketSet m_socketSet;
 	short m_packetId;
 	std::thread m_thread;
-	std::atomic_bool m_flag;
 
 	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
 	unsigned char* m_currentBufferPos{ nullptr };
@@ -16,6 +15,7 @@ class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 	std::chrono::seconds m_lastSendTime;
 	std::unique_ptr<HandlerFactory> m_factory;
 	std::unordered_map<short, std::shared_ptr<Common::Packet>> m_sendedPackets; 
+	concurrency::concurrent_queue<std::shared_ptr<BaseHandler>> m_handlers;
 
 public:
 	NetworkManager();

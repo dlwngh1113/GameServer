@@ -8,7 +8,6 @@ NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
 	: m_socket(nullptr)
-	, m_flag(true)
 	, m_currentBufferPos(m_dataBuffer)
 	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
@@ -18,7 +17,7 @@ NetworkManager::NetworkManager()
 
 NetworkManager::~NetworkManager()
 {
-	m_flag = false;
+	m_thread.join();
 }
 
 bool NetworkManager::Initialize()
@@ -33,7 +32,6 @@ bool NetworkManager::Initialize()
 	{
 		SDLNet_TCP_AddSocket(m_socketSet, m_socket);
 		m_thread = std::thread{ &NetworkManager::ReceivePacket, this };
-		m_thread.detach();
 	}
 	
 	//
@@ -47,11 +45,14 @@ bool NetworkManager::Initialize()
 
 void NetworkManager::Service()
 {
+	std::shared_ptr<BaseHandler> handler(nullptr);
+	if (m_handlers.try_pop(handler))
+		handler->Handle();
 }
 
 void NetworkManager::ReceivePacket()
 {
-	while (m_flag)
+	while (true)
 	{
 		if (SDLNet_CheckSockets(m_socketSet, 0) > 0)
 		{
@@ -129,7 +130,7 @@ void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
 	{
 		std::shared_ptr<BaseHandler> handler = m_factory->Create(cmd);
 		handler->Initialize(data, snSize);
-		handler->Handle();
+		m_handlers.push(handler);
 	}
 	catch (std::exception& ex)
 	{
