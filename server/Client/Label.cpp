@@ -14,7 +14,7 @@ namespace ClientFramework
 		if (m_font == nullptr)
 			std::cerr << "Font didn't load\n";
 
-		m_surface = TTF_RenderText_Blended(m_font, "Test String", m_color);
+		m_surface = TTF_RenderText_Blended(m_font, "", m_color);
 	}
 
 	Label::~Label()
