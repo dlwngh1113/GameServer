@@ -8,7 +8,7 @@ namespace ClientFramework
 		: m_surface(nullptr)
 		, m_font(nullptr)
 		, m_texture(nullptr)
-		, m_color()
+		, m_color{ 255, 255, 255, 255 }
 	{
 		m_font = TTF_OpenFont("./Wavve.ttf", 16);
 		if (m_font == nullptr)
@@ -45,7 +45,7 @@ namespace ClientFramework
 
 	void Label::Render(SDL_Renderer* renderer)
 	{
-		SDL_RenderCopy(renderer, m_texture, NULL, NULL);
+		SDL_RenderCopy(renderer, m_texture, NULL, &m_rect);
 	}
 
 	void Label::SetText(const std::string& text)
