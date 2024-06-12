@@ -11,7 +11,7 @@ namespace ClientFramework
 		Object();
 
 	public:
-		virtual void Render() const = 0;
+		virtual void Render(SDL_Renderer* renderer, const SDL_Point& offset = { }) = 0;
 		virtual void UpdateFrame() = 0;
 	};
 }
