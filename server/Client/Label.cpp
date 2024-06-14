@@ -10,7 +10,7 @@ namespace ClientFramework
 		, m_texture(nullptr)
 		, m_color{ 255, 255, 255, 255 }
 	{
-		m_font = TTF_OpenFont("./Wavve.ttf", 16);
+		m_font = TTF_OpenFont("../Resources/Wavve.ttf", 16);
 		if (m_font == nullptr)
 			std::cerr << "Font didn't load\n";
 

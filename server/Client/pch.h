@@ -23,6 +23,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 // boost library
 #include <boost/asio.hpp>
@@ -32,6 +33,7 @@
 
 #pragma comment(lib, "CommonLib.lib")
 #pragma comment(lib, "SDL2_ttf.lib")
+#pragma comment(lib, "SDL2_image")
 
 // Common
 #include "../Common/Common.hpp"
