@@ -1,6 +1,14 @@
 #include "pch.h"
 #include "Camera.h"
 
-Camera::~Camera()
+namespace ClientFramework
 {
+	Camera::~Camera()
+	{
+	}
+
+	void Camera::Render(SDL_Renderer* renderer)
+	{
+
+	}
 }

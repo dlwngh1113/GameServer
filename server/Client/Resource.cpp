@@ -9,7 +9,7 @@ namespace ClientFramework
 	void Resource::LoadAssets()
 	{
 		std::unique_ptr<Image> image = std::make_unique<Image>();
-		image->setFilename(ResourceDirectory + "test.bmp");
+		image->setFilename(ResourceDirectory + "player.bmp");
 
 		AddAsset(move(image));
 	}

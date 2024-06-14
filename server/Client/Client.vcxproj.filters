@@ -109,6 +109,9 @@
     <ClInclude Include="Window.h">
       <Filter>Framework\UI</Filter>
     </ClInclude>
+    <ClInclude Include="InputField.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -178,6 +181,9 @@
       <Filter>Framework\System</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
+      <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="InputField.cpp">
       <Filter>Framework\UI</Filter>
     </ClCompile>
   </ItemGroup>

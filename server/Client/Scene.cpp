@@ -31,10 +31,10 @@ namespace ClientFramework
         SDL_RenderClear(pRenderer);
 
         for (const auto& object : m_objects)
-            object->Render();
+            object->Render(pRenderer);
 
         if (m_player)
-            m_player->Render();
+            m_player->Render(pRenderer);
 
         if (m_window)
             m_window->Render(pRenderer);

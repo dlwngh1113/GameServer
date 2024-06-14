@@ -27,9 +27,6 @@ namespace Core
     {
         try
         {
-            // [LJH_TODO]
-            //  이거 왜 안됨?
-            //boost::asio::async_read(m_socket, boost::asio::buffer(m_buffer),
             m_socket.async_receive(boost::asio::buffer(m_buffer),
                 bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
         }
