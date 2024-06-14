@@ -7,8 +7,8 @@ namespace ClientFramework
 {
 	void Image::OnSetFilename()
 	{
-		SDL_Surface* pHellowBMP = SDL_LoadBMP(m_sFilename.c_str());
-		if (pHellowBMP == 0)
+		SDL_Surface* pHellowBMP = IMG_Load(m_sFilename.c_str());
+		if (!pHellowBMP)
 		{
 			std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
 			return;

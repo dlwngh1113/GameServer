@@ -79,6 +79,7 @@ namespace ClientFramework
 			SDL_DestroyWindow(m_window);
 
 		Renderer::instance().Release();
+		IMG_Quit();
 		SDL_Quit();
 		exit(0);
 	}
@@ -109,6 +110,13 @@ namespace ClientFramework
 		if (TTF_Init() < 0)
 		{
 			std::cout << "SDL Font Initialization Fail: " << SDL_GetError() << std::endl;
+			exit(0);
+		}
+
+		int imageFlag = IMG_INIT_PNG;
+		if (!(IMG_Init(imageFlag) & imageFlag))
+		{
+			std::cout << "SDL Image Initialization Fail: " << IMG_GetError() << std::endl;
 			exit(0);
 		}
 
