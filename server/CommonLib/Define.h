@@ -10,7 +10,8 @@
 
 enum class Command : short
 {
-	Chatting
+	Chatting,
+	Move
 };
 
 enum class Event : short
