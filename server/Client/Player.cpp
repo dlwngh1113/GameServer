@@ -37,9 +37,13 @@ namespace ClientFramework
 		Move(dx * Time::instance().deltaTime(), dy * Time::instance().deltaTime());
 	}
 
-	void Player::Render(SDL_Renderer* renderer, const SDL_Point& offset)
+	void Player::Render(SDL_Renderer* renderer, const SDL_FPoint& offset)
 	{
+		SDL_FRect srcRect = m_rect;
+		srcRect.x += offset.x;
+		srcRect.y += offset.y;
+
 		if (m_image)
-			SDL_RenderCopyF(renderer, m_image->texture(), NULL, &m_rect);
+			SDL_RenderCopyF(renderer, m_image->texture(), NULL, &srcRect);
 	}
 }

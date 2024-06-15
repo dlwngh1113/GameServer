@@ -36,7 +36,7 @@ namespace ClientFramework
 
 		// Scene Ãß°¡
 		m_scene = std::make_unique<Scene>();
-		m_scene->Initialize();
+		m_scene->Initialize(m_windowSize);
 	}
 
 	void Framework::Run()
@@ -93,7 +93,7 @@ namespace ClientFramework
 			return false;
 
 		m_scene = std::move(scene);
-		m_scene->Initialize();
+		m_scene->Initialize(m_windowSize);
 
 		return true;
 	}

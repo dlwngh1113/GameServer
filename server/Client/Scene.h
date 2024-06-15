@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "Player.h"
+#include "Camera.h"
 
 namespace ClientFramework
 {
@@ -10,16 +11,17 @@ namespace ClientFramework
 	class Scene
 	{
 	protected:
-		std::unique_ptr<Player> m_player;
+		Player* m_player;
 		std::vector<std::unique_ptr<Object>> m_objects;
 		Window* m_window;
 		Label* m_label;
+		std::unique_ptr<Camera> m_worldCamera;
 
 	public:
 		Scene();
 
 	public:
-		virtual void Initialize();
+		virtual void Initialize(const SDL_Point& windowSize);
 		virtual void Render();
 		virtual void UpdateFrame();
 
