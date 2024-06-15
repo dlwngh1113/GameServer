@@ -16,5 +16,6 @@ enum class Command : short
 
 enum class Event : short
 {
-	Chatting = -32767
+	Chatting = -32767,
+	Move
 };
