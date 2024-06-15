@@ -9,15 +9,21 @@ namespace Common
 	public:
 		float x, y;
 
+	public:
+		explicit MoveCommandBody();
+
 	protected:
-		virtual void SerializeInternal(PacketStream& ps);
-		virtual void DeserializeInternal(PacketStream& ps);
+		virtual void SerializeInternal(PacketStream& ps) override;
+		virtual void DeserializeInternal(PacketStream& ps) override;
 	};
 
 	class COMMON_LIB_API MoveResponseBody : public ResponseBody
 	{
+	public:
+		explicit MoveResponseBody();
+
 	protected:
-		virtual void DeserializeInternal(PacketStream& ps);
-		virtual void SerializeInternal(PacketStream& ps);
+		virtual void DeserializeInternal(PacketStream& ps) override;
+		virtual void SerializeInternal(PacketStream& ps) override;
 	};
 }
