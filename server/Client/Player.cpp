@@ -2,22 +2,48 @@
 #include "Player.h"
 #include "Key.h"
 #include "NetworkManager.h"
+#include "Resource.h"
+#include "Time.h"
 
 namespace ClientFramework
 {
-	void Player::UpdateFrame()
+	Player::Player()
+		: m_speed(10)
 	{
-		if (Key::instance().IsKeyDown(SDLK_w))
-			Move(0, -1);
-		if (Key::instance().IsKeyDown(SDLK_a))
-			Move(-1, 0);
-		if (Key::instance().IsKeyDown(SDLK_s))
-			Move(0, 1);
-		if (Key::instance().IsKeyDown(SDLK_d))
-			Move(1, 0);
+		m_image = (Image*)Resource::instance().GetAsset("player.png");
+		if (!m_image)
+			std::cerr << "Player image does not exist!\n";
+
+		Teleport(0, 0);
+		SetSize(20, 20);
 	}
 
-	void Player::Render(SDL_Renderer* renderer, const SDL_Point& offset)
+	Player::~Player()
 	{
+	}
+
+	void Player::UpdateFrame()
+	{
+		int dx{ 0 }, dy{ 0 };
+		if (Key::instance().IsKeyDown(SDLK_w))
+			dy -= m_speed;
+		if (Key::instance().IsKeyDown(SDLK_s))
+			dy += m_speed;
+		if (Key::instance().IsKeyDown(SDLK_a))
+			dx -= m_speed;
+		if (Key::instance().IsKeyDown(SDLK_d))
+			dx += m_speed;
+
+		Move(dx * Time::instance().deltaTime(), dy * Time::instance().deltaTime());
+	}
+
+	void Player::Render(SDL_Renderer* renderer, const SDL_FPoint& offset)
+	{
+		SDL_FRect srcRect = m_rect;
+		srcRect.x += offset.x;
+		srcRect.y += offset.y;
+
+		if (m_image)
+			SDL_RenderCopyF(renderer, m_image->texture(), NULL, &srcRect);
 	}
 }

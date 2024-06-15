@@ -10,10 +10,17 @@ namespace ClientFramework
 	public:
 		Object();
 
+		// Properties
 	public:
-		virtual void Move(int dx, int dy);
-		virtual void Teleport(int x, int y);
-		virtual void Render(SDL_Renderer* renderer, const SDL_Point& offset = { }) = 0;
+		virtual const SDL_FPoint pos() const { return SDL_FPoint{ m_rect.x, m_rect.y }; }
+		virtual const SDL_FPoint size() const { return SDL_FPoint{ m_rect.w, m_rect.h }; }
+
+		// Member functions
+	public:
+		virtual void Move(float dx, float dy);
+		virtual void Teleport(float x, float y);
+		virtual void SetSize(float w, float h);
+		virtual void Render(SDL_Renderer* renderer, const SDL_FPoint& offset = { }) = 0;
 		virtual void UpdateFrame() = 0;
 	};
 }

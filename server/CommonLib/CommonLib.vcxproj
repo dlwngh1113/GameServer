@@ -146,6 +146,8 @@
     <ClInclude Include="ChattingEventBody.h" />
     <ClInclude Include="CommandBody.h" />
     <ClInclude Include="EventBody.h" />
+    <ClInclude Include="MoveCommandBody.h" />
+    <ClInclude Include="MoveEventBody.h" />
     <ClInclude Include="ResponseBody.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Packet.h" />
@@ -158,6 +160,8 @@
     <ClCompile Include="ChattingEventBody.cpp" />
     <ClCompile Include="CommandBody.cpp" />
     <ClCompile Include="EventBody.cpp" />
+    <ClCompile Include="MoveCommandBody.cpp" />
+    <ClCompile Include="MoveEventBody.cpp" />
     <ClCompile Include="ResponseBody.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="PacketStream.cpp" />

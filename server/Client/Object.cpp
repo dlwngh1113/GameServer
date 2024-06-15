@@ -8,15 +8,21 @@ namespace ClientFramework
 	{
 	}
 
-	void Object::Move(int dx, int dy)
+	void Object::Move(float dx, float dy)
 	{
 		m_rect.x += dx;
 		m_rect.y += dy;
 	}
 
-	void Object::Teleport(int x, int y)
+	void Object::Teleport(float x, float y)
 	{
 		m_rect.x = x;
 		m_rect.y = y;
+	}
+
+	void Object::SetSize(float w, float h)
+	{
+		m_rect.w = w;
+		m_rect.h = h;
 	}
 }

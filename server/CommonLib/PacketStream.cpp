@@ -47,6 +47,15 @@ namespace Common
 		return *this;
 	}
 
+	template<>
+	PacketStream& PacketStream::operator<<<float>(const float& val)
+	{
+		const unsigned char* ptr = reinterpret_cast<const unsigned char*>(&val);
+		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
+
+		return *this;
+	}
+
 	template <typename T>
 	PacketStream& PacketStream::operator>>(T& val)
 	{
@@ -66,6 +75,15 @@ namespace Common
 		memcpy_s(&val[0], size, m_buffer.data() + m_offset, size);
 
 		m_offset += size;
+
+		return *this;
+	}
+
+	template<>
+	PacketStream& PacketStream::operator>><float>(float& val)
+	{
+		memcpy_s(&val, sizeof(float), m_buffer.data() + m_offset, sizeof(float));
+		m_offset += sizeof(float);
 
 		return *this;
 	}

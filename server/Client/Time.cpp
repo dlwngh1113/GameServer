@@ -13,7 +13,7 @@ namespace ClientFramework
 
 	void Time::UpdateFrame()
 	{
-		std::chrono::steady_clock::time_point currentTime{ std::chrono::high_resolution_clock::now() };
+		auto currentTime{ std::chrono::high_resolution_clock::now() };
 		auto duration = currentTime - m_prevUpdateTime;
 		m_prevUpdateTime = currentTime;
 

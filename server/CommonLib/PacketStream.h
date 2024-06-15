@@ -30,10 +30,16 @@ namespace Common
 		template <>
 		PacketStream& operator<<<std::string>(const std::string& val);
 
+		template<>
+		PacketStream& operator<<<float>(const float& val);
+
 		template <typename T>
 		PacketStream& operator>>(T& val);
 
 		template <>
 		PacketStream& operator>><std::string>(std::string& val);
+
+		template<>
+		PacketStream& operator>><float>(float& val);
 	};
 }
