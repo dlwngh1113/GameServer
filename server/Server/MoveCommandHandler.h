@@ -1,8 +1,9 @@
 #pragma once
 #include "CommandHandler.h"
 
-class ChattingCommandHandler : public CommandHandler
+class MoveCommandHandler : public CommandHandler
 {
 protected:
 	virtual void HandleRequest() override;
 };
+

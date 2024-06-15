@@ -101,6 +101,9 @@
     <ClCompile Include="DataBase.cpp">
       <Filter>Framework\System</Filter>
     </ClCompile>
+    <ClCompile Include="MoveCommandHandler.cpp">
+      <Filter>Client\RequestHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="DataBase.h">
       <Filter>Framework\System</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommandHandler.h">
+      <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

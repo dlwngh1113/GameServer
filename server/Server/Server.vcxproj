@@ -180,6 +180,7 @@
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="MoveCommandHandler.cpp" />
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseCommandHandler.cpp" />
     <ClCompile Include="CommandHandler.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="MoveCommandHandler.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Peer.h" />
     <ClInclude Include="BaseCommandHandler.h" />
