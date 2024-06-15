@@ -3,10 +3,12 @@
 #include "Key.h"
 #include "NetworkManager.h"
 #include "Resource.h"
+#include "Time.h"
 
 namespace ClientFramework
 {
 	Player::Player()
+		: m_speed(10)
 	{
 		m_image = (Image*)Resource::instance().GetAsset("player.png");
 		if (!m_image)
@@ -22,14 +24,17 @@ namespace ClientFramework
 
 	void Player::UpdateFrame()
 	{
+		int dx{ 0 }, dy{ 0 };
 		if (Key::instance().IsKeyDown(SDLK_w))
-			Move(0, -1);
-		if (Key::instance().IsKeyDown(SDLK_a))
-			Move(-1, 0);
+			dy -= m_speed;
 		if (Key::instance().IsKeyDown(SDLK_s))
-			Move(0, 1);
+			dy += m_speed;
+		if (Key::instance().IsKeyDown(SDLK_a))
+			dx -= m_speed;
 		if (Key::instance().IsKeyDown(SDLK_d))
-			Move(1, 0);
+			dx += m_speed;
+
+		Move(dx * Time::instance().deltaTime(), dy * Time::instance().deltaTime());
 	}
 
 	void Player::Render(SDL_Renderer* renderer, const SDL_Point& offset)

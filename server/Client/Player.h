@@ -8,6 +8,7 @@ namespace ClientFramework
 	{
 	protected:
 		Image* m_image;
+		int m_speed;
 
 	public:
 		Player();
