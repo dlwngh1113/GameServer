@@ -3,6 +3,33 @@ CREATE SCHEMA IF NOT EXISTS `DnD`;
 USE `DnD`;
 
 CREATE TABLE IF NOT EXISTS `t_User`(
-	`id` VARCHAR(36) PRIMARY KEY NOT NULL,
-    `name` NVARCHAR(24) NOT NULL DEFAULT ''
+	`id` VARCHAR(12) PRIMARY KEY NOT NULL,
+    `password` VARCHAR(100) NOT NULL
     );
+    
+DELIMITER $$
+
+CREATE PROCEDURE AddUser(
+    IN p_id VARCHAR(12),
+    IN p_password VARCHAR(100)
+)
+BEGIN
+    DECLARE existing_count INT;
+
+    -- Check for existing records with the same id
+    SELECT COUNT(*)
+    INTO existing_count
+    FROM users
+    WHERE id = p_id;
+
+    -- If no existing record is found, insert the new record with hashed password
+    IF existing_count = 0 THEN
+        INSERT INTO users (id, password) VALUES (p_id, SHA2(p_password, 256));
+    ELSE
+        -- Raise an error if a duplicate entry is found
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Duplicate entry found';
+    END IF;
+END $$
+
+DELIMITER ;
