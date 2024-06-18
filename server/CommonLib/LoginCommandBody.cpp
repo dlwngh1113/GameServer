@@ -10,12 +10,12 @@ namespace Common
 
 	void LoginCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << id << password;
+		ps << userId << password;
 	}
 
 	void LoginCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> id >> password;
+		ps >> userId >> password;
 	}
 
 	LoginResponseBody::LoginResponseBody()

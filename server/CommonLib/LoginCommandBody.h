@@ -7,7 +7,7 @@ namespace Common
 	class COMMON_LIB_API LoginCommandBody : public CommandBody
 	{
 	public:
-		std::string id;
+		std::string userId;
 		std::string password;
 
 	public:
