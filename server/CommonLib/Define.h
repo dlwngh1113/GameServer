@@ -11,7 +11,8 @@
 enum class Command : short
 {
 	Chatting,
-	Move
+	Move,
+	Login
 };
 
 enum class Event : short
