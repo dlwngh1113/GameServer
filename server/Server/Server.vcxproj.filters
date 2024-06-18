@@ -104,6 +104,9 @@
     <ClCompile Include="MoveCommandHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="LoginCommandHandler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -178,6 +181,7 @@
     <ClInclude Include="MoveCommandHandler.h">
       <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="LoginCommandHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

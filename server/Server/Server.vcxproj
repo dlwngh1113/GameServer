@@ -177,6 +177,7 @@
     <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="LoginCommandHandler.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -209,6 +210,7 @@
     <ClInclude Include="include\lua.h" />
     <ClInclude Include="include\lualib.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="LoginCommandHandler.h" />
     <ClInclude Include="MoveCommandHandler.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Peer.h" />
