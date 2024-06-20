@@ -16,5 +16,5 @@ void LoginCommandHandler::Handle()
 
 	std::unique_ptr<Player> player = std::make_unique<Player>();
 	player->Teleport(resBody.x, resBody.y);
-	scene->AddObject(std::move(player));
+	scene->SetPlayer(std::move(player));
 }
