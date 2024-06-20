@@ -14,7 +14,7 @@ void LoginCommandHandler::HandleRequest()
 	std::string id(body.userId);
 	std::string password(body.password);
 
-	if (id.empty() || id.size() < 12)
+	if (id.empty() || id.size() > 12)
 	{
 		Logger::instance().Log("ID가 유효하지 않습니다.");
 		return;

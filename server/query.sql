@@ -33,3 +33,20 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+USE `DnD`;
+
+DELIMITER $$
+
+CREATE PROCEDURE GetUser(
+    IN p_id VARCHAR(12),
+    IN p_password VARCHAR(100)
+)
+BEGIN
+    -- 실제로 반환할 결과셋을 선택합니다.
+    SELECT *
+    FROM t_user
+    WHERE id = p_id AND password = SHA2(p_password, 256);
+END $$
+
+DELIMITER ;
