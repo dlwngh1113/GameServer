@@ -26,11 +26,26 @@ void LoginCommandHandler::HandleRequest()
 		return;
 	}
 
-	sql::PreparedStatement* stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
-	sql::ResultSet* result(stmt->executeQuery());
+	Logger::instance().Log(std::format("id = {} password = {}", id, password));
+	float x{ 0 }, y{ 0 };
 
-	float x(result->getDouble("x"));
-	float y(result->getDouble("y"));
+	try
+	{
+		sql::PreparedStatement* stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
+		stmt->setQueryAttrString("p_name", id);
+		stmt->setQueryAttrString("p_password", password);
+
+		sql::ResultSet* result(stmt->executeQuery());
+		while (result->next())
+		{
+			x = result->getDouble("x");
+			y = result->getDouble("y");
+		}
+	}
+	catch (sql::SQLException& ex)
+	{
+		Logger::instance().Log(ex.getSQLState());
+	}
 
 	Common::LoginResponseBody resBody;
 	resBody.id = body.id;

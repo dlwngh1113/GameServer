@@ -4,14 +4,16 @@ USE `DnD`;
 
 CREATE TABLE IF NOT EXISTS `t_User`(
 	`id` VARCHAR(12) PRIMARY KEY NOT NULL,
-    `password` VARCHAR(100) NOT NULL
+    `password` VARCHAR(128) NOT NULL,
+    `x` FLOAT DEFAULT 0,
+    `y` FLOAT DEFAULT 0
     );
     
 DELIMITER $$
 
 CREATE PROCEDURE AddUser(
     IN p_id VARCHAR(12),
-    IN p_password VARCHAR(100)
+    IN p_password VARCHAR(128)
 )
 BEGIN
     DECLARE existing_count INT;
@@ -40,7 +42,7 @@ DELIMITER $$
 
 CREATE PROCEDURE GetUser(
     IN p_id VARCHAR(12),
-    IN p_password VARCHAR(100)
+    IN p_password VARCHAR(128)
 )
 BEGIN
     -- 실제로 반환할 결과셋을 선택합니다.
