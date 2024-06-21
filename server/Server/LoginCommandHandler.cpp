@@ -22,7 +22,7 @@ void LoginCommandHandler::HandleRequest()
 
 	if (password.empty() || password.size() > 20)
 	{
-		Logger::instance().Log("비밀번호가 유효하지 않습니다.");
+		Logger::instance().Log("비밀번호가 유효하지 않습니다. password = {}", password);
 		return;
 	}
 
@@ -37,8 +37,8 @@ void LoginCommandHandler::HandleRequest()
 		sql::ResultSet* result(stmt->executeQuery());
 		while (result->next())
 		{
-			x = result->getDouble("x");
-			y = result->getDouble("y");
+			x = static_cast<float>(result->getDouble("x"));
+			y = static_cast<float>(result->getDouble("y"));
 		}
 	}
 	catch (sql::SQLException& ex)
