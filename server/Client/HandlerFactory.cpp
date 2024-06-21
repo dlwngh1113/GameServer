@@ -27,4 +27,5 @@ std::shared_ptr<BaseHandler> HandlerFactory::Create(Event type)
 void HandlerFactory::Initialize()
 {
 	AddHandlerCreator<ChattingEventHandler>(Event::Chatting);
+	AddHandlerCreator<LoginCommandHandler>(Event::Login);
 }
