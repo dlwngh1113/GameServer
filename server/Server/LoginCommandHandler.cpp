@@ -22,7 +22,7 @@ void LoginCommandHandler::HandleRequest()
 
 	if (password.empty() || password.size() > 20)
 	{
-		Logger::instance().Log("비밀번호가 유효하지 않습니다. password = {}", password);
+		Logger::instance().Log(std::format("비밀번호가 유효하지 않습니다. password = {}", password));
 		return;
 	}
 

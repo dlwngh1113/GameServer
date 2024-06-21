@@ -13,11 +13,6 @@ public:
 public:
 	void Log(const char* message);
 	void Log(const std::string& message);
-	template<typename... T>
-	void Log(const std::format_string<T...> fmt, T&&... args);
-
-	template <int = 0>
-	std::string vformat(const std::string_view fmt, const std::format_args args);
 
 private:
 	void LogOnConsole();
