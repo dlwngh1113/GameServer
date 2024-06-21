@@ -34,6 +34,12 @@ namespace ClientFramework
 		if (!NetworkManager::instance().Initialize())
 			Release();
 
+		// 로그인 패킷 전송
+		std::shared_ptr<Common::LoginCommandBody> body = std::make_shared<Common::LoginCommandBody>();
+		body->userId = "dlwngh";
+		body->password = "ljh1348";
+		NetworkManager::instance().SendPacket(body);
+
 		// Scene 추가
 		m_scene = std::make_unique<Scene>();
 		m_scene->Initialize(m_windowSize);

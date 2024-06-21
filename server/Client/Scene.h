@@ -16,6 +16,7 @@ namespace ClientFramework
 		Window* m_window;
 		Label* m_label;
 		std::unique_ptr<Camera> m_worldCamera;
+		SDL_Point m_windowSize;
 
 	public:
 		Scene();
@@ -25,6 +26,7 @@ namespace ClientFramework
 		virtual void Render();
 		virtual void UpdateFrame();
 
+		void SetPlayer(std::unique_ptr<Player> player);
 		void AddObject(std::unique_ptr<Object> object);
 
 		void OnWindowSizeChanged(int width, int height);

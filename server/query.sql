@@ -4,14 +4,16 @@ USE `DnD`;
 
 CREATE TABLE IF NOT EXISTS `t_User`(
 	`id` VARCHAR(12) PRIMARY KEY NOT NULL,
-    `password` VARCHAR(100) NOT NULL
+    `password` VARCHAR(128) NOT NULL,
+    `x` FLOAT DEFAULT 0,
+    `y` FLOAT DEFAULT 0
     );
     
 DELIMITER $$
 
 CREATE PROCEDURE AddUser(
     IN p_id VARCHAR(12),
-    IN p_password VARCHAR(100)
+    IN p_password VARCHAR(20)
 )
 BEGIN
     DECLARE existing_count INT;
@@ -30,6 +32,23 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Duplicate entry found';
     END IF;
+END $$
+
+DELIMITER ;
+
+USE `DnD`;
+
+DELIMITER $$
+
+CREATE PROCEDURE GetUser(
+    IN p_id VARCHAR(12),
+    IN p_password VARCHAR(20)
+)
+BEGIN
+    -- 실제로 반환할 결과셋을 선택합니다.
+    SELECT *
+    FROM t_user
+    WHERE id = p_id AND password = SHA2(p_password, 256);
 END $$
 
 DELIMITER ;

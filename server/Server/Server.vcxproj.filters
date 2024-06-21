@@ -104,6 +104,9 @@
     <ClCompile Include="MoveCommandHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="LoginCommandHandler.cpp">
+      <Filter>Client\RequestHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -176,6 +179,9 @@
       <Filter>Framework\System</Filter>
     </ClInclude>
     <ClInclude Include="MoveCommandHandler.h">
+      <Filter>Client\RequestHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginCommandHandler.h">
       <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
   </ItemGroup>

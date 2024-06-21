@@ -185,6 +185,7 @@
     <ClInclude Include="InputField.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Label.h" />
+    <ClInclude Include="LoginCommandHandler.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="InputField.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Label.cpp" />
+    <ClCompile Include="LoginCommandHandler.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />

@@ -3,3 +3,4 @@
 #include "ChattingEventBody.h"
 #include "MoveCommandBody.h"
 #include "MoveEventBody.h"
+#include "LoginCommandBody.h"
