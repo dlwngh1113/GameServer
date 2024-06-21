@@ -26,14 +26,13 @@ void LoginCommandHandler::HandleRequest()
 		return;
 	}
 
-	Logger::instance().Log(std::format("id = {} password = {}", id, password));
 	float x{ 0 }, y{ 0 };
 
 	try
 	{
 		sql::PreparedStatement* stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
-		stmt->setQueryAttrString("p_name", id);
-		stmt->setQueryAttrString("p_password", password);
+		stmt->setString(1, id);
+		stmt->setString(2, password);
 
 		sql::ResultSet* result(stmt->executeQuery());
 		while (result->next())
