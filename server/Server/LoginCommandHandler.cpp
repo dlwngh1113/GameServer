@@ -20,7 +20,7 @@ void LoginCommandHandler::HandleRequest()
 		return;
 	}
 
-	if (password.empty())
+	if (password.empty() || password.size() > 20)
 	{
 		Logger::instance().Log("비밀번호가 유효하지 않습니다.");
 		return;

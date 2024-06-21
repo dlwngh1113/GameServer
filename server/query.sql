@@ -13,7 +13,7 @@ DELIMITER $$
 
 CREATE PROCEDURE AddUser(
     IN p_id VARCHAR(12),
-    IN p_password VARCHAR(128)
+    IN p_password VARCHAR(20)
 )
 BEGIN
     DECLARE existing_count INT;
@@ -42,7 +42,7 @@ DELIMITER $$
 
 CREATE PROCEDURE GetUser(
     IN p_id VARCHAR(12),
-    IN p_password VARCHAR(128)
+    IN p_password VARCHAR(20)
 )
 BEGIN
     -- 실제로 반환할 결과셋을 선택합니다.
