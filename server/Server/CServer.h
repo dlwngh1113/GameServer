@@ -13,14 +13,12 @@ private:
 	void Initialize();
 
 protected:
-	void Release();
-
+	virtual void OnTearDown() override;
 	virtual void OnAccepted(Core::Peer* peer) override;
 	virtual void OnDisconnected(Core::Peer* peer) override;
 
 public:
 	CServer();
-	virtual ~CServer();
 	CServer(const CServer& other) = delete;
 	CServer& operator=(const CServer& other) = delete;
 

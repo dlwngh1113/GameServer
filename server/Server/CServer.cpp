@@ -13,11 +13,6 @@ CServer::CServer()
 	Initialize();
 }
 
-CServer::~CServer()
-{
-	Release();
-}
-
 void CServer::Run()
 {
 	Core::BaseApplication::Run();
@@ -38,7 +33,7 @@ std::shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)
 	return nullptr;
 }
 
-void CServer::Release()
+void CServer::OnTearDown()
 {
 	m_users.clear();
 }

@@ -11,13 +11,6 @@ namespace Core
     {
     }
 
-    BaseApplication::~BaseApplication()
-    {
-        m_threads.join();
-        m_context.stop();
-        m_acceptor.close();
-    }
-
     void BaseApplication::Run()
     {
         DataBase::instance().Initialize();
@@ -32,6 +25,17 @@ namespace Core
     void BaseApplication::StartAccept()
     {
         m_acceptor.async_accept(bind(&BaseApplication::OnAccept, this, std::placeholders::_1, std::placeholders::_2));
+    }
+
+    void BaseApplication::TearDown()
+    {
+        Logger::instance().Log("OnTearDown starting...");
+        OnTearDown();
+        Logger::instance().Log("OnTearDown finished...");
+
+        m_threads.join();
+        m_context.stop();
+        m_acceptor.close();
     }
 
     void BaseApplication::OnAccept(const boost::system::error_code& error, boost::asio::ip::tcp::socket acceptedSocket)
