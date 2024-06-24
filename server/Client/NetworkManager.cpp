@@ -8,6 +8,7 @@ NetworkManager NetworkManager::s_instance;
 
 NetworkManager::NetworkManager()
 	: m_socket(nullptr)
+	, m_socketSet(SDLNet_AllocSocketSet(1))
 	, m_currentBufferPos(m_dataBuffer)
 	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
@@ -24,8 +25,6 @@ bool NetworkManager::Initialize()
 {
 	IPaddress serverIp;
 	SDLNet_ResolveHost(&serverIp, "127.0.0.1", SERVER_PORT);
-
-	m_socketSet = SDLNet_AllocSocketSet(1);
 
 	m_socket = SDLNet_TCP_Open(&serverIp);
 	if (m_socket)
