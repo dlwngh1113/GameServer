@@ -14,7 +14,7 @@ namespace Core
     void BaseApplication::Run()
     {
         DataBase::instance().Initialize();
-
+        
         Logger::instance().Log("Server is running...");
 
         StartAccept();
