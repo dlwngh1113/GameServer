@@ -30,11 +30,11 @@ void LoginCommandHandler::HandleRequest()
 
 	try
 	{
-		sql::PreparedStatement* stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
+		std::unique_ptr<sql::PreparedStatement> stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
 		stmt->setString(1, id);
 		stmt->setString(2, password);
 
-		sql::ResultSet* result(stmt->executeQuery());
+		std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
 		while (result->next())
 		{
 			x = static_cast<float>(result->getDouble("x"));
