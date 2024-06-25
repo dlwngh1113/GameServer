@@ -8,5 +8,4 @@ public:
 
 protected:
 	virtual void HandleRequest() = 0;
-	void SendResponse(std::shared_ptr<Common::Packet> packet);
 };
