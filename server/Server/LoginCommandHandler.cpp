@@ -46,12 +46,10 @@ void LoginCommandHandler::HandleRequest()
 		Logger::instance().Log(ex.getSQLState());
 	}
 
-	Common::LoginResponseBody resBody;
-	resBody.id = body.id;
-	resBody.x = x;
-	resBody.y = y;
+	std::shared_ptr<Common::LoginResponseBody> resBody = std::make_shared<Common::LoginResponseBody>();
+	resBody->id = body.id;
+	resBody->x = x;
+	resBody->y = y;
 	
-	std::shared_ptr<User> user = CServer::instance().GetUser(m_peer->id());
-	if (user)
-		user->SendPacket(&resBody);
+	SendResponse(resBody);
 }
