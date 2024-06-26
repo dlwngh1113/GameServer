@@ -19,11 +19,24 @@ namespace Core
 		memcpy_s(m_data.data(), m_data.size(), data, size);
 	}
 
-	void BaseCommandHandler::SendResponse(std::shared_ptr<Common::Packet> packet)
+	void BaseCommandHandler::SendResponse(std::shared_ptr<Common::ResponseBody> response)
 	{
 		Common::PacketStream ps;
-		std::string data = packet->Serialize(ps);
+		response->code = kCode_Success;
+		std::string data = response->Serialize(ps);
 
 		m_peer->SendData(data);
+	}
+
+	void BaseCommandHandler::Error(short code, const std::string& message)
+	{
+		//Common::PacketStream ps;
+		//std::shared_ptr<Common::ResponseBody> res = std::make_shared<Common::ResponseBody>();
+		//res->code = code;
+		//res->message = message;
+
+		//std::string data = res->Serialize(ps);
+
+		//m_peer->SendData(data);
 	}
 }
