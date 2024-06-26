@@ -48,6 +48,9 @@
     <Filter Include="Framework\System">
       <UniqueIdentifier>{60604c26-dfec-4105-93fc-89196d00cb70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client\System">
+      <UniqueIdentifier>{2f543dcd-c5d5-48c1-a858-2b6be27dafd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="LoginCommandHandler.cpp">
       <Filter>Client\RequestHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="DBUtil.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +190,7 @@
     <ClInclude Include="LoginCommandHandler.h">
       <Filter>Client\RequestHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="DBUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

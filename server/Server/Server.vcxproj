@@ -175,6 +175,7 @@
     </ClCompile>
     <ClCompile Include="BaseCommandHandlerFactory.cpp" />
     <ClCompile Include="DataBase.cpp" />
+    <ClCompile Include="DBUtil.cpp" />
     <ClCompile Include="IHandlerFactory.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LoginCommandHandler.cpp" />
@@ -202,6 +203,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataBase.h" />
+    <ClInclude Include="DBUtil.h" />
     <ClInclude Include="ICreator.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="BaseCommandHandlerFactory.h" />
