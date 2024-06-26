@@ -6,8 +6,8 @@ namespace Common
 	class COMMON_LIB_API ResponseBody : public Packet
 	{
 	public:
-		short m_code;
-		std::string m_message;
+		short code;
+		std::string message;
 
 	public:
 		explicit ResponseBody(Command type);

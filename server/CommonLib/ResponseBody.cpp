@@ -10,11 +10,11 @@ namespace Common
 	
 	void ResponseBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << m_code << m_message;
+		ps << code << message;
 	}
 
 	void ResponseBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> m_code >> m_message;
+		ps >> code >> message;
 	}
 }
