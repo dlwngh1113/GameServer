@@ -5,8 +5,6 @@
 
 namespace ClientFramework
 {
-	UIManager UIManager::s_instance;
-
 	template <typename T>
 	void UIManager::AddUI(UIType type)
 	{

@@ -15,11 +15,11 @@ namespace Core
 
     public:
         BaseApplication();
-        ~BaseApplication();
         virtual void Run();
 
     private:
         void StartAccept();
+        void TearDown();
         void OnAccept(const boost::system::error_code& error, boost::asio::ip::tcp::socket acceptedSocket);
 
         //
@@ -40,6 +40,7 @@ namespace Core
     protected:
         virtual void OnAccepted(Peer* peer) = 0;
         virtual void OnDisconnected(Peer* peer) = 0;
+        virtual void OnTearDown() = 0;
 
     public:
         boost::asio::thread_pool& threads() { return m_threads; };

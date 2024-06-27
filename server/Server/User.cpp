@@ -12,3 +12,10 @@ User::User(Core::Peer* peer)
 User::~User()
 {
 }
+
+void User::Login(std::shared_ptr<sql::ResultSet> user)
+{
+	m_userId = user->getString("id");
+	m_x = static_cast<float>(user->getDouble("x"));
+	m_y = static_cast<float>(user->getDouble("y"));
+}

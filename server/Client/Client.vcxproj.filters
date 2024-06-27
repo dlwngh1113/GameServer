@@ -180,9 +180,6 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>Framework\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Singleton.cpp">
-      <Filter>Framework\System</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Framework\UI</Filter>
     </ClCompile>

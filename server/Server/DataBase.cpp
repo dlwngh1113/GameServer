@@ -4,7 +4,6 @@
 
 namespace Core
 {
-	DataBase DataBase::s_instance;
 	namespace
 	{
 		static constexpr std::string kHostAddress("127.0.0.1:3306");

@@ -3,8 +3,6 @@
 
 namespace ClientFramework
 {
-	Key Key::s_instance;
-
 	void Key::OnKeyDown(const SDL_Keycode& code)
 	{
 		m_keyState[code] = SDL_KEYDOWN;

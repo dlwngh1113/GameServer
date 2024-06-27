@@ -25,6 +25,7 @@ namespace Core
 
 		const boost::uuids::uuid& id() const;
 
+		void SendData(std::shared_ptr<Common::Packet> packet);
 		void SendData(const std::string& data);
 		void SendData(char* data, size_t size);
 		void SetFactory(BaseCommandHandlerFactory* factory) { m_factory = factory; }

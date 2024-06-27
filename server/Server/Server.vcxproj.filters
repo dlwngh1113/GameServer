@@ -24,9 +24,6 @@
     <Filter Include="Client">
       <UniqueIdentifier>{2a4ac455-56ed-4fbe-bba8-bfcbb9d0e003}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client\RequestHandlers">
-      <UniqueIdentifier>{76a5e135-2f50-47bd-8838-5d2be2347c73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Client\Model">
       <UniqueIdentifier>{b27c524f-3e4e-427d-9e1f-5b953ac97c00}</UniqueIdentifier>
     </Filter>
@@ -47,6 +44,12 @@
     </Filter>
     <Filter Include="Framework\System">
       <UniqueIdentifier>{60604c26-dfec-4105-93fc-89196d00cb70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\System">
+      <UniqueIdentifier>{2f543dcd-c5d5-48c1-a858-2b6be27dafd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\CommandHandlers">
+      <UniqueIdentifier>{76a5e135-2f50-47bd-8838-5d2be2347c73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +78,7 @@
       <Filter>Framework\CommandHandler\Handler</Filter>
     </ClCompile>
     <ClCompile Include="CommandHandlerFactory.cpp">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClCompile>
     <ClCompile Include="User.cpp">
       <Filter>Client</Filter>
@@ -87,7 +90,7 @@
       <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
     <ClCompile Include="CommandHandler.cpp">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClCompile>
     <ClCompile Include="CommandHandlerException.cpp">
       <Filter>Framework\CommandHandler</Filter>
@@ -96,16 +99,22 @@
       <Filter>Framework\Util</Filter>
     </ClCompile>
     <ClCompile Include="ChattingCommandHandler.cpp">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClCompile>
     <ClCompile Include="DataBase.cpp">
       <Filter>Framework\System</Filter>
     </ClCompile>
     <ClCompile Include="MoveCommandHandler.cpp">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClCompile>
     <ClCompile Include="LoginCommandHandler.cpp">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>Framework\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="DBUtil.cpp">
+      <Filter>Client\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,7 +146,7 @@
       <Filter>Framework\CommandHandler</Filter>
     </ClInclude>
     <ClInclude Include="CommandHandlerFactory.h">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClInclude>
     <ClInclude Include="User.h">
       <Filter>Client</Filter>
@@ -146,7 +155,7 @@
       <Filter>Framework\Peer</Filter>
     </ClInclude>
     <ClInclude Include="CommandHandler.h">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClInclude>
     <ClInclude Include="IHandlerFactory.h">
       <Filter>Framework\CommandHandler</Filter>
@@ -173,16 +182,22 @@
       <Filter>Framework\Util</Filter>
     </ClInclude>
     <ClInclude Include="ChattingCommandHandler.h">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClInclude>
     <ClInclude Include="DataBase.h">
       <Filter>Framework\System</Filter>
     </ClInclude>
     <ClInclude Include="MoveCommandHandler.h">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
     </ClInclude>
     <ClInclude Include="LoginCommandHandler.h">
-      <Filter>Client\RequestHandlers</Filter>
+      <Filter>Client\CommandHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Framework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DBUtil.h">
+      <Filter>Client\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

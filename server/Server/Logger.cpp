@@ -2,8 +2,6 @@
 #include "Logger.h"
 #include "BaseApplication.h"
 
-Logger Logger::s_instance;
-
 Logger::Logger()
 	: m_thread([this]() { LogOnConsole(); })
 {

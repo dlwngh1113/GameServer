@@ -3,8 +3,6 @@
 
 namespace ClientFramework
 {
-	Time Time::s_instance;
-
 	Time::Time()
 		: m_prevUpdateTime(std::chrono::high_resolution_clock::now())
 		, m_deltaTime(0)

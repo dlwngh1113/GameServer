@@ -121,12 +121,18 @@ namespace Core
         Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
     }
 
+    void Peer::SendData(std::shared_ptr<Common::Packet> packet)
+    {
+        Common::PacketStream ps;
+        std::string data = packet->Serialize(ps);
+
+        SendData(data);
+    }
+
     void Peer::SendData(const std::string& data)
     {
         try
         {
-            //boost::asio::async_write(m_socket, boost::asio::buffer(data),
-            //    [](const boost::system::error_code& error, size_t bytesTransferred) {});
             m_socket.async_send(boost::asio::buffer(data),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }
@@ -140,8 +146,6 @@ namespace Core
     {
         try
         {
-            //boost::asio::async_write(m_socket, boost::asio::buffer(data, size),
-            //    [](const boost::system::error_code& error, size_t bytesTransferred) {});
             m_socket.async_send(boost::asio::buffer(data, size),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }

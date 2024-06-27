@@ -16,8 +16,8 @@ namespace ClientFramework
 
 	void Camera::SetOffset(int x, int y)
 	{
-		m_offset.x = x;
-		m_offset.y = y;
+		m_offset.x = (float)x;
+		m_offset.y = (float)y;
 	}
 
 	void Camera::UpdateFrame()
