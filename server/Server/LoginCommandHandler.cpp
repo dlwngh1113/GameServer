@@ -14,6 +14,13 @@ void LoginCommandHandler::HandleRequest()
 	std::string id(body.userId);
 	std::string password(body.password);
 
+	std::shared_ptr<User> user = CServer::instance().GetUser(m_peer->id());
+	if (!user)
+	{
+		Logger::instance().Log("사용자가 존재하지 않습니다.");
+		return;
+	}
+
 	if (id.empty() || id.size() > 12)
 	{
 		Logger::instance().Log("ID가 유효하지 않습니다.");
@@ -34,16 +41,16 @@ void LoginCommandHandler::HandleRequest()
 		stmt->setString(1, id);
 		stmt->setString(2, password);
 
-		std::unique_ptr<sql::ResultSet> result(stmt->executeQuery());
-		while (result->next())
-		{
-			x = static_cast<float>(result->getDouble("x"));
-			y = static_cast<float>(result->getDouble("y"));
-		}
+		std::shared_ptr<sql::ResultSet> result(stmt->executeQuery());
+		if (result->next())
+			user->Login(result);
+		else
+			throw sql::SQLException{ "result is empty" };
 	}
 	catch (sql::SQLException& ex)
 	{
 		Logger::instance().Log(ex.getSQLState());
+		return;
 	}
 
 	std::shared_ptr<Common::LoginResponseBody> resBody = std::make_shared<Common::LoginResponseBody>();
