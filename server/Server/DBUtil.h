@@ -1,5 +1,8 @@
 #pragma once
-class DBUtil
+#include "Singleton.h"
+
+class DBUtil : public Core::Singleton<DBUtil>
 {
+
 };
 

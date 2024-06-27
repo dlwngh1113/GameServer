@@ -37,7 +37,7 @@ void LoginCommandHandler::HandleRequest()
 
 	try
 	{
-		std::unique_ptr<sql::PreparedStatement> stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
+		std::shared_ptr<sql::PreparedStatement> stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
 		stmt->setString(1, id);
 		stmt->setString(2, password);
 

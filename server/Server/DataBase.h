@@ -1,8 +1,9 @@
 #pragma once
+#include "Singleton.h"
 
 namespace Core
 {
-	class DataBase final
+	class DataBase : public Singleton<DataBase>
 	{
 		sql::Driver* m_driver;
 		std::vector<std::unique_ptr<sql::Connection>> m_connections;
@@ -17,21 +18,5 @@ namespace Core
 	public:
 		void Initialize();
 		sql::Connection* GetConnection();
-
-		//
-		//
-		//
-		
-	public:
-		DataBase operator=(const DataBase& other) = delete;
-		DataBase(const DataBase& other) = delete;
-
-		// Static member variables
-	private:
-		static DataBase s_instance;
-
-		// Static member functions
-	public:
-		static DataBase& instance() { return s_instance; }
 	};
 }

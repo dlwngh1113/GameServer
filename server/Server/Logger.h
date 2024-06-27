@@ -1,6 +1,7 @@
 #pragma once
+#include "Singleton.h"
 
-class Logger
+class Logger : public Core::Singleton<Logger>
 {
 private:
 	concurrency::concurrent_queue<std::string> m_messages;
@@ -16,12 +17,4 @@ public:
 
 private:
 	void LogOnConsole();
-
-	// Static member variables
-private:
-	static Logger s_instance;
-
-	// Static member functions
-public:
-	static Logger& instance() { return s_instance; }
 };
