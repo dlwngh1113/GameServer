@@ -6,16 +6,17 @@ namespace ClientFramework
 	class Singleton
 	{
 	protected:
-		static T s_instance;
 		Singleton() {}
+		virtual ~Singleton() {}
 
 	public:
-		static T& instance() { return s_instance; }
-		virtual ~Singleton() {}
+		static T& instance()
+		{
+			static T s_instance;
+			return s_instance;
+		}
 
 		Singleton operator=(const Singleton& other) = delete;
 		Singleton(const Singleton& other) = delete;
-		Singleton operator=(Singleton&& other) = delete;
-		Singleton(Singleton&& other) = delete;
 	};
 }

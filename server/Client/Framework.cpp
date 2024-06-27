@@ -9,8 +9,6 @@
 
 namespace ClientFramework
 {
-	Framework Framework::s_instance;
-
 	Framework::Framework()
 		: m_scene(nullptr)
 		, m_window(nullptr)

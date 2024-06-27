@@ -3,8 +3,6 @@
 
 namespace ClientFramework
 {
-	Renderer Renderer::s_instance;
-
 	Renderer::Renderer()
 		: m_renderer(nullptr)
 	{

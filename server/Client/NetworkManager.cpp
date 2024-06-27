@@ -4,8 +4,6 @@
 #include "BaseHandler.h"
 #include "Time.h"
 
-NetworkManager NetworkManager::s_instance;
-
 NetworkManager::NetworkManager()
 	: m_socket(nullptr)
 	, m_socketSet(SDLNet_AllocSocketSet(1))
@@ -158,7 +156,7 @@ void NetworkManager::SendPacket(const std::string& data)
 
 	try
 	{
-		SDLNet_TCP_Send(m_socket, data.data(), data.size());
+		SDLNet_TCP_Send(m_socket, data.data(), (int)data.size());
 	}
 	catch (std::exception& ex)
 	{

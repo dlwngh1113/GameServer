@@ -4,8 +4,6 @@
 
 namespace ClientFramework
 {
-	Resource Resource::s_instance;
-
 	void Resource::LoadAssets()
 	{
 		std::unique_ptr<Image> image = std::make_unique<Image>();
