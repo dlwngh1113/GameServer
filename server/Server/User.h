@@ -18,6 +18,8 @@ public:
 	// Properties
 public:
 	const boost::uuids::uuid& id() const { return m_id; }
+	float x() const { return m_x; }
+	float y() const { return m_y; }
 
 	// Member functions
 public:

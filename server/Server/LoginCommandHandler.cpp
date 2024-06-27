@@ -55,8 +55,8 @@ void LoginCommandHandler::HandleRequest()
 
 	std::shared_ptr<Common::LoginResponseBody> resBody = std::make_shared<Common::LoginResponseBody>();
 	resBody->id = body.id;
-	resBody->x = x;
-	resBody->y = y;
+	resBody->x = user->x();
+	resBody->y = user->y();
 	
 	SendResponse(resBody);
 }
