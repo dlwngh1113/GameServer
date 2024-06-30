@@ -115,6 +115,9 @@
     <ClInclude Include="LoginCommandHandler.h">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClInclude>
+    <ClInclude Include="MoveEventHandler.h">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -187,6 +190,9 @@
       <Filter>Framework\UI</Filter>
     </ClCompile>
     <ClCompile Include="LoginCommandHandler.cpp">
+      <Filter>소스 파일\Network\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveEventHandler.cpp">
       <Filter>소스 파일\Network\Handler</Filter>
     </ClCompile>
   </ItemGroup>
