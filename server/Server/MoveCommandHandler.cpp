@@ -3,7 +3,7 @@
 #include "User.h"
 #include "CServer.h"
 
-void MoveCommandHandler::HandleRequest()
+void MoveCommandHandler::HandleCommand()
 {
 	Common::MoveCommandBody packet;
 	Common::PacketStream ps(m_data.data(), m_data.size());

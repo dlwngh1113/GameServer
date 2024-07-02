@@ -4,7 +4,7 @@
 #include "CServer.h"
 #include "User.h"
 
-void ChattingCommandHandler::HandleRequest()
+void ChattingCommandHandler::Handle()
 {
 	Common::ChattingCommandBody packet;
 	Common::PacketStream ps(m_data.data(), m_data.size());

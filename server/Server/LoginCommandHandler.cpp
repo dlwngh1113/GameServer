@@ -5,7 +5,7 @@
 #include "CServer.h"
 #include "User.h"
 
-void LoginCommandHandler::HandleRequest()
+void LoginCommandHandler::Handle()
 {
 	Common::LoginCommandBody body;
 	Common::PacketStream ps(m_data.data(), m_data.size());

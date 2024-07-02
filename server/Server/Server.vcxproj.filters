@@ -89,9 +89,6 @@
     <ClCompile Include="IHandlerFactory.cpp">
       <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
-    <ClCompile Include="CommandHandler.cpp">
-      <Filter>Client\CommandHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="CommandHandlerException.cpp">
       <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
@@ -115,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="DBUtil.cpp">
       <Filter>Client\System</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRequiredHandler.cpp">
+      <Filter>Client\CommandHandlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +198,9 @@
     </ClInclude>
     <ClInclude Include="DBUtil.h">
       <Filter>Client\System</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRequiredHandler.h">
+      <Filter>Client\CommandHandlers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

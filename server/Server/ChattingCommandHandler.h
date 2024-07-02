@@ -4,5 +4,5 @@
 class ChattingCommandHandler : public CommandHandler
 {
 protected:
-	virtual void HandleRequest() override;
+	virtual void Handle() override;
 };
