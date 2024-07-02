@@ -10,12 +10,12 @@ namespace Common
 
 	void MoveEventBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << x << y;
+		ps << userId << x << y;
 	}
 
 	void MoveEventBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> x >> y;
+		ps >> userId >> x >> y;
 	}
 
 }
