@@ -17,8 +17,10 @@ void MoveCommandHandler::HandleCommand()
 	body.x = packet.x;
 	body.y = packet.y;
 	body.id = packet.id;
+	body.userId = m_user->userId();
 	for (const auto& user : CServer::instance().users())
 	{
-		user.second->SendPacket(&body);
+		if (user.second != m_user)
+			user.second->SendPacket(&body);
 	}
 }

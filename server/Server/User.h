@@ -17,6 +17,7 @@ public:
 
 	// Properties
 public:
+	const std::string& userId() const { return m_userId; }
 	const boost::uuids::uuid& id() const { return m_id; }
 	float x() const { return m_x; }
 	float y() const { return m_y; }
