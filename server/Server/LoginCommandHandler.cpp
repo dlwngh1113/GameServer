@@ -33,7 +33,6 @@ void LoginCommandHandler::Handle()
 		return;
 	}
 
-	float x{ 0 }, y{ 0 };
 	std::shared_ptr<sql::ResultSet> result = DBUtil::GetUser(id, password);
 	if (!result)
 		return;
