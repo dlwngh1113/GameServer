@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "LoginCommandHandler.h"
-#include "DataBase.h"
 #include "Logger.h"
 #include "CServer.h"
 #include "User.h"
+#include "DBUtil.h"
 
-void LoginCommandHandler::HandleRequest()
+void LoginCommandHandler::Handle()
 {
 	Common::LoginCommandBody body;
 	Common::PacketStream ps(m_data.data(), m_data.size());
@@ -33,25 +33,11 @@ void LoginCommandHandler::HandleRequest()
 		return;
 	}
 
-	float x{ 0 }, y{ 0 };
-
-	try
-	{
-		std::shared_ptr<sql::PreparedStatement> stmt(Core::DataBase::instance().GetConnection()->prepareStatement("CALL GetUser(?,?)"));
-		stmt->setString(1, id);
-		stmt->setString(2, password);
-
-		std::shared_ptr<sql::ResultSet> result(stmt->executeQuery());
-		if (result->next())
-			user->Login(result);
-		else
-			throw sql::SQLException{ "result is empty" };
-	}
-	catch (sql::SQLException& ex)
-	{
-		Logger::instance().Log(ex.getSQLState());
+	std::shared_ptr<sql::ResultSet> result = DBUtil::GetUser(id, password);
+	if (!result)
 		return;
-	}
+
+	user->Login(result);
 
 	std::shared_ptr<Common::LoginResponseBody> resBody = std::make_shared<Common::LoginResponseBody>();
 	resBody->id = body.id;

@@ -1,8 +1,8 @@
 #pragma once
-#include "CommandHandler.h"
+#include "LoginRequiredHandler.h"
 
-class ChattingCommandHandler : public CommandHandler
+class ChattingCommandHandler : public LoginRequiredHandler
 {
 protected:
-	virtual void HandleRequest() override;
+	virtual void HandleCommand() override;
 };

@@ -4,5 +4,5 @@
 class LoginCommandHandler : public CommandHandler
 {
 protected:
-	virtual void HandleRequest() override;
+	virtual void Handle() override;
 };
