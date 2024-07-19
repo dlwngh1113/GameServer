@@ -21,12 +21,12 @@ BEGIN
     -- Check for existing records with the same id
     SELECT COUNT(*)
     INTO existing_count
-    FROM users
+    FROM t_user
     WHERE id = p_id;
 
     -- If no existing record is found, insert the new record with hashed password
     IF existing_count = 0 THEN
-        INSERT INTO users (id, password) VALUES (p_id, SHA2(p_password, 256));
+        INSERT INTO t_user (id, password) VALUES (p_id, SHA2(p_password, 256));
     ELSE
         -- Raise an error if a duplicate entry is found
         SIGNAL SQLSTATE '45000'

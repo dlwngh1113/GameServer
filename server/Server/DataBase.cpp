@@ -57,7 +57,7 @@ namespace Core
 			std::unique_ptr<sql::Statement> statement = nullptr;
 			statement.reset(connection->createStatement());
 
-			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(12) PRIMARY KEY NOT NULL, `password` VARCHAR(100) NOT NULL);");
+			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(12) PRIMARY KEY NOT NULL, `password` VARCHAR(128) NOT NULL, `x` FLOAT DEFAULT 0, `y` FLOAT DEFAULT 0);");
 
 			// Commit transaction
 			connection->commit();
