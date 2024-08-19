@@ -63,6 +63,9 @@
     <ClInclude Include="LoginCommandBody.h">
       <Filter>Body\Command</Filter>
     </ClInclude>
+    <ClInclude Include="TeleportCommandBody.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -97,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="LoginCommandBody.cpp">
       <Filter>Body\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportCommandBody.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
