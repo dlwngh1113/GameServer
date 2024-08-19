@@ -116,6 +116,9 @@
     <ClCompile Include="LoginRequiredHandler.cpp">
       <Filter>Client\CommandHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="TeleportCommandHandler.cpp">
+      <Filter>Client\CommandHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -200,6 +203,9 @@
       <Filter>Client\System</Filter>
     </ClInclude>
     <ClInclude Include="LoginRequiredHandler.h">
+      <Filter>Client\CommandHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportCommandHandler.h">
       <Filter>Client\CommandHandlers</Filter>
     </ClInclude>
   </ItemGroup>
