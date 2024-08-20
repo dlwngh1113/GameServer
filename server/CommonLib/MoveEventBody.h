@@ -8,6 +8,7 @@ namespace Common
 	public:
 		std::string userId;
 		float x, y;
+		int moveTime;
 
 	public:
 		explicit MoveEventBody();
