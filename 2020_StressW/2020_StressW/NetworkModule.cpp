@@ -24,6 +24,8 @@ const static int MAX_CLIENTS = MAX_TEST * 2;
 const static int INVALID_ID = -1;
 const static int MAX_PACKET_SIZE = 255;
 const static int MAX_BUFF_SIZE = 255;
+constexpr int WORLD_WIDTH = 100;
+constexpr int WORLD_HEIGHT = 100;
 
 #pragma comment (lib, "ws2_32.lib")
 #include "../../server/Common/Common.hpp"
@@ -147,16 +149,16 @@ void ProcessPacket(int ci, unsigned char packet[])
 			if (move_packet->id < MAX_CLIENTS)
 			{
 				int my_id = client_map[move_packet->id];
-				if (-1 != my_id) 
+				if (-1 != my_id)
 				{
 					g_clients[my_id].x = move_packet->x;
 					g_clients[my_id].y = move_packet->y;
 				}
 				if (ci == my_id)
 				{
-					if (0 != move_packet->move_time)
+					if (0 != move_packet->moveTime)
 					{
-						auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - move_packet->move_time;
+						auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - move_packet->moveTime;
 
 						if (global_delay < d_ms) global_delay++;
 						else if (global_delay > d_ms) global_delay--;
@@ -165,8 +167,6 @@ void ProcessPacket(int ci, unsigned char packet[])
 			}
 		}
 			break;
-		case Event::UserEnter: break;
-		case Event::UserExit: break;
 		case Event::Login:
 		{
 			g_clients[ci].connected = true;
@@ -178,18 +178,12 @@ void ProcessPacket(int ci, unsigned char packet[])
 			g_clients[my_id].x = login_packet->x;
 			g_clients[my_id].y = login_packet->y;
 
-			TeleportRequest t_packet;
+			TeleportCommandBody t_packet;
 			t_packet.x = rand() % WORLD_WIDTH;
 			t_packet.y = rand() % WORLD_HEIGHT;
-			t_packet.header.size = sizeof(t_packet);
-			t_packet.header.type = static_cast<short>(ClientCommand::Teleport);
 			SendPacket(my_id, &t_packet);
 		}
 		break;
-		//case SC_PACKET_CHAT:
-		//	break;
-		//case SC_PACKET_STAT_CHANGE:
-		//	break;
 	default: MessageBox(hWnd, L"Unknown Packet Type", L"ERROR", 0);
 		while (true);
 	}
