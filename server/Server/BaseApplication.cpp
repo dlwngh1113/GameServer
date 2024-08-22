@@ -43,7 +43,7 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
-            Logger::instance().Log(format("{} is connected!", acceptedSocket.remote_endpoint().address().to_string()));
+            //Logger::instance().Log(format("{} is connected!", acceptedSocket.remote_endpoint().address().to_string()));
 
             std::shared_ptr<Peer> acceptedPeer = Peer::Create(std::move(acceptedSocket), this);
             AddPeer(acceptedPeer);

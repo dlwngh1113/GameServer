@@ -118,7 +118,7 @@ namespace Core
     void Peer::Disconnect()
     {
         m_application->DisconnectPeer(m_id);
-        Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
+        //Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
     }
 
     void Peer::SendData(std::shared_ptr<Common::Packet> packet)

@@ -190,6 +190,8 @@ void ProcessPacket(int ci, unsigned char packet[])
 			SendPacket(my_id, &t_packet);
 		}
 		break;
+		case Event::Teleport:
+			break;
 	default: MessageBox(hWnd, L"Unknown Packet Type", L"ERROR", 0);
 		while (true);
 	}
@@ -367,8 +369,8 @@ void Adjust_Number_Of_Client()
 
 	LoginCommandBody packet;
 	packet.id = num_connections;
-	packet.userId = std::to_string(num_connections);
-	packet.password = string("1234");
+	packet.userId = to_string(num_connections);
+	packet.password = "1234";
 	SendPacket(num_connections, &packet);
 	loginCommands[num_connections] = packet;
 
