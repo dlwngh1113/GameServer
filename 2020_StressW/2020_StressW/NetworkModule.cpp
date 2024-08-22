@@ -7,6 +7,7 @@
 #include <thread>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 #include <mutex>
 #include <atomic>
 #include <chrono>
@@ -28,6 +29,7 @@ constexpr int WORLD_WIDTH = 100;
 constexpr int WORLD_HEIGHT = 100;
 
 #pragma comment (lib, "ws2_32.lib")
+#pragma comment(lib, "CommonLib.lib")
 #include "../../server/Common/Common.hpp"
 #include "../../server/CommonLib/Packets.h"
 
@@ -68,6 +70,7 @@ array<CLIENT, MAX_CLIENTS> g_clients;
 atomic_int num_connections;
 atomic_int client_to_close;
 atomic_int active_clients;
+unordered_map<int, LoginCommandBody> loginCommands;
 
 int			global_delay;				// ms����, 1000�� ������ Ŭ���̾�Ʈ ���� ����
 
@@ -148,7 +151,7 @@ void ProcessPacket(int ci, unsigned char packet[])
 			MoveEventBody* move_packet = reinterpret_cast<MoveEventBody*>(packet);
 			if (move_packet->id < MAX_CLIENTS)
 			{
-				int my_id = client_map[move_packet->id];
+				int my_id = client_map[std::atoi(move_packet->userId.c_str())];
 				if (-1 != my_id)
 				{
 					g_clients[my_id].x = move_packet->x;
@@ -171,9 +174,12 @@ void ProcessPacket(int ci, unsigned char packet[])
 		{
 			g_clients[ci].connected = true;
 			active_clients++;
-			LoginResponseBody* login_packet = reinterpret_cast<LoginResponseBody*>(packet);
 			int my_id = ci;
-			client_map[login_packet->id] = my_id;
+			
+			LoginResponseBody* login_packet = reinterpret_cast<LoginResponseBody*>(packet);
+			if (loginCommands.find(login_packet->id) != loginCommands.end()) {
+				client_map[atoi(loginCommands[login_packet->id].userId.c_str())] = my_id;
+			}
 			g_clients[my_id].id = login_packet->id;
 			g_clients[my_id].x = login_packet->x;
 			g_clients[my_id].y = login_packet->y;
@@ -359,14 +365,12 @@ void Adjust_Number_Of_Client()
 	DWORD recv_flag = 0;
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(g_clients[num_connections].client_socket), g_hiocp, num_connections, 0);
 
-	//LoginRequest l_packet;
-
-	//int temp = num_connections;
-	//l_packet.header.size = sizeof(l_packet);
-	//l_packet.header.type = static_cast<short>(ClientCommand::Login);
-	//sprintf_s(l_packet.name, "%d", temp);
-	//SendPacket(num_connections, &l_packet);
-
+	LoginCommandBody packet;
+	packet.id = num_connections;
+	packet.userId = std::to_string(num_connections);
+	packet.password = string("1234");
+	SendPacket(num_connections, &packet);
+	loginCommands[num_connections] = packet;
 
 	int ret = WSARecv(g_clients[num_connections].client_socket, &g_clients[num_connections].recv_over.wsabuf, 1,
 		NULL, &recv_flag, &g_clients[num_connections].recv_over.over, NULL);
