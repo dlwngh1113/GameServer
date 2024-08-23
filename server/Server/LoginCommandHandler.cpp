@@ -37,6 +37,8 @@ void LoginCommandHandler::Handle()
 	if (!result)
 		return;
 
+	Logger::instance().Log(std::format("id = {} password = {}", id, password));
+
 	user->Login(result);
 
 	std::shared_ptr<Common::LoginResponseBody> resBody = std::make_shared<Common::LoginResponseBody>();

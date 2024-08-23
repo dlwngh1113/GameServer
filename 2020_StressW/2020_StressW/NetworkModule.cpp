@@ -142,7 +142,7 @@ void SendPacket(int cl, Packet* packet)
 
 void ProcessPacket(int ci, unsigned char packet[])
 {
-	Packet* p = reinterpret_cast<Packet*>(packet);
+	Header* p = reinterpret_cast<Header*>(packet);
 	Event type = static_cast<Event>(p->type);
 
 	switch (type) {
@@ -192,7 +192,7 @@ void ProcessPacket(int ci, unsigned char packet[])
 		break;
 		case Event::Teleport:
 			break;
-	default: MessageBox(hWnd, L"Unknown Packet Type", L"ERROR", 0);
+	default: MessageBox(hWnd, wstring(L"Unknown Packet Type" + to_wstring((int)type)).c_str(), L"ERROR", 0);
 		while (true);
 	}
 }

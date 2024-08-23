@@ -21,11 +21,8 @@ namespace Core
 
 	void BaseCommandHandler::SendResponse(std::shared_ptr<Common::ResponseBody> response)
 	{
-		Common::PacketStream ps;
 		response->code = kCode_Success;
-		std::string data = response->Serialize(ps);
-
-		m_peer->SendData(data);
+		m_peer->SendData(response);
 	}
 
 	void BaseCommandHandler::Error(short code, const std::string& message)
