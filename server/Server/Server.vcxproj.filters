@@ -51,6 +51,9 @@
     <Filter Include="Client\CommandHandlers">
       <UniqueIdentifier>{76a5e135-2f50-47bd-8838-5d2be2347c73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client\Instance">
+      <UniqueIdentifier>{1c4003ab-fff2-4000-bf4e-f0ea3bd6dc04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CServer.cpp">
@@ -118,6 +121,12 @@
     </ClCompile>
     <ClCompile Include="TeleportCommandHandler.cpp">
       <Filter>Client\CommandHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Sector.cpp">
+      <Filter>Client\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Place.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +217,10 @@
     <ClInclude Include="TeleportCommandHandler.h">
       <Filter>Client\CommandHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="Sector.h">
+      <Filter>Client\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Place.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

@@ -188,6 +188,8 @@
     <ClCompile Include="BaseCommandHandler.cpp" />
     <ClCompile Include="CommandHandlerException.cpp" />
     <ClCompile Include="CommandHandlerFactory.cpp" />
+    <ClCompile Include="Place.cpp" />
+    <ClCompile Include="Sector.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -223,7 +225,9 @@
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="CommandHandlerException.h" />
     <ClInclude Include="CommandHandlerFactory.h" />
+    <ClInclude Include="Place.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Sector.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TeleportCommandHandler.h" />
