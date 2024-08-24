@@ -70,7 +70,6 @@ array<CLIENT, MAX_CLIENTS> g_clients;
 atomic_int num_connections;
 atomic_int client_to_close;
 atomic_int active_clients;
-unordered_map<int, LoginCommandBody> loginCommands;
 
 int			global_delay;				// ms����, 1000�� ������ Ŭ���̾�Ʈ ���� ����
 
@@ -144,24 +143,27 @@ void ProcessPacket(int ci, unsigned char packet[])
 {
 	Header* p = reinterpret_cast<Header*>(packet);
 	Event type = static_cast<Event>(p->type);
+	PacketStream ps(packet, p->size);
 
 	switch (type) {
 		case Event::Move:
 		{
-			MoveEventBody* move_packet = reinterpret_cast<MoveEventBody*>(packet);
-			if (move_packet->id < MAX_CLIENTS)
+			MoveEventBody body;
+			body.Deserialize(ps);
+
+			if (body.id < MAX_CLIENTS)
 			{
-				int my_id = client_map[std::atoi(move_packet->userId.c_str())];
+				int my_id = client_map[std::atoi(body.userId.c_str())];
 				if (-1 != my_id)
 				{
-					g_clients[my_id].x = move_packet->x;
-					g_clients[my_id].y = move_packet->y;
+					g_clients[my_id].x = body.x;
+					g_clients[my_id].y = body.y;
 				}
 				if (ci == my_id)
 				{
-					if (0 != move_packet->moveTime)
+					if (0 != body.moveTime)
 					{
-						auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - move_packet->moveTime;
+						auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - body.moveTime;
 
 						if (global_delay < d_ms) global_delay++;
 						else if (global_delay > d_ms) global_delay--;
@@ -176,21 +178,31 @@ void ProcessPacket(int ci, unsigned char packet[])
 			active_clients++;
 			int my_id = ci;
 			
-			LoginResponseBody* login_packet = reinterpret_cast<LoginResponseBody*>(packet);
-			if (loginCommands.find(login_packet->id) != loginCommands.end()) {
-				client_map[atoi(loginCommands[login_packet->id].userId.c_str())] = my_id;
-			}
-			g_clients[my_id].id = login_packet->id;
-			g_clients[my_id].x = login_packet->x;
-			g_clients[my_id].y = login_packet->y;
+			LoginResponseBody login_packet;
+			login_packet.Deserialize(ps);
+			//if (loginCommands.find(login_packet->id) != loginCommands.end()) {
+			//	client_map[atoi(loginCommands[login_packet->id].userId.c_str())] = my_id;
+			//}
+			client_map[login_packet.id] = my_id;
+			g_clients[my_id].id = login_packet.id;
+			g_clients[my_id].x = login_packet.x;
+			g_clients[my_id].y = login_packet.y;
+			//MessageBox(hWnd, format(L"id = {} myId = {} x = {} y = {}", login_packet.id, my_id, login_packet.x, login_packet.y).c_str(), L"ERROR", 0);
 
-			TeleportCommandBody t_packet;
-			t_packet.x = rand() % WORLD_WIDTH;
-			t_packet.y = rand() % WORLD_HEIGHT;
-			SendPacket(my_id, &t_packet);
+			TeleportCommandBody packet;
+			packet.x = rand() % WORLD_WIDTH;
+			packet.y = rand() % WORLD_HEIGHT;
+			SendPacket(my_id, &packet);
 		}
 		break;
 		case Event::Teleport:
+		{
+			TeleportEventBody body;
+			body.Deserialize(ps);
+
+			g_clients[ci].x = body.x;
+			g_clients[ci].y = body.y;
+		}
 			break;
 	default: MessageBox(hWnd, wstring(L"Unknown Packet Type" + to_wstring((int)type)).c_str(), L"ERROR", 0);
 		while (true);
@@ -367,12 +379,12 @@ void Adjust_Number_Of_Client()
 	DWORD recv_flag = 0;
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(g_clients[num_connections].client_socket), g_hiocp, num_connections, 0);
 
+	int temp = num_connections;
 	LoginCommandBody packet;
-	packet.id = num_connections;
-	packet.userId = to_string(num_connections);
+	packet.id = temp;
+	packet.userId = to_string(temp);
 	packet.password = "1234";
 	SendPacket(num_connections, &packet);
-	loginCommands[num_connections] = packet;
 
 	int ret = WSARecv(g_clients[num_connections].client_socket, &g_clients[num_connections].recv_over.wsabuf, 1,
 		NULL, &recv_flag, &g_clients[num_connections].recv_over.over, NULL);
