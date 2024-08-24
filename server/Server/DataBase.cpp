@@ -14,7 +14,6 @@ namespace Core
 
 	DataBase::DataBase()
 		: m_driver(get_driver_instance())
-		, m_connectionIndex(0)
 	{
 	}
 
@@ -22,12 +21,11 @@ namespace Core
 	{
 		Logger::instance().Log("Database Initialize Started!");
 
-		std::unique_ptr<sql::Connection> connection = nullptr;
 		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
 		{
-			connection.reset(m_driver->connect(kHostAddress, kUserName, kPassword));
+			std::unique_ptr<sql::Connection> connection(m_driver->connect(kHostAddress, kUserName, kPassword));
 			connection->setSchema(kSchema);
-			m_connections.emplace_back(std::move(connection));
+			m_connections.emplace_back(std::make_pair(std::move(connection), std::thread::id()));
 		}
 
 		Logger::instance().Log("Database Initialize finished!");
@@ -37,10 +35,19 @@ namespace Core
 
 	sql::Connection* DataBase::GetConnection()
 	{
-		if (++m_connectionIndex == m_connections.size())
-			m_connectionIndex = 0;
-
-		return m_connections[m_connectionIndex].get();
+		//int index = 0;
+		//while (true) {
+		//	std::pair<std::unique_ptr<sql::Connection>, std::thread::id>& pair(m_connections[index]);
+		//	if (pair.second == std::thread::id() || pair.second == std::this_thread::get_id()) {
+		//		pair.second = std::this_thread::get_id();
+		//		return pair.first.get();
+		//	}
+		//	
+		//	index = (index + 1) % m_connections.size();
+		//}
+		sql::Connection* conn = m_driver->connect(kHostAddress, kUserName, kPassword);
+		conn->setSchema(kSchema);
+		return conn;
 	}
 
 	void DataBase::Migrate()
@@ -54,8 +61,7 @@ namespace Core
 			// Begin transaction
 			connection->setAutoCommit(false);
 
-			std::unique_ptr<sql::Statement> statement = nullptr;
-			statement.reset(connection->createStatement());
+			std::unique_ptr<sql::Statement> statement(connection->createStatement());
 
 			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(12) PRIMARY KEY NOT NULL, `password` VARCHAR(128) NOT NULL, `x` FLOAT DEFAULT 0, `y` FLOAT DEFAULT 0);");
 

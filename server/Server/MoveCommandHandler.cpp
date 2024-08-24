@@ -27,7 +27,6 @@ void MoveCommandHandler::HandleCommand()
 	body.moveTime = packet.moveTime;
 	for (const auto& user : CServer::instance().users())
 	{
-		if (user.second != m_user)
-			user.second->SendPacket(&body);
+		user.second->SendPacket(&body);
 	}
 }

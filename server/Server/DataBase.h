@@ -6,8 +6,7 @@ namespace Core
 	class DataBase : public Singleton<DataBase>
 	{
 		sql::Driver* m_driver;
-		std::vector<std::unique_ptr<sql::Connection>> m_connections;
-		int m_connectionIndex;
+		std::vector<std::pair<std::unique_ptr<sql::Connection>, std::thread::id>> m_connections;
 
 	public:
 		DataBase();
