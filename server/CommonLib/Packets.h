@@ -5,3 +5,4 @@
 #include "MoveEventBody.h"
 #include "LoginCommandBody.h"
 #include "TeleportCommandBody.h"
+#include "TeleportEventBody.h"
