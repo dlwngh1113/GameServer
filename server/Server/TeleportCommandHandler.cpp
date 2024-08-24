@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TeleportCommandHandler.h"
 #include "Logger.h"
+#include "CServer.h"
 
 void TeleportCommandHandler::HandleCommand()
 {
@@ -18,5 +19,21 @@ void TeleportCommandHandler::HandleCommand()
 		return;
 	}
 
+	m_user->Teleport(packet.x, packet.y);
 
+	//
+	//
+	//
+
+	Common::TeleportEventBody body;
+	body.userId = m_user->userId();
+	body.x = m_user->x();
+	body.y = m_user->y();
+	body.id = packet.id;
+
+	for (const auto& user : CServer::instance().users())
+	{
+		if (user.second != m_user)
+			user.second->SendPacket(&body);
+	}
 }

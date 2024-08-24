@@ -10,6 +10,12 @@ void MoveCommandHandler::HandleCommand()
 	packet.Deserialize(ps);
 
 	//
+	//
+	//
+
+	m_user->Move(packet.x, packet.y);
+
+	//
 	// 이벤트 발송
 	//
 

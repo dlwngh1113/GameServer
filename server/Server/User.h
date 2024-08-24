@@ -25,4 +25,6 @@ public:
 	// Member functions
 public:
 	void Login(std::shared_ptr<sql::ResultSet> user);
+	void Teleport(float x, float y);
+	void Move(float x, float y);
 };
