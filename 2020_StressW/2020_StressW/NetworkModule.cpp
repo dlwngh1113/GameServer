@@ -1,37 +1,54 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+ï»¿#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
+#include <WinSock2.h>
+#include <winsock.h>
+#include <Windows.h>
 #include <iostream>
 #include <thread>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 #include <mutex>
 #include <atomic>
 #include <chrono>
 #include <queue>
 #include <array>
 #include <memory>
-#include <unordered_map>
-#include <boost/asio.hpp>
-#include <boost/uuid/uuid.hpp>
 
 using namespace std;
 using namespace chrono;
-using namespace boost::asio::ip;
+
+extern HWND		hWnd;
 
 const static int MAX_TEST = 10000;
 const static int MAX_CLIENTS = MAX_TEST * 2;
 const static int INVALID_ID = -1;
-const static int MAX_PACKET_SIZE = 255;
-const static int MAX_BUFF_SIZE = 255;
+const static int MAX_PACKET_SIZE = 1024;
+const static int MAX_BUFF_SIZE = 1024;
+constexpr int WORLD_WIDTH = 800;
+constexpr int WORLD_HEIGHT = 800;
 
 #pragma comment (lib, "ws2_32.lib")
+#pragma comment(lib, "CommonLib.lib")
 #include "../../server/Common/Common.hpp"
+#include "../../server/CommonLib/Packets.h"
 
-using namespace ClientCommon;
+using namespace Common;
+
+HANDLE g_hiocp;
 
 enum OPTYPE { OP_SEND, OP_RECV, OP_DO_MOVE };
 
 high_resolution_clock::time_point last_connect_time;
+
+struct OverlappedEx
+{
+	WSAOVERLAPPED over;
+	WSABUF wsabuf;
+	unsigned char IOCP_buf[MAX_BUFF_SIZE];
+	OPTYPE event_type;
+	int event_target;
+};
 
 struct CLIENT
 {
@@ -40,30 +57,28 @@ struct CLIENT
 	int y;
 	atomic_bool connected;
 
-	tcp::socket client_socket;
+	SOCKET client_socket;
+	OverlappedEx recv_over;
 	unsigned char packet_buf[MAX_PACKET_SIZE];
 	int prev_packet_data;
 	int curr_packet_size;
 	high_resolution_clock::time_point last_move_time;
 };
 
-boost::asio::io_context g_context;
-tcp::resolver g_resolver;
-tcp::resolver::query g_query(tcp::v4(), "127.0.0.1:3500");
+array<int, MAX_CLIENTS> client_map;
 array<CLIENT, MAX_CLIENTS> g_clients;
-unordered_map<boost::uuids::uuid, shared_ptr<CLIENT>> s_clients;
 atomic_int num_connections;
 atomic_int client_to_close;
 atomic_int active_clients;
 
-int			global_delay;				// ms´ÜÀ§, 1000ÀÌ ³ÑÀ¸¸é Å¬¶óÀÌ¾ðÆ® Áõ°¡ Á¾·á
+int			global_delay;				// msï¿½ï¿½ï¿½ï¿½, 1000ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 vector <thread*> worker_threads;
 thread test_thread;
 
 float point_cloud[MAX_TEST * 2];
 
-// ³ªÁß¿¡ NPC±îÁö Ãß°¡ È®Àå ¿ë
+// ï¿½ï¿½ï¿½ß¿ï¿½ NPCï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ È®ï¿½ï¿½ ï¿½ï¿½
 struct ALIEN
 {
 	int id;
@@ -81,8 +96,9 @@ void error_display(const char* msg, int err_no)
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(LPTSTR)&lpMsgBuf, 0, NULL);
 	std::cout << msg;
-	std::wcout << L"¿¡·¯" << lpMsgBuf << std::endl;
+	std::wcout << L"ï¿½ï¿½ï¿½ï¿½" << lpMsgBuf << std::endl;
 
+	MessageBox(hWnd, lpMsgBuf, L"ERROR", 0);
 	LocalFree(lpMsgBuf);
 	// while (true);
 }
@@ -92,7 +108,7 @@ void DisconnectClient(int ci)
 	bool status = true;
 	if (true == atomic_compare_exchange_strong(&g_clients[ci].connected, &status, false))
 	{
-		g_clients[ci].client_socket.close();
+		closesocket(g_clients[ci].client_socket);
 		active_clients--;
 	}
 	// cout << "Client [" << ci << "] Disconnected!\n";
@@ -100,89 +116,133 @@ void DisconnectClient(int ci)
 
 void SendPacket(int cl, Packet* packet)
 {
-	int psize = packet->header.size;
-	int ptype = packet->header.type;
+	PacketStream ps;
+	string data = packet->Serialize(ps);
 
-	string p;
-	p.resize(psize);
-	memcpy(&p[0], packet, psize);
-	boost::asio::async_write(g_clients[cl].client_socket, boost::asio::buffer(p),
-		[](const boost::system::error_code& error, size_t bytes) {});
+	int psize = data.size();
+	int ptype = packet->type;
+
+	OverlappedEx* over = new OverlappedEx;
+	over->event_type = OP_SEND;
+	memcpy(over->IOCP_buf, data.data(), psize);
+	ZeroMemory(&over->over, sizeof(over->over));
+	over->wsabuf.buf = reinterpret_cast<CHAR*>(over->IOCP_buf);
+	over->wsabuf.len = psize;
+	int ret = WSASend(g_clients[cl].client_socket, &over->wsabuf, 1, NULL, 0,
+		&over->over, NULL);
+	if (0 != ret)
+	{
+		int err_no = WSAGetLastError();
+		if (WSA_IO_PENDING != err_no)
+			error_display("Error in SendPacket:", err_no);
+	}
+	// std::cout << "Send Packet [" << ptype << "] To Client : " << cl << std::endl;
 }
 
 void ProcessPacket(int ci, unsigned char packet[])
 {
-	Packet* p = reinterpret_cast<Packet*>(packet);
-	ServerEvent evt = static_cast<ServerEvent>(p->header.type);
+	Header* p = reinterpret_cast<Header*>(packet);
+	Event type = static_cast<Event>(p->type);
+	PacketStream ps(packet, p->size);
 
-	switch (evt) {
-	//case ServerEvent::UserMove:
-	//{
-	//	MoveResponse* move_packet = reinterpret_cast<MoveResponse*>(packet);
-	//	if (move_packet->id < MAX_CLIENTS)
-	//	{
-	//		int my_id = client_map[move_packet->id];
-	//		if (-1 != my_id) 
-	//		{
-	//			g_clients[my_id].x = move_packet->x;
-	//			g_clients[my_id].y = move_packet->y;
-	//		}
-	//		if (ci == my_id)
-	//		{
-	//			if (0 != move_packet->move_time)
-	//			{
-	//				auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - move_packet->move_time;
+	switch (type) {
+		case Event::Move:
+		{
+			MoveEventBody body;
+			body.Deserialize(ps);
 
-	//				if (global_delay < d_ms) global_delay++;
-	//				else if (global_delay > d_ms) global_delay--;
-	//			}
-	//		}
-	//	}
-	//}
-	//				   break;
-	//case ServerEvent::UserEnter: break;
-	//case ServerEvent::UserExit: break;
-	//case ServerEvent::LoginOk:
-	//{
-	//	g_clients[ci].connected = true;
-	//	active_clients++;
-	//	LoginResponse* login_packet = reinterpret_cast<LoginResponse*>(packet);
-	//	int my_id = ci;
-	//	client_map[login_packet->id] = my_id;
-	//	g_clients[my_id].id = login_packet->id;
-	//	g_clients[my_id].x = login_packet->x;
-	//	g_clients[my_id].y = login_packet->y;
+			if (body.id < MAX_CLIENTS)
+			{
+				int my_id = client_map[std::atoi(body.userId.c_str())];
+				if (-1 != my_id)
+				{
+					g_clients[my_id].x = body.x;
+					g_clients[my_id].y = body.y;
+				}
+				if (ci == my_id)
+				{
+					if (0 != body.moveTime)
+					{
+						auto d_ms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count() - body.moveTime;
 
-	//	TeleportRequest t_packet;
-	//	t_packet.x = rand() % WORLD_WIDTH;
-	//	t_packet.y = rand() % WORLD_HEIGHT;
-	//	t_packet.header.size = sizeof(t_packet);
-	//	t_packet.header.type = static_cast<short>(ClientCommand::Teleport);
-	//	SendPacket(my_id, &t_packet);
-	//}
-	break;
-	//case SC_PACKET_CHAT:
-	//	break;
-	//case SC_PACKET_STAT_CHANGE:
-	//	break;
-	default:
+						if (global_delay < d_ms) global_delay++;
+						else if (global_delay > d_ms) global_delay--;
+					}
+				}
+			}
+		}
+			break;
+		case Event::Login:
+		{
+			g_clients[ci].connected = true;
+			active_clients++;
+			int my_id = ci;
+			
+			LoginResponseBody login_packet;
+			login_packet.Deserialize(ps);
+			//if (loginCommands.find(login_packet->id) != loginCommands.end()) {
+			//	client_map[atoi(loginCommands[login_packet->id].userId.c_str())] = my_id;
+			//}
+			client_map[login_packet.id] = my_id;
+			g_clients[my_id].id = login_packet.id;
+			g_clients[my_id].x = login_packet.x;
+			g_clients[my_id].y = login_packet.y;
+			//MessageBox(hWnd, format(L"id = {} myId = {} x = {} y = {}", login_packet.id, my_id, login_packet.x, login_packet.y).c_str(), L"ERROR", 0);
+
+			TeleportCommandBody packet;
+			packet.x = rand() % WORLD_WIDTH;
+			packet.y = rand() % WORLD_HEIGHT;
+			SendPacket(my_id, &packet);
+		}
+		break;
+		case Event::Teleport:
+		{
+			TeleportEventBody body;
+			body.Deserialize(ps);
+
+			g_clients[ci].x = body.x;
+			g_clients[ci].y = body.y;
+		}
+			break;
+	default: MessageBox(hWnd, wstring(L"Unknown Packet Type" + to_wstring((int)type)).c_str(), L"ERROR", 0);
 		while (true);
 	}
 }
 
-constexpr int DELAY_LIMIT = 100;
-constexpr int DELAY_LIMIT2 = 150;
-constexpr int ACCEPT_DELY = 50;
-
-void OnReceive(const boost::system::error_code& error, size_t bytes)
+void Worker_Thread()
 {
-	if (!error)
+	while (true)
 	{
-		// packet process
+		DWORD io_size;
+		unsigned long long ci;
+		OverlappedEx* over;
+		BOOL ret = GetQueuedCompletionStatus(g_hiocp, &io_size, &ci,
+			reinterpret_cast<LPWSAOVERLAPPED*>(&over), INFINITE);
+		// std::cout << "GQCS :";
+		int client_id = static_cast<int>(ci);
+		if (FALSE == ret)
+		{
+			int err_no = WSAGetLastError();
+			if (64 == err_no) DisconnectClient(client_id);
+			else
+			{
+				// error_display("GQCS : ", WSAGetLastError());
+				DisconnectClient(client_id);
+			}
+			if (OP_SEND == over->event_type) delete over;
+		}
+		if (0 == io_size) {
+			DisconnectClient(client_id);
+			continue;
+		}
+		if (OP_RECV == over->event_type)
+		{
+			//std::cout << "RECV from Client :" << ci;
+			//std::cout << "  IO_SIZE : " << io_size << std::endl;
 			unsigned char* buf = g_clients[ci].recv_over.IOCP_buf;
 			unsigned psize = g_clients[ci].curr_packet_size;
 			unsigned pr_size = g_clients[ci].prev_packet_data;
-			while (io_size > 0) 
+			while (io_size > 0)
 			{
 				if (io_size < sizeof(Header))
 				{
@@ -192,12 +252,11 @@ void OnReceive(const boost::system::error_code& error, size_t bytes)
 				}
 				else
 				{
-					Packet* bp = reinterpret_cast<Packet*>(buf);
-					psize = bp->header.size;
+					Header* header = reinterpret_cast<Header*>(buf);
+					psize = header->size;
 
 					if (io_size + pr_size >= psize)
 					{
-						// Áö±Ý ÆÐÅ¶ ¿Ï¼º °¡´É
 						unsigned char packet[MAX_PACKET_SIZE];
 						memcpy(packet, g_clients[ci].packet_buf, pr_size);
 						memcpy(packet + pr_size, buf, psize - pr_size);
@@ -220,25 +279,41 @@ void OnReceive(const boost::system::error_code& error, size_t bytes)
 			int ret = WSARecv(g_clients[ci].client_socket,
 				&g_clients[ci].recv_over.wsabuf, 1,
 				NULL, &recv_flag, &g_clients[ci].recv_over.over, NULL);
-
-		boost::asio::async_read(g_clients[num_connections].client_socket, boost::asio::buffer(g_clients[num_connections].packet_buf, MAX_BUFFER),
-			[](const boost::system::error_code& error, size_t bytes) {});
-	}
-	else
-	{
-		DisconnectClient(client_id);
-		--num_connections;
+			if (SOCKET_ERROR == ret)
+			{
+				int err_no = WSAGetLastError();
+				if (err_no != WSA_IO_PENDING)
+				{
+					//error_display("RECV ERROR", err_no);
+					DisconnectClient(client_id);
+				}
+			}
+		}
+		else if (OP_SEND == over->event_type)
+		{
+			if (io_size != over->wsabuf.len)
+			{
+				// std::cout << "Send Incomplete Error!\n";
+				DisconnectClient(client_id);
+			}
+			delete over;
+		}
+		else if (OP_DO_MOVE == over->event_type)
+		{
+			// Not Implemented Yet
+			delete over;
+		}
+		else
+		{
+			std::cout << "Unknown GQCS event!\n";
+			while (true);
+		}
 	}
 }
 
-void OnConnect(const boost::system::error_code& error, const tcp::endpoint& endpoint)
-{
-	g_clients[num_connections].curr_packet_size = 0;
-	g_clients[num_connections].prev_packet_data = 0;
-
-	boost::asio::async_read(g_clients[num_connections].client_socket, boost::asio::buffer(g_clients[num_connections].packet_buf, MAX_BUFFER),
-		[](const boost::system::error_code& error, size_t bytes) {});
-}
+constexpr int DELAY_LIMIT = 100;
+constexpr int DELAY_LIMIT2 = 150;
+constexpr int ACCEPT_DELY = 50;
 
 void Adjust_Number_Of_Client()
 {
@@ -253,7 +328,7 @@ void Adjust_Number_Of_Client()
 	if (ACCEPT_DELY * delay_multiplier > duration_cast<milliseconds>(duration).count()) return;
 
 	int t_delay = global_delay;
-	if (DELAY_LIMIT2 < t_delay) 
+	if (DELAY_LIMIT2 < t_delay)
 	{
 		if (true == increasing)
 		{
@@ -269,7 +344,7 @@ void Adjust_Number_Of_Client()
 	}
 	else
 	{
-		if (DELAY_LIMIT < t_delay) 
+		if (DELAY_LIMIT < t_delay)
 		{
 			delay_multiplier = 10;
 			return;
@@ -280,16 +355,50 @@ void Adjust_Number_Of_Client()
 
 	increasing = true;
 	last_connect_time = high_resolution_clock::now();
-	g_clients[num_connections].id = num_connections;
-	g_clients[num_connections].client_socket = tcp::socket(g_context);
+	g_clients[num_connections].client_socket = WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
 
-	g_resolver.async_resolve(g_query, [](const boost::system::error_code& error, tcp::resolver::results_type results)
+	SOCKADDR_IN ServerAddr;
+	ZeroMemory(&ServerAddr, sizeof(SOCKADDR_IN));
+	ServerAddr.sin_family = AF_INET;
+	ServerAddr.sin_port = htons(SERVER_PORT);
+	ServerAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+
+	int Result = WSAConnect(g_clients[num_connections].client_socket, (sockaddr*)&ServerAddr, sizeof(ServerAddr), NULL, NULL, NULL, NULL);
+	if (0 != Result)
+		error_display("WSAConnect : ", GetLastError());
+
+	g_clients[num_connections].curr_packet_size = 0;
+	g_clients[num_connections].prev_packet_data = 0;
+	ZeroMemory(&g_clients[num_connections].recv_over, sizeof(g_clients[num_connections].recv_over));
+	g_clients[num_connections].recv_over.event_type = OP_RECV;
+	g_clients[num_connections].recv_over.wsabuf.buf =
+		reinterpret_cast<CHAR*>(g_clients[num_connections].recv_over.IOCP_buf);
+	g_clients[num_connections].recv_over.wsabuf.len = sizeof(g_clients[num_connections].recv_over.IOCP_buf);
+
+	DWORD recv_flag = 0;
+	CreateIoCompletionPort(reinterpret_cast<HANDLE>(g_clients[num_connections].client_socket), g_hiocp, num_connections, 0);
+
+	int temp = num_connections;
+	LoginCommandBody packet;
+	packet.id = temp;
+	packet.userId = to_string(temp);
+	packet.password = "1234";
+	SendPacket(num_connections, &packet);
+
+	int ret = WSARecv(g_clients[num_connections].client_socket, &g_clients[num_connections].recv_over.wsabuf, 1,
+		NULL, &recv_flag, &g_clients[num_connections].recv_over.over, NULL);
+	if (SOCKET_ERROR == ret)
+	{
+		int err_no = WSAGetLastError();
+		if (err_no != WSA_IO_PENDING)
 		{
-			if (!error)
-				boost::asio::async_connect(g_clients[num_connections].client_socket, results, OnConnect);
-		});
-
+			error_display("RECV ERROR", err_no);
+			goto fail_to_connect;
+		}
+	}
 	num_connections++;
+fail_to_connect:
 	return;
 }
 
@@ -306,7 +415,7 @@ string GenerateRandomString()
 
 void Test_Thread()
 {
-	while (true) 
+	while (true)
 	{
 		//Sleep(max(20, global_delay));
 		Adjust_Number_Of_Client();
@@ -317,10 +426,17 @@ void Test_Thread()
 			if (g_clients[i].last_move_time + 1s > high_resolution_clock::now()) continue;
 			g_clients[i].last_move_time = high_resolution_clock::now();
 
-			ChattingPacket packet;
-			packet.message = GenerateRandomString();
-			packet.header.type = static_cast<short>(ClientCommand::Chatting);
-			packet.header.size = sizeof(Header) + packet.message.size();
+			MoveCommandBody packet;
+			switch (rand() % 4)
+			{
+			case 0: g_clients[i].y += 1; break;
+			case 1: g_clients[i].y -= 1; break;
+			case 2: g_clients[i].x -= 1; break;
+			case 3: g_clients[i].x += 1; break;
+			}
+			packet.x = g_clients[i].x;
+			packet.y = g_clients[i].y;
+			packet.moveTime = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
 
 			SendPacket(i, &packet);
 		}
@@ -329,24 +445,25 @@ void Test_Thread()
 
 void InitializeNetwork()
 {
-	for (auto& cl : g_clients) 
+	for (auto& cl : g_clients)
 	{
 		cl.connected = false;
 		cl.id = INVALID_ID;
 	}
 
+	for (auto& cl : client_map) cl = -1;
 	num_connections = 0;
 	last_connect_time = high_resolution_clock::now();
 
-	g_resolver = tcp::resolver(g_context);
+	WSADATA	wsadata;
+	WSAStartup(MAKEWORD(2, 2), &wsadata);
+
+	g_hiocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, NULL, 0);
 
 	for (int i = 0; i < 6; ++i)
 		worker_threads.push_back(new std::thread{ Worker_Thread });
 
 	test_thread = thread{ Test_Thread };
-
-	g_context.run();
-
 }
 
 void ShutdownNetwork()
@@ -378,4 +495,3 @@ void GetPointCloud(int* size, float** points)
 	*size = index;
 	*points = point_cloud;
 }
-

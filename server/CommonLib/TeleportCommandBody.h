@@ -4,27 +4,26 @@
 
 namespace Common
 {
-	class COMMON_LIB_API MoveCommandBody : public CommandBody
+	class COMMON_LIB_API TeleportCommandBody : public CommandBody
 	{
 	public:
 		float x, y;
-		int moveTime;
 
 	public:
-		explicit MoveCommandBody();
+		explicit TeleportCommandBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;
 		virtual void DeserializeInternal(PacketStream& ps) override;
 	};
 
-	class COMMON_LIB_API MoveResponseBody : public ResponseBody
+	class COMMON_LIB_API TeleportResponseBody : public ResponseBody
 	{
 	public:
-		explicit MoveResponseBody();
+		explicit TeleportResponseBody();
 
 	protected:
-		virtual void DeserializeInternal(PacketStream& ps) override;
 		virtual void SerializeInternal(PacketStream& ps) override;
+		virtual void DeserializeInternal(PacketStream& ps) override;
 	};
 }

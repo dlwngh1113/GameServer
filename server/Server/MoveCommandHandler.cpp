@@ -10,6 +10,12 @@ void MoveCommandHandler::HandleCommand()
 	packet.Deserialize(ps);
 
 	//
+	//
+	//
+
+	m_user->Move(packet.x, packet.y);
+
+	//
 	// 이벤트 발송
 	//
 
@@ -18,9 +24,9 @@ void MoveCommandHandler::HandleCommand()
 	body.y = packet.y;
 	body.id = packet.id;
 	body.userId = m_user->userId();
+	body.moveTime = packet.moveTime;
 	for (const auto& user : CServer::instance().users())
 	{
-		if (user.second != m_user)
-			user.second->SendPacket(&body);
+		user.second->SendPacket(&body);
 	}
 }

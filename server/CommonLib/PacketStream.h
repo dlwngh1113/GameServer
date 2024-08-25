@@ -33,6 +33,9 @@ namespace Common
 		template<>
 		PacketStream& operator<<<float>(const float& val);
 
+		template<>
+		PacketStream& operator<<<int>(const int& val);
+
 		template <typename T>
 		PacketStream& operator>>(T& val);
 
@@ -41,5 +44,8 @@ namespace Common
 
 		template<>
 		PacketStream& operator>><float>(float& val);
+
+		template<>
+		PacketStream& operator>><int>(int& val);
 	};
 }

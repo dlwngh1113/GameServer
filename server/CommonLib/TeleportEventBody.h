@@ -3,15 +3,14 @@
 
 namespace Common
 {
-	class COMMON_LIB_API MoveEventBody : public EventBody
+	class COMMON_LIB_API TeleportEventBody : public EventBody
 	{
 	public:
 		std::string userId;
 		float x, y;
-		int moveTime;
 
 	public:
-		explicit MoveEventBody();
+		explicit TeleportEventBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;

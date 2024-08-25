@@ -19,3 +19,15 @@ void User::Login(std::shared_ptr<sql::ResultSet> user)
 	m_x = static_cast<float>(user->getDouble("x"));
 	m_y = static_cast<float>(user->getDouble("y"));
 }
+
+void User::Teleport(float x, float y)
+{
+	m_x = x;
+	m_y = y;
+}
+
+void User::Move(float x, float y)
+{
+	m_x = x;
+	m_y = y;
+}

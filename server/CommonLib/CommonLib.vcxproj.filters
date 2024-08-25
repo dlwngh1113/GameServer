@@ -63,6 +63,12 @@
     <ClInclude Include="LoginCommandBody.h">
       <Filter>Body\Command</Filter>
     </ClInclude>
+    <ClInclude Include="TeleportCommandBody.h">
+      <Filter>Body\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportEventBody.h">
+      <Filter>Body\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -97,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="LoginCommandBody.cpp">
       <Filter>Body\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportCommandBody.cpp">
+      <Filter>Body\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportEventBody.cpp">
+      <Filter>Body\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

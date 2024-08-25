@@ -4,6 +4,9 @@
 //
 constexpr int MAX_STR_LEN = 100;
 constexpr int MAX_ID_LEN = 10;
+constexpr int WORLD_WIDTH = 800;
+constexpr int WORLD_HEIGHT = 800;
+constexpr int SECTOR_SIZE = 50;
 
 // 서버 세팅
 constexpr int MAX_USER = 10000;

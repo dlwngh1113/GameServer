@@ -10,6 +10,7 @@ private:
 	boost::uuids::uuid m_id{ Core::Uuid::Empty() };
 	std::string m_userId{};
 	float m_x{}, m_y{};
+	int m_moveTime{ };
 
 public:
 	explicit User(Core::Peer* peer);
@@ -21,8 +22,12 @@ public:
 	const boost::uuids::uuid& id() const { return m_id; }
 	float x() const { return m_x; }
 	float y() const { return m_y; }
+	int moveTime() const { return m_moveTime; }
+	int& moveTime() { return m_moveTime; }
 
 	// Member functions
 public:
 	void Login(std::shared_ptr<sql::ResultSet> user);
+	void Teleport(float x, float y);
+	void Move(float x, float y);
 };

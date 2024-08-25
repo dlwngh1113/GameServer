@@ -12,12 +12,14 @@ enum class Command : short
 {
 	Chatting,
 	Move,
-	Login
+	Login,
+	Teleport
 };
 
 enum class Event : short
 {
 	Chatting = -32767,
-	Move,
-	Login = 2
+	Move = 1,
+	Login,
+	Teleport
 };
