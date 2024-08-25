@@ -128,6 +128,9 @@
     <ClCompile Include="Place.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SectorChangeInfo.cpp">
+      <Filter>Client\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -221,6 +224,9 @@
       <Filter>Client\Model</Filter>
     </ClInclude>
     <ClInclude Include="Place.h" />
+    <ClInclude Include="SectorChangeInfo.h">
+      <Filter>Client\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="monster.lua">

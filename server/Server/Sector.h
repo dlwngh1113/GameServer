@@ -3,12 +3,25 @@
 
 class Sector
 {
-	int m_x, m_y;
-	int m_width, m_height;
+private:
+	int m_nX{ 0 }, m_nY{ 0 }, m_nWidth{ 0 }, m_nHeight{ 0 };
+	std::unordered_set<std::shared_ptr<User>> m_users;
+	std::mutex m_lock;
+
+	void SendUserEnter(std::shared_ptr<User> user);
+	void SendUserExit(std::shared_ptr<User> targetUser);
 
 public:
-	explicit Sector(int x, int y, int width, int height);
+	Sector();
+	virtual ~Sector();
+	void Init(int nX, int nY, int nWidth, int nHeight);
 
-public:
-	bool IsInSector(int x, int y);
+	int getX() const { return m_nX / m_nWidth; }
+	int getY() const { return m_nY / m_nHeight; }
+
+	void Move(std::shared_ptr<User> targetUser);
+	void AddUser(std::shared_ptr<User> user);
+	void RemoveUser(std::shared_ptr<User> user);
+
+	bool IsPointInSector(short x, short y);
 };
