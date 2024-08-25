@@ -25,8 +25,6 @@ const static int MAX_CLIENTS = MAX_TEST * 2;
 const static int INVALID_ID = -1;
 const static int MAX_PACKET_SIZE = 1024;
 const static int MAX_BUFF_SIZE = 1024;
-constexpr int WORLD_WIDTH = 800;
-constexpr int WORLD_HEIGHT = 800;
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma comment(lib, "CommonLib.lib")

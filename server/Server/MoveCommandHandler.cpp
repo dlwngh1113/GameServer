@@ -13,20 +13,23 @@ void MoveCommandHandler::HandleCommand()
 	//
 	//
 
-	m_user->Move(packet.x, packet.y);
+	m_user->moveTime() = packet.moveTime;
+
+	Place* place = CServer::instance().GetPlace();
+	place->Move(m_user, packet.x, packet.y);
 
 	//
 	// 이벤트 발송
 	//
 
-	Common::MoveEventBody body;
-	body.x = packet.x;
-	body.y = packet.y;
-	body.id = packet.id;
-	body.userId = m_user->userId();
-	body.moveTime = packet.moveTime;
-	for (const auto& user : CServer::instance().users())
-	{
-		user.second->SendPacket(&body);
-	}
+	//Common::MoveEventBody body;
+	//body.x = packet.x;
+	//body.y = packet.y;
+	//body.id = packet.id;
+	//body.userId = m_user->userId();
+	//body.moveTime = packet.moveTime;
+	//for (const auto& user : CServer::instance().users())
+	//{
+	//	user.second->SendPacket(&body);
+	//}
 }
