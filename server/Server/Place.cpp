@@ -144,7 +144,7 @@ void Place::RemoveUser(std::shared_ptr<User> user)
 	//SendEvent(nId, &ev);
 }
 
-void Place::Move(std::shared_ptr<User> user, int x, int y)
+void Place::SetUserPosition(std::shared_ptr<User> user, int x, int y)
 {
 	if (0 > x || m_nWidth < x)
 		return;

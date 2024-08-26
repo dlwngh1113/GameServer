@@ -26,5 +26,5 @@ public:
 
 	void AddUser(std::shared_ptr<User> user);
 	void RemoveUser(std::shared_ptr<User> user);
-	void Move(std::shared_ptr<User> user, int x, int y);
+	void SetUserPosition(std::shared_ptr<User> user, int x, int y);
 };
