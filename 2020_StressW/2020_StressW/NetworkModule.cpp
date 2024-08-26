@@ -23,10 +23,8 @@ extern HWND		hWnd;
 const static int MAX_TEST = 10000;
 const static int MAX_CLIENTS = MAX_TEST * 2;
 const static int INVALID_ID = -1;
-const static int MAX_PACKET_SIZE = 1024;
-const static int MAX_BUFF_SIZE = 1024;
-constexpr int WORLD_WIDTH = 800;
-constexpr int WORLD_HEIGHT = 800;
+const static int MAX_PACKET_SIZE = 255;
+const static int MAX_BUFF_SIZE = 255;
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma comment(lib, "CommonLib.lib")
@@ -122,6 +120,9 @@ void SendPacket(int cl, Packet* packet)
 	int psize = data.size();
 	int ptype = packet->type;
 
+	if (psize <= 0 || psize > MAX_PACKET_SIZE)
+		return;
+
 	OverlappedEx* over = new OverlappedEx;
 	over->event_type = OP_SEND;
 	memcpy(over->IOCP_buf, data.data(), psize);
@@ -180,14 +181,10 @@ void ProcessPacket(int ci, unsigned char packet[])
 			
 			LoginResponseBody login_packet;
 			login_packet.Deserialize(ps);
-			//if (loginCommands.find(login_packet->id) != loginCommands.end()) {
-			//	client_map[atoi(loginCommands[login_packet->id].userId.c_str())] = my_id;
-			//}
 			client_map[login_packet.id] = my_id;
 			g_clients[my_id].id = login_packet.id;
 			g_clients[my_id].x = login_packet.x;
 			g_clients[my_id].y = login_packet.y;
-			//MessageBox(hWnd, format(L"id = {} myId = {} x = {} y = {}", login_packet.id, my_id, login_packet.x, login_packet.y).c_str(), L"ERROR", 0);
 
 			TeleportCommandBody packet;
 			packet.x = rand() % WORLD_WIDTH;
@@ -363,7 +360,6 @@ void Adjust_Number_Of_Client()
 	ServerAddr.sin_port = htons(SERVER_PORT);
 	ServerAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-
 	int Result = WSAConnect(g_clients[num_connections].client_socket, (sockaddr*)&ServerAddr, sizeof(ServerAddr), NULL, NULL, NULL, NULL);
 	if (0 != Result)
 		error_display("WSAConnect : ", GetLastError());
@@ -394,12 +390,10 @@ void Adjust_Number_Of_Client()
 		if (err_no != WSA_IO_PENDING)
 		{
 			error_display("RECV ERROR", err_no);
-			goto fail_to_connect;
+			return;
 		}
 	}
 	num_connections++;
-fail_to_connect:
-	return;
 }
 
 string GenerateRandomString()
@@ -474,11 +468,6 @@ void ShutdownNetwork()
 		pth->join();
 		delete pth;
 	}
-}
-
-void Do_Network()
-{
-	return;
 }
 
 void GetPointCloud(int* size, float** points)

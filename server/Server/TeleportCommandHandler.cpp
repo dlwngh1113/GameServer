@@ -13,13 +13,14 @@ void TeleportCommandHandler::HandleCommand()
 	//
 	//
 
-	if (packet.x < 0 || packet.x > 900 || packet.y < 0 || packet.y > 900)
+	if (packet.x < 0 || packet.x > WORLD_WIDTH || packet.y < 0 || packet.y > WORLD_HEIGHT)
 	{
 		Logger::instance().Log(std::format("위치가 유효하지 않습니다."));
 		return;
 	}
 
-	m_user->Teleport(packet.x, packet.y);
+	CServer::instance().GetPlace()->SetUserPosition(m_user, packet.x, packet.y);
+	//m_user->Teleport(packet.x, packet.y);
 
 	//
 	//
@@ -31,9 +32,5 @@ void TeleportCommandHandler::HandleCommand()
 	body.y = m_user->y();
 	body.id = packet.id;
 
-	for (const auto& user : CServer::instance().users())
-	{
-		if (user.second != m_user)
-			user.second->SendPacket(&body);
-	}
+	m_user->SendPacket(&body);
 }

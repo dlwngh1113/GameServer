@@ -100,7 +100,7 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 	glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
 	glLoadIdentity();									// Reset The Projection Matrix
 
-														// Calculate The Aspect Ratio Of The Window
+	// Calculate The Aspect Ratio Of The Window
 	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
 
 	glMatrixMode(GL_MODELVIEW);							// Select The Modelview Matrix
@@ -133,7 +133,7 @@ int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 	glTranslatef(0.14f, -0.4f, -1.0f);						// Move One Unit Into The Screen
-															// Pulsing Colors Based On Text Position
+	// Pulsing Colors Based On Text Position
 	glColor3f(1, 1, 0);
 	// Position The Text On The Screen
 	glRasterPos2f(0.0f, 0.00f);
@@ -282,7 +282,7 @@ BOOL CreateGLWindow(const wchar_t* title, int width, int height, BYTE bits, bool
 
 	AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);		// Adjust Window To True Requested Size
 
-																	// Create The Window
+	// Create The Window
 	if (!(hWnd = CreateWindowEx(dwExStyle,							// Extended Style For The Window
 		L"OpenGL",							// Class Name
 		title,								// Window Title
@@ -484,7 +484,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				keys[VK_F1] = FALSE;					// If So Make Key FALSE
 				KillGLWindow();						// Kill Our Current Window
 				fullscreen = !fullscreen;				// Toggle Fullscreen / Windowed Mode
-														// Recreate Our OpenGL Window
+				// Recreate Our OpenGL Window
 				if (!CreateGLWindow(L"NeHe's Bitmap Font Tutorial", 640, 480, 16, fullscreen))
 				{
 					return 0;						// Quit If Window Was Not Created

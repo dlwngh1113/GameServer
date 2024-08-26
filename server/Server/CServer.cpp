@@ -5,6 +5,11 @@
 #include "Logger.h"
 #include "Peer.h"
 
+namespace
+{
+	constexpr int WORLD_SIZE{ 800 };
+}
+
 CServer CServer::s_instance;
 
 CServer::CServer()
@@ -21,6 +26,7 @@ void CServer::Run()
 void CServer::Initialize()
 {
 	CommandHandlerFactory::instance().Initialize();
+	m_place = std::make_unique<Place>(0, WORLD_SIZE, WORLD_SIZE, SECTOR_SIZE, SECTOR_SIZE);
 }
 
 std::shared_ptr<User> CServer::GetUser(const boost::uuids::uuid& id)

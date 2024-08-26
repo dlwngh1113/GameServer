@@ -1,10 +1,9 @@
 #pragma once
-#include "Singleton.h"
 #include "Sector.h"
 
 struct SectorChangeInfo;
 
-class Place : public Core::Singleton<Place>
+class Place
 {
 private:
 	int m_nId{ 0 };
@@ -27,5 +26,5 @@ public:
 
 	void AddUser(std::shared_ptr<User> user);
 	void RemoveUser(std::shared_ptr<User> user);
-	void Move(std::shared_ptr<User> user, int x, int y);
+	void SetUserPosition(std::shared_ptr<User> user, int x, int y);
 };

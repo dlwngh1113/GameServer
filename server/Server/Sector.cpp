@@ -52,6 +52,7 @@ void Sector::Move(std::shared_ptr<User> targetUser)
 
 	Common::MoveEventBody ev;
 	ev.id = std::atoi(targetUser->userId().c_str());
+	ev.userId = targetUser->userId();
 	ev.x = targetUser->x();
 	ev.y = targetUser->y();
 	ev.moveTime = targetUser->moveTime();
