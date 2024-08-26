@@ -41,7 +41,7 @@ void LoginCommandHandler::Handle()
 	CServer::instance().GetPlace()->AddUser(user);
 
 	std::shared_ptr<Common::LoginResponseBody> resBody = std::make_shared<Common::LoginResponseBody>();
-	resBody->id = body.id;
+	resBody->id = std::atoi(user->userId().c_str());
 	resBody->x = user->x();
 	resBody->y = user->y();
 	
