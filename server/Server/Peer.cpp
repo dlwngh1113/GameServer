@@ -15,7 +15,6 @@ namespace Core
         , m_factory(nullptr)
         , m_currentReceivePos(m_data)
     {
-        m_processBuffer.resize(MAX_BUFFER, '\0');
     }
     
     const boost::uuids::uuid& Peer::id() const
@@ -50,7 +49,6 @@ namespace Core
             }
 
             Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
-            short snPacketType = header->type;
             short snPacketSize = header->size;
 
             // 패킷이 size만큼 도착한 경우

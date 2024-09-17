@@ -11,7 +11,6 @@ namespace Core
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		std::vector<unsigned char> m_processBuffer;
 		unsigned char m_data[MAX_BUFFER]{};
 		boost::asio::mutable_buffer m_buffer;
 		unsigned char* m_currentReceivePos;
