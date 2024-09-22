@@ -6,10 +6,10 @@ namespace Core
 {
 	namespace
 	{
-		static constexpr std::string kHostAddress("127.0.0.1:3306");
-		static constexpr std::string kUserName("root");
-		static constexpr std::string kPassword("ljh915727!");
-		static constexpr std::string kSchema("dnd");
+		static constexpr char kHostAddress[] = "127.0.0.1:3306";
+		static constexpr char kUserName[] = "root";
+		static constexpr char kPassword[] = "ljh915727!";
+		static constexpr char kSchema[] = "dnd";
 	}
 
 	DataBase::DataBase()
