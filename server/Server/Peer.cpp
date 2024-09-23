@@ -37,42 +37,40 @@ namespace Core
     
     void Peer::OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred)
     {
-        if (!error.failed())
+        if (error.failed())
         {
-            unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
-            unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
-
-            if (bytesTransferred < sizeof(Common::Header))
-            {
-                ReceiveLeftData(pNextRecvPos);
-                return;
-            }
-
-            Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
-            short snPacketSize = header->size;
-
-            // 패킷이 size만큼 도착한 경우
-            while (snPacketSize <= pNextRecvPos - currentBufferPos)
-            {
-                ProcessPacket(currentBufferPos, snPacketSize);
-
-                currentBufferPos += snPacketSize;
-                if (currentBufferPos < pNextRecvPos)
-                {
-                    header = reinterpret_cast<Common::Header*>(currentBufferPos);
-                    snPacketSize = header->size;
-                }
-                else
-                    break;
-            }
-
-            ReceiveLeftData(pNextRecvPos);
-        }
-        else
-        {
-            // Disconnect peer
             Disconnect();
+            return;
         }
+  
+        unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
+        unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
+
+        if (bytesTransferred < sizeof(Common::Header))
+        {
+            ReceiveLeftData(pNextRecvPos);
+            return;
+        }
+
+        Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
+        auto packetSize = header->size;
+
+        // 패킷이 size만큼 도착한 경우
+        while (packetSize <= pNextRecvPos - currentBufferPos)
+        {
+            ProcessPacket(currentBufferPos, packetSize);
+
+            currentBufferPos += packetSize;
+            if (currentBufferPos < pNextRecvPos)
+            {
+                header = reinterpret_cast<Common::Header*>(currentBufferPos);
+                packetSize = header->size;
+            }
+            else
+                break;
+        }
+
+        ReceiveLeftData(pNextRecvPos);
     }
 
     void Peer::ProcessPacket(unsigned char* data, size_t size)

@@ -11,6 +11,7 @@ private:
 	std::string m_userId{};
 	float m_x{}, m_y{};
 	int m_moveTime{ };
+	std::mutex m_lock;
 
 public:
 	explicit User(Core::Peer* peer);
@@ -22,8 +23,8 @@ public:
 	const boost::uuids::uuid& id() const { return m_id; }
 	float x() const { return m_x; }
 	float y() const { return m_y; }
-	int moveTime() const { return m_moveTime; }
-	int& moveTime() { return m_moveTime; }
+	int moveTime();
+	void setMoveTime(int moveTime);
 
 	// Member functions
 public:
