@@ -8,7 +8,8 @@ namespace Core
     private:
         boost::asio::io_context m_context;
         boost::asio::ip::tcp::acceptor m_acceptor;
-        boost::asio::thread_pool m_threads;
+        concurrency::concurrent_queue<std::function<void()>> m_works;
+        std::thread m_workerThread;
         std::mutex m_lock;
 
         std::unordered_map<boost::uuids::uuid, std::shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;
@@ -21,6 +22,7 @@ namespace Core
         void StartAccept();
         void TearDown();
         void OnAccept(const boost::system::error_code& error, boost::asio::ip::tcp::socket acceptedSocket);
+        void Work();
 
         //
         // Peer
@@ -43,6 +45,6 @@ namespace Core
         virtual void OnTearDown() = 0;
 
     public:
-        boost::asio::thread_pool& threads() { return m_threads; };
+        void EnqueueWork(std::function<void()> work);
     };
 }

@@ -16,6 +16,11 @@ namespace Core
         , m_currentReceivePos(m_data)
     {
     }
+
+    Peer::~Peer() noexcept
+    {
+        m_flag.clear();
+    }
     
     const boost::uuids::uuid& Peer::id() const
     {
@@ -84,8 +89,7 @@ namespace Core
             std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
             handler->Initialize(shared_from_this(), data, size);
 
-            // add to worker thread
-            boost::asio::dispatch(m_application->threads(), [handler]() { handler->Handle(); });
+            m_application->EnqueueWork([handler]() { handler->Handle(); });
         }
         catch (std::exception& ex)
         {
@@ -115,6 +119,24 @@ namespace Core
     {
         m_application->DisconnectPeer(m_id);
         //Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
+    }
+
+    void Peer::ProcessQueue()
+    {
+        while (m_socket.is_open())
+        {
+            m_flag.wait(false);
+
+            std::shared_ptr<BaseCommandHandler> handler;
+            if (!m_jobQueue.try_pop(handler))
+                continue;
+
+            auto result = std::async([handler] {handler->Handle(); });
+            result.get();
+
+            if (m_jobQueue.empty())
+                m_flag.clear();
+        }
     }
 
     void Peer::SendData(std::shared_ptr<Common::Packet> packet)

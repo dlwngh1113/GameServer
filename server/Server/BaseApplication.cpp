@@ -6,8 +6,8 @@
 namespace Core
 {
     BaseApplication::BaseApplication()
-        : m_acceptor(m_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SERVER_PORT))
-        , m_threads(MAX_THREAD_COUNT)
+        : m_acceptor{ m_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SERVER_PORT) }
+        , m_workerThread{ &BaseApplication::Work, this }
     {
     }
 
@@ -33,7 +33,7 @@ namespace Core
         OnTearDown();
         Logger::instance().Log("OnTearDown finished...");
 
-        m_threads.join();
+        m_workerThread.join();
         m_context.stop();
         m_acceptor.close();
     }
@@ -43,14 +43,24 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
-            //Logger::instance().Log(format("{} is connected!", acceptedSocket.remote_endpoint().address().to_string()));
-
             std::shared_ptr<Peer> acceptedPeer = Peer::Create(std::move(acceptedSocket), this);
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
         }
 
         StartAccept();
+    }
+
+    void BaseApplication::Work()
+    {
+        while (true)
+        {
+            std::function<void()> work{ nullptr };
+            if (m_works.try_pop(work))
+            {
+                work();
+            }
+        }
     }
 
     //
@@ -69,7 +79,6 @@ namespace Core
 
     std::shared_ptr<Peer> BaseApplication::GetPeer(const boost::uuids::uuid& id)
     {
-        std::lock_guard<std::mutex> lock{ m_lock };
         auto it = m_peers.find(id);
         if (it != m_peers.end())
             return it->second;
@@ -79,13 +88,16 @@ namespace Core
 
     void BaseApplication::RemovePeer(std::shared_ptr<Peer> peer)
     {
-        std::lock_guard<std::mutex> lock{ m_lock };
         m_peers.erase(peer->id());
     }
 
     void BaseApplication::AddPeer(std::shared_ptr<Peer> peer)
     {
-        std::lock_guard<std::mutex> lock{ m_lock };
         m_peers.insert(std::make_pair(peer->id(), peer));
+    }
+
+    void BaseApplication::EnqueueWork(std::function<void()> work)
+    {
+        m_works.push(work);
     }
 }

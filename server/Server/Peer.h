@@ -4,6 +4,7 @@
 namespace Core
 {
 	class BaseApplication;
+	class BaseCommandHandler;
 	class BaseCommandHandlerFactory;
 
 	class Peer final : public std::enable_shared_from_this<Peer>
@@ -19,8 +20,13 @@ namespace Core
 		BaseApplication* m_application;
 		BaseCommandHandlerFactory* m_factory;
 
+		std::atomic_flag m_flag;
+		Concurrency::concurrent_queue<std::shared_ptr<BaseCommandHandler>> m_jobQueue;
+		std::queue<std::future<void>> q;
+
 	public:
 		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
+		virtual ~Peer() noexcept;
 
 		const boost::uuids::uuid& id() const;
 
@@ -37,6 +43,8 @@ namespace Core
 		void ProcessPacket(unsigned char* data, size_t size);
 		void ReceiveLeftData(unsigned char* nextRecvPtr);
 		void Disconnect();
+
+		void ProcessQueue();
 
 		// Static Member Functions
 	public:
