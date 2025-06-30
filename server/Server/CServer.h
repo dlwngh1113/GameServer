@@ -7,7 +7,6 @@ class Core::Peer;
 
 class CServer : public Core::BaseApplication
 {
-	std::mutex m_userLock;
 	std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>, Core::uuid_hash, Core::uuid_equal> m_users;
 	std::unique_ptr<Place> m_place;
 

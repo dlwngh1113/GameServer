@@ -13,13 +13,12 @@ namespace Core
         , m_id(Uuid::New())
         , m_application(application)
         , m_factory(nullptr)
-        , m_currentReceivePos(m_data)
+        , m_currentBufferPos(m_data)
     {
     }
 
     Peer::~Peer() noexcept
     {
-        m_flag.clear();
     }
     
     const boost::uuids::uuid& Peer::id() const
@@ -48,8 +47,7 @@ namespace Core
             return;
         }
   
-        unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
-        unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
+        unsigned char* pNextRecvPos = m_currentBufferPos + bytesTransferred;
 
         if (bytesTransferred < sizeof(Common::Header))
         {
@@ -57,19 +55,19 @@ namespace Core
             return;
         }
 
-        Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
-        auto packetSize = header->size;
+        Common::Header* header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
+        uint16_t packetSize;
+        memcpy(&packetSize, m_currentBufferPos, sizeof(packetSize));
 
-        // 패킷이 size만큼 도착한 경우
-        while (packetSize <= pNextRecvPos - currentBufferPos)
+        while (packetSize <= pNextRecvPos - m_currentBufferPos)
         {
-            ProcessPacket(currentBufferPos, packetSize);
+            ProcessPacket(header->type, packetSize);
 
-            currentBufferPos += packetSize;
-            if (currentBufferPos < pNextRecvPos)
+            m_currentBufferPos += packetSize;
+            if (m_currentBufferPos < pNextRecvPos)
             {
-                header = reinterpret_cast<Common::Header*>(currentBufferPos);
-                packetSize = header->size;
+                header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
+                memcpy(&packetSize, m_currentBufferPos, sizeof(packetSize));
             }
             else
                 break;
@@ -78,16 +76,15 @@ namespace Core
         ReceiveLeftData(pNextRecvPos);
     }
 
-    void Peer::ProcessPacket(unsigned char* data, size_t size)
+    void Peer::ProcessPacket(uint16_t type, size_t size)
     {
-        Common::Header* header = reinterpret_cast<Common::Header*>(data);
         try
         {
             if (m_factory == nullptr)
                 throw std::exception{ "CommandHandlerFactory is nullptr!" };
 
-            std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
-            handler->Initialize(shared_from_this(), data, size);
+            std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(type);
+            handler->Initialize(shared_from_this(), m_currentBufferPos, size);
 
             m_application->EnqueueWork([handler]() { handler->Handle(); });
         }
@@ -97,20 +94,20 @@ namespace Core
         }
     }
 
-    void Peer::ReceiveLeftData(unsigned char* nextRecvPtr)
+    void Peer::ReceiveLeftData(uint8_t* nextRecvPtr)
     {
-        unsigned char* currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
-        long long lnLeftData = nextRecvPtr - currentReceivePos;
+        long long lnLeftData = nextRecvPtr - m_currentBufferPos;
 
-        if ((MAX_BUFFER - (nextRecvPtr - currentReceivePos)) < MIN_BUFFER)
+        if ((MAX_BUFFER - (nextRecvPtr - m_currentBufferPos)) < MIN_BUFFER)
         {
             // 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-            memcpy(m_data, currentReceivePos, lnLeftData);
+            memcpy(m_data, m_currentBufferPos, lnLeftData);
             m_buffer = boost::asio::mutable_buffer(m_data, MAX_BUFFER);
             nextRecvPtr = m_data + lnLeftData;
         }
 
         m_buffer = boost::asio::mutable_buffer(nextRecvPtr, MAX_BUFFER - lnLeftData);
+        m_currentBufferPos = nextRecvPtr;
 
         ReceiveData();
     }
@@ -118,25 +115,6 @@ namespace Core
     void Peer::Disconnect()
     {
         m_application->DisconnectPeer(m_id);
-        //Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
-    }
-
-    void Peer::ProcessQueue()
-    {
-        while (m_socket.is_open())
-        {
-            m_flag.wait(false);
-
-            std::shared_ptr<BaseCommandHandler> handler;
-            if (!m_jobQueue.try_pop(handler))
-                continue;
-
-            auto result = std::async([handler] {handler->Handle(); });
-            result.get();
-
-            if (m_jobQueue.empty())
-                m_flag.clear();
-        }
     }
 
     void Peer::SendData(std::shared_ptr<Common::Packet> packet)

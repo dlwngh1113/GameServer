@@ -8,20 +8,20 @@ namespace Common
 	{
 	}
 
-	PacketStream::PacketStream(const unsigned char* data, size_t size)
+	PacketStream::PacketStream(const uint8_t* data, uint64_t size)
 		: m_offset(0)
 		, m_buffer(data, data + size)
 	{
 	}
 
-	std::string PacketStream::GetData(short id, short type)
+	std::string PacketStream::GetData(uint16_t id, uint16_t type)
 	{
 		Header header;
 		header.type = type;
 		header.id = id;
-		header.size = static_cast<short>(sizeof(Header) + m_buffer.size());
+		header.size = static_cast<uint16_t>(sizeof(Header) + m_buffer.size());
 
-		unsigned char* ptr = reinterpret_cast<unsigned char*>(&header);
+		uint8_t* ptr = reinterpret_cast<uint8_t*>(&header);
 		m_buffer.insert(m_buffer.begin(), ptr, ptr + sizeof(header));
 
 		return std::string(m_buffer.begin(), m_buffer.end());
@@ -39,7 +39,7 @@ namespace Common
 	template <>
 	PacketStream& PacketStream::operator<<<std::string>(const std::string& val)
 	{
-		short size = static_cast<short>(val.size());
+		uint16_t size = static_cast<uint16_t>(val.size());
 		this->operator<<(size);
 
 		m_buffer.insert(m_buffer.end(), val.begin(), val.end());
@@ -50,16 +50,16 @@ namespace Common
 	template<>
 	PacketStream& PacketStream::operator<<<float>(const float& val)
 	{
-		const unsigned char* ptr = reinterpret_cast<const unsigned char*>(&val);
+		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&val);
 		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
 
 		return *this;
 	}
 
 	template<>
-	PacketStream& PacketStream::operator<<<int>(const int& val)
+	PacketStream& PacketStream::operator<<<int32_t>(const int32_t& val)
 	{
-		const unsigned char* ptr = reinterpret_cast<const unsigned char*>(&val);
+		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&val);
 		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
 
 		return *this;
@@ -77,7 +77,7 @@ namespace Common
 	template <>
 	PacketStream& PacketStream::operator>><std::string>(std::string& val)
 	{
-		short size;
+		uint16_t size;
 		this->operator>>(size);
 
 		val.resize(size);
@@ -98,10 +98,10 @@ namespace Common
 	}
 
 	template<>
-	PacketStream& PacketStream::operator>><int>(int& val)
+	PacketStream& PacketStream::operator>><int32_t>(int32_t& val)
 	{
-		memcpy_s(&val, sizeof(int), m_buffer.data() + m_offset, sizeof(int));
-		m_offset += sizeof(int);
+		memcpy_s(&val, sizeof(int32_t), m_buffer.data() + m_offset, sizeof(int32_t));
+		m_offset += sizeof(int32_t);
 
 		return *this;
 	}

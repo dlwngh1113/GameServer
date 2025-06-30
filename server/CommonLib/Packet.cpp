@@ -3,7 +3,7 @@
 
 namespace Common
 {
-	Packet::Packet(short type)
+	Packet::Packet(uint16_t type)
 		: type(type)
 	{
 	}

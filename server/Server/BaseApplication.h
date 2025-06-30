@@ -10,7 +10,6 @@ namespace Core
         boost::asio::ip::tcp::acceptor m_acceptor;
         concurrency::concurrent_queue<std::function<void()>> m_works;
         std::thread m_workerThread;
-        std::mutex m_lock;
 
         std::unordered_map<boost::uuids::uuid, std::shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;
 

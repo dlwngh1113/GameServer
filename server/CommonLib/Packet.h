@@ -7,11 +7,11 @@ namespace Common
 	class COMMON_LIB_API Packet
 	{
 	public:
-		short type;
-		short id;
+		uint16_t type;
+		uint16_t id;
 
 	public:
-		explicit Packet(short type);
+		explicit Packet(uint16_t type);
 
 	public:
 		virtual std::string Serialize(PacketStream& ps) final;

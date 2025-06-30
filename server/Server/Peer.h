@@ -12,17 +12,13 @@ namespace Core
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		unsigned char m_data[MAX_BUFFER]{};
+		uint8_t m_data[MAX_BUFFER]{};
 		boost::asio::mutable_buffer m_buffer;
-		unsigned char* m_currentReceivePos;
+		uint8_t* m_currentBufferPos;
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
 		BaseCommandHandlerFactory* m_factory;
-
-		std::atomic_flag m_flag;
-		Concurrency::concurrent_queue<std::shared_ptr<BaseCommandHandler>> m_jobQueue;
-		std::queue<std::future<void>> q;
 
 	public:
 		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
@@ -40,11 +36,9 @@ namespace Core
 		
 	private:
 		void ReceiveData();
-		void ProcessPacket(unsigned char* data, size_t size);
-		void ReceiveLeftData(unsigned char* nextRecvPtr);
+		void ProcessPacket(uint16_t type, size_t size);
+		void ReceiveLeftData(uint8_t* nextRecvPtr);
 		void Disconnect();
-
-		void ProcessQueue();
 
 		// Static Member Functions
 	public:
