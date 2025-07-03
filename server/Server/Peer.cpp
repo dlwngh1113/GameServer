@@ -47,7 +47,7 @@ namespace Core
             return;
         }
   
-        unsigned char* pNextRecvPos = m_currentBufferPos + bytesTransferred;
+        uint8_t* pNextRecvPos = m_currentBufferPos + bytesTransferred;
 
         if (bytesTransferred < sizeof(Common::Header))
         {
@@ -55,19 +55,17 @@ namespace Core
             return;
         }
 
-        Common::Header* header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
-        uint16_t packetSize;
-        memcpy(&packetSize, m_currentBufferPos, sizeof(packetSize));
+        Common::Header header{};
+        memcpy(&header, m_currentBufferPos, sizeof(header));
 
-        while (packetSize <= pNextRecvPos - m_currentBufferPos)
+        while (header.size <= pNextRecvPos - m_currentBufferPos)
         {
-            ProcessPacket(header->type, packetSize);
+            ProcessPacket(header.type, header.size);
 
-            m_currentBufferPos += packetSize;
+            m_currentBufferPos += header.size;
             if (m_currentBufferPos < pNextRecvPos)
             {
-                header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
-                memcpy(&packetSize, m_currentBufferPos, sizeof(packetSize));
+                memcpy(&header, m_currentBufferPos, sizeof(header));
             }
             else
                 break;
@@ -76,7 +74,7 @@ namespace Core
         ReceiveLeftData(pNextRecvPos);
     }
 
-    void Peer::ProcessPacket(uint16_t type, size_t size)
+    void Peer::ProcessPacket(int16_t type, int16_t size)
     {
         try
         {

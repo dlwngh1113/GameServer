@@ -14,12 +14,12 @@ namespace Common
 	{
 	}
 
-	std::string PacketStream::GetData(uint16_t id, uint16_t type)
+	std::string PacketStream::GetData(int16_t id, int16_t type)
 	{
 		Header header;
 		header.type = type;
 		header.id = id;
-		header.size = static_cast<uint16_t>(sizeof(Header) + m_buffer.size());
+		header.size = static_cast<int16_t>(sizeof(Header) + m_buffer.size());
 
 		uint8_t* ptr = reinterpret_cast<uint8_t*>(&header);
 		m_buffer.insert(m_buffer.begin(), ptr, ptr + sizeof(header));
@@ -30,7 +30,7 @@ namespace Common
 	template <typename T>
 	PacketStream& PacketStream::operator<<(const T& val)
 	{
-		const unsigned char* ptr = reinterpret_cast<const unsigned char*>(&val);
+		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&val);
 		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
 
 		return *this;
@@ -39,7 +39,7 @@ namespace Common
 	template <>
 	PacketStream& PacketStream::operator<<<std::string>(const std::string& val)
 	{
-		uint16_t size = static_cast<uint16_t>(val.size());
+		int16_t size = static_cast<int16_t>(val.size());
 		this->operator<<(size);
 
 		m_buffer.insert(m_buffer.end(), val.begin(), val.end());
@@ -77,7 +77,7 @@ namespace Common
 	template <>
 	PacketStream& PacketStream::operator>><std::string>(std::string& val)
 	{
-		uint16_t size;
+		int16_t size;
 		this->operator>>(size);
 
 		val.resize(size);

@@ -6,23 +6,23 @@ namespace Common
 #pragma pack(push, 1)
 	struct COMMON_LIB_API Header
 	{
-		uint16_t type;
-		uint16_t size;
-		uint16_t id;
+		int16_t type;
+		int16_t size;
+		int16_t id;
 	};
 #pragma pack(pop)
 
 	class COMMON_LIB_API PacketStream
 	{
 	private:
-		uint16_t m_offset;
+		int16_t m_offset;
 		std::vector<uint8_t> m_buffer;
 
 	public:
 		explicit PacketStream();
 		explicit PacketStream(const uint8_t* data, uint64_t size);
 
-		std::string GetData(uint16_t id, uint16_t type);
+		std::string GetData(int16_t id, int16_t type);
 
 		template <typename T>
 		PacketStream& operator<<(const T& val);

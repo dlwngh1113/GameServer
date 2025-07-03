@@ -36,7 +36,7 @@ namespace Core
 		
 	private:
 		void ReceiveData();
-		void ProcessPacket(uint16_t type, size_t size);
+		void ProcessPacket(int16_t type, int16_t size);
 		void ReceiveLeftData(uint8_t* nextRecvPtr);
 		void Disconnect();
 

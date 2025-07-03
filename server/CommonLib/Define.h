@@ -8,7 +8,7 @@
 	#endif
 #endif
 
-enum class Command : uint16_t
+enum class Command : int16_t
 {
 	Chatting,
 	Move,
@@ -16,10 +16,10 @@ enum class Command : uint16_t
 	Teleport
 };
 
-enum class Event : uint16_t
+enum class Event : int16_t
 {
-	Chatting = UINT8_MAX,
-	Move,
+	Chatting = INT16_MIN,
+	Move = 1,
 	Login,
 	Teleport
 };
