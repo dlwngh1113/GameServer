@@ -156,7 +156,7 @@ void Place::SetUserPosition(std::shared_ptr<User> user, int x, int y)
 	Sector* prevSector = GetSectorByPoint(currX, currY);
 	Sector* currentSector = GetSectorByPoint(x, y);
 
-	user->Move(x, y);
+	user->Move(static_cast<float>(x), static_cast<float>(y));
 
 	if (prevSector != currentSector)
 	{

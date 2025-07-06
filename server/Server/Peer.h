@@ -1,5 +1,6 @@
 #pragma once
 #include "Uuid.h"
+#include "RingBuffer.h"
 
 namespace Core
 {
@@ -12,9 +13,7 @@ namespace Core
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		uint8_t m_data[MAX_BUFFER]{};
-		boost::asio::mutable_buffer m_buffer;
-		uint8_t* m_currentBufferPos;
+		RingBuffer m_buffer;
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
@@ -32,7 +31,7 @@ namespace Core
 		void SetFactory(BaseCommandHandlerFactory* factory) { m_factory = factory; }
 
 	protected:
-		void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
+		void OnReceiveData(const boost::system::error_code& error, uint64_t bytesTransferred);
 		
 	private:
 		void ReceiveData();

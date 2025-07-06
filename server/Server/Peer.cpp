@@ -9,11 +9,9 @@ namespace Core
 {
     Peer::Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept
         : m_socket(std::move(socket))
-        , m_buffer(m_data, MAX_BUFFER)
         , m_id(Uuid::New())
         , m_application(application)
         , m_factory(nullptr)
-        , m_currentBufferPos(m_data)
     {
     }
 
@@ -30,7 +28,7 @@ namespace Core
     {
         try
         {
-            m_socket.async_receive(boost::asio::buffer(m_buffer),
+            m_socket.async_receive(m_buffer.GetBuffer(),
                 bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
         }
         catch (std::exception& ex)
@@ -39,7 +37,7 @@ namespace Core
         }
     }
     
-    void Peer::OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred)
+    void Peer::OnReceiveData(const boost::system::error_code& error, uint64_t bytesTransferred)
     {
         if (error.failed())
         {
