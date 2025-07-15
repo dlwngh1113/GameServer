@@ -31,12 +31,11 @@ namespace Core
 		void SetFactory(BaseCommandHandlerFactory* factory) { m_factory = factory; }
 
 	protected:
-		void OnReceiveData(const boost::system::error_code& error, uint64_t bytesTransferred);
+		void OnReceiveData(const boost::system::error_code& error, int32_t bytesTransferred);
 		
 	private:
 		void ReceiveData();
 		void ProcessPacket(int16_t type, int16_t size);
-		void ReceiveLeftData(uint8_t* nextRecvPtr);
 		void Disconnect();
 
 		// Static Member Functions

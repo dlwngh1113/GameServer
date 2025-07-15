@@ -12,7 +12,7 @@ namespace Core
 	{
 	}
 
-	void BaseCommandHandler::Initialize(std::shared_ptr<Peer> peer, unsigned char* data, size_t size)
+	void BaseCommandHandler::Initialize(std::shared_ptr<Peer> peer, const uint8_t* data, size_t size)
 	{
 		m_peer = peer;
 		m_data.resize(size);
