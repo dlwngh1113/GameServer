@@ -52,3 +52,19 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+DELIMITER $$
+create procedure loopWhile()
+begin
+	declare count int default 0;
+	while count <= 5000 do
+		call AddUser(count, '1234');
+        set count = count + 1;
+end while;
+end $$
+
+DELIMITER ;
+
+call loopWhile();
+
+drop procedure if exists loopWhile;

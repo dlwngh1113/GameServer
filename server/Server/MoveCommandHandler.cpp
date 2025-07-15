@@ -13,7 +13,7 @@ void MoveCommandHandler::HandleCommand()
 	//
 	//
 
-	m_user->moveTime() = packet.moveTime;
+	m_user->setMoveTime(packet.moveTime);
 
 	Place* place = CServer::instance().GetPlace();
 	place->SetUserPosition(m_user, packet.x, packet.y);

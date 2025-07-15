@@ -13,6 +13,18 @@ User::~User()
 {
 }
 
+int User::moveTime()
+{
+	std::lock_guard<std::mutex> lock{ m_lock };
+	return m_moveTime;
+}
+
+void User::setMoveTime(int moveTime)
+{
+	std::lock_guard<std::mutex> lock{ m_lock };
+	m_moveTime = moveTime;
+}
+
 void User::Login(std::shared_ptr<sql::ResultSet> user)
 {
 	m_userId = user->getString("id");

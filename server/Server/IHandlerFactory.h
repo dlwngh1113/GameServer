@@ -5,20 +5,20 @@ namespace Core
 {
 	class BaseCommandHandler; 
 	
-	class IHandlerFactory : public IFactory<short, BaseCommandHandler>
+	class IHandlerFactory : public IFactory<int16_t, BaseCommandHandler>
 	{
 	public:
 		IHandlerFactory();
 		virtual ~IHandlerFactory();
 
-		virtual std::shared_ptr<BaseCommandHandler> Create(short type) = 0;
+		virtual std::shared_ptr<BaseCommandHandler> Create(int16_t type) = 0;
 
 		template<typename T>
-		void AddHandlerCreator(short key);
+		void AddHandlerCreator(int16_t key);
 	};
 
 	template<typename T>
-	inline void IHandlerFactory::AddHandlerCreator(short key)
+	inline void IHandlerFactory::AddHandlerCreator(int16_t key)
 	{
 		AddCreator(key, std::make_unique<ProductCreator<BaseCommandHandler, T>>());
 	}

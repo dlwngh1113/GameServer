@@ -1,9 +1,11 @@
 #pragma once
 #include "Uuid.h"
+#include "RingBuffer.h"
 
 namespace Core
 {
 	class BaseApplication;
+	class BaseCommandHandler;
 	class BaseCommandHandlerFactory;
 
 	class Peer final : public std::enable_shared_from_this<Peer>
@@ -11,10 +13,7 @@ namespace Core
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		std::vector<unsigned char> m_processBuffer;
-		unsigned char m_data[MAX_BUFFER]{};
-		boost::asio::mutable_buffer m_buffer;
-		unsigned char* m_currentReceivePos;
+		RingBuffer m_buffer;
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
@@ -22,6 +21,7 @@ namespace Core
 
 	public:
 		explicit Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept;
+		virtual ~Peer() noexcept;
 
 		const boost::uuids::uuid& id() const;
 
@@ -31,12 +31,11 @@ namespace Core
 		void SetFactory(BaseCommandHandlerFactory* factory) { m_factory = factory; }
 
 	protected:
-		void OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred);
+		void OnReceiveData(const boost::system::error_code& error, int32_t bytesTransferred);
 		
 	private:
 		void ReceiveData();
-		void ProcessPacket(unsigned char* data, size_t size);
-		void ReceiveLeftData(unsigned char* nextRecvPtr);
+		void ProcessPacket(int16_t type, int16_t size);
 		void Disconnect();
 
 		// Static Member Functions

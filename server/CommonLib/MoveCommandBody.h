@@ -8,7 +8,7 @@ namespace Common
 	{
 	public:
 		float x, y;
-		int moveTime;
+		int32_t moveTime;
 
 	public:
 		explicit MoveCommandBody();

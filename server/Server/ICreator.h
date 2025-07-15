@@ -14,6 +14,6 @@ namespace Core
 	class ProductCreator : public ICreator<TBase>
 	{
 	public:
-		virtual std::shared_ptr<TBase> Create() { return std::make_shared<TProduct>(); }
+		virtual std::shared_ptr<TBase> Create() override { return std::make_shared<TProduct>(); }
 	};
 }

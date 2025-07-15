@@ -9,13 +9,15 @@ namespace Core
 {
     Peer::Peer(boost::asio::ip::tcp::socket&& socket, BaseApplication* application) noexcept
         : m_socket(std::move(socket))
-        , m_buffer(m_data, MAX_BUFFER)
         , m_id(Uuid::New())
         , m_application(application)
         , m_factory(nullptr)
-        , m_currentReceivePos(m_data)
+        , m_buffer(MAX_BUFFER)
     {
-        m_processBuffer.resize(MAX_BUFFER, '\0');
+    }
+
+    Peer::~Peer() noexcept
+    {
     }
     
     const boost::uuids::uuid& Peer::id() const
@@ -27,7 +29,7 @@ namespace Core
     {
         try
         {
-            m_socket.async_receive(boost::asio::buffer(m_buffer),
+            m_socket.async_receive(boost::asio::buffer(m_buffer.GetWriteBuffer(), m_buffer.GetWriteBufferSize()),
                 bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
         }
         catch (std::exception& ex)
@@ -36,60 +38,51 @@ namespace Core
         }
     }
     
-    void Peer::OnReceiveData(const boost::system::error_code& error, size_t bytesTransferred)
+    void Peer::OnReceiveData(const boost::system::error_code& error, int32_t bytesTransferred)
     {
-        if (!error.failed())
+        if (error.failed())
         {
-            unsigned char* currentBufferPos = reinterpret_cast<unsigned char*>(m_buffer.data());
-            unsigned char* pNextRecvPos = currentBufferPos + bytesTransferred;
-
-            if (bytesTransferred < sizeof(Common::Header))
-            {
-                ReceiveLeftData(pNextRecvPos);
-                return;
-            }
-
-            Common::Header* header = reinterpret_cast<Common::Header*>(currentBufferPos);
-            short snPacketType = header->type;
-            short snPacketSize = header->size;
-
-            // 패킷이 size만큼 도착한 경우
-            while (snPacketSize <= pNextRecvPos - currentBufferPos)
-            {
-                ProcessPacket(currentBufferPos, snPacketSize);
-
-                currentBufferPos += snPacketSize;
-                if (currentBufferPos < pNextRecvPos)
-                {
-                    header = reinterpret_cast<Common::Header*>(currentBufferPos);
-                    snPacketSize = header->size;
-                }
-                else
-                    break;
-            }
-
-            ReceiveLeftData(pNextRecvPos);
-        }
-        else
-        {
-            // Disconnect peer
             Disconnect();
+            return;
         }
+
+        auto leftBytes = bytesTransferred;
+        m_buffer.AddReceivedSize(leftBytes);
+
+        if (leftBytes < sizeof(Common::Header))
+        {
+            ReceiveData();
+            return;
+        }
+  
+        uint8_t pBuffer[MAX_BUFFER]{};
+        m_buffer.Peek(pBuffer, leftBytes);
+
+        Common::Header header{};
+        do
+        {
+            m_buffer.Peek(reinterpret_cast<uint8_t*>(&header), sizeof(header));
+
+            ProcessPacket(header.type, header.size);
+
+            leftBytes -= header.size;
+            m_buffer.Pop(pBuffer, header.size);
+        } while (m_buffer.GetReadableSize() > 0);
+
+        ReceiveData();
     }
 
-    void Peer::ProcessPacket(unsigned char* data, size_t size)
+    void Peer::ProcessPacket(int16_t type, int16_t size)
     {
-        Common::Header* header = reinterpret_cast<Common::Header*>(data);
         try
         {
             if (m_factory == nullptr)
                 throw std::exception{ "CommandHandlerFactory is nullptr!" };
 
-            std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(header->type);
-            handler->Initialize(shared_from_this(), data, size);
+            std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(type);
+            handler->Initialize(shared_from_this(), m_buffer.GetReadBuffer(), size);
 
-            // add to worker thread
-            boost::asio::dispatch(m_application->threads(), [handler]() { handler->Handle(); });
+            m_application->EnqueueWork([handler]() { handler->Handle(); });
         }
         catch (std::exception& ex)
         {
@@ -97,28 +90,9 @@ namespace Core
         }
     }
 
-    void Peer::ReceiveLeftData(unsigned char* nextRecvPtr)
-    {
-        unsigned char* currentReceivePos = reinterpret_cast<unsigned char*>(m_buffer.data());
-        long long lnLeftData = nextRecvPtr - currentReceivePos;
-
-        if ((MAX_BUFFER - (nextRecvPtr - currentReceivePos)) < MIN_BUFFER)
-        {
-            // 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-            memcpy(m_data, currentReceivePos, lnLeftData);
-            m_buffer = boost::asio::mutable_buffer(m_data, MAX_BUFFER);
-            nextRecvPtr = m_data + lnLeftData;
-        }
-
-        m_buffer = boost::asio::mutable_buffer(nextRecvPtr, MAX_BUFFER - lnLeftData);
-
-        ReceiveData();
-    }
-
     void Peer::Disconnect()
     {
         m_application->DisconnectPeer(m_id);
-        //Logger::instance().Log(format("[Debug: {}] - client is disconnected", m_socket.remote_endpoint().address().to_string()));
     }
 
     void Peer::SendData(std::shared_ptr<Common::Packet> packet)

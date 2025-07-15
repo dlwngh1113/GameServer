@@ -6,10 +6,10 @@ namespace Core
 {
 	namespace
 	{
-		static constexpr std::string kHostAddress("127.0.0.1:3306");
-		static constexpr std::string kUserName("root");
-		static constexpr std::string kPassword("ljh915727!");
-		static constexpr std::string kSchema("dnd");
+		static constexpr char kHostAddress[] = "127.0.0.1:3306";
+		static constexpr char kUserName[] = "root";
+		static constexpr char kPassword[] = "ljh915727!";
+		static constexpr char kSchema[] = "dnd";
 	}
 
 	DataBase::DataBase()
@@ -63,7 +63,8 @@ namespace Core
 
 			std::unique_ptr<sql::Statement> statement(connection->createStatement());
 
-			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(12) PRIMARY KEY NOT NULL, `password` VARCHAR(128) NOT NULL, `x` FLOAT DEFAULT 0, `y` FLOAT DEFAULT 0);");
+			statement->execute("CREATE TABLE IF NOT EXISTS `t_User`(`id` VARCHAR(12) PRIMARY KEY NOT NULL, `password` \
+				VARCHAR(128) NOT NULL, `x` FLOAT DEFAULT 0, `y` FLOAT DEFAULT 0); ");
 
 			// Commit transaction
 			connection->commit();
@@ -71,9 +72,6 @@ namespace Core
 		catch (sql::SQLException& ex)
 		{
 			Logger::instance().Log(format("SQLException: {}\nSQLState: {}\nErrorCode: {}", ex.what(), ex.getSQLState(), ex.getErrorCode()));
-
-			if (connection)
-				connection->rollback();
 		}
 
 		Logger::instance().Log("Database Migration Started!");

@@ -6,7 +6,7 @@ namespace Common
 	class COMMON_LIB_API ResponseBody : public Packet
 	{
 	public:
-		short code;
+		int16_t code;
 		std::string message;
 
 	public:

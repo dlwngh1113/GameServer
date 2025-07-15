@@ -25,9 +25,4 @@ namespace Core
 
 		m_peer->SendData(data);
 	}
-
-	void ClientPeer::SendPacket(char* data, size_t size)
-	{
-		m_peer->SendData(data, size);
-	}
 }

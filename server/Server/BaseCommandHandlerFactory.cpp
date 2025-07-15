@@ -12,7 +12,7 @@ namespace Core
 	{
 	}
 
-	std::shared_ptr<BaseCommandHandler> BaseCommandHandlerFactory::Create(short type)
+	std::shared_ptr<BaseCommandHandler> BaseCommandHandlerFactory::Create(int16_t type)
 	{
 		ICreator<BaseCommandHandler>* creator = GetCreator(type);
 		if (!creator)
