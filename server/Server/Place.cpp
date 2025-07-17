@@ -6,18 +6,6 @@
 
 Sector* Place::GetSectorByPoint(int x, int y)
 {
-	//Sector* sector = nullptr;
-	//for (int i = 0; i < m_nHeightSectorSize; ++i)
-	//{
-	//	for (int j = 0; j < m_nWidthSectorSize; ++j)
-	//	{
-	//		if (m_sectors[i][j].IsPointInSector(x, y))
-	//			return &m_sectors[i][j];
-	//	}
-	//}
-
-	//return nullptr;
-
 	int nHeightIndex = x / m_nHeightSectorSize;
 	int nWidthIndex = y / m_nWidthSectorSize;
 
@@ -50,12 +38,20 @@ Place::Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeight
 
 Place::~Place()
 {
-	for (int i = 0; i < m_nHeightSectorSize; ++i)
-		if (m_sectors[i])
-			delete[] m_sectors[i];
-
 	if (m_sectors)
+	{
+		for (int i = 0; i < m_nHeightSectorSize; ++i)
+		{
+			if (m_sectors[i])
+			{
+				delete[] m_sectors[i];
+				m_sectors[i] = nullptr;
+			}
+		}
+
 		delete[] m_sectors;
+		m_sectors = nullptr;
+	}
 }
 
 void Place::SendEvent(const boost::uuids::uuid& id, Common::Packet* packet)
@@ -124,6 +120,7 @@ void Place::AddUser(std::shared_ptr<User> user)
 	//strcpy_s(ev.name, user->GetName());
 	//ev.x = user->x();
 	//ev.y = user->y();
+
 
 	//SendEvent(user->GetID(), &ev);
 }

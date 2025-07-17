@@ -1,8 +1,7 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "RingBuffer.h"
-#include "Logger.h"
 
-namespace Core
+namespace Common
 {
 	RingBuffer::RingBuffer(int32_t bufferSize)
 		: m_size(bufferSize)
@@ -26,7 +25,6 @@ namespace Core
 		int32_t copySize = packetSize;
 		if (m_readPos + copySize > m_writePos)
 		{
-			Logger::instance().Log(std::format("provided copySize {} CopyableSize {}", copySize, m_writePos - m_readPos));
 			copySize = static_cast<int32_t>(m_writePos - m_readPos);
 		}
 		
@@ -39,7 +37,6 @@ namespace Core
 		int32_t copySize = packetSize;
 		if (m_readPos + copySize > m_writePos)
 		{
-			Logger::instance().Log(std::format("provided copySize {} CopyableSize {}", copySize, m_writePos - m_readPos));
 			copySize = static_cast<int32_t>(m_writePos - m_readPos);
 		}
 
@@ -58,13 +55,13 @@ namespace Core
 
 	const int32_t RingBuffer::GetReadableSize() const
 	{
-		return m_writePos - m_readPos;
+		return static_cast<int32_t>(m_writePos - m_readPos);
 	}
 
 	uint8_t* RingBuffer::GetWriteBuffer()
 	{
 		// 패킷을 받을 만큼 충분한 공간이 없다면 가장 앞으로 데이터를 복사함
-		if (m_writePos + MIN_BUFFER > m_data + m_size)
+		if (m_writePos + (m_size / 4) > m_data + m_size)
 		{
 			int32_t leftSize = static_cast<int32_t>(m_writePos - m_readPos);
 			memcpy_s(m_data, leftSize, m_readPos, leftSize);
@@ -78,6 +75,6 @@ namespace Core
 
 	int32_t RingBuffer::GetWriteBufferSize() const
 	{
-		return (m_data + m_size) - m_writePos;
+		return static_cast<int32_t>((m_data + m_size) - m_writePos);
 	}
 }

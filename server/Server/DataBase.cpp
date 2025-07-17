@@ -20,32 +20,13 @@ namespace Core
 	void DataBase::Initialize()
 	{
 		Logger::instance().Log("Database Initialize Started!");
-
-		for (int i = 0; i < MAX_THREAD_COUNT; ++i)
-		{
-			std::unique_ptr<sql::Connection> connection(m_driver->connect(kHostAddress, kUserName, kPassword));
-			connection->setSchema(kSchema);
-			m_connections.emplace_back(std::make_pair(std::move(connection), std::thread::id()));
-		}
-
-		Logger::instance().Log("Database Initialize finished!");
-
 		Migrate();
+		Logger::instance().Log("Database Initialize finished!");
 	}
 
-	sql::Connection* DataBase::GetConnection()
+	std::unique_ptr<sql::Connection> DataBase::GetConnection()
 	{
-		//int index = 0;
-		//while (true) {
-		//	std::pair<std::unique_ptr<sql::Connection>, std::thread::id>& pair(m_connections[index]);
-		//	if (pair.second == std::thread::id() || pair.second == std::this_thread::get_id()) {
-		//		pair.second = std::this_thread::get_id();
-		//		return pair.first.get();
-		//	}
-		//	
-		//	index = (index + 1) % m_connections.size();
-		//}
-		sql::Connection* conn = m_driver->connect(kHostAddress, kUserName, kPassword);
+		std::unique_ptr<sql::Connection> conn(m_driver->connect(kHostAddress, kUserName, kPassword));
 		conn->setSchema(kSchema);
 		return conn;
 	}
@@ -54,7 +35,7 @@ namespace Core
 	{
 		Logger::instance().Log("Database Migration Started!");
 
-		sql::Connection* connection = GetConnection();
+		auto connection = GetConnection();
 
 		try
 		{

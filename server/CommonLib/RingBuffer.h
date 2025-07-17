@@ -1,14 +1,14 @@
 #pragma once
+#include "Define.h"
 
-namespace Core
+namespace Common
 {
-	class RingBuffer
+	class COMMON_LIB_API RingBuffer
 	{
 		int32_t m_size;
 		uint8_t* m_data;
 		uint8_t* m_writePos;
 		uint8_t* m_readPos;
-		std::mutex m_lock;
 
 	public:
 		RingBuffer(int32_t bufferSize);

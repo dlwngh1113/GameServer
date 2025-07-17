@@ -131,9 +131,6 @@
     <ClCompile Include="SectorChangeInfo.cpp">
       <Filter>Client\Model</Filter>
     </ClCompile>
-    <ClCompile Include="RingBuffer.cpp">
-      <Filter>Framework\Util</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\lauxlib.h">
@@ -229,9 +226,6 @@
     <ClInclude Include="Place.h" />
     <ClInclude Include="SectorChangeInfo.h">
       <Filter>Client\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="RingBuffer.h">
-      <Filter>Framework\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

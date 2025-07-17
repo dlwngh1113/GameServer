@@ -191,7 +191,6 @@
     <ClCompile Include="CommandHandlerException.cpp" />
     <ClCompile Include="CommandHandlerFactory.cpp" />
     <ClCompile Include="Place.cpp" />
-    <ClCompile Include="RingBuffer.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="SectorChangeInfo.cpp" />
     <ClCompile Include="Singleton.cpp" />
@@ -232,7 +231,6 @@
     <ClInclude Include="CommandHandlerFactory.h" />
     <ClInclude Include="Place.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="RingBuffer.h" />
     <ClInclude Include="Sector.h" />
     <ClInclude Include="SectorChangeInfo.h" />
     <ClInclude Include="Singleton.h" />

@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "BaseHandler.h"
 
-void BaseHandler::Initialize(unsigned char* packet, short packetSize)
+void BaseHandler::Initialize(const uint8_t* packet, int16_t packetSize)
 {
-	m_packet = packet;
 	m_packetSize = packetSize;
+	memcpy_s(m_packet, m_packetSize, packet, m_packetSize);
 }

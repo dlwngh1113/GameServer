@@ -30,6 +30,7 @@
 
 // CommonLib
 #include "../CommonLib/Packets.h"
+#include "../CommonLib/RingBuffer.h"
 
 #pragma comment(lib, "CommonLib.lib")
 #pragma comment(lib, "SDL2_ttf.lib")

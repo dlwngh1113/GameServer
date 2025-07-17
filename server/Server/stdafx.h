@@ -40,3 +40,4 @@ extern "C" {
 
 #include "../Common/Common.hpp"
 #include "../CommonLib/Packets.h"
+#include "../CommonLib/RingBuffer.h"

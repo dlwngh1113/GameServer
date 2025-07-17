@@ -55,7 +55,7 @@ namespace Core
             return;
         }
   
-        uint8_t pBuffer[MAX_BUFFER]{};
+        static thread_local uint8_t pBuffer[MAX_BUFFER]{};
         m_buffer.Peek(pBuffer, leftBytes);
 
         Common::Header header{};
