@@ -56,9 +56,7 @@ Place::~Place()
 
 void Place::SendEvent(const boost::uuids::uuid& id, Common::Packet* packet)
 {
-	m_lock.lock();
 	std::unordered_set<std::shared_ptr<User>> users(m_users);
-	m_lock.unlock();
 
 	for (const auto& user : users)
 	{
@@ -107,9 +105,7 @@ std::unique_ptr<SectorChangeInfo> Place::GetSectorChangeInfo(Sector* prevSector,
 
 void Place::AddUser(std::shared_ptr<User> user)
 {
-	m_lock.lock();
 	m_users.insert(user);
-	m_lock.unlock();
 
 	// 이벤트 발송
 
@@ -127,9 +123,7 @@ void Place::AddUser(std::shared_ptr<User> user)
 
 void Place::RemoveUser(std::shared_ptr<User> user)
 {
-	m_lock.lock();
 	m_users.erase(user);
-	m_lock.unlock();
 
 	// 이벤트 발송
 
