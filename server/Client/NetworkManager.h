@@ -6,7 +6,7 @@ class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 {
 	TCPsocket m_socket;
 	SDLNet_SocketSet m_socketSet;
-	short m_packetId;
+	int16_t m_packetId;
 	std::thread m_thread;
 
 	Common::RingBuffer m_buffer;
