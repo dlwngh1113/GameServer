@@ -56,7 +56,7 @@ namespace Core
         while (true)
         {
             std::function<void()> work{ nullptr };
-            if (m_works.try_pop(work))
+            if (m_works.pop(work))
             {
                 work();
             }

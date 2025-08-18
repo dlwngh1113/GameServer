@@ -17,7 +17,7 @@ void Logger::LogOnConsole()
 	while (true)
 	{
 		std::string message;
-		if (m_messages.try_pop(message))
+		if (m_messages.pop(message))
 			std::cerr << message << std::endl;
 	}
 }

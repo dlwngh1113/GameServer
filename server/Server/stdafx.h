@@ -13,7 +13,6 @@ extern "C" {
 #include <chrono>
 #include <string>
 #include <fstream>
-#include <concurrent_queue.h>
 
 // STL
 #include <vector>
@@ -27,6 +26,7 @@ extern "C" {
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/array.hpp>
+#include <boost/lockfree/queue.hpp>
 
 // mysql
 #include <jdbc/cppconn/driver.h>
