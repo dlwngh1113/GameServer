@@ -109,7 +109,7 @@ void Place::AddUser(std::shared_ptr<User> user)
 
 	// 이벤트 발송
 
-	//ClientCommon::UserEnterEvent ev;
+	//Common::UserEnterEvent ev;
 	//ev.header.size = sizeof(ev);
 	//ev.header.type = static_cast<short>(ServerEvent::UserEnter);
 	//ev.id = user->GetID();

@@ -17,4 +17,10 @@ void MoveCommandHandler::HandleCommand()
 
 	Place* place = CServer::instance().GetPlace();
 	place->SetUserPosition(m_user, packet.x, packet.y);
+
+	Common::MoveResponseBody resBody;
+	resBody.x = m_user->x();
+	resBody.y = m_user->y();
+	resBody.moveTime = m_user->moveTime();
+	m_user->SendPacket(&resBody);
 }
