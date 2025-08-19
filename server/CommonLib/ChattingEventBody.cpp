@@ -10,11 +10,11 @@ namespace Common
 
 	void ChattingEventBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << message;
+		ps.Write(message);
 	}
 
 	void ChattingEventBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> message;
+		ps.Read(message);
 	}
 }

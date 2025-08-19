@@ -34,11 +34,13 @@ extern "C" {
 #include <jdbc/cppconn/statement.h>
 #include <jdbc/cppconn/prepared_statement.h>
 
-#pragma comment(lib, "lua54.lib")
-#pragma comment(lib, "mysqlcppconn.lib")
-#pragma comment(lib, "CommonLib.lib")
-#pragma comment(lib, "libboost_thread-vc143-mt-x64-1_86.lib")
-#pragma comment(lib, "libboost_chrono-vc143-mt-x64-1_86.lib")
+#ifdef _WIN32
+	#pragma comment(lib, "lua54.lib")
+	#pragma comment(lib, "mysqlcppconn.lib")
+	#pragma comment(lib, "CommonLib.lib")
+	#pragma comment(lib, "libboost_thread-vc143-mt-x64-1_86.lib")
+	#pragma comment(lib, "libboost_chrono-vc143-mt-x64-1_86.lib")
+#endif // _WIN32
 
 #include "../Common/Common.hpp"
 #include "../CommonLib/Packets.h"

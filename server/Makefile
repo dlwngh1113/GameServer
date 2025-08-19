@@ -61,7 +61,7 @@ $(COMMONLIB_TARGET): $(COMMONLIB_OBJS)
 
 $(COMMONLIB_BUILD_DIR)/%.o: $(COMMONLIB_SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+	$(CXX) -DCOMMON_LIB_EXPORTS $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # 모든 빌드 파일 삭제
 clean:
