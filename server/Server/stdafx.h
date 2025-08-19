@@ -26,7 +26,7 @@ extern "C" {
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/array.hpp>
-#include <boost/lockfree/queue.hpp>
+#include <boost/thread/sync_queue.hpp>
 
 // mysql
 #include <jdbc/cppconn/driver.h>
@@ -37,6 +37,8 @@ extern "C" {
 #pragma comment(lib, "lua54.lib")
 #pragma comment(lib, "mysqlcppconn.lib")
 #pragma comment(lib, "CommonLib.lib")
+#pragma comment(lib, "libboost_thread-vc143-mt-x64-1_86.lib")
+#pragma comment(lib, "libboost_chrono-vc143-mt-x64-1_86.lib")
 
 #include "../Common/Common.hpp"
 #include "../CommonLib/Packets.h"

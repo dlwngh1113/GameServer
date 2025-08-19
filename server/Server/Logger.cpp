@@ -17,8 +17,10 @@ void Logger::LogOnConsole()
 	while (true)
 	{
 		std::string message;
-		if (m_messages.pop(message))
+		if (m_messages.nonblocking_pull(message) == boost::concurrent::queue_op_status::success)
+		{
 			std::cerr << message << std::endl;
+		}
 	}
 }
 
