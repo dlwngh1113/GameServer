@@ -13,7 +13,7 @@ extern "C" {
 #include <chrono>
 #include <string>
 #include <fstream>
-#include <concurrent_queue.h>
+#include <stdexcept>
 
 // STL
 #include <vector>
@@ -27,6 +27,7 @@ extern "C" {
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/array.hpp>
+#include <boost/thread/sync_queue.hpp>
 
 // mysql
 #include <jdbc/cppconn/driver.h>
@@ -34,9 +35,14 @@ extern "C" {
 #include <jdbc/cppconn/statement.h>
 #include <jdbc/cppconn/prepared_statement.h>
 
-#pragma comment(lib, "lua54.lib")
-#pragma comment(lib, "mysqlcppconn.lib")
-#pragma comment(lib, "CommonLib.lib")
+#ifdef _WIN32
+	#pragma comment(lib, "lua54.lib")
+	#pragma comment(lib, "mysqlcppconn.lib")
+	#pragma comment(lib, "CommonLib.lib")
+	#pragma comment(lib, "libboost_thread-vc143-mt-x64-1_86.lib")
+	#pragma comment(lib, "libboost_chrono-vc143-mt-x64-1_86.lib")
+#endif // _WIN32
 
 #include "../Common/Common.hpp"
 #include "../CommonLib/Packets.h"
+#include "../CommonLib/RingBuffer.h"

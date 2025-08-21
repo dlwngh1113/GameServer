@@ -8,7 +8,7 @@ namespace Core
     private:
         boost::asio::io_context m_context;
         boost::asio::ip::tcp::acceptor m_acceptor;
-        concurrency::concurrent_queue<std::function<void()>> m_works;
+        boost::concurrent::sync_queue<std::function<void()>> m_works;
         std::thread m_workerThread;
 
         std::unordered_map<boost::uuids::uuid, std::shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;

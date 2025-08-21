@@ -21,6 +21,10 @@ namespace Common
 	class COMMON_LIB_API MoveResponseBody : public ResponseBody
 	{
 	public:
+		float x, y;
+		int32_t moveTime;
+
+	public:
 		explicit MoveResponseBody();
 
 	protected:

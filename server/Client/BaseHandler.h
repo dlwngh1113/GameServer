@@ -3,10 +3,12 @@
 class BaseHandler
 {
 protected:
-	unsigned char* m_packet;
-	short m_packetSize;
+	uint8_t* m_packet;
+	int16_t m_packetSize;
 
 public:
-	void Initialize(unsigned char* packet, short packetSize);
+	virtual ~BaseHandler();
+
+	void Initialize(const uint8_t* packet, int16_t packetSize);
 	virtual void Handle() = 0;
 };

@@ -12,12 +12,16 @@ namespace Common
 
 	void MoveCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << x << y << moveTime;
+		ps.Write(x);
+		ps.Write(y);
+		ps.Write(moveTime);
 	}
 
 	void MoveCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> x >> y >>  moveTime;
+		ps.Read(x);
+		ps.Read(y);
+		ps.Read(moveTime);
 	}
 
 	MoveResponseBody::MoveResponseBody()

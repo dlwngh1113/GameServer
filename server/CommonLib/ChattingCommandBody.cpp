@@ -10,12 +10,12 @@ namespace Common
 
 	void ChattingCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << message;
+		ps.Write(message);
 	}
 
 	void ChattingCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> message;
+		ps.Read(message);
 	}
 	
 	//
@@ -29,11 +29,11 @@ namespace Common
 	
 	void ChattingResponseBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << message;
+		ps.Write(message);
 	}
 	
 	void ChattingResponseBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> message;
+		ps.Read(message);
 	}
 }

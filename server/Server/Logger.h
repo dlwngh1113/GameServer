@@ -4,7 +4,7 @@
 class Logger : public Core::Singleton<Logger>
 {
 private:
-	concurrency::concurrent_queue<std::string> m_messages;
+	boost::concurrent::sync_queue<std::string> m_messages;
 	std::thread m_thread;
 
 public:

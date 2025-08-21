@@ -16,6 +16,6 @@ namespace Core
 
 	public:
 		void Initialize();
-		sql::Connection* GetConnection();
+		std::unique_ptr<sql::Connection> GetConnection();
 	};
 }

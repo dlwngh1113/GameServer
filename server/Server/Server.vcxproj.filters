@@ -92,9 +92,6 @@
     <ClCompile Include="IHandlerFactory.cpp">
       <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
-    <ClCompile Include="CommandHandlerException.cpp">
-      <Filter>Framework\CommandHandler</Filter>
-    </ClCompile>
     <ClCompile Include="Uuid.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
@@ -130,9 +127,6 @@
     </ClCompile>
     <ClCompile Include="SectorChangeInfo.cpp">
       <Filter>Client\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="RingBuffer.cpp">
-      <Filter>Framework\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,9 +184,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CommandHandlerException.h">
-      <Filter>Framework\CommandHandler</Filter>
-    </ClInclude>
     <ClInclude Include="ICreator.h">
       <Filter>Framework\Util</Filter>
     </ClInclude>
@@ -229,9 +220,6 @@
     <ClInclude Include="Place.h" />
     <ClInclude Include="SectorChangeInfo.h">
       <Filter>Client\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="RingBuffer.h">
-      <Filter>Framework\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

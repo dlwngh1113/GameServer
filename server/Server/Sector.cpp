@@ -60,7 +60,8 @@ void Sector::Move(std::shared_ptr<User> targetUser)
 	// 이벤트 발송
 
 	for (const auto& user : m_users)
-		user->SendPacket(&ev);
+		if (user->id() != targetUser->id())
+			user->SendPacket(&ev);
 }
 
 void Sector::AddUser(std::shared_ptr<User> user)

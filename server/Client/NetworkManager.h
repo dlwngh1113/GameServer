@@ -6,11 +6,10 @@ class NetworkManager : public ClientFramework::Singleton<NetworkManager>
 {
 	TCPsocket m_socket;
 	SDLNet_SocketSet m_socketSet;
-	short m_packetId;
+	int16_t m_packetId;
 	std::thread m_thread;
 
-	unsigned char m_dataBuffer[MAX_BUFFER]{ NULL };
-	unsigned char* m_currentBufferPos{ nullptr };
+	Common::RingBuffer m_buffer;
 
 	std::chrono::seconds m_lastSendTime;
 	std::unique_ptr<HandlerFactory> m_factory;
@@ -21,8 +20,7 @@ public:
 	NetworkManager();
 
 private:
-	void ReceiveLeftData(unsigned char* nextRecvPtr);
-	void ProcessPacket(unsigned char* data, short snSize);
+	void ProcessPacket(int16_t type, int16_t size);
 	void OnReceivePacket(int bytesTransferred);
 
 public:

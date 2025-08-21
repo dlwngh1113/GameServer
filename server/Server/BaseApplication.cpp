@@ -56,7 +56,8 @@ namespace Core
         while (true)
         {
             std::function<void()> work{ nullptr };
-            if (m_works.try_pop(work))
+            auto opStatus = m_works.nonblocking_pull(work);
+            if (opStatus == boost::concurrent::queue_op_status::success)
             {
                 work();
             }
@@ -98,6 +99,6 @@ namespace Core
 
     void BaseApplication::EnqueueWork(std::function<void()> work)
     {
-        m_works.push(work);
+        m_works.nonblocking_push(work);
     }
 }

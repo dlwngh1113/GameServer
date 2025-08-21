@@ -7,10 +7,10 @@
 NetworkManager::NetworkManager()
 	: m_socket(nullptr)
 	, m_socketSet(SDLNet_AllocSocketSet(1))
-	, m_currentBufferPos(m_dataBuffer)
 	, m_lastSendTime(std::chrono::seconds::min())
 	, m_factory(std::make_unique<HandlerFactory>())
 	, m_packetId(0)
+	, m_buffer(MAX_BUFFER)
 {
 }
 
@@ -55,7 +55,7 @@ void NetworkManager::ReceivePacket()
 		{
 			try
 			{
-				int bytesTransferred = SDLNet_TCP_Recv(m_socket, m_currentBufferPos, MAX_BUFFER);
+				int bytesTransferred = SDLNet_TCP_Recv(m_socket, m_buffer.GetWriteBuffer(), m_buffer.GetWriteBufferSize());
 				if (bytesTransferred > 0)
 					OnReceivePacket(bytesTransferred);
 				else
@@ -74,59 +74,36 @@ void NetworkManager::ReceivePacket()
 
 void NetworkManager::OnReceivePacket(int bytesTransferred)
 {
-	unsigned char* pNextRecvPos = m_currentBufferPos + bytesTransferred;
+	auto leftBytes = bytesTransferred;
+	m_buffer.AddReceivedSize(leftBytes);
 
-	if (bytesTransferred < sizeof(Common::Header))
+	if (leftBytes < sizeof(Common::Header))
 	{
-		ReceiveLeftData(pNextRecvPos);
 		return;
 	}
 
-	Common::Header* header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
-	short snPacketType = header->type;
-	short snPacketSize = header->size;
+	static thread_local uint8_t pBuffer[MAX_BUFFER]{};
+	m_buffer.Peek(pBuffer, leftBytes);
 
-	// 패킷이 size만큼 도착한 경우
-	while (snPacketSize <= pNextRecvPos - m_currentBufferPos)
+	Common::Header header{};
+	do
 	{
-		ProcessPacket(m_currentBufferPos, snPacketSize);
+		m_buffer.Peek(reinterpret_cast<uint8_t*>(&header), sizeof(header));
 
-		m_currentBufferPos += snPacketSize;
-		if (m_currentBufferPos < pNextRecvPos)
-		{
-			header = reinterpret_cast<Common::Header*>(m_currentBufferPos);
-			snPacketSize = header->size;
-		}
-		else
-			break;
-	}
+		ProcessPacket(header.type, header.size);
 
-	ReceiveLeftData(pNextRecvPos);
+		leftBytes -= header.size;
+		m_buffer.Pop(pBuffer, header.size);
+	} while (m_buffer.GetReadableSize() > 0);
 }
 
-void NetworkManager::ReceiveLeftData(unsigned char* nextRecvPtr)
+void NetworkManager::ProcessPacket(int16_t type, int16_t size)
 {
-	long long lnLeftData = nextRecvPtr - m_currentBufferPos;
-
-	if ((MAX_BUFFER - (nextRecvPtr - m_currentBufferPos)) < MIN_BUFFER)
-	{
-		// 패킷 처리 후 남은 데이터를 버퍼 시작 지점으로 복사
-		memcpy(m_dataBuffer, m_currentBufferPos, lnLeftData);
-		nextRecvPtr = m_dataBuffer + lnLeftData;
-	}
-
-	m_currentBufferPos = nextRecvPtr;
-}
-
-void NetworkManager::ProcessPacket(unsigned char* data, short snSize)
-{
-	Common::Header* header = reinterpret_cast<Common::Header*>(data);
-	
-	Event cmd = static_cast<Event>(header->type);
+	Event cmd = static_cast<Event>(type);
 	try
 	{
 		std::shared_ptr<BaseHandler> handler = m_factory->Create(cmd);
-		handler->Initialize(data, snSize);
+		handler->Initialize(m_buffer.GetReadBuffer(), size);
 		m_handlers.push(handler);
 	}
 	catch (std::exception& ex)

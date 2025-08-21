@@ -16,7 +16,7 @@ namespace Core
 	{
 		m_peer = peer;
 		m_data.resize(size);
-		memcpy_s(m_data.data(), m_data.size(), data, size);
+		memcpy(m_data.data(), data, size);
 	}
 
 	void BaseCommandHandler::SendResponse(std::shared_ptr<Common::ResponseBody> response)

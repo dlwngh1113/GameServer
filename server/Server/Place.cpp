@@ -6,18 +6,6 @@
 
 Sector* Place::GetSectorByPoint(int x, int y)
 {
-	//Sector* sector = nullptr;
-	//for (int i = 0; i < m_nHeightSectorSize; ++i)
-	//{
-	//	for (int j = 0; j < m_nWidthSectorSize; ++j)
-	//	{
-	//		if (m_sectors[i][j].IsPointInSector(x, y))
-	//			return &m_sectors[i][j];
-	//	}
-	//}
-
-	//return nullptr;
-
 	int nHeightIndex = x / m_nHeightSectorSize;
 	int nWidthIndex = y / m_nWidthSectorSize;
 
@@ -50,19 +38,25 @@ Place::Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeight
 
 Place::~Place()
 {
-	for (int i = 0; i < m_nHeightSectorSize; ++i)
-		if (m_sectors[i])
-			delete[] m_sectors[i];
-
 	if (m_sectors)
+	{
+		for (int i = 0; i < m_nHeightSectorSize; ++i)
+		{
+			if (m_sectors[i])
+			{
+				delete[] m_sectors[i];
+				m_sectors[i] = nullptr;
+			}
+		}
+
 		delete[] m_sectors;
+		m_sectors = nullptr;
+	}
 }
 
 void Place::SendEvent(const boost::uuids::uuid& id, Common::Packet* packet)
 {
-	m_lock.lock();
 	std::unordered_set<std::shared_ptr<User>> users(m_users);
-	m_lock.unlock();
 
 	for (const auto& user : users)
 	{
@@ -111,13 +105,11 @@ std::unique_ptr<SectorChangeInfo> Place::GetSectorChangeInfo(Sector* prevSector,
 
 void Place::AddUser(std::shared_ptr<User> user)
 {
-	m_lock.lock();
 	m_users.insert(user);
-	m_lock.unlock();
 
 	// 이벤트 발송
 
-	//ClientCommon::UserEnterEvent ev;
+	//Common::UserEnterEvent ev;
 	//ev.header.size = sizeof(ev);
 	//ev.header.type = static_cast<short>(ServerEvent::UserEnter);
 	//ev.id = user->GetID();
@@ -125,14 +117,13 @@ void Place::AddUser(std::shared_ptr<User> user)
 	//ev.x = user->x();
 	//ev.y = user->y();
 
+
 	//SendEvent(user->GetID(), &ev);
 }
 
 void Place::RemoveUser(std::shared_ptr<User> user)
 {
-	m_lock.lock();
 	m_users.erase(user);
-	m_lock.unlock();
 
 	// 이벤트 발송
 

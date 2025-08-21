@@ -14,6 +14,18 @@ namespace Common
 	{
 	}
 
+	void PacketStream::_Write(const void* pData, int32_t size)
+	{
+		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(pData);
+		m_buffer.insert(m_buffer.end(), ptr, ptr + size);
+	}
+
+	void PacketStream::_Read(void* pData, int32_t size)
+	{
+		memcpy(pData, m_buffer.data() + m_offset, size);
+		m_offset += size;
+	}
+
 	std::string PacketStream::GetData(int16_t id, int16_t type)
 	{
 		Header header;
@@ -27,82 +39,17 @@ namespace Common
 		return std::string(m_buffer.begin(), m_buffer.end());
 	}
 
-	template <typename T>
-	PacketStream& PacketStream::operator<<(const T& val)
-	{
-		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&val);
-		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
-
-		return *this;
-	}
-
-	template <>
-	PacketStream& PacketStream::operator<<<std::string>(const std::string& val)
+	void PacketStream::Write(const std::string& val)
 	{
 		int16_t size = static_cast<int16_t>(val.size());
-		this->operator<<(size);
-
-		m_buffer.insert(m_buffer.end(), val.begin(), val.end());
-
-		return *this;
+		Write(size);
+		_Write(&val[0], size);
 	}
 
-	template<>
-	PacketStream& PacketStream::operator<<<float>(const float& val)
-	{
-		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&val);
-		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
-
-		return *this;
-	}
-
-	template<>
-	PacketStream& PacketStream::operator<<<int32_t>(const int32_t& val)
-	{
-		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&val);
-		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
-
-		return *this;
-	}
-
-	template <typename T>
-	PacketStream& PacketStream::operator>>(T& val)
-	{
-		memcpy_s(&val, sizeof(T), m_buffer.data() + m_offset, sizeof(T));
-		m_offset += sizeof(T);
-
-		return *this;
-	}
-
-	template <>
-	PacketStream& PacketStream::operator>><std::string>(std::string& val)
+	void PacketStream::Read(std::string& val)
 	{
 		int16_t size;
-		this->operator>>(size);
-
-		val.resize(size);
-		memcpy_s(&val[0], size, m_buffer.data() + m_offset, size);
-
-		m_offset += size;
-
-		return *this;
-	}
-
-	template<>
-	PacketStream& PacketStream::operator>><float>(float& val)
-	{
-		memcpy_s(&val, sizeof(float), m_buffer.data() + m_offset, sizeof(float));
-		m_offset += sizeof(float);
-
-		return *this;
-	}
-
-	template<>
-	PacketStream& PacketStream::operator>><int32_t>(int32_t& val)
-	{
-		memcpy_s(&val, sizeof(int32_t), m_buffer.data() + m_offset, sizeof(int32_t));
-		m_offset += sizeof(int32_t);
-
-		return *this;
+		Read(size);
+		_Read(&val[0], size);
 	}
 }

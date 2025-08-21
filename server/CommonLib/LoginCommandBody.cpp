@@ -10,12 +10,14 @@ namespace Common
 
 	void LoginCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << userId << password;
+		ps.Write(userId);
+		ps.Write(password);
 	}
 
 	void LoginCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> userId >> password;
+		ps.Read(userId);
+		ps.Read(password);
 	}
 
 	LoginResponseBody::LoginResponseBody()
@@ -26,11 +28,13 @@ namespace Common
 
 	void LoginResponseBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << x << y;
+		ps.Write(x);
+		ps.Write(y);
 	}
 
 	void LoginResponseBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> x >> y;
+		ps.Read(x);
+		ps.Read(y);
 	}
 }

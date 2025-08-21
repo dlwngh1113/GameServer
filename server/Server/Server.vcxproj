@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -188,10 +188,8 @@
     <ClCompile Include="MoveCommandHandler.cpp" />
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseCommandHandler.cpp" />
-    <ClCompile Include="CommandHandlerException.cpp" />
     <ClCompile Include="CommandHandlerFactory.cpp" />
     <ClCompile Include="Place.cpp" />
-    <ClCompile Include="RingBuffer.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="SectorChangeInfo.cpp" />
     <ClCompile Include="Singleton.cpp" />
@@ -228,11 +226,9 @@
     <ClInclude Include="Peer.h" />
     <ClInclude Include="BaseCommandHandler.h" />
     <ClInclude Include="CommandHandler.h" />
-    <ClInclude Include="CommandHandlerException.h" />
     <ClInclude Include="CommandHandlerFactory.h" />
     <ClInclude Include="Place.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="RingBuffer.h" />
     <ClInclude Include="Sector.h" />
     <ClInclude Include="SectorChangeInfo.h" />
     <ClInclude Include="Singleton.h" />

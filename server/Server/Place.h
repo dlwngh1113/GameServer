@@ -8,7 +8,6 @@ class Place
 private:
 	int m_nId{ 0 };
 	int m_nWidth{ 0 }, m_nHeight{ 0 }, m_nWidthSectorSize{ 0 }, m_nHeightSectorSize{ 0 };
-	std::mutex m_lock;
 	std::unordered_set<std::shared_ptr<User>> m_users;
 
 	Sector** m_sectors = nullptr;

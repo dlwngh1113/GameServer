@@ -10,11 +10,15 @@ namespace Common
 
 	void TeleportEventBody::SerializeInternal(PacketStream& ps)
 	{
-		ps << userId << x << y;
+		ps.Write(userId);
+		ps.Write(x);
+		ps.Write(y);
 	}
 
 	void TeleportEventBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps >> userId >> x >> y;
+		ps.Read(userId);
+		ps.Read(x);
+		ps.Read(y);
 	}
 }

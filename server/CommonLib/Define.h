@@ -6,6 +6,8 @@
 	#else
 		#define COMMON_LIB_API __declspec(dllimport)
 	#endif
+#else
+	#define COMMON_LIB_API
 #endif
 
 enum class Command : int16_t

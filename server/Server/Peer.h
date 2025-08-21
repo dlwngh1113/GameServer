@@ -1,6 +1,5 @@
 #pragma once
 #include "Uuid.h"
-#include "RingBuffer.h"
 
 namespace Core
 {
@@ -13,7 +12,7 @@ namespace Core
 	private:
 		boost::asio::ip::tcp::socket m_socket;
 
-		RingBuffer m_buffer;
+		Common::RingBuffer m_buffer;
 
 		boost::uuids::uuid m_id;
 		BaseApplication* m_application;
