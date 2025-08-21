@@ -16,8 +16,7 @@ BOOST_INC_DIR = ../extlib/include
 # 공통 라이브러리 (CommonLib) 경로 및 이름
 # 동적 라이브러리(.so) 경로와 이름
 COMMONLIB_NAME = CommonLib
-COMMONLIB_LIB_PATH = $(COMMONLIB_BUILD_DIR)
-COMMONLIB_LIB = -L$(COMMONLIB_LIB_PATH) -l$(COMMONLIB_NAME)
+COMMONLIB_LIB = -L$(COMMONLIB_BUILD_DIR) -l$(COMMONLIB_NAME)
 
 # 소스 파일 및 객체 파일 목록
 # 소스 파일과 빌드될 객체 파일 목록 생성
@@ -37,9 +36,12 @@ INCLUDES = -I$(SERVER_SRC_DIR) -I$(COMMON_INC_DIR) -I$(COMMONLIB_SRC_DIR) -I$(BO
 
 # 링커 옵션
 # Boost 라이브러리 링크 및 공통 라이브러리 링크
-LDFLAGS = -L$(BOOST_LIB_DIR) -lpthread $(COMMONLIB_LIB)
+LDFLAGS = -L$(BOOST_LIB_DIR) -lmysqlcppconn -lpthread $(COMMONLIB_LIB)
 
-.PHONY: all clean
+# 설치 경로 설정 (예: /usr/local/lib)
+INSTALL_LIB_DIR = /usr/local/lib
+
+.PHONY: all clean install
 
 all: $(SERVER_TARGET)
 
@@ -62,6 +64,13 @@ $(COMMONLIB_TARGET): $(COMMONLIB_OBJS)
 $(COMMONLIB_BUILD_DIR)/%.o: $(COMMONLIB_SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) -DCOMMON_LIB_EXPORTS $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+	# 설치 규칙
+# 빌드된 공유 라이브러리를 지정된 경로에 복사
+install: $(COMMONLIB_TARGET)
+	@mkdir -p $(INSTALL_LIB_DIR)
+	@cp $< $(INSTALL_LIB_DIR)/
+	@echo "Copied $< to $(INSTALL_LIB_DIR)/"
 
 # 모든 빌드 파일 삭제
 clean:
