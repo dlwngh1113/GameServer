@@ -28,7 +28,7 @@ namespace Common
 			copySize = static_cast<int32_t>(m_writePos - m_readPos);
 		}
 		
-		memcpy_s(buffer, copySize, m_readPos, copySize);
+		memcpy(buffer, m_readPos, copySize);
 		m_readPos += copySize;
 	}
 
@@ -40,7 +40,7 @@ namespace Common
 			copySize = static_cast<int32_t>(m_writePos - m_readPos);
 		}
 
-		memcpy_s(buffer, copySize, m_readPos, copySize);
+		memcpy(buffer, m_readPos, copySize);
 	}
 
 	void RingBuffer::AddReceivedSize(int32_t receivedSize)
@@ -64,7 +64,7 @@ namespace Common
 		if (m_writePos + (m_size / 4) > m_data + m_size)
 		{
 			int32_t leftSize = static_cast<int32_t>(m_writePos - m_readPos);
-			memcpy_s(m_data, leftSize, m_readPos, leftSize);
+			memcpy(m_data, m_readPos, leftSize);
 
 			m_readPos = m_data;
 			m_writePos = m_data + leftSize;

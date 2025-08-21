@@ -92,9 +92,6 @@
     <ClCompile Include="IHandlerFactory.cpp">
       <Filter>Framework\CommandHandler</Filter>
     </ClCompile>
-    <ClCompile Include="CommandHandlerException.cpp">
-      <Filter>Framework\CommandHandler</Filter>
-    </ClCompile>
     <ClCompile Include="Uuid.cpp">
       <Filter>Framework\Util</Filter>
     </ClCompile>
@@ -186,9 +183,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandHandlerException.h">
-      <Filter>Framework\CommandHandler</Filter>
     </ClInclude>
     <ClInclude Include="ICreator.h">
       <Filter>Framework\Util</Filter>

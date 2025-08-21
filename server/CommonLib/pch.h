@@ -10,7 +10,11 @@
 #include <vector>
 #include <string>
 #include <cstdint>
+#include <cstring>
 
-#pragma warning(disable: 4251)
+#ifdef _WIN32
+	#pragma warning(disable: 4251)
+#endif // _WIN32
+
 
 #endif //PCH_H

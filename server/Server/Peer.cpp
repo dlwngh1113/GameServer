@@ -32,7 +32,7 @@ namespace Core
             m_socket.async_receive(boost::asio::buffer(m_buffer.GetWriteBuffer(), m_buffer.GetWriteBufferSize()),
                 bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
         }
-        catch (std::exception& ex)
+        catch (std::runtime_error& ex)
         {
             Logger::instance().Log(ex.what());
         }
@@ -49,7 +49,7 @@ namespace Core
         auto leftBytes = bytesTransferred;
         m_buffer.AddReceivedSize(leftBytes);
 
-        if (leftBytes < sizeof(Common::Header))
+        if (leftBytes < static_cast<int32_t>(sizeof(Common::Header)))
         {
             ReceiveData();
             return;
@@ -77,14 +77,14 @@ namespace Core
         try
         {
             if (m_factory == nullptr)
-                throw std::exception{ "CommandHandlerFactory is nullptr!" };
+                throw std::runtime_error{ "CommandHandlerFactory is nullptr!" };
 
             std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(type);
             handler->Initialize(shared_from_this(), m_buffer.GetReadBuffer(), size);
 
             m_application->EnqueueWork([handler]() { handler->Handle(); });
         }
-        catch (std::exception& ex)
+        catch (std::runtime_error& ex)
         {
             Logger::instance().Log(std::format("[Error] - {}", ex.what()));
         }
@@ -110,7 +110,7 @@ namespace Core
             m_socket.async_send(boost::asio::buffer(data),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }
-        catch (std::exception& ex)
+        catch (std::runtime_error& ex)
         {
             Logger::instance().Log(ex.what());
         }
@@ -123,7 +123,7 @@ namespace Core
             m_socket.async_send(boost::asio::buffer(data, size),
                 [](const boost::system::error_code& error, size_t bytesTransferred) {});
         }
-        catch (std::exception& ex)
+        catch (std::runtime_error& ex)
         {
             Logger::instance().Log(ex.what());
         }

@@ -13,6 +13,7 @@ extern "C" {
 #include <chrono>
 #include <string>
 #include <fstream>
+#include <stdexcept>
 
 // STL
 #include <vector>

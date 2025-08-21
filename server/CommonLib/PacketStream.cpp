@@ -14,6 +14,18 @@ namespace Common
 	{
 	}
 
+	void PacketStream::_Write(const void* pData, int32_t size)
+	{
+		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(pData);
+		m_buffer.insert(m_buffer.end(), ptr, ptr + size);
+	}
+
+	void PacketStream::_Read(void* pData, int32_t size)
+	{
+		memcpy(pData, m_buffer.data() + m_offset, size);
+		m_offset += size;
+	}
+
 	std::string PacketStream::GetData(int16_t id, int16_t type)
 	{
 		Header header;
@@ -31,32 +43,13 @@ namespace Common
 	{
 		int16_t size = static_cast<int16_t>(val.size());
 		Write(size);
-
-		m_buffer.insert(m_buffer.end(), val.begin(), val.end());
+		_Write(&val[0], size);
 	}
 
 	void PacketStream::Read(std::string& val)
 	{
 		int16_t size;
 		Read(size);
-
-		val.resize(size);
-		memcpy_s(&val[0], size, m_buffer.data() + m_offset, size);
-
-		m_offset += size;
-	}
-
-	template<class T>
-	void PacketStream::Write(const T& val)
-	{
-		const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&val);
-		m_buffer.insert(m_buffer.end(), ptr, ptr + sizeof(val));
-	}
-
-	template<class T>
-	void PacketStream::Read(T& val)
-	{
-		memcpy_s(&val, sizeof(T), m_buffer.data() + m_offset, sizeof(T));
-		m_offset += sizeof(T);
+		_Read(&val[0], size);
 	}
 }

@@ -37,7 +37,7 @@ INCLUDES = -I$(SERVER_SRC_DIR) -I$(COMMON_INC_DIR) -I$(COMMONLIB_SRC_DIR) -I$(BO
 
 # 링커 옵션
 # Boost 라이브러리 링크 및 공통 라이브러리 링크
-LDFLAGS = -L$(BOOST_LIB_DIR) -lboost_system -lboost_thread -lpthread $(COMMONLIB_LIB)
+LDFLAGS = -L$(BOOST_LIB_DIR) -lpthread $(COMMONLIB_LIB)
 
 .PHONY: all clean
 

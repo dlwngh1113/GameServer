@@ -22,15 +22,26 @@ namespace Common
 		explicit PacketStream();
 		explicit PacketStream(const uint8_t* data, uint64_t size);
 
+	private:
+		void _Write(const void* pData, int32_t size);
+		void _Read(void* pData, int32_t size);
+
+	public:
 		std::string GetData(int16_t id, int16_t type);
 
 		template <class T>
-		void Write(const T& val);
+		void Write(const T& val)
+		{
+			_Write(&val, sizeof(val));
+		}
 
 		void Write(const std::string& val);
 
 		template <class T>
-		void Read(T& val);
+		void Read(T& val)
+		{
+			_Read(&val, sizeof(val));
+		}
 
 		void Read(std::string& val);
 	};

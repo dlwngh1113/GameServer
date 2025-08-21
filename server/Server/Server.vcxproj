@@ -188,7 +188,6 @@
     <ClCompile Include="MoveCommandHandler.cpp" />
     <ClCompile Include="Peer.cpp" />
     <ClCompile Include="BaseCommandHandler.cpp" />
-    <ClCompile Include="CommandHandlerException.cpp" />
     <ClCompile Include="CommandHandlerFactory.cpp" />
     <ClCompile Include="Place.cpp" />
     <ClCompile Include="Sector.cpp" />
@@ -227,7 +226,6 @@
     <ClInclude Include="Peer.h" />
     <ClInclude Include="BaseCommandHandler.h" />
     <ClInclude Include="CommandHandler.h" />
-    <ClInclude Include="CommandHandlerException.h" />
     <ClInclude Include="CommandHandlerFactory.h" />
     <ClInclude Include="Place.h" />
     <ClInclude Include="resource.h" />
