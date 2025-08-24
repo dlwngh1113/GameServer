@@ -50,6 +50,7 @@ namespace Common
 	{
 		int16_t size;
 		Read(size);
+		val.resize(size);
 		_Read(&val[0], size);
 	}
 }

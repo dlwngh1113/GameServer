@@ -1,16 +1,12 @@
 #pragma once
+#include "Singleton.h"
 #include "BaseCommandHandlerFactory.h"
 
-class CommandHandlerFactory: public Core::BaseCommandHandlerFactory
+class CommandHandlerFactory: public Core::BaseCommandHandlerFactory, public Core::Singleton<CommandHandlerFactory>
 {
-	static CommandHandlerFactory s_instance;
 public:
 	CommandHandlerFactory();
 	virtual ~CommandHandlerFactory();
 
 	virtual void Initialize() override;
-	static CommandHandlerFactory& instance()
-	{
-		return s_instance;
-	}
 };

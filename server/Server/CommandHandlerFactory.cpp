@@ -6,8 +6,6 @@
 #include "LoginCommandHandler.h"
 #include "TeleportCommandHandler.h"
 
-CommandHandlerFactory CommandHandlerFactory::s_instance;
-
 CommandHandlerFactory::CommandHandlerFactory() : Core::BaseCommandHandlerFactory()
 {
 }

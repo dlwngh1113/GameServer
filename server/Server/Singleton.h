@@ -10,9 +10,11 @@ namespace Core
 		virtual ~Singleton() {}
 
 	public:
-		static T& instance() { 
+		static T& instance()
+		{ 
 			static T s_instance;
-			return s_instance; }
+			return s_instance;
+		}
 
 		Singleton operator=(const Singleton& other) = delete;
 		Singleton(const Singleton& other) = delete;
