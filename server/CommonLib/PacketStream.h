@@ -30,17 +30,19 @@ namespace Common
 		std::string GetData(int16_t id, int16_t type);
 
 		template <class T>
-		void Write(const T& val)
+		PacketStream& operator<<(const T& val)
 		{
 			_Write(&val, sizeof(val));
+			return *this;
 		}
 
 		void Write(const std::string& val);
 
 		template <class T>
-		void Read(T& val)
+		PacketStream& operator>>(T& val)
 		{
 			_Read(&val, sizeof(val));
+			return *this;
 		}
 
 		void Read(std::string& val);

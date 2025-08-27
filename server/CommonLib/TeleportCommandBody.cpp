@@ -10,14 +10,12 @@ namespace Common
 
 	void TeleportCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(x);
-		ps.Write(y);
+		ps << x << y;
 	}
 
 	void TeleportCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(x);
-		ps.Read(y);
+		ps >> x >> y;
 	}
 
 	TeleportResponseBody::TeleportResponseBody()
