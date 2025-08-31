@@ -1,11 +1,15 @@
 #pragma once
 #include "BaseApplication.h"
 #include "Place.h"
+#include "Singleton.h"
 
 class User;
-class Core::Peer;
+#ifdef _WIN32
+	class Core::Peer;
+#endif // _WIN32
 
-class CServer : public Core::BaseApplication
+
+class CServer : public Core::BaseApplication, public Core::Singleton<CServer>
 {
 	std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>, Core::uuid_hash, Core::uuid_equal> m_users;
 	std::unique_ptr<Place> m_place;
@@ -20,18 +24,11 @@ protected:
 
 public:
 	CServer();
-	CServer(const CServer& other) = delete;
-	CServer& operator=(const CServer& other) = delete;
+	virtual ~CServer();
 
 	virtual void Run() override;
 
 	Place* GetPlace() const { return m_place.get(); }
 	std::shared_ptr<User> GetUser(const boost::uuids::uuid& id);
 	const std::unordered_map<boost::uuids::uuid, std::shared_ptr<User>, Core::uuid_hash, Core::uuid_equal>& users() const { return m_users; }
-
-private:
-	static CServer s_instance;
-
-public:
-	static CServer& instance() { return s_instance; }
 };

@@ -11,6 +11,11 @@ namespace Core
     {
     }
 
+    BaseApplication::~BaseApplication()
+    {
+        TearDown();
+    }
+
     void BaseApplication::Run()
     {
         DataBase::instance().Initialize();

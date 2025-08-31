@@ -15,6 +15,7 @@ namespace Core
 
     public:
         BaseApplication();
+        virtual ~BaseApplication();
         virtual void Run();
 
     private:
