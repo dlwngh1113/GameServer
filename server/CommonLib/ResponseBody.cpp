@@ -4,7 +4,7 @@
 namespace Common
 {
 	ResponseBody::ResponseBody(Command type)
-		: Packet((short)type)
+		: Packet((int16_t)type)
 	{
 	}
 	

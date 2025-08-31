@@ -6,7 +6,7 @@
 void TeleportCommandHandler::HandleCommand()
 {
 	Common::TeleportCommandBody packet;
-	Common::PacketStream ps(m_data.data(), m_data.size());
+	Common::PacketStream ps(m_data.data(), static_cast<int32_t>(m_data.size()));
 	packet.Deserialize(ps);
 
 	//
@@ -19,7 +19,7 @@ void TeleportCommandHandler::HandleCommand()
 		return;
 	}
 
-	CServer::instance().GetPlace()->SetUserPosition(m_user, packet.x, packet.y);
+	CServer::instance().GetPlace()->SetUserPosition(m_user, static_cast<int>(packet.x), static_cast<int>(packet.y));
 	//m_user->Teleport(packet.x, packet.y);
 
 	//

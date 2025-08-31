@@ -8,7 +8,7 @@ namespace Common
 	{
 	}
 
-	PacketStream::PacketStream(const uint8_t* data, uint64_t size)
+	PacketStream::PacketStream(const uint8_t* data, int32_t size)
 		: m_offset(0)
 		, m_buffer(data, data + size)
 	{

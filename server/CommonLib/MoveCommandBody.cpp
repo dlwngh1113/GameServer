@@ -27,9 +27,11 @@ namespace Common
 
 	void MoveResponseBody::SerializeInternal(PacketStream& ps)
 	{
+		ps << x << y << moveTime;
 	}
 
 	void MoveResponseBody::DeserializeInternal(PacketStream& ps)
 	{
+		ps >> x >> y >> moveTime;
 	}
 }

@@ -20,7 +20,7 @@ namespace Common
 
 	public:
 		explicit PacketStream();
-		explicit PacketStream(const uint8_t* data, uint64_t size);
+		explicit PacketStream(const uint8_t* data, int32_t size);
 
 	private:
 		void _Write(const void* pData, int32_t size);

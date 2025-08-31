@@ -6,7 +6,7 @@
 void MoveCommandHandler::HandleCommand()
 {
 	Common::MoveCommandBody packet;
-	Common::PacketStream ps(m_data.data(), m_data.size());
+	Common::PacketStream ps(m_data.data(), static_cast<int32_t>(m_data.size()));
 	packet.Deserialize(ps);
 
 	//
@@ -16,11 +16,11 @@ void MoveCommandHandler::HandleCommand()
 	m_user->setMoveTime(packet.moveTime);
 
 	Place* place = CServer::instance().GetPlace();
-	place->SetUserPosition(m_user, packet.x, packet.y);
+	place->SetUserPosition(m_user, static_cast<int>(packet.x), static_cast<int>(packet.y));
 
-	Common::MoveResponseBody resBody;
-	resBody.x = m_user->x();
-	resBody.y = m_user->y();
-	resBody.moveTime = m_user->moveTime();
-	m_user->SendPacket(&resBody);
+	//Common::MoveResponseBody resBody;
+	//resBody.x = m_user->x();
+	//resBody.y = m_user->y();
+	//resBody.moveTime = m_user->moveTime();
+	//m_user->SendPacket(&resBody);
 }
