@@ -2,11 +2,13 @@
 #include "BaseApplication.h"
 #include "DataBase.h"
 #include "Logger.h"
+#include "PacketWork.h"
 
 namespace Core
 {
     BaseApplication::BaseApplication()
         : m_acceptor{ m_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SERVER_PORT) }
+        , m_works{ 100 }
         , m_workerThread{ &BaseApplication::Work, this }
     {
     }
@@ -60,11 +62,15 @@ namespace Core
     {
         while (true)
         {
-            std::function<void()> work{ nullptr };
-            auto opStatus = m_works.nonblocking_pull(work);
-            if (opStatus == boost::concurrent::queue_op_status::success)
+            if (!m_works.empty())
             {
-                work();
+                //std::function<void()> work{ nullptr };
+                //m_works.pop(work);
+                //work();
+                IWork* work{ nullptr };
+                m_works.pop(work);
+                work->Execute();
+                delete work;
             }
         }
     }
@@ -104,6 +110,6 @@ namespace Core
 
     void BaseApplication::EnqueueWork(std::function<void()> work)
     {
-        m_works.nonblocking_push(work);
+        m_works.push(new PacketWork{work});
     }
 }
