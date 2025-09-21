@@ -10,6 +10,10 @@ namespace Common
 	{
 	}
 
+	MoveCommandBody::~MoveCommandBody()
+	{
+	}
+
 	void MoveCommandBody::SerializeInternal(PacketStream& ps)
 	{
 		ps << x << y << moveTime;
@@ -22,6 +26,10 @@ namespace Common
 
 	MoveResponseBody::MoveResponseBody()
 		: ResponseBody(Command::Move)
+	{
+	}
+
+	MoveResponseBody::~MoveResponseBody()
 	{
 	}
 

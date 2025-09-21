@@ -50,6 +50,10 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
+            boost::asio::ip::address_v4 addr;
+            acceptedSocket.remote_endpoint().address(addr);
+            Logger::instance().Log(addr.to_string());
+
             std::shared_ptr<Peer> acceptedPeer = Peer::Create(std::move(acceptedSocket), this);
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
@@ -62,13 +66,9 @@ namespace Core
     {
         while (true)
         {
-            if (!m_works.empty())
+            IWork* work{ nullptr };
+            if (m_works.pop(work))
             {
-                //std::function<void()> work{ nullptr };
-                //m_works.pop(work);
-                //work();
-                IWork* work{ nullptr };
-                m_works.pop(work);
                 work->Execute();
                 delete work;
             }

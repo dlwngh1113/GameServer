@@ -12,6 +12,7 @@ namespace Common
 
 	public:
 		explicit MoveCommandBody();
+		virtual ~MoveCommandBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;
@@ -26,6 +27,7 @@ namespace Common
 
 	public:
 		explicit MoveResponseBody();
+		virtual ~MoveResponseBody();
 
 	protected:
 		virtual void DeserializeInternal(PacketStream& ps) override;

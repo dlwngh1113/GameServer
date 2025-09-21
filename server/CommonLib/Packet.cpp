@@ -8,6 +8,10 @@ namespace Common
 	{
 	}
 
+	Packet::~Packet()
+	{
+	}
+
 	std::string Packet::Serialize(PacketStream& ps)
 	{
 		SerializeInternal(ps);

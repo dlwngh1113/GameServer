@@ -8,6 +8,10 @@ namespace Common
 	{
 	}
 
+	MoveEventBody::~MoveEventBody()
+	{
+	}
+
 	void MoveEventBody::SerializeInternal(PacketStream& ps)
 	{
 		ps << userId << x << y << moveTime;

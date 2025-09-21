@@ -8,6 +8,10 @@ namespace Common
 	{
 	}
 
+	TeleportEventBody::~TeleportEventBody()
+	{
+	}
+
 	void TeleportEventBody::SerializeInternal(PacketStream& ps)
 	{
 		ps << userId << x << y;

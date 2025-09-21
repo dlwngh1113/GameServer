@@ -11,6 +11,7 @@ namespace Common
 
 	public:
 		explicit TeleportEventBody();
+		virtual ~TeleportEventBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;

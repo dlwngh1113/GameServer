@@ -8,6 +8,7 @@ namespace Common
 	public:
 		std::string message;
 		explicit ChattingEventBody();
+		virtual ~ChattingEventBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;

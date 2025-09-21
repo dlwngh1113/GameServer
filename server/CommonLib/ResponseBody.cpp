@@ -7,6 +7,10 @@ namespace Common
 		: Packet((int16_t)type)
 	{
 	}
+
+	ResponseBody::~ResponseBody()
+	{
+	}
 	
 	void ResponseBody::SerializeInternal(PacketStream& ps)
 	{

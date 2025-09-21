@@ -8,6 +8,10 @@ namespace Common
 	{
 	}
 
+	TeleportCommandBody::~TeleportCommandBody()
+	{
+	}
+
 	void TeleportCommandBody::SerializeInternal(PacketStream& ps)
 	{
 		ps << x << y;
@@ -20,6 +24,10 @@ namespace Common
 
 	TeleportResponseBody::TeleportResponseBody()
 		: ResponseBody(Command::Teleport)
+	{
+	}
+
+	TeleportResponseBody::~TeleportResponseBody()
 	{
 	}
 

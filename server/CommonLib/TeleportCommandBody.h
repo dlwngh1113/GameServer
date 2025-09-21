@@ -11,6 +11,7 @@ namespace Common
 
 	public:
 		explicit TeleportCommandBody();
+		virtual ~TeleportCommandBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;
@@ -21,6 +22,7 @@ namespace Common
 	{
 	public:
 		explicit TeleportResponseBody();
+		virtual ~TeleportResponseBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;

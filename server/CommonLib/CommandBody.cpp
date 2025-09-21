@@ -7,4 +7,7 @@ namespace Common
 		: Packet((int16_t)type)
 	{
 	}
+	CommandBody::~CommandBody()
+	{
+	}
 }

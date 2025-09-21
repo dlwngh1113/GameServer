@@ -8,6 +8,10 @@ namespace Common
 	{
 	}
 
+	ChattingEventBody::~ChattingEventBody()
+	{
+	}
+
 	void ChattingEventBody::SerializeInternal(PacketStream& ps)
 	{
 		ps << message;

@@ -7,6 +7,7 @@ namespace Common
 	{
 	public:
 		explicit CommandBody(Command type);
+		virtual ~CommandBody();
 
 	protected:
 		virtual void DeserializeInternal(PacketStream& ps) = 0;

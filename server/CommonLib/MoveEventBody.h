@@ -12,6 +12,7 @@ namespace Common
 
 	public:
 		explicit MoveEventBody();
+		virtual ~MoveEventBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;

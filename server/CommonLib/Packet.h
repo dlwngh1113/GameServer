@@ -12,6 +12,7 @@ namespace Common
 
 	public:
 		explicit Packet(int16_t type);
+		virtual ~Packet();
 
 	public:
 		virtual std::string Serialize(PacketStream& ps) final;

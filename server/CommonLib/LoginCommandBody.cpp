@@ -8,6 +8,10 @@ namespace Common
 	{
 	}
 
+	LoginCommandBody::~LoginCommandBody()
+	{
+	}
+
 	void LoginCommandBody::SerializeInternal(PacketStream& ps)
 	{
 		ps << userId << password;
@@ -18,9 +22,17 @@ namespace Common
 		ps >> userId >> password;
 	}
 
+	//
+	//
+	//
+
 	LoginResponseBody::LoginResponseBody()
 		: ResponseBody(Command::Login)
 		, x(0), y(0)
+	{
+	}
+
+	LoginResponseBody::~LoginResponseBody()
 	{
 	}
 
