@@ -38,19 +38,4 @@ namespace Common
 
 		return std::string(m_buffer.begin(), m_buffer.end());
 	}
-
-	void PacketStream::Write(const std::string& val)
-	{
-		int16_t size = static_cast<int16_t>(val.size());
-		this->operator<<(size);
-		_Write(&val[0], size);
-	}
-
-	void PacketStream::Read(std::string& val)
-	{
-		int16_t size;
-		this->operator>>(size);
-		val.resize(size);
-		_Read(&val[0], size);
-	}
 }

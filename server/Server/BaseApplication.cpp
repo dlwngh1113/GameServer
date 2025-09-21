@@ -58,6 +58,10 @@ namespace Core
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
         }
+        else
+        {
+            Logger::instance().Log(error.message());
+        }
 
         StartAccept();
     }

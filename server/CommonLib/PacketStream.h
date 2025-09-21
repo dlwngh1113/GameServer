@@ -36,7 +36,14 @@ namespace Common
 			return *this;
 		}
 
-		void Write(const std::string& val);
+		template<>
+		PacketStream& operator<<<std::string>(const std::string& val)
+		{
+			int16_t size = static_cast<int16_t>(val.size());
+			this->operator<<(size);
+			_Write(&val[0], size);
+			return *this;
+		}
 
 		template <class T>
 		PacketStream& operator>>(T& val)
@@ -45,6 +52,14 @@ namespace Common
 			return *this;
 		}
 
-		void Read(std::string& val);
+		template<>
+		PacketStream& operator>>(std::string& val)
+		{
+			int16_t size;
+			this->operator>>(size);
+			val.resize(size);
+			_Read(&val[0], size);
+			return *this;
+		}
 	};
 }
