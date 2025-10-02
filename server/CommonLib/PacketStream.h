@@ -36,8 +36,7 @@ namespace Common
 			return *this;
 		}
 
-		template<>
-		PacketStream& operator<<<std::string>(const std::string& val)
+		PacketStream& operator<<(const std::string& val)
 		{
 			int16_t size = static_cast<int16_t>(val.size());
 			this->operator<<(size);
@@ -52,7 +51,6 @@ namespace Common
 			return *this;
 		}
 
-		template<>
 		PacketStream& operator>>(std::string& val)
 		{
 			int16_t size;

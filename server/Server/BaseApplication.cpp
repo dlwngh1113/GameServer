@@ -50,10 +50,6 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
-            boost::asio::ip::address_v4 addr;
-            acceptedSocket.remote_endpoint().address(addr);
-            Logger::instance().Log(addr.to_string());
-
             std::shared_ptr<Peer> acceptedPeer = Peer::Create(std::move(acceptedSocket), this);
             AddPeer(acceptedPeer);
             OnAccepted(acceptedPeer.get());
