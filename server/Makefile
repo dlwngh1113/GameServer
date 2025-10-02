@@ -1,7 +1,7 @@
 # 컴파일러 설정
 # C++ 컴파일러 및 플래그 설정
 CXX = g++
-CXXFLAGS = -std=c++20 -g -Wall -fPIC
+CXXFLAGS = -std=c++20 -g -Wall -fPIC -m64
 
 # 프로젝트 경로 설정
 # 소스, 빌드 및 라이브러리 경로

@@ -20,7 +20,7 @@ namespace Common
 
 	public:
 		explicit PacketStream();
-		explicit PacketStream(const uint8_t* data, uint64_t size);
+		explicit PacketStream(const uint8_t* data, int32_t size);
 
 	private:
 		void _Write(const void* pData, int32_t size);
@@ -30,19 +30,34 @@ namespace Common
 		std::string GetData(int16_t id, int16_t type);
 
 		template <class T>
-		void Write(const T& val)
+		PacketStream& operator<<(const T& val)
 		{
 			_Write(&val, sizeof(val));
+			return *this;
 		}
 
-		void Write(const std::string& val);
+		PacketStream& operator<<(const std::string& val)
+		{
+			int16_t size = static_cast<int16_t>(val.size());
+			this->operator<<(size);
+			_Write(&val[0], size);
+			return *this;
+		}
 
 		template <class T>
-		void Read(T& val)
+		PacketStream& operator>>(T& val)
 		{
 			_Read(&val, sizeof(val));
+			return *this;
 		}
 
-		void Read(std::string& val);
+		PacketStream& operator>>(std::string& val)
+		{
+			int16_t size;
+			this->operator>>(size);
+			val.resize(size);
+			_Read(&val[0], size);
+			return *this;
+		}
 	};
 }

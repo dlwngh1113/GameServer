@@ -4,7 +4,7 @@
 namespace Common
 {
 	EventBody::EventBody(Event type)
-		: Packet((short)type)
+		: Packet((int16_t)type)
 	{
 	}
 

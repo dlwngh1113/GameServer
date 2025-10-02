@@ -8,6 +8,10 @@ namespace Common
 	{
 	}
 
+	Packet::~Packet()
+	{
+	}
+
 	std::string Packet::Serialize(PacketStream& ps)
 	{
 		SerializeInternal(ps);
@@ -18,9 +22,7 @@ namespace Common
 	void Packet::Deserialize(PacketStream& ps)
 	{
 		Header header;
-		ps.Read(type);
-		ps.Read(header.size);
-		ps.Read(id);
+		ps >> type >> header.size >> id;
 
 		DeserializeInternal(ps);
 	}

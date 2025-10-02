@@ -11,6 +11,7 @@ namespace Common
 
 	public:
 		explicit ChattingCommandBody();
+		virtual ~ChattingCommandBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;
@@ -22,6 +23,7 @@ namespace Common
 	public:
 		std::string message;
 		explicit ChattingResponseBody();
+		virtual ~ChattingResponseBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;

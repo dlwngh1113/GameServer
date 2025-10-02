@@ -8,7 +8,7 @@
 void LoginCommandHandler::Handle()
 {
 	Common::LoginCommandBody body;
-	Common::PacketStream ps(m_data.data(), m_data.size());
+	Common::PacketStream ps(m_data.data(), static_cast<int32_t>(m_data.size()));
 	body.Deserialize(ps);
 
 	std::string id(body.userId);

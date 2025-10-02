@@ -8,13 +8,17 @@ namespace Common
 	{
 	}
 
+	ChattingEventBody::~ChattingEventBody()
+	{
+	}
+
 	void ChattingEventBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(message);
+		ps << message;
 	}
 
 	void ChattingEventBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(message);
+		ps >> message;
 	}
 }

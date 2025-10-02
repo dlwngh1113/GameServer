@@ -10,18 +10,18 @@ namespace Common
 	{
 	}
 
+	MoveCommandBody::~MoveCommandBody()
+	{
+	}
+
 	void MoveCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(x);
-		ps.Write(y);
-		ps.Write(moveTime);
+		ps << x << y << moveTime;
 	}
 
 	void MoveCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(x);
-		ps.Read(y);
-		ps.Read(moveTime);
+		ps >> x >> y >> moveTime;
 	}
 
 	MoveResponseBody::MoveResponseBody()
@@ -29,11 +29,17 @@ namespace Common
 	{
 	}
 
+	MoveResponseBody::~MoveResponseBody()
+	{
+	}
+
 	void MoveResponseBody::SerializeInternal(PacketStream& ps)
 	{
+		ps << x << y << moveTime;
 	}
 
 	void MoveResponseBody::DeserializeInternal(PacketStream& ps)
 	{
+		ps >> x >> y >> moveTime;
 	}
 }

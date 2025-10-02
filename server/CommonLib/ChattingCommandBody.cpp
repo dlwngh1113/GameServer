@@ -8,14 +8,18 @@ namespace Common
 	{
 	}
 
+	ChattingCommandBody::~ChattingCommandBody()
+	{
+	}
+
 	void ChattingCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(message);
+		ps << message;
 	}
 
 	void ChattingCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(message);
+		ps >> message;
 	}
 	
 	//
@@ -26,14 +30,18 @@ namespace Common
 		: ResponseBody(Command::Chatting)
 	{
 	}
+
+	ChattingResponseBody::~ChattingResponseBody()
+	{
+	}
 	
 	void ChattingResponseBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(message);
+		ps << message;
 	}
 	
 	void ChattingResponseBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(message);
+		ps >> message;
 	}
 }

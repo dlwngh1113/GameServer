@@ -12,6 +12,7 @@ namespace Common
 
 	public:
 		LoginCommandBody();
+		virtual ~LoginCommandBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;
@@ -25,6 +26,7 @@ namespace Common
 
 	public:
 		LoginResponseBody();
+		virtual ~LoginResponseBody();
 
 	protected:
 		virtual void SerializeInternal(PacketStream& ps) override;

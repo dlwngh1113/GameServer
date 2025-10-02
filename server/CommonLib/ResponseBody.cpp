@@ -4,19 +4,21 @@
 namespace Common
 {
 	ResponseBody::ResponseBody(Command type)
-		: Packet((short)type)
+		: Packet((int16_t)type)
+	{
+	}
+
+	ResponseBody::~ResponseBody()
 	{
 	}
 	
 	void ResponseBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(code);
-		ps.Write(message);
+		ps << code << message;
 	}
 
 	void ResponseBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(code);
-		ps.Read(message);
+		ps >> code >> message;
 	}
 }

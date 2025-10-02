@@ -8,17 +8,23 @@ namespace Common
 	{
 	}
 
+	LoginCommandBody::~LoginCommandBody()
+	{
+	}
+
 	void LoginCommandBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(userId);
-		ps.Write(password);
+		ps << userId << password;
 	}
 
 	void LoginCommandBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(userId);
-		ps.Read(password);
+		ps >> userId >> password;
 	}
+
+	//
+	//
+	//
 
 	LoginResponseBody::LoginResponseBody()
 		: ResponseBody(Command::Login)
@@ -26,15 +32,17 @@ namespace Common
 	{
 	}
 
+	LoginResponseBody::~LoginResponseBody()
+	{
+	}
+
 	void LoginResponseBody::SerializeInternal(PacketStream& ps)
 	{
-		ps.Write(x);
-		ps.Write(y);
+		ps << x << y;
 	}
 
 	void LoginResponseBody::DeserializeInternal(PacketStream& ps)
 	{
-		ps.Read(x);
-		ps.Read(y);
+		ps >> x >> y;
 	}
 }

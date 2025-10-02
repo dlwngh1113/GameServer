@@ -8,7 +8,7 @@ namespace Common
 	{
 	}
 
-	PacketStream::PacketStream(const uint8_t* data, uint64_t size)
+	PacketStream::PacketStream(const uint8_t* data, int32_t size)
 		: m_offset(0)
 		, m_buffer(data, data + size)
 	{
@@ -37,19 +37,5 @@ namespace Common
 		m_buffer.insert(m_buffer.begin(), ptr, ptr + sizeof(header));
 
 		return std::string(m_buffer.begin(), m_buffer.end());
-	}
-
-	void PacketStream::Write(const std::string& val)
-	{
-		int16_t size = static_cast<int16_t>(val.size());
-		Write(size);
-		_Write(&val[0], size);
-	}
-
-	void PacketStream::Read(std::string& val)
-	{
-		int16_t size;
-		Read(size);
-		_Read(&val[0], size);
 	}
 }

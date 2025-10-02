@@ -10,12 +10,14 @@ namespace
 	constexpr int WORLD_SIZE{ 800 };
 }
 
-CServer CServer::s_instance;
-
 CServer::CServer()
 	: Core::BaseApplication()
 {
 	Initialize();
+}
+
+CServer::~CServer()
+{
 }
 
 void CServer::Run()
