@@ -15,7 +15,7 @@ private:
 
 	void SendEvent(const boost::uuids::uuid& id, Common::Packet* packet);
 	void GetNearSectors(Sector* sector, std::unordered_set<Sector*>& sectors);
-	std::unique_ptr<SectorChangeInfo> GetSectorChangeInfo(Sector* prevSector, Sector* currSector);
+	SectorChangeInfo GetSectorChangeInfo(Sector* prevSector, Sector* currSector);
 public:
 	Place();
 	explicit Place(int nId, int nWidth, int nHeight, int nWidthSectorSize, int nHeightSectorSize);

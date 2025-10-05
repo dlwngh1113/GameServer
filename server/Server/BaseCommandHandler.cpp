@@ -19,7 +19,7 @@ namespace Core
 		memcpy(m_data.data(), data, size);
 	}
 
-	void BaseCommandHandler::SendResponse(std::shared_ptr<Common::ResponseBody> response)
+	void BaseCommandHandler::SendResponse(Common::ResponseBody* response)
 	{
 		response->code = kCode_Success;
 		m_peer->SendData(response);

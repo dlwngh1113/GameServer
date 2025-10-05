@@ -21,7 +21,7 @@ namespace Core
 		virtual void Handle() = 0;
 
 	protected:
-		void SendResponse(std::shared_ptr<Common::ResponseBody> response);
+		void SendResponse(Common::ResponseBody* response);
 		void Error(short code, const std::string& message);
 	};
 }

@@ -6,7 +6,6 @@ class Sector
 private:
 	int m_nX{ 0 }, m_nY{ 0 }, m_nWidth{ 0 }, m_nHeight{ 0 };
 	std::unordered_set<std::shared_ptr<User>> m_users;
-	std::mutex m_lock;
 
 	void SendUserEnter(std::shared_ptr<User> user);
 	void SendUserExit(std::shared_ptr<User> targetUser);

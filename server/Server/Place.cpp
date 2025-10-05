@@ -78,9 +78,9 @@ void Place::GetNearSectors(Sector* sector, std::unordered_set<Sector*>& sectors)
 			sectors.insert(&m_sectors[i][j]);
 }
 
-std::unique_ptr<SectorChangeInfo> Place::GetSectorChangeInfo(Sector* prevSector, Sector* currSector)
+SectorChangeInfo Place::GetSectorChangeInfo(Sector* prevSector, Sector* currSector)
 {
-	std::unique_ptr<SectorChangeInfo> sectorChangeInfo = std::make_unique<SectorChangeInfo>();
+	SectorChangeInfo sectorChangeInfo;
 
 	std::unordered_set<Sector*> prevNearSectors;
 	std::unordered_set<Sector*> currNearSectors;
@@ -92,13 +92,13 @@ std::unique_ptr<SectorChangeInfo> Place::GetSectorChangeInfo(Sector* prevSector,
 	for (const auto& s : prevNearSectors)
 	{
 		if (currNearSectors.count(s))
-			sectorChangeInfo->notChangedSectors.insert(s);
+			sectorChangeInfo.notChangedSectors.insert(s);
 		else
-			sectorChangeInfo->exitedSectors.insert(s);
+			sectorChangeInfo.exitedSectors.insert(s);
 	}
 	for (const auto& s : currNearSectors)
 		if (!prevNearSectors.count(s))
-			sectorChangeInfo->enteredSectors.insert(s);
+			sectorChangeInfo.enteredSectors.insert(s);
 
 	return sectorChangeInfo;
 }
@@ -153,11 +153,11 @@ void Place::SetUserPosition(std::shared_ptr<User> user, int x, int y)
 	{
 		auto sectorChangeInfo = GetSectorChangeInfo(prevSector, currentSector);
 
-		for (const auto& s : sectorChangeInfo->enteredSectors)
+		for (const auto& s : sectorChangeInfo.enteredSectors)
 			s->AddUser(user);
-		for (const auto& s : sectorChangeInfo->exitedSectors)
+		for (const auto& s : sectorChangeInfo.exitedSectors)
 			s->RemoveUser(user);
-		for (const auto& s : sectorChangeInfo->notChangedSectors)
+		for (const auto& s : sectorChangeInfo.notChangedSectors)
 			s->Move(user);
 	}
 	else

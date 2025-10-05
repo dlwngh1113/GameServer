@@ -98,7 +98,7 @@ namespace Core
         m_application->DisconnectPeer(m_id);
     }
 
-    void Peer::SendData(std::shared_ptr<Common::Packet> packet)
+    void Peer::SendData(Common::Packet* packet)
     {
         Common::PacketStream ps;
         std::string data = packet->Serialize(ps);

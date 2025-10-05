@@ -68,9 +68,7 @@ void Sector::AddUser(std::shared_ptr<User> user)
 	if (m_users.count(user) > 0)
 		return;
 
-	m_lock.lock();
 	m_users.insert(user);
-	m_lock.unlock();
 
 	//
 	// �̺�Ʈ �߼�
@@ -97,9 +95,7 @@ void Sector::RemoveUser(std::shared_ptr<User> user)
 	if (m_users.count(user) == 0)
 		return;
 
-	m_lock.lock();
 	m_users.erase(user);
-	m_lock.unlock();
 
 	////
 	//// �̺�Ʈ �߼�
