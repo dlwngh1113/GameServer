@@ -13,7 +13,7 @@ namespace Core
         boost::lockfree::queue<IWork*> m_works;
         std::thread m_workerThread;
 
-        std::unordered_map<boost::uuids::uuid, std::shared_ptr<Peer>, uuid_hash, uuid_equal> m_peers;
+        std::unordered_map<boost::uuids::uuid, Peer*, uuid_hash, uuid_equal> m_peers;
 
     public:
         BaseApplication();
@@ -31,9 +31,9 @@ namespace Core
         //
 
     private:
-        void AddPeer(std::shared_ptr<Peer> peer);
-        void RemovePeer(std::shared_ptr<Peer> peer);
-        std::shared_ptr<Peer> GetPeer(const boost::uuids::uuid& id);
+        void AddPeer(Peer* peer);
+        void RemovePeer(Peer* peer);
+        Peer* GetPeer(const boost::uuids::uuid& id);
     public:
         void DisconnectPeer(const boost::uuids::uuid& id);
 

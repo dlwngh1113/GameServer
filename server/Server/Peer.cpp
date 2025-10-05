@@ -18,6 +18,9 @@ namespace Core
 
     Peer::~Peer() noexcept
     {
+        m_socket.close();
+        m_application = nullptr;
+        m_factory = nullptr;
     }
     
     const boost::uuids::uuid& Peer::id() const
@@ -30,7 +33,7 @@ namespace Core
         try
         {
             m_socket.async_receive(boost::asio::buffer(m_buffer.GetWriteBuffer(), m_buffer.GetWriteBufferSize()),
-                bind(&Peer::OnReceiveData, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                bind(&Peer::OnReceiveData, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
         }
         catch (std::runtime_error& ex)
         {
@@ -80,7 +83,7 @@ namespace Core
                 throw std::runtime_error{ "CommandHandlerFactory is nullptr!" };
 
             std::shared_ptr<BaseCommandHandler> handler = m_factory->Create(type);
-            handler->Initialize(shared_from_this(), m_buffer.GetReadBuffer(), size);
+            handler->Initialize(this, m_buffer.GetReadBuffer(), size);
 
             m_application->EnqueueWork([handler]() { handler->Handle(); });
         }
@@ -129,9 +132,9 @@ namespace Core
         }
     }
 
-    std::shared_ptr<Peer> Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application )
+    Peer* Peer::Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application )
     {
-        std::shared_ptr<Peer> inst = std::make_shared<Peer>(std::move(socket), application);
+        Peer* inst = new Peer(std::move(socket), application);
         inst->ReceiveData();
 
         return inst;

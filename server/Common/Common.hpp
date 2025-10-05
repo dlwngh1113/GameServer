@@ -18,3 +18,5 @@ constexpr int MAX_THREAD_COUNT = 6;
 // IO ¼¼ÆÃ
 constexpr int MAX_BUFFER = 4096;
 constexpr int MIN_BUFFER = 1024;
+
+#define SAFE_DELETE(p) if (p) { delete p; p = nullptr; }

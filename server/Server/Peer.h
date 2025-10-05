@@ -7,7 +7,7 @@ namespace Core
 	class BaseCommandHandler;
 	class BaseCommandHandlerFactory;
 
-	class Peer final : public std::enable_shared_from_this<Peer>
+	class Peer final
 	{
 	private:
 		boost::asio::ip::tcp::socket m_socket;
@@ -39,6 +39,6 @@ namespace Core
 
 		// Static Member Functions
 	public:
-		static std::shared_ptr<Peer> Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application);
+		static Peer* Create(boost::asio::ip::tcp::socket&& socket, BaseApplication* application);
 	};
 }

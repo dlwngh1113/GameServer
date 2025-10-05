@@ -50,9 +50,9 @@ namespace Core
         // Successfully accpeted new peer
         if (!error)
         {
-            std::shared_ptr<Peer> acceptedPeer = Peer::Create(std::move(acceptedSocket), this);
+            Peer* acceptedPeer = Peer::Create(std::move(acceptedSocket), this);
             AddPeer(acceptedPeer);
-            OnAccepted(acceptedPeer.get());
+            OnAccepted(acceptedPeer);
         }
         else
         {
@@ -81,31 +81,29 @@ namespace Core
 
     void BaseApplication::DisconnectPeer(const boost::uuids::uuid& id)
     {
-        std::shared_ptr<Peer> peer = GetPeer(id);
-        if (peer)
-        {
-            RemovePeer(peer);
-            OnDisconnected(peer.get());
-        }
+        Peer* peer = GetPeer(id);
+        if (!peer)
+            return;
+     
+        OnDisconnected(peer);
+        RemovePeer(peer);
     }
 
-    std::shared_ptr<Peer> BaseApplication::GetPeer(const boost::uuids::uuid& id)
+    Peer* BaseApplication::GetPeer(const boost::uuids::uuid& id)
     {
         auto it = m_peers.find(id);
-        if (it != m_peers.end())
-            return it->second;
-
-        return nullptr;
+        return it != m_peers.end() ? it->second : nullptr;
     }
 
-    void BaseApplication::RemovePeer(std::shared_ptr<Peer> peer)
+    void BaseApplication::RemovePeer(Peer* peer)
     {
         m_peers.erase(peer->id());
+        SAFE_DELETE(peer);
     }
 
-    void BaseApplication::AddPeer(std::shared_ptr<Peer> peer)
+    void BaseApplication::AddPeer(Peer* peer)
     {
-        m_peers.insert(std::make_pair(peer->id(), peer));
+        m_peers.emplace(peer->id(), peer);
     }
 
     void BaseApplication::EnqueueWork(std::function<void()> work)

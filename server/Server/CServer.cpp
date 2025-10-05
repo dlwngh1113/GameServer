@@ -47,7 +47,7 @@ void CServer::OnTearDown()
 
 void CServer::OnAccepted(Core::Peer* peer)
 {
-	std::shared_ptr<User> inst = make_shared<User>(peer);
+	std::shared_ptr<User> inst = std::make_shared<User>(peer);
 	m_users.insert(std::make_pair(inst->id(), inst));
 }
 

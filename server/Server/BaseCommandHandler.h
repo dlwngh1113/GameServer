@@ -9,14 +9,14 @@ namespace Core
 	class BaseCommandHandler
 	{
 	protected:
-		std::shared_ptr<Peer> m_peer;
+		Peer* m_peer;
 		std::vector<uint8_t> m_data;
 
 	public:
 		BaseCommandHandler();
 		virtual ~BaseCommandHandler();
 
-		void Initialize(std::shared_ptr<Peer> peer, const uint8_t* data, size_t size);
+		void Initialize(Peer* peer, const uint8_t* data, size_t size);
 
 		virtual void Handle() = 0;
 
